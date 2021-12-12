@@ -23,10 +23,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import com.example.splitbill.model.Group
-import com.example.splitbill.ui.theme.Typography
-
 
 @AndroidEntryPoint
 class GroupListFragment : Fragment() {
@@ -86,37 +82,6 @@ class GroupListFragment : Fragment() {
         }
     }
 
-    @Composable
-    fun GroupCard(group: Group = Group("Test", System.currentTimeMillis())) {
-        Box(Modifier.padding(8.dp).fillMaxWidth()) {
-            Card(
-                elevation = 8.dp,
-            ) {
-                ConstraintLayout(
-                    modifier = Modifier
-                        .padding(16.dp).fillMaxWidth()
-                ) {
-                    val (tvGroupName) = createRefs()
-
-                    Text(
-                        text = group.name,
-                        modifier = Modifier.constrainAs(tvGroupName) {
-                            top.linkTo(parent.top)
-                            start.linkTo(parent.start)
-                        },
-                        style = Typography.h6
-                    )
-
-                }
-            }
-        }
-    }
-
-    @Preview(showBackground = true)
-    @Composable
-    fun GroupCardPreview() {
-        GroupCard()
-    }
 
     @Preview(showBackground = true)
     @Composable

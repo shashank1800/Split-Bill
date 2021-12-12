@@ -48,6 +48,10 @@ class AddGroupFragment(private val viewModel: GroupListViewModel) : BottomSheetD
         var groupName by remember {
             mutableStateOf("")
         }
+        var isEmpty by remember {
+            mutableStateOf(false)
+        }
+
 
         ConstraintLayout(
             modifier = Modifier
@@ -67,6 +71,8 @@ class AddGroupFragment(private val viewModel: GroupListViewModel) : BottomSheetD
             OutlinedTextField(
                 value = groupName,
                 onValueChange = {
+                    if(it.isNotEmpty())
+                        isEmpty = false
                     groupName = it
                 },
                 modifier = Modifier
@@ -81,13 +87,18 @@ class AddGroupFragment(private val viewModel: GroupListViewModel) : BottomSheetD
                 },
                 keyboardActions = KeyboardActions(
                     onDone = {keyboardController?.hide()}
-                )
+                ),
+                isError = isEmpty
             )
 
             Button(
                 onClick = {
-                    viewModel.addGroup(Group(groupName, System.currentTimeMillis()))
-                    dialog?.cancel()
+                    if(groupName.isNullOrEmpty()){
+                        isEmpty = true
+                    }else{
+                        viewModel.addGroup(Group(groupName, System.currentTimeMillis()))
+                        dialog?.cancel()
+                    }
                 },
                 modifier = Modifier.constrainAs(btnCreate) {
                     top.linkTo(tfGroupName.bottom, margin = 16.dp)
