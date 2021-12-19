@@ -2,6 +2,7 @@ package com.example.splitbill.di
 
 import android.content.Context
 import com.example.splitbill.repository.local.GroupRepository
+import com.example.splitbill.repository.local.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,5 +16,10 @@ object AppModule {
     @Provides
     fun providesGroupRepo(@ApplicationContext context: Context): GroupRepository {
         return GroupRepository(context)
+    }
+
+    @Provides
+    fun providesUserRepo(@ApplicationContext context: Context): UserRepository {
+        return UserRepository(context)
     }
 }

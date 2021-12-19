@@ -1,4 +1,4 @@
-package com.example.splitbill.model
+package com.example.splitbill.room_db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
