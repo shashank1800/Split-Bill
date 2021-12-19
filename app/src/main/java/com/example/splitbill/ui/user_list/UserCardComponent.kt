@@ -1,6 +1,5 @@
-package com.example.splitbill.ui.group_list
+package com.example.splitbill.ui.user_list
 
-import android.os.Bundle
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,24 +10,20 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.navigation.NavController
 import com.example.splitbill.R
-import com.example.splitbill.model.GroupListModel
+import com.example.splitbill.room_db.entity.User
 import com.example.splitbill.ui.theme.Typography
-import com.example.splitbill.viewmodels.GroupListViewModel
+import com.example.splitbill.viewmodels.UserListViewModel
 
 @Composable
-fun GroupCard(
-    group: GroupListModel,
-    viewModel: GroupListViewModel,
-    navController: NavController
+fun UserCard(
+    user: User,
+    viewModel: UserListViewModel
 ) {
-    val context = LocalContext.current
 
     Box(
         Modifier
@@ -44,48 +39,34 @@ fun GroupCard(
                     .padding(8.dp)
                     .fillMaxWidth()
             ) {
-                val (tvGroupName, btnAddMember, tvCount) = createRefs()
+                val (tvUserName, btnDeleteUser) = createRefs()
 
                 Text(
-                    text = group.group.name,
+                    text = user.name,
                     modifier = Modifier
-                        .constrainAs(tvGroupName) {
+                        .constrainAs(tvUserName) {
                             top.linkTo(parent.top)
                             start.linkTo(parent.start)
-                            end.linkTo(btnAddMember.start)
+                            end.linkTo(btnDeleteUser.start)
                             width = Dimension.fillToConstraints
                         },
                     style = Typography.h6
                 )
 
-                Text(
-                    text = group.userList.size.toString(),
-                    modifier = Modifier
-                        .constrainAs(tvCount) {
-                            top.linkTo(tvGroupName.bottom)
-                            start.linkTo(parent.start)
-                        },
-                    style = Typography.caption
-                )
-
                 IconButton(
                     onClick = {
-                        val bundle = Bundle()
-                        bundle.putSerializable("model", group)
-                        navController.navigate(R.id.nav_user_list, bundle)
-
+                        viewModel.deleteUser(user)
                     },
                     modifier = Modifier
-                        .padding(10.dp)
-                        .constrainAs(btnAddMember) {
+                        .padding(end = 10.dp)
+                        .constrainAs(btnDeleteUser) {
                             top.linkTo(parent.top)
                             end.linkTo(parent.end)
-                            bottom.linkTo(parent.bottom)
                         },
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_baseline_user_view),
-                        contentDescription = "add member",
+                        painter = painterResource(R.drawable.ic_baseline_delete),
+                        contentDescription = "delete member",
                     )
                 }
 
