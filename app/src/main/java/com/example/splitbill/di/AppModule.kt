@@ -1,8 +1,8 @@
 package com.example.splitbill.di
 
 import android.content.Context
-import com.example.splitbill.repository.local.GroupRepository
-import com.example.splitbill.repository.local.UserRepository
+import androidx.room.Room
+import com.example.splitbill.room_db.SplitBillDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,12 +14,11 @@ import dagger.hilt.components.SingletonComponent
 object AppModule {
 
     @Provides
-    fun providesGroupRepo(@ApplicationContext context: Context): GroupRepository {
-        return GroupRepository(context)
-    }
-
-    @Provides
-    fun providesUserRepo(@ApplicationContext context: Context): UserRepository {
-        return UserRepository(context)
+    fun providesDatabase(@ApplicationContext context: Context): SplitBillDatabase {
+        return Room.databaseBuilder(
+            context,
+            SplitBillDatabase::class.java,
+            "split_bill_db"
+        ).fallbackToDestructiveMigration().build()
     }
 }

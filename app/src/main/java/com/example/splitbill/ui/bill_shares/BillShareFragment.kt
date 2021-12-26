@@ -1,4 +1,4 @@
-package com.example.splitbill.ui.group_list
+package com.example.splitbill.ui.bill_shares
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,18 +17,20 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.splitbill.ui.theme.SplitBillTheme
-import com.example.splitbill.viewmodels.GroupListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.splitbill.R
+import com.example.splitbill.model.GroupListModel
+import com.example.splitbill.viewmodels.BillShareViewModel
 
 @AndroidEntryPoint
-class GroupListFragment : Fragment() {
+class BillShareFragment : Fragment() {
 
-    private val viewModel: GroupListViewModel by viewModels()
+    private val viewModel: BillShareViewModel by viewModels()
     private lateinit var navController: NavController
+    private lateinit var groupListModel: GroupListModel
 
     @ExperimentalMaterialApi
     override fun onCreateView(
@@ -38,12 +40,15 @@ class GroupListFragment : Fragment() {
     ): View {
 
         navController = findNavController()
-        viewModel.getAllGroups()
+
+        groupListModel = requireArguments().getSerializable("model") as GroupListModel
+
+        viewModel.getAllGroups(groupListModel.group.id)
 
         return ComposeView(requireContext()).apply {
             setContent {
                 SplitBillTheme {
-                    GroupList()
+                    BillShares()
                 }
             }
         }
@@ -52,7 +57,7 @@ class GroupListFragment : Fragment() {
 
     @ExperimentalMaterialApi
     @Composable
-    fun GroupList() {
+    fun BillShares() {
 
         Scaffold(
             modifier = Modifier
@@ -61,13 +66,17 @@ class GroupListFragment : Fragment() {
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        val addGroupDialog = AddGroupFragment(viewModel)
-                        addGroupDialog.show(parentFragmentManager, addGroupDialog.tag)
+                        val addBillDialog = AddBillSharesFragment(
+                            groupListModel = groupListModel,
+                            viewModel = viewModel,
+                            navController = navController
+                        )
+                        addBillDialog.show(parentFragmentManager, addBillDialog.tag)
                     }
                 ) {
                     Icon(
-                        Icons.Rounded.Add,
-                        contentDescription = "Add Group",
+                        painter = painterResource(R.drawable.ic_baseline_receipt),
+                        contentDescription = "Add Bill Shares",
                         tint = Color.White
                     )
                 }
@@ -76,9 +85,10 @@ class GroupListFragment : Fragment() {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                items(viewModel.groupsListState.value) { group ->
-                    GroupCard(group = group, viewModel, navController)
+                items(viewModel.billListState.value) { bill ->
+                    BillCard(billListModel = bill)
                 }
+
             }
 
         }
@@ -90,7 +100,7 @@ class GroupListFragment : Fragment() {
     @Composable
     fun DefaultPreview() {
         SplitBillTheme {
-            GroupList()
+            BillShares()
         }
     }
 

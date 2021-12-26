@@ -17,7 +17,7 @@ interface UserDao {
     suspend fun delete(delete: User?)
 
     @Query(
-        "SELECT * FROM users_tbl " +
+        "SELECT * FROM user " +
                 "WHERE group_id= :group_id " +
                 "ORDER BY date_created"
     )

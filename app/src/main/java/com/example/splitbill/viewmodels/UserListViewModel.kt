@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.splitbill.repository.local.GroupRepository
 import com.example.splitbill.repository.local.UserRepository
-import com.example.splitbill.room_db.entity.Group
+import com.example.splitbill.room_db.entity.Groups
 import com.example.splitbill.room_db.entity.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +34,7 @@ class UserListViewModel @Inject constructor(private val userRepo: UserRepository
         }
     }
 
-    fun addGroup(group: Group) {
+    fun addGroup(group: Groups) {
         viewModelScope.launch {
             groupRepo.insert(group)
         }
