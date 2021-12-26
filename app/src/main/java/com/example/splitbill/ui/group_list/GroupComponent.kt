@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,6 +19,7 @@ import com.example.splitbill.model.GroupListModel
 import com.example.splitbill.ui.theme.Typography
 import com.example.splitbill.viewmodels.GroupListViewModel
 
+@ExperimentalMaterialApi
 @Composable
 fun GroupCard(
     group: GroupListModel,
@@ -37,7 +35,12 @@ fun GroupCard(
     ) {
         Card(
             elevation = 8.dp,
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(8.dp),
+            onClick = {
+                val bundle = Bundle()
+                bundle.putSerializable("model", group)
+                navController.navigate(R.id.nav_bill_shares, bundle)
+            }
         ) {
             ConstraintLayout(
                 modifier = Modifier

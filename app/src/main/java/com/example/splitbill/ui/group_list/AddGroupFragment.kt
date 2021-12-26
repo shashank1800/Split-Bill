@@ -15,7 +15,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.example.splitbill.room_db.entity.Group
+import com.example.splitbill.room_db.entity.Groups
 import com.example.splitbill.ui.theme.SplitBillTheme
 import com.example.splitbill.ui.theme.Typography
 import com.example.splitbill.viewmodels.GroupListViewModel
@@ -96,7 +96,7 @@ class AddGroupFragment(private val viewModel: GroupListViewModel) : BottomSheetD
                     if(groupName.isNullOrEmpty()){
                         isEmpty = true
                     }else{
-                        viewModel.addGroup(Group(groupName, System.currentTimeMillis()))
+                        viewModel.addGroup(Groups(groupName))
                         dialog?.cancel()
                     }
                 },

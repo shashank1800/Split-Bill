@@ -5,16 +5,17 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "user", foreignKeys = [ForeignKey(
+    tableName = "bill", foreignKeys = [ForeignKey(
         entity = Groups::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("group_id"),
         onDelete = ForeignKey.CASCADE
     )]
 )
-data class User(
+data class Bill(
+    var group_id: Int,
     var name: String,
-    var group_id: Int
+    var total_amount: Float
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

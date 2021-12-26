@@ -5,17 +5,23 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.splitbill.room_db.entity.Group
+import com.example.splitbill.room_db.dao.BillDao
+import com.example.splitbill.room_db.dao.BillShareDao
+import com.example.splitbill.room_db.entity.Groups
 import com.example.splitbill.room_db.entity.User
 import com.example.splitbill.room_db.dao.GroupDao
 import com.example.splitbill.room_db.dao.UserDao
+import com.example.splitbill.room_db.entity.Bill
+import com.example.splitbill.room_db.entity.BillShare
 import com.example.splitbill.util.converters.DateConverter
 
-@Database(entities = [Group::class, User::class], exportSchema = false, version = 1)
+@Database(entities = [Groups::class, User::class, Bill::class, BillShare::class], exportSchema = false, version = 1)
 @TypeConverters(value = [DateConverter::class])
 abstract class SplitBillDatabase : RoomDatabase() {
     abstract fun groupDao(): GroupDao
     abstract fun userDao(): UserDao
+    abstract fun billDao(): BillDao
+    abstract fun billShareDao(): BillShareDao
 
     companion object {
         var instance: SplitBillDatabase? = null

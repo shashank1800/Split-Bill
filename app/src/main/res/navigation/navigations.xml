@@ -14,4 +14,9 @@
         android:name="com.example.splitbill.ui.user_list.UserListFragment"
         android:label="User List" />
 
+    <fragment
+        android:id="@+id/nav_bill_shares"
+        android:name="com.example.splitbill.ui.bill_shares.BillShareFragment"
+        android:label="Bill Shares" />
+
 </navigation>
