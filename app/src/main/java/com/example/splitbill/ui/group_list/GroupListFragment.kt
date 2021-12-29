@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -63,7 +64,8 @@ class GroupListFragment : Fragment() {
                     onClick = {
                         val addGroupDialog = AddGroupFragment(viewModel)
                         addGroupDialog.show(parentFragmentManager, addGroupDialog.tag)
-                    }
+                    },
+                    backgroundColor = Color(0xFF3EC590)
                 ) {
                     Icon(
                         Icons.Rounded.Add,

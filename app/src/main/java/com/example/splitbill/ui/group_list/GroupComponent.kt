@@ -8,7 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -26,8 +26,9 @@ fun GroupCard(
     viewModel: GroupListViewModel,
     navController: NavController
 ) {
-    val context = LocalContext.current
 
+    val isCardEnabled = group.userList.isNotEmpty()
+    val cardColor = if(isCardEnabled) Color.White else Color(233, 233, 227, 255)
     Box(
         Modifier
             .padding(4.dp)
@@ -40,7 +41,9 @@ fun GroupCard(
                 val bundle = Bundle()
                 bundle.putSerializable("model", group)
                 navController.navigate(R.id.nav_bill_shares, bundle)
-            }
+            },
+            enabled = isCardEnabled,
+            backgroundColor = cardColor
         ) {
             ConstraintLayout(
                 modifier = Modifier
@@ -76,7 +79,6 @@ fun GroupCard(
                         val bundle = Bundle()
                         bundle.putSerializable("model", group)
                         navController.navigate(R.id.nav_user_list, bundle)
-
                     },
                     modifier = Modifier
                         .padding(10.dp)
@@ -88,6 +90,7 @@ fun GroupCard(
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_baseline_user_view),
+                        tint = Color(0XFF386AFF),
                         contentDescription = "add member",
                     )
                 }

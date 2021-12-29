@@ -55,7 +55,7 @@ fun BillShareUser(
                     start.linkTo(parent.start)
                     end.linkTo(tfSpentAmount.start)
                     bottom.linkTo(parent.bottom)
-                    width = Dimension.wrapContent
+                    width = Dimension.fillToConstraints
                 },
             style = Typography.h6
         )

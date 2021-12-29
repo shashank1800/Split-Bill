@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -85,8 +86,8 @@ class BillShareFragment : Fragment() {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                items(viewModel.billListState.value) { bill ->
-                    BillCard(billListModel = bill)
+                itemsIndexed(viewModel.billListState.value) {index, bill ->
+                    BillCard(billListDto = bill)
                 }
 
             }

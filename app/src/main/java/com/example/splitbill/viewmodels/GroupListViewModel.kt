@@ -4,7 +4,6 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.*
 import com.example.splitbill.model.GroupListModel
 import com.example.splitbill.room_db.entity.Groups
-import com.example.splitbill.room_db.entity.User
 import com.example.splitbill.repository.local.GroupRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -34,12 +33,6 @@ class GroupListViewModel @Inject constructor(private val repository: GroupReposi
     fun addGroup(group: Groups) {
         viewModelScope.launch {
             repository.insert(group)
-        }
-    }
-
-    fun addPeople(user: User) {
-        viewModelScope.launch {
-            repository.insertUser(user)
         }
     }
 

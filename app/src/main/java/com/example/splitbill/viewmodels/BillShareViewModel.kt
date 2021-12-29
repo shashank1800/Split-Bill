@@ -2,10 +2,9 @@ package com.example.splitbill.viewmodels
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.splitbill.model.BillListModel
+import com.example.splitbill.model.BillListDto
 import com.example.splitbill.model.BillShareModel
 import com.example.splitbill.repository.local.BillRepository
 import com.example.splitbill.repository.local.BillShareRepository
@@ -24,16 +23,20 @@ class BillShareViewModel @Inject constructor(
     private val billShareRepo: BillShareRepository
 ) : ViewModel() {
 
-    private var billList : List<BillListModel>? = null
-    var billListState : MutableState<List<BillListModel>> = mutableStateOf(arrayListOf())
+    var billListState = mutableStateOf(arrayListOf<List<BillListDto>?>())
 
     fun getAllGroups(groupId: Int) {
         viewModelScope.launch {
-            val result = billRepo.getAllBills(groupId)
+            val result = billShareRepo.getAllBills(groupId)
             withContext(Dispatchers.Main){
-                billList = result
 
-                billListState.value = billList?: emptyList()
+                val res = result?.groupBy { model->
+                    model.billDetails?.bill_id
+                }
+                val billListStateTemp = arrayListOf<List<BillListDto>?>()
+                res?.keys?.sortedBy { t -> t }?.forEach { id -> billListStateTemp.add(res[id])}
+
+                billListState.value = billListStateTemp
             }
         }
     }
