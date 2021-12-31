@@ -1,6 +1,5 @@
 package com.example.splitbill.viewmodels
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,9 +24,14 @@ class BillShareViewModel @Inject constructor(
 
     var billListState = mutableStateOf(arrayListOf<List<BillListDto>?>())
 
-    fun getAllGroups(groupId: Int) {
+    var groupId = 0
+
+    fun getAllGroups(groupId: Int = 0) {
+        if(groupId != 0)
+            this.groupId = groupId
+
         viewModelScope.launch {
-            val result = billShareRepo.getAllBills(groupId)
+            val result = billShareRepo.getAllBills(this@BillShareViewModel.groupId)
             withContext(Dispatchers.Main){
 
                 val res = result?.groupBy { model->
@@ -58,6 +62,10 @@ class BillShareViewModel @Inject constructor(
                         it.share.value.toFloat()
                     )
                 )
+            }
+
+            withContext(Dispatchers.IO){
+                getAllGroups()
             }
         }
     }

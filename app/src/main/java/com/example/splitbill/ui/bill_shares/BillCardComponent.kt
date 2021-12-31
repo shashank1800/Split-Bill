@@ -30,10 +30,10 @@ fun BillCard(
         BillListDto(
             BillDetailsModel(
                 0,
-                "",
+                "SSS",
                 0F,
                 0,
-                "",
+                "SS",
                 0F,
                 0F,
                 0
@@ -73,7 +73,7 @@ fun BillCard(
 
                 LazyColumn(
                     modifier = Modifier
-                        .heightIn(min = 100.dp, max = 700.dp)
+                        .heightIn(min = 50.dp, max = 700.dp)
                         .constrainAs(lcShare) {
                             top.linkTo(tvBillName.bottom)
                             start.linkTo(parent.start)
@@ -82,14 +82,14 @@ fun BillCard(
                     items(billListDto ?: emptyList()) { bill ->
                         ConstraintLayout(
                             modifier = Modifier
-                                .padding(8.dp)
+                                .padding(vertical = 4.dp, horizontal = 8.dp)
                                 .fillMaxWidth()
                         ) {
-                            val (tvName, tvShare, tvSpent) = createRefs()
+                            val (tvName, clShareSpent) = createRefs()
 
                             Text(
                                 text = bill.billDetails?.user_name ?: "",
-                                style = Typography.caption,
+                                style = Typography.body1,
                                 modifier = Modifier
                                     .constrainAs(tvName) {
                                         top.linkTo(parent.top)
@@ -100,7 +100,7 @@ fun BillCard(
                             )
 
                             Column(modifier = Modifier
-                                .constrainAs(tvSpent) {
+                                .constrainAs(clShareSpent) {
                                     top.linkTo(parent.top)
                                     end.linkTo(parent.end)
                                     width = Dimension.wrapContent
@@ -110,8 +110,7 @@ fun BillCard(
                                     Text(
                                         text = "+ " + bill.billDetails?.spent.toString(),
                                         style = TextStyle(
-                                            fontFamily = FontFamily.Default,
-                                            fontWeight = FontWeight.Normal,
+                                            fontWeight = FontWeight.Medium,
                                             fontSize = 16.sp,
                                             color = Color(30, 141, 0, 255)
                                         ),
@@ -122,8 +121,7 @@ fun BillCard(
                                     Text(
                                         text = "- " + bill.billDetails?.share.toString(),
                                         style = TextStyle(
-                                            fontFamily = FontFamily.Default,
-                                            fontWeight = FontWeight.Normal,
+                                            fontWeight = FontWeight.Medium,
                                             fontSize = 16.sp,
                                             color = Color(192, 0, 65, 255)
                                         ),

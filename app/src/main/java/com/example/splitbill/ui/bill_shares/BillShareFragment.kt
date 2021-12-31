@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
@@ -63,7 +63,7 @@ class BillShareFragment : Fragment() {
         Scaffold(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(8.dp, 8.dp, 8.dp, 4.dp),
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
@@ -83,13 +83,18 @@ class BillShareFragment : Fragment() {
                 }
             },
         ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                itemsIndexed(viewModel.billListState.value) {index, bill ->
-                    BillCard(billListDto = bill)
+
+            Column(modifier = Modifier.fillMaxWidth()) {
+
+                LazyColumn{
+                    itemsIndexed(viewModel.billListState.value) {index, bill ->
+                        BillCard(billListDto = bill)
+                    }
                 }
 
+                OutlinedButton(onClick = { /*TODO*/ }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                    Text(text = "View Report")
+                }
             }
 
         }

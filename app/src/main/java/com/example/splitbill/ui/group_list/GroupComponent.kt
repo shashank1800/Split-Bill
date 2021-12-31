@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -18,32 +19,37 @@ import com.example.splitbill.R
 import com.example.splitbill.model.GroupListModel
 import com.example.splitbill.ui.theme.Typography
 import com.example.splitbill.viewmodels.GroupListViewModel
+import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @Composable
 fun GroupCard(
     group: GroupListModel,
-    viewModel: GroupListViewModel,
+    scaffoldState: ScaffoldState,
     navController: NavController
 ) {
 
-    val isCardEnabled = group.userList.isNotEmpty()
-    val cardColor = if(isCardEnabled) Color.White else Color(233, 233, 227, 255)
+    val coroutineScope = rememberCoroutineScope()
+
     Box(
         Modifier
-            .padding(4.dp)
+            .padding(8.dp)
             .fillMaxWidth()
     ) {
         Card(
-            elevation = 8.dp,
+            elevation = 4.dp,
             shape = RoundedCornerShape(8.dp),
             onClick = {
-                val bundle = Bundle()
-                bundle.putSerializable("model", group)
-                navController.navigate(R.id.nav_bill_shares, bundle)
+                if(group.userList.isEmpty()){
+                    coroutineScope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar("Please add atleast one user to group" ,"Okay")
+                    }
+                }else{
+                    val bundle = Bundle()
+                    bundle.putSerializable("model", group)
+                    navController.navigate(R.id.nav_bill_shares, bundle)
+                }
             },
-            enabled = isCardEnabled,
-            backgroundColor = cardColor
         ) {
             ConstraintLayout(
                 modifier = Modifier
@@ -89,8 +95,8 @@ fun GroupCard(
                         },
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_baseline_user_view),
-                        tint = Color(0XFF386AFF),
+                        painter = painterResource(R.drawable.ic_baseline_people),
+                        tint = Color(0xFF3EC590),
                         contentDescription = "add member",
                     )
                 }

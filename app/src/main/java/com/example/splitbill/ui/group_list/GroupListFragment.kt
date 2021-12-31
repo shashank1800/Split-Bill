@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -55,10 +54,13 @@ class GroupListFragment : Fragment() {
     @Composable
     fun GroupList() {
 
+        val scaffoldState = rememberScaffoldState()
+
         Scaffold(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(8.dp),
+            scaffoldState = scaffoldState,
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
@@ -79,7 +81,7 @@ class GroupListFragment : Fragment() {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 items(viewModel.groupsListState.value) { group ->
-                    GroupCard(group = group, viewModel, navController)
+                    GroupCard(group = group, scaffoldState, navController)
                 }
             }
 

@@ -57,7 +57,7 @@ fun BillShareUser(
                     bottom.linkTo(parent.bottom)
                     width = Dimension.fillToConstraints
                 },
-            style = Typography.h6
+            style = Typography.body1
         )
 
         OutlinedTextField(

@@ -81,7 +81,7 @@ class AddBillSharesFragment(private val groupListModel:GroupListModel, private v
             val (tvBillHead, tfBillName, tfTotalAmount, lcUsers, btnAdd, btnCancel) = createRefs()
 
             Text(
-                text = "Bill",
+                text = "Add Bill",
                 modifier = Modifier.constrainAs(tvBillHead) {
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
@@ -124,7 +124,7 @@ class AddBillSharesFragment(private val groupListModel:GroupListModel, private v
                         width = Dimension.fillToConstraints
                     },
                 label = {
-                    Text(text = "Amount")
+                    Text(text = "Total Amount")
                 },
                 isError = isEmptyTotalAmount,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)

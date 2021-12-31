@@ -10,6 +10,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -27,12 +28,12 @@ fun UserCard(
 
     Box(
         Modifier
-            .padding(4.dp)
+            .padding(8.dp)
             .fillMaxWidth()
     ) {
         Card(
-            elevation = 8.dp,
-            shape = RoundedCornerShape(8.dp)
+            elevation = 2.dp,
+            shape = RoundedCornerShape(6.dp)
         ) {
             ConstraintLayout(
                 modifier = Modifier
@@ -48,9 +49,10 @@ fun UserCard(
                             top.linkTo(parent.top)
                             start.linkTo(parent.start)
                             end.linkTo(btnDeleteUser.start)
+                            bottom.linkTo(parent.bottom)
                             width = Dimension.fillToConstraints
                         },
-                    style = Typography.h6
+                    style = Typography.h6,
                 )
 
                 IconButton(
@@ -58,7 +60,7 @@ fun UserCard(
                         viewModel.deleteUser(user)
                     },
                     modifier = Modifier
-                        .padding(end = 10.dp)
+                        .padding(end = 4.dp)
                         .constrainAs(btnDeleteUser) {
                             top.linkTo(parent.top)
                             end.linkTo(parent.end)
@@ -67,6 +69,7 @@ fun UserCard(
                     Icon(
                         painter = painterResource(R.drawable.ic_baseline_delete),
                         contentDescription = "delete member",
+                        tint = Color(0xFF3EC590)
                     )
                 }
 
