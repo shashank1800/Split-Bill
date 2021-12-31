@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.splitbill.R
 import com.example.splitbill.model.GroupListModel
+import com.example.splitbill.util.extension.BillSplitAlgorithm
 import com.example.splitbill.viewmodels.BillShareViewModel
 
 @AndroidEntryPoint
@@ -86,15 +87,19 @@ class BillShareFragment : Fragment() {
 
             Column(modifier = Modifier.fillMaxWidth()) {
 
-                LazyColumn{
-                    itemsIndexed(viewModel.billListState.value) {index, bill ->
+                OutlinedButton(onClick = {
+                    val algo = BillSplitAlgorithm(viewModel.billListState.value)
+                    algo.splitBill()
+                }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                    Text(text = "View Report")
+                }
+
+                LazyColumn {
+                    itemsIndexed(viewModel.billListState.value) { index, bill ->
                         BillCard(billListDto = bill)
                     }
                 }
 
-                OutlinedButton(onClick = { /*TODO*/ }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                    Text(text = "View Report")
-                }
             }
 
         }
