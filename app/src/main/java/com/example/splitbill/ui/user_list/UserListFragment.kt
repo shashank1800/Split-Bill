@@ -63,7 +63,7 @@ class UserListFragment : Fragment() {
         Scaffold(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(8.dp),
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
@@ -74,7 +74,8 @@ class UserListFragment : Fragment() {
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_baseline_person_add),
-                        contentDescription = "Add Member"
+                        contentDescription = "Add Member",
+                        tint = Color.White
                     )
                 }
             },

@@ -5,9 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.splitbill.repository.local.GroupRepository
 import com.example.splitbill.repository.local.UserRepository
-import com.example.splitbill.room_db.entity.Groups
 import com.example.splitbill.room_db.entity.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +14,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class UserListViewModel @Inject constructor(private val userRepo: UserRepository, private val groupRepo: GroupRepository) : ViewModel() {
+class UserListViewModel @Inject constructor(private val userRepo: UserRepository) : ViewModel() {
 
     private var userList : LiveData<List<User>>? = null
     var userListState : MutableState<List<User>> = mutableStateOf(arrayListOf())
@@ -34,15 +32,10 @@ class UserListViewModel @Inject constructor(private val userRepo: UserRepository
         }
     }
 
-    fun addGroup(group: Groups) {
-        viewModelScope.launch {
-            groupRepo.insert(group)
-        }
-    }
 
     fun addPeople(user: User) {
         viewModelScope.launch {
-            groupRepo.insertUser(user)
+            userRepo.insert(user)
         }
     }
 

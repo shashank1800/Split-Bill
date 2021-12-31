@@ -57,77 +57,74 @@ class AddGroupMemberFragment(private val viewModel: UserListViewModel, private v
             mutableStateOf(false)
         }
 
-        Box(modifier = Modifier.background(color = Color(0xFFD6FFF6))) {
-            ConstraintLayout(
+        ConstraintLayout(
+            modifier = Modifier
+                .padding(16.dp)
+
+        ) {
+            val (tvCreateGroup, tfGroupName, btnCreate, btnCancel) = createRefs()
+
+            Text(
+                text = "Add Member",
+                modifier = Modifier.constrainAs(tvCreateGroup) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                },
+                style = Typography.h6
+            )
+
+            OutlinedTextField(
+                value = name,
+                onValueChange = {
+                    if (it.isNotEmpty())
+                        isEmpty = false
+                    name = it
+                },
                 modifier = Modifier
-                    .padding(16.dp)
-
-            ) {
-                val (tvCreateGroup, tfGroupName, btnCreate, btnCancel) = createRefs()
-
-                Text(
-                    text = "Add Member",
-                    modifier = Modifier.constrainAs(tvCreateGroup) {
-                        top.linkTo(parent.top)
+                    .fillMaxWidth()
+                    .constrainAs(tfGroupName) {
+                        top.linkTo(tvCreateGroup.bottom, margin = 16.dp)
                         start.linkTo(parent.start)
-                    },
-                    style = Typography.h6
-                )
-
-                OutlinedTextField(
-                    value = name,
-                    onValueChange = {
-                        if (it.isNotEmpty())
-                            isEmpty = false
-                        name = it
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .constrainAs(tfGroupName) {
-                            top.linkTo(tvCreateGroup.bottom, margin = 16.dp)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        },
-                    label = {
-                        Text(text = "Enter Name")
-                    },
-                    keyboardActions = KeyboardActions(
-                        onDone = { keyboardController?.hide() }
-                    ),
-                    isError = isEmpty
-                )
-
-                Button(
-                    onClick = {
-                        if (name.isNullOrEmpty()) {
-                            isEmpty = true
-                        } else {
-                            viewModel.addPeople(User(name, group.group.id))
-                            dialog?.cancel()
-                        }
-                    },
-                    modifier = Modifier.constrainAs(btnCreate) {
-                        top.linkTo(tfGroupName.bottom, margin = 16.dp)
                         end.linkTo(parent.end)
                     },
-                ) {
-                    Text("Add")
-                }
+                label = {
+                    Text(text = "Enter Name")
+                },
+                keyboardActions = KeyboardActions(
+                    onDone = { keyboardController?.hide() }
+                ),
+                isError = isEmpty
+            )
 
-                OutlinedButton(
-                    onClick = { dialog?.cancel() },
-                    modifier = Modifier.constrainAs(btnCancel) {
-                        top.linkTo(btnCreate.top)
-                        bottom.linkTo(btnCreate.bottom)
-                        end.linkTo(btnCreate.start, margin = 16.dp)
+            Button(
+                onClick = {
+                    if (name.isNullOrEmpty()) {
+                        isEmpty = true
+                    } else {
+                        viewModel.addPeople(User(name, group.group.id))
+                        dialog?.cancel()
                     }
-                ) {
-                    Text("Cancel")
-                }
-
+                },
+                modifier = Modifier.constrainAs(btnCreate) {
+                    top.linkTo(tfGroupName.bottom, margin = 16.dp)
+                    end.linkTo(parent.end)
+                },
+            ) {
+                Text("Add")
             }
-        }
 
+            OutlinedButton(
+                onClick = { dialog?.cancel() },
+                modifier = Modifier.constrainAs(btnCancel) {
+                    top.linkTo(btnCreate.top)
+                    bottom.linkTo(btnCreate.bottom)
+                    end.linkTo(btnCreate.start, margin = 16.dp)
+                }
+            ) {
+                Text("Cancel")
+            }
+
+        }
     }
 
 }
