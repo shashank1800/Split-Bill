@@ -67,10 +67,10 @@ class UserListFragment : Fragment() {
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-
                         val addMember = AddGroupMemberFragment(viewModel, model)
                         context?.findActivity()?.supportFragmentManager?.let { addMember.show(it, addMember.tag) }
-                    }
+                    },
+                    backgroundColor = Color(0xFF3EC590)
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_baseline_person_add),

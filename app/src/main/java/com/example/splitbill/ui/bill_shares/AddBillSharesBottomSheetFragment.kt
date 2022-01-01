@@ -26,7 +26,7 @@ import com.example.splitbill.ui.theme.Typography
 import com.example.splitbill.viewmodels.BillShareViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class AddBillSharesFragment(private val groupListModel:GroupListModel, private val viewModel: BillShareViewModel, private val navController: NavController) : BottomSheetDialogFragment() {
+class AddBillSharesBottomSheetFragment(private val groupListModel:GroupListModel, private val viewModel: BillShareViewModel, private val navController: NavController) : BottomSheetDialogFragment() {
 
     private val billShareInputList = arrayListOf<BillShareModel>()
 
@@ -146,7 +146,7 @@ class AddBillSharesFragment(private val groupListModel:GroupListModel, private v
 
             Button(
                 onClick = {
-                    if(billName.isNullOrEmpty()){
+                    if(billName.isEmpty()){
                         isEmptyName = true
                     }else{
                         viewModel.addBill(

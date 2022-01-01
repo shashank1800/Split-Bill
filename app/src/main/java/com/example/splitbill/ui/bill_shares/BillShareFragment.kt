@@ -12,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.viewModels
@@ -68,13 +69,14 @@ class BillShareFragment : Fragment() {
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        val addBillDialog = AddBillSharesFragment(
+                        val addBillDialog = AddBillSharesBottomSheetFragment(
                             groupListModel = groupListModel,
                             viewModel = viewModel,
                             navController = navController
                         )
                         addBillDialog.show(parentFragmentManager, addBillDialog.tag)
-                    }
+                    },
+                    backgroundColor = Color(0xFF3EC590)
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_baseline_receipt),
@@ -87,14 +89,17 @@ class BillShareFragment : Fragment() {
 
             Column(modifier = Modifier.fillMaxWidth()) {
 
-                OutlinedButton(onClick = {
-                    val algo = BillSplitAlgorithm(viewModel.billListState.value)
-                    algo.splitBill()
-                }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                    Text(text = "View Report")
-                }
+                if (viewModel.billListState.value.isNotEmpty())
+                    OutlinedButton(onClick = {
+                        val allCalculation = BillSplitAlgorithm(viewModel.billListState.value)
+                        val billShares = allCalculation.splitBill()
+                        val billShareDialog = ShowBillSharesBottomSheetFragment(allCalculation)
+                        billShareDialog.show(parentFragmentManager, billShareDialog.tag)
+                    }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                        Text(text = "Balances")
+                    }
 
-                LazyColumn {
+                LazyColumn(Modifier.padding(top = 8.dp)) {
                     itemsIndexed(viewModel.billListState.value) { index, bill ->
                         BillCard(billListDto = bill)
                     }
