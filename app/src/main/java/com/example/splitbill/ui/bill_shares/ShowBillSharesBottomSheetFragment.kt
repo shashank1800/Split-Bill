@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,16 +12,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.example.splitbill.R
 import com.example.splitbill.ui.theme.SplitBillTheme
 import com.example.splitbill.ui.theme.Typography
 import com.example.splitbill.util.extension.BillSplitAlgorithm
@@ -48,87 +42,90 @@ class ShowBillSharesBottomSheetFragment(private val billSplitAlgorithm: BillSpli
     @Composable
     fun ShowBillShares() {
 
-        ConstraintLayout(
+        Column(
             modifier = Modifier
                 .padding(8.dp)
         ) {
-            val (tvCreateGroup, lcBillShares) = createRefs()
 
             Text(
                 text = "Balance",
-                modifier = Modifier.constrainAs(tvCreateGroup) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                },
                 style = Typography.h6
             )
 
-            LazyColumn(modifier = Modifier.constrainAs(lcBillShares){
-                top.linkTo(tvCreateGroup.bottom, margin = 8.dp)
-                start.linkTo(parent.start)
-                width = Dimension.fillToConstraints
-            }) {
+            LazyColumn{
                 items(billSplitAlgorithm.getBalances() ?: emptyList()) { billShare ->
-                    ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-                        val (tvPayedBy, tvPayment, tvPayedTo) = createRefs()
+                    BalanceCard(billShare)
+                }
+            }
 
-                        Text(
-                            text = billShare.payedBy.billDetails?.user_name ?: "",
-                            modifier = Modifier.constrainAs(tvPayedBy) {
-                                top.linkTo(parent.top)
-                                start.linkTo(parent.start)
-                                end.linkTo(tvPayment.start, margin = 16.dp)
-                                width = Dimension.fillToConstraints
-                            },
-                            style = Typography.body1
-                        )
+            Text(
+                text = "Total",
+                modifier = Modifier.padding(top = 8.dp),
+                style = Typography.h6
+            )
 
-                        Row(modifier = Modifier.constrainAs(tvPayment) {
-                            top.linkTo(parent.top)
-                            start.linkTo(tvPayedBy.end)
-                            end.linkTo(tvPayedTo.start, margin = 16.dp)
-                            width = Dimension.fillToConstraints
-                        }) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_baseline_remove),
-                                contentDescription = "minus",
-                                tint = Color.Gray
-                            )
+            SpentAndShareHead()
 
-                            Text(
-                                text = "\u20B9" + billShare.amountPayed.toString(),
-                                style = TextStyle(
-                                    fontWeight = FontWeight.Medium,
-                                    fontSize = 16.sp,
-                                    color = Color(0xFF3EC590)
-                                )
-                            )
-
-                            Icon(
-                                painter = painterResource(R.drawable.ic_baseline_arrow_forward),
-                                contentDescription = "arrow",
-                                tint = Color.Gray
-                            )
-                        }
-
-                        Text(
-                            text = billShare.payedTo.billDetails?.user_name ?: "",
-                            modifier = Modifier.constrainAs(tvPayedTo) {
-                                top.linkTo(parent.top)
-                                start.linkTo(tvPayment.end)
-                                end.linkTo(parent.end)
-                                width = Dimension.fillToConstraints
-                            },
-                            style = Typography.body1
-                        )
-                    }
-
+            LazyColumn{
+                items(billSplitAlgorithm.getSharesAndBalance()) { shareAndBalance ->
+                    SpentAndShareCard(shareAndBalance)
                 }
             }
 
 
         }
 
+    }
+
+    @Composable
+    fun SpentAndShareHead(){
+        ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+            val (tvUserName, tvSpentAmount, tvShareAmount, tvBalance) = createRefs()
+
+            Text(
+                text = "Name",
+                modifier = Modifier.constrainAs(tvUserName) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(tvSpentAmount.start, margin = 16.dp)
+                    width = Dimension.fillToConstraints
+                },
+                style = Typography.h1
+            )
+
+            Text(
+                text = "Spent",
+                modifier = Modifier.constrainAs(tvSpentAmount) {
+                    top.linkTo(parent.top)
+                    start.linkTo(tvUserName.end)
+                    end.linkTo(tvShareAmount.start, margin = 16.dp)
+                    width = Dimension.fillToConstraints
+                },
+                style = Typography.h1
+            )
+
+            Text(
+                text = "Share",
+                modifier = Modifier.constrainAs(tvShareAmount) {
+                    top.linkTo(parent.top)
+                    start.linkTo(tvSpentAmount.end)
+                    end.linkTo(tvBalance.end)
+                    width = Dimension.fillToConstraints
+                },
+                style = Typography.h1
+            )
+
+            Text(
+                text = "Balance",
+                modifier = Modifier.constrainAs(tvBalance) {
+                    top.linkTo(parent.top)
+                    start.linkTo(tvShareAmount.end)
+                    end.linkTo(parent.end)
+                    width = Dimension.fillToConstraints
+                },
+                style = Typography.h1
+            )
+        }
     }
 
 //    @Preview(showBackground = true)
