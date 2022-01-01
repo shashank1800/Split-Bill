@@ -19,7 +19,4 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.SplitBill.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.SplitBill.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
