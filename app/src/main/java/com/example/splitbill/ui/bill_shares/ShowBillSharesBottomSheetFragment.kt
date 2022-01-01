@@ -21,7 +21,8 @@ import com.example.splitbill.ui.theme.Typography
 import com.example.splitbill.util.extension.BillSplitAlgorithm
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class ShowBillSharesBottomSheetFragment(private val billSplitAlgorithm: BillSplitAlgorithm) : BottomSheetDialogFragment() {
+class ShowBillSharesBottomSheetFragment(private val billSplitAlgorithm: BillSplitAlgorithm) :
+    BottomSheetDialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +53,7 @@ class ShowBillSharesBottomSheetFragment(private val billSplitAlgorithm: BillSpli
                 style = Typography.h6
             )
 
-            LazyColumn{
+            LazyColumn {
                 items(billSplitAlgorithm.getBalances() ?: emptyList()) { billShare ->
                     BalanceCard(billShare)
                 }
@@ -66,7 +67,7 @@ class ShowBillSharesBottomSheetFragment(private val billSplitAlgorithm: BillSpli
 
             SpentAndShareHead()
 
-            LazyColumn{
+            LazyColumn {
                 items(billSplitAlgorithm.getSharesAndBalance()) { shareAndBalance ->
                     SpentAndShareCard(shareAndBalance)
                 }
@@ -78,7 +79,7 @@ class ShowBillSharesBottomSheetFragment(private val billSplitAlgorithm: BillSpli
     }
 
     @Composable
-    fun SpentAndShareHead(){
+    fun SpentAndShareHead() {
         ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
             val (tvUserName, tvSpentAmount, tvShareAmount, tvBalance) = createRefs()
 

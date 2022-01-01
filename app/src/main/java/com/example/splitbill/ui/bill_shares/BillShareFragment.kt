@@ -22,7 +22,13 @@ import com.example.splitbill.ui.theme.SplitBillTheme
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.splitbill.R
 import com.example.splitbill.model.GroupListModel
 import com.example.splitbill.util.extension.BillSplitAlgorithm
@@ -92,17 +98,65 @@ class BillShareFragment : Fragment() {
                 if (viewModel.billListState.value.isNotEmpty())
                     OutlinedButton(onClick = {
                         val allCalculation = BillSplitAlgorithm(viewModel.billListState.value)
-                        val billShares = allCalculation.splitBill()
                         val billShareDialog = ShowBillSharesBottomSheetFragment(allCalculation)
                         billShareDialog.show(parentFragmentManager, billShareDialog.tag)
                     }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
                         Text(text = "Balances")
                     }
 
-                LazyColumn(Modifier.padding(top = 8.dp)) {
-                    itemsIndexed(viewModel.billListState.value) { index, bill ->
-                        BillCard(billListDto = bill)
+                ConstraintLayout(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(8.dp)
+                ) {
+
+                    val (lcGroup, ivNoData) = createRefs()
+
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .constrainAs(lcGroup) {
+                                top.linkTo(parent.top)
+                                bottom.linkTo(parent.bottom)
+                            }
+                    ) {
+                        itemsIndexed(viewModel.billListState.value) { index, bill ->
+                            BillCard(billListDto = bill)
+                        }
                     }
+                    if (viewModel.billListState.value.isEmpty())
+                        Box(modifier = Modifier
+                            .padding(8.dp)
+                            .constrainAs(ivNoData) {
+                                bottom.linkTo(parent.bottom, margin = 60.dp)
+                                end.linkTo(parent.end, margin = 90.dp)
+                            }) {
+                            Column {
+
+
+                                Text(
+                                    text = "TAP HERE TO  \n ADD BILLS",
+                                    style = TextStyle(
+                                        fontFamily = FontFamily(
+                                            Font(R.font.cabin_sketch, FontWeight.Normal),
+                                        ),
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 30.sp,
+                                        color = Color(0xFF818181)
+                                    )
+                                )
+
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_right_drawn_arrow),
+                                    tint = Color(0xFF818181),
+                                    contentDescription = "add member",
+                                    modifier = Modifier
+                                        .width(100.dp)
+                                        .height(100.dp)
+                                        .align(Alignment.End)
+                                )
+                            }
+                        }
                 }
 
             }

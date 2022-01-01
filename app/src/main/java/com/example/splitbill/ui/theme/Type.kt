@@ -17,13 +17,13 @@ val Typography = Typography(
     h6 = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Bold,
-        fontSize = 16.sp,
+        fontSize = 20.sp,
     ),
 
     h1 = TextStyle(
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Medium,
-        fontSize = 15.sp,
+        fontFamily = FontFamily.Cursive,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
     )
     /* Other default text styles to override
     button = TextStyle(

@@ -21,8 +21,18 @@ import com.example.splitbill.viewmodels.GroupListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import com.example.splitbill.R
+import com.example.splitbill.ui.theme.Typography
 
 @AndroidEntryPoint
 class GroupListFragment : Fragment() {
@@ -58,8 +68,7 @@ class GroupListFragment : Fragment() {
 
         Scaffold(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
+                .fillMaxSize(),
             scaffoldState = scaffoldState,
             floatingActionButton = {
                 FloatingActionButton(
@@ -76,13 +85,74 @@ class GroupListFragment : Fragment() {
                     )
                 }
             },
-        ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                items(viewModel.groupsListState.value) { group ->
-                    GroupCard(group = group, scaffoldState, navController)
+            topBar = {
+                TopAppBar {
+                    Column(Modifier.padding(horizontal = 8.dp)) {
+                        Text(
+                            text = "Split Bill", style = TextStyle(
+                                fontFamily = FontFamily.Monospace,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 24.sp,
+                            )
+                        )
+                    }
                 }
+            }
+        ) {
+            ConstraintLayout(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp)
+            ) {
+
+                val (lcGroup, ivNoData) = createRefs()
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .constrainAs(lcGroup) {
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                        }
+                ) {
+                    items(viewModel.groupsListState.value) { group ->
+                        GroupCard(group = group, scaffoldState, navController)
+                    }
+                }
+
+                if (viewModel.groupsListState.value.isEmpty())
+                    Box(modifier = Modifier
+                        .padding(8.dp)
+                        .constrainAs(ivNoData) {
+                            bottom.linkTo(parent.bottom, margin = 60.dp)
+                            end.linkTo(parent.end, margin = 90.dp)
+                        }) {
+                        Column {
+
+
+                            Text(
+                                text = "TAP HERE TO  \n  ADD GROUP",
+                                style = TextStyle(
+                                    fontFamily = FontFamily(
+                                        Font(R.font.cabin_sketch, FontWeight.Normal),
+                                    ),
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 30.sp,
+                                    color = Color(0xFF818181)
+                                )
+                            )
+
+                            Icon(
+                                painter = painterResource(R.drawable.ic_right_drawn_arrow),
+                                tint = Color(0xFF818181),
+                                contentDescription = "add member",
+                                modifier = Modifier
+                                    .width(100.dp)
+                                    .height(100.dp)
+                                    .align(Alignment.End)
+                            )
+                        }
+                    }
             }
 
         }

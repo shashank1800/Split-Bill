@@ -9,6 +9,10 @@ class BillSplitAlgorithm(private val bills: List<List<BillListDto>?>) {
     private var minTransactions: List<BS>? = null
     private var spentAndShares = arrayListOf<SS>()
 
+    init {
+        splitBill()
+    }
+
     private fun splitBillAlgorithm(
         sharesPositive: List<SS>,
         sharesNegative: List<SS>,

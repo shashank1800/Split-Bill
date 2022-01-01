@@ -18,7 +18,6 @@ import androidx.navigation.NavController
 import com.example.splitbill.R
 import com.example.splitbill.model.GroupListModel
 import com.example.splitbill.ui.theme.Typography
-import com.example.splitbill.viewmodels.GroupListViewModel
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
