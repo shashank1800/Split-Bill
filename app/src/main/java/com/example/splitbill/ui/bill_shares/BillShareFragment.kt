@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.splitbill.R
 import com.example.splitbill.model.GroupListModel
+import com.example.splitbill.util.component.InstructionArrowText
 import com.example.splitbill.util.extension.BillSplitAlgorithm
 import com.example.splitbill.viewmodels.BillShareViewModel
 
@@ -77,15 +78,14 @@ class BillShareFragment : Fragment() {
                     onClick = {
                         val addBillDialog = AddBillSharesBottomSheetFragment(
                             groupListModel = groupListModel,
-                            viewModel = viewModel,
-                            navController = navController
+                            viewModel = viewModel
                         )
                         addBillDialog.show(parentFragmentManager, addBillDialog.tag)
                     },
                     backgroundColor = Color(0xFF3EC590)
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_baseline_receipt),
+                        painter = painterResource(R.drawable.ic_baseline_add_bill),
                         contentDescription = "Add Bill Shares",
                         tint = Color.White
                     )
@@ -125,38 +125,15 @@ class BillShareFragment : Fragment() {
                         }
                     }
                     if (viewModel.billListState.value.isEmpty())
-                        Box(modifier = Modifier
-                            .padding(8.dp)
-                            .constrainAs(ivNoData) {
-                                bottom.linkTo(parent.bottom, margin = 60.dp)
-                                end.linkTo(parent.end, margin = 90.dp)
-                            }) {
-                            Column {
-
-
-                                Text(
-                                    text = "TAP HERE TO  \n ADD BILLS",
-                                    style = TextStyle(
-                                        fontFamily = FontFamily(
-                                            Font(R.font.cabin_sketch, FontWeight.Normal),
-                                        ),
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 30.sp,
-                                        color = Color(0xFF818181)
-                                    )
-                                )
-
-                                Icon(
-                                    painter = painterResource(R.drawable.ic_right_drawn_arrow),
-                                    tint = Color(0xFF818181),
-                                    contentDescription = "add member",
-                                    modifier = Modifier
-                                        .width(100.dp)
-                                        .height(100.dp)
-                                        .align(Alignment.End)
-                                )
-                            }
-                        }
+                        InstructionArrowText(
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .constrainAs(ivNoData) {
+                                    bottom.linkTo(parent.bottom, margin = 60.dp)
+                                    end.linkTo(parent.end, margin = 90.dp)
+                                },
+                            text = "TAP HERE TO  \n ADD BILLS"
+                        )
                 }
 
             }

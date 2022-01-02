@@ -32,6 +32,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.splitbill.R
 import com.example.splitbill.model.GroupListModel
 import com.example.splitbill.ui.theme.Typography
+import com.example.splitbill.util.component.BottomWarningText
 import com.example.splitbill.util.extension.findActivity
 
 @AndroidEntryPoint
@@ -113,40 +114,19 @@ class UserListFragment : Fragment() {
                 }
 
 
-                Box(modifier = Modifier
-                    .constrainAs(ivNoData) {
-                        bottom.linkTo(parent.bottom, margin = 70.dp)
-                        end.linkTo(parent.end)
-                    }) {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        elevation = 0.dp,
-                        shape = RoundedCornerShape(4.dp),
-                        backgroundColor = if (viewModel.billListState.value.isEmpty()) Color(
-                            0xFFA9B5FF
-                        ) else Color(0xFFFF8B9C)
-                    ) {
-                        Row(modifier = Modifier.padding(8.dp)) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_outline_info),
-                                contentDescription = "Add Member",
-                                tint = Color.White
-                            )
-
-                            if (viewModel.billListState.value.isEmpty())
-                                Text(
-                                    text = "Note : You cannot add people after adding bills and shares to the group, So please make sure that you are adding all the people before adding any bill.",
-                                    color = Color.White
-                                )
-                            else
-                                Text(
-                                    text = "You cannot add users after adding bills and shares to group",
-                                    color = Color.White
-                                )
-                        }
-                    }
-                }
+                BottomWarningText(
+                    modifier = Modifier
+                        .constrainAs(ivNoData) {
+                            bottom.linkTo(parent.bottom, margin = 70.dp)
+                            end.linkTo(parent.end)
+                        },
+                    text = if (viewModel.billListState.value.isEmpty())
+                        "Note : You cannot add people after adding bills and shares to the group, So please make sure that you are adding all the people before adding any bill."
+                    else "You cannot add users after adding bills and shares to group",
+                    backgroundColor = if (viewModel.billListState.value.isEmpty()) Color(0xFFA9B5FF) else Color(
+                        0xFFFF8B9C
+                    )
+                )
 
 
                 if (viewModel.userListState.value.isEmpty())

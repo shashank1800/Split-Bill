@@ -21,18 +21,14 @@ import com.example.splitbill.viewmodels.GroupListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.example.splitbill.R
-import com.example.splitbill.ui.theme.Typography
+import com.example.splitbill.util.component.InstructionArrowText
 
 @AndroidEntryPoint
 class GroupListFragment : Fragment() {
@@ -121,38 +117,15 @@ class GroupListFragment : Fragment() {
                 }
 
                 if (viewModel.groupsListState.value.isEmpty())
-                    Box(modifier = Modifier
-                        .padding(8.dp)
-                        .constrainAs(ivNoData) {
-                            bottom.linkTo(parent.bottom, margin = 60.dp)
-                            end.linkTo(parent.end, margin = 90.dp)
-                        }) {
-                        Column {
-
-
-                            Text(
-                                text = "TAP HERE TO  \n  ADD GROUP",
-                                style = TextStyle(
-                                    fontFamily = FontFamily(
-                                        Font(R.font.cabin_sketch, FontWeight.Normal),
-                                    ),
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 30.sp,
-                                    color = Color(0xFF818181)
-                                )
-                            )
-
-                            Icon(
-                                painter = painterResource(R.drawable.ic_right_drawn_arrow),
-                                tint = Color(0xFF818181),
-                                contentDescription = "add member",
-                                modifier = Modifier
-                                    .width(100.dp)
-                                    .height(100.dp)
-                                    .align(Alignment.End)
-                            )
-                        }
-                    }
+                    InstructionArrowText(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .constrainAs(ivNoData) {
+                                bottom.linkTo(parent.bottom, margin = 60.dp)
+                                end.linkTo(parent.end, margin = 90.dp)
+                            },
+                        text = "TAP HERE TO  \n  ADD GROUP"
+                    )
             }
 
         }

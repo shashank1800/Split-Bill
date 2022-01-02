@@ -21,7 +21,7 @@ val Typography = Typography(
     ),
 
     h1 = TextStyle(
-        fontFamily = FontFamily.Cursive,
+        fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Bold,
         fontSize = 18.sp,
     )
