@@ -12,21 +12,27 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.core.text.isDigitsOnly
 import androidx.navigation.NavController
 import com.example.splitbill.model.BillShareModel
 import com.example.splitbill.model.GroupListModel
 import com.example.splitbill.room_db.entity.Bill
 import com.example.splitbill.ui.theme.SplitBillTheme
 import com.example.splitbill.ui.theme.Typography
+import com.example.splitbill.util.component.BottomWarningText
 import com.example.splitbill.viewmodels.BillShareViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class AddBillSharesBottomSheetFragment(private val groupListModel:GroupListModel, private val viewModel: BillShareViewModel, private val navController: NavController) : BottomSheetDialogFragment() {
+class AddBillSharesBottomSheetFragment(
+    private val groupListModel: GroupListModel,
+    private val viewModel: BillShareViewModel
+) : BottomSheetDialogFragment() {
 
     private val billShareInputList = arrayListOf<BillShareModel>()
 
@@ -73,12 +79,15 @@ class AddBillSharesBottomSheetFragment(private val groupListModel:GroupListModel
             mutableStateOf(false)
         }
 
+        var isAmountValid by remember {
+            mutableStateOf(true)
+        }
 
         ConstraintLayout(
             modifier = Modifier
                 .padding(16.dp)
         ) {
-            val (tvBillHead, tfBillName, tfTotalAmount, lcUsers, btnAdd, btnCancel) = createRefs()
+            val (tvBillHead, tfBillName, tfTotalAmount, lcUsers, wtAmount, btnAdd, btnCancel) = createRefs()
 
             Text(
                 text = "Add Bill",
@@ -92,7 +101,7 @@ class AddBillSharesBottomSheetFragment(private val groupListModel:GroupListModel
             OutlinedTextField(
                 value = billName,
                 onValueChange = {
-                    if(it.isNotEmpty())
+                    if (it.isNotEmpty())
                         isEmptyName = false
                     billName = it
                 },
@@ -112,7 +121,7 @@ class AddBillSharesBottomSheetFragment(private val groupListModel:GroupListModel
             OutlinedTextField(
                 value = totalAmount,
                 onValueChange = {
-                    if(it.isNotEmpty())
+                    if (it.isNotEmpty())
                         isEmptyTotalAmount = false
                     totalAmount = it
                 },
@@ -140,29 +149,56 @@ class AddBillSharesBottomSheetFragment(private val groupListModel:GroupListModel
                     },
             ) {
                 itemsIndexed(groupListModel.userList) { index, user ->
-                    BillShareUser(user = user, billShareModel = billShareInputList[index] )
+                    BillShareUser(user = user, billShareModel = billShareInputList[index])
                 }
             }
 
+            if (!isAmountValid)
+                BottomWarningText(
+                    modifier = Modifier
+                        .constrainAs(wtAmount) {
+                            top.linkTo(lcUsers.bottom, margin = 8.dp)
+                            start.linkTo(parent.start)
+                        },
+                    text = "Total amount should be always equal to total spent and total share",
+                    backgroundColor = Color(0xFFFF8B9C)
+                )
+
             Button(
-                onClick = {
-                    if(billName.isEmpty()){
-                        isEmptyName = true
-                    }else{
-                        viewModel.addBill(
-                            Bill(
-                                groupListModel.group.id,
-                                billName,
-                                totalAmount.toFloat()
-                            ),
-                            billShareInputList
-                        )
-                        dialog?.cancel()
-                    }
-                },
                 modifier = Modifier.constrainAs(btnAdd) {
-                    top.linkTo(lcUsers.bottom, margin = 16.dp)
+                    top.linkTo(parent.top)
                     end.linkTo(parent.end)
+                },
+                onClick = {
+                    if (billName.isEmpty()) {
+                        isEmptyName = true
+                    } else if (totalAmount.isEmpty() || !totalAmount.isDigitsOnly()) {
+                        isEmptyTotalAmount = true
+                    } else {
+
+                        var sumSpent = 0F
+                        var sumShare = 0F
+
+                        billShareInputList.forEach {
+                            sumSpent += it.spent.value.toFloat()
+                            sumShare += it.share.value.toFloat()
+                        }
+
+                        isAmountValid = !(sumSpent != totalAmount.toFloat() || sumShare != totalAmount.toFloat())
+
+                        if(isAmountValid){
+                            viewModel.addBill(
+                                Bill(
+                                    groupListModel.group.id,
+                                    billName,
+                                    totalAmount.toFloat()
+                                ),
+                                billShareInputList
+                            )
+                            dialog?.cancel()
+                        }
+
+                    }
                 },
             ) {
                 Text("Add")

@@ -106,7 +106,7 @@ class AddGroupMemberFragment(private val viewModel: UserListViewModel, private v
                     }
                 },
                 modifier = Modifier.constrainAs(btnCreate) {
-                    top.linkTo(tfGroupName.bottom, margin = 16.dp)
+                    top.linkTo(parent.top)
                     end.linkTo(parent.end)
                 },
             ) {
