@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
@@ -36,7 +35,6 @@ class AddBillSharesBottomSheetFragment(
     private val billShareInputList = arrayListOf<BillShareModel>()
 
     @ExperimentalMaterialApi
-    @ExperimentalComposeUiApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,7 +56,6 @@ class AddBillSharesBottomSheetFragment(
 
 
     @ExperimentalMaterialApi
-    @ExperimentalComposeUiApi
     @Composable
     fun CreateGroupCard() {
 
@@ -120,8 +117,19 @@ class AddBillSharesBottomSheetFragment(
             OutlinedTextField(
                 value = totalAmount,
                 onValueChange = {
-                    if (it.isNotEmpty())
+                    if (it.trim().isNotEmpty()){
                         isEmptyTotalAmount = false
+
+                        billShareInputList.forEach { billShareModel ->
+                            val equallySharedFloat = String.format("%.1f", (it.toFloat() / billShareInputList.size))
+                            val equallySharedInt = String.format("%.0f", (it.toFloat() / billShareInputList.size))
+                            var result = equallySharedFloat
+                            if(equallySharedFloat.toFloat() == equallySharedInt.toFloat()) // removes unwanted zeros at the end
+                                result = equallySharedInt
+                            billShareModel.share.value = result
+                        }
+                    }
+
                     totalAmount = it
                 },
                 modifier = Modifier

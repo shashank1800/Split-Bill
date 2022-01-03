@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -54,7 +55,7 @@ fun BillCard(
                     .padding(8.dp)
                     .fillMaxWidth()
             ) {
-                val (tvBillName, lcShare) = createRefs()
+                val (tvBillName, tvTotalAmount, lcShare) = createRefs()
 
                 Text(
                     text = billListDto?.get(0)?.billDetails?.bill_name ?: "",
@@ -62,10 +63,26 @@ fun BillCard(
                         .constrainAs(tvBillName) {
                             top.linkTo(parent.top)
                             start.linkTo(parent.start)
-                            end.linkTo(parent.end)
+                            end.linkTo(tvTotalAmount.start)
                             width = Dimension.fillToConstraints
                         },
                     style = Typography.h6
+                )
+
+                Text(
+                    text = "Total " + billListDto?.get(0)?.billDetails?.total_amount.toString(),
+                    modifier = Modifier
+                        .constrainAs(tvTotalAmount) {
+                            top.linkTo(parent.top)
+                            linkTo(tvBillName.end, parent.end, bias = 0F)
+                            width = Dimension.wrapContent
+                        },
+                    style = TextStyle(
+                        fontFamily = FontFamily.SansSerif,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        color = Color(0xFF2196F3)
+                    )
                 )
 
                 LazyColumn(
@@ -82,7 +99,7 @@ fun BillCard(
                                 .padding(vertical = 4.dp, horizontal = 8.dp)
                                 .fillMaxWidth()
                         ) {
-                            val (tvName, clShareSpent) = createRefs()
+                            val (tvName, tvSpent, clShareSpent) = createRefs()
 
                             Text(
                                 text = bill.billDetails?.user_name ?: "",
@@ -96,6 +113,22 @@ fun BillCard(
 
                             )
 
+                            if (bill.billDetails?.spent ?: 0F > 0)
+                                Text(
+                                    text = "Spent " + bill.billDetails?.spent.toString(),
+                                    style = TextStyle(
+                                        fontSize = 16.sp,
+                                        letterSpacing = 0.4.sp,
+                                        color = Color(0, 170, 91, 255)
+                                    ),
+                                    modifier = Modifier
+                                        .constrainAs(tvSpent) {
+                                            top.linkTo(tvName.bottom)
+                                            start.linkTo(parent.start)
+                                            width = Dimension.wrapContent
+                                        }
+                                )
+
                             Column(modifier = Modifier
                                 .constrainAs(clShareSpent) {
                                     top.linkTo(parent.top)
@@ -103,27 +136,14 @@ fun BillCard(
                                     width = Dimension.wrapContent
                                 }) {
 
-                                if (bill.billDetails?.spent ?: 0F > 0)
-                                    Text(
-                                        text = "+ " + bill.billDetails?.spent.toString(),
-                                        style = TextStyle(
-                                            fontWeight = FontWeight.Medium,
-                                            fontSize = 16.sp,
-                                            color = Color(30, 141, 0, 255)
-                                        ),
-                                        modifier = Modifier.align(Alignment.End)
-                                    )
-
-                                if (bill.billDetails?.share ?: 0F > 0)
-                                    Text(
-                                        text = "- " + bill.billDetails?.share.toString(),
-                                        style = TextStyle(
-                                            fontWeight = FontWeight.Medium,
-                                            fontSize = 16.sp,
-                                            color = Color(192, 0, 65, 255)
-                                        ),
-                                        modifier = Modifier.align(Alignment.End)
-                                    )
+                                Text(
+                                    text = "Share " + bill.billDetails?.share.toString(),
+                                    style = TextStyle(
+                                        fontSize = 16.sp,
+                                        letterSpacing = 0.4.sp
+                                    ),
+                                    modifier = Modifier.align(Alignment.End)
+                                )
                             }
 
 

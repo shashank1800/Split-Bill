@@ -4,7 +4,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.shashankbhat.splitbill.ui.theme.Typography
@@ -56,7 +60,12 @@ fun SpentAndShareCard(shareAndBalance: SS) {
                 end.linkTo(parent.end)
                 width = Dimension.fillToConstraints
             },
-            style = Typography.body1
+            style = TextStyle(
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp,
+                letterSpacing = 0.5.sp,
+                color = if(shareAndBalance.balanceAmount >= 0F) Color(30, 141, 0, 255) else Color(192, 0, 65, 255)
+            ),
         )
     }
 }
