@@ -24,3 +24,6 @@ local.properties
 /.idea/misc.xml
 /.idea/inspectionProfiles/Project_Default.xml
 /.idea/codeStyles/Project.xml
+/app/prod/release/
+/app/src/androidTest/
+/app/src/test/

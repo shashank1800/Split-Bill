@@ -9,4 +9,5 @@ data class BillDetailsModel(
     var spent: Float,
     var share: Float,
     var bill_share_id: Int,
+    var date_created: Long
 )
