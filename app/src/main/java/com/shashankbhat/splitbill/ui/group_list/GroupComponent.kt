@@ -1,6 +1,8 @@
 package com.shashankbhat.splitbill.ui.group_list
 
 import android.os.Bundle
+import android.text.format.DateUtils
+import android.text.format.DateUtils.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -27,7 +30,7 @@ fun GroupCard(
     scaffoldState: ScaffoldState,
     navController: NavController
 ) {
-
+    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
     Box(
@@ -39,11 +42,14 @@ fun GroupCard(
             elevation = 4.dp,
             shape = RoundedCornerShape(8.dp),
             onClick = {
-                if(group.userList.isEmpty()){
+                if (group.userList.isEmpty()) {
                     coroutineScope.launch {
-                        scaffoldState.snackbarHostState.showSnackbar("Please add atleast one user to group" ,"Okay")
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            "Please add atleast one user to group",
+                            "Okay"
+                        )
                     }
-                }else{
+                } else {
                     val bundle = Bundle()
                     bundle.putSerializable("model", group)
                     navController.navigate(R.id.nav_bill_shares, bundle)
@@ -55,7 +61,7 @@ fun GroupCard(
                     .padding(8.dp)
                     .fillMaxWidth()
             ) {
-                val (tvGroupName, btnAddMember, tvCount) = createRefs()
+                val (tvGroupName, btnAddMember, tvCount, tvTime) = createRefs()
 
                 Text(
                     text = group.group.name,
@@ -76,6 +82,22 @@ fun GroupCard(
                             top.linkTo(tvGroupName.bottom)
                             start.linkTo(parent.start)
                         },
+                    style = Typography.body1
+                )
+
+                Text(
+                    text = getRelativeDateTimeString(
+                        context, group.group.date_created,
+                        MINUTE_IN_MILLIS,
+                        WEEK_IN_MILLIS,
+                        FORMAT_SHOW_TIME
+                    ).toString(),
+                    modifier = Modifier
+                        .constrainAs(tvTime) {
+                            end.linkTo(parent.end)
+                            bottom.linkTo(parent.bottom)
+                            width = Dimension.fillToConstraints
+                        },
                     style = Typography.caption
                 )
 
@@ -94,7 +116,7 @@ fun GroupCard(
                         },
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_baseline_people),
+                        painter = painterResource(R.drawable.ic_outline_people),
                         tint = Color(0xFF3EC590),
                         contentDescription = "add member",
                     )

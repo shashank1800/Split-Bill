@@ -55,23 +55,24 @@ fun UserCard(
                     style = Typography.h6,
                 )
 
-                IconButton(
-                    onClick = {
-                        viewModel.deleteUser(user)
-                    },
-                    modifier = Modifier
-                        .padding(end = 4.dp)
-                        .constrainAs(btnDeleteUser) {
-                            top.linkTo(parent.top)
-                            end.linkTo(parent.end)
+                if (viewModel.billListState.value.isEmpty())
+                    IconButton(
+                        onClick = {
+                            viewModel.deleteUser(user)
                         },
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_baseline_delete),
-                        contentDescription = "delete member",
-                        tint = Color(0xFF3EC590)
-                    )
-                }
+                        modifier = Modifier
+                            .padding(end = 4.dp)
+                            .constrainAs(btnDeleteUser) {
+                                top.linkTo(parent.top)
+                                end.linkTo(parent.end)
+                            },
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_outline_delete),
+                            contentDescription = "delete member",
+                            tint = Color(0xFF3EC590)
+                        )
+                    }
 
             }
         }

@@ -82,7 +82,7 @@ class UserListFragment : Fragment() {
                         }
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.ic_baseline_person_add),
+                            painter = painterResource(R.drawable.ic_outline_person_add),
                             contentDescription = "Add Member",
                             tint = Color.White
                         )
