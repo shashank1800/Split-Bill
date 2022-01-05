@@ -23,4 +23,8 @@ class BillShareRepository(private val billShareDao: BillShareDao) {
         )
     }
 
+    suspend fun getBillShareByBillId(billId: Int): List<BillShare> {
+        return billShareDao.getBillShareByBillId(billId)
+    }
+
 }

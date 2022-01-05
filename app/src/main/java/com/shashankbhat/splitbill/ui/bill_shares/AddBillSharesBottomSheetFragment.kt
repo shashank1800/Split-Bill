@@ -167,7 +167,7 @@ class AddBillSharesBottomSheetFragment(
                             top.linkTo(lcUsers.bottom, margin = 8.dp)
                             start.linkTo(parent.start)
                         },
-                    text = "Total amount should be always equal to total spent and total share",
+                    text = "Sum of spent and share should be always equal to total amount",
                     backgroundColor = Color(0xFFFF8B9C)
                 )
 

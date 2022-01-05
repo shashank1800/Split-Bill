@@ -2,6 +2,7 @@ package com.shashankbhat.splitbill.room_db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.Query
 import androidx.room.RawQuery
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.shashankbhat.splitbill.model.BillListDto
@@ -15,4 +16,7 @@ interface BillShareDao {
 
     @RawQuery
     suspend fun getAllBillShares(query: SupportSQLiteQuery): List<BillListDto>?
+
+    @Query("SELECT * FROM bill_share bs WHERE bill_id = :billId")
+    suspend fun getBillShareByBillId(billId: Int): List<BillShare>
 }

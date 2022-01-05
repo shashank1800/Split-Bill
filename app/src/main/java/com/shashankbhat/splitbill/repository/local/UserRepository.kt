@@ -15,6 +15,10 @@ class UserRepository @Inject constructor(private var userDao: UserDao) {
         return userDao.getAllUserByGroupId(groupId)
     }
 
+    suspend fun getAllUserByGroupId(groupId: Int): List<User> {
+        return userDao.getAllUsersByGroupId(groupId)
+    }
+
     suspend fun deleteUser(user: User) {
         userDao.delete(user)
     }

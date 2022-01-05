@@ -48,15 +48,18 @@ class ShowBillSharesBottomSheetFragment(private val billSplitAlgorithm: BillSpli
                 .padding(8.dp)
         ) {
 
-            Text(
-                text = "Balance",
-                style = Typography.h6
-            )
+            if(billSplitAlgorithm.getBalances()?.size != 0){
+                Text(
+                    text = "Balance",
+                    style = Typography.h6
+                )
 
-            LazyColumn {
-                items(billSplitAlgorithm.getBalances() ?: emptyList()) { billShare ->
-                    BalanceCard(billShare)
+                LazyColumn {
+                    items(billSplitAlgorithm.getBalances() ?: emptyList()) { billShare ->
+                        BalanceCard(billShare)
+                    }
                 }
+
             }
 
             Text(
