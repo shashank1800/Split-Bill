@@ -3,45 +3,78 @@ package com.shashankbhat.splitbill.viewmodels
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.shashankbhat.splitbill.model.BillListDto
-import com.shashankbhat.splitbill.model.BillShareModel
+import com.shashankbhat.splitbill.dto.bill_shares.BillModel
+import com.shashankbhat.splitbill.model.bill_shares.BillShareModel
+import com.shashankbhat.splitbill.dto.bill_shares.BillSharesModel
 import com.shashankbhat.splitbill.repository.local.BillRepository
 import com.shashankbhat.splitbill.repository.local.BillShareRepository
+import com.shashankbhat.splitbill.repository.local.UserRepository
 import com.shashankbhat.splitbill.room_db.entity.Bill
 import com.shashankbhat.splitbill.room_db.entity.BillShare
+import com.shashankbhat.splitbill.room_db.entity.User
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
 class BillShareViewModel @Inject constructor(
     private val billRepo: BillRepository,
-    private val billShareRepo: BillShareRepository
+    private val billShareRepo: BillShareRepository,
+    private val userRepo: UserRepository
 ) : ViewModel() {
 
-    var billListState = mutableStateOf(arrayListOf<List<BillListDto>?>())
-
     var groupId = 0
+    var billList = mutableStateOf(arrayListOf<BillModel>())
 
-    fun getAllGroups(groupId: Int = 0) {
-        if(groupId != 0)
+    fun getAllBill(groupId: Int = 0) {
+        if (groupId != 0)
             this.groupId = groupId
 
         viewModelScope.launch {
-            val result = billShareRepo.getAllBills(this@BillShareViewModel.groupId)
-            withContext(Dispatchers.Main){
 
-                val res = result?.groupBy { model->
-                    model.billDetails?.bill_id
-                }
-                val billListStateTemp = arrayListOf<List<BillListDto>?>()
-                res?.keys?.sortedBy { t -> t }?.forEach { id -> billListStateTemp.add(res[id])}
+            val bills = arrayListOf<BillModel>()
 
-                billListState.value = billListStateTemp
+            val allBill = async { billRepo.getAllBill(this@BillShareViewModel.groupId) }
+            val allUsersByGroup =
+                async { userRepo.getAllUserByGroupId(this@BillShareViewModel.groupId) }
+            val userToIdMap = hashMapOf<Int, User>()
+
+            allUsersByGroup.await().forEach { user ->
+                userToIdMap[user.id] = user
             }
+
+            allBill.await().forEach { bill ->
+                val billModel = BillModel(
+                    bill.id,
+                    bill.group_id,
+                    bill.name,
+                    bill.total_amount,
+                    bill.date_created,
+                    null
+                )
+                bills.add(billModel)
+
+                val allBillShares = async { billShareRepo.getBillShareByBillId(bill.id) }
+                val billShares = arrayListOf<BillSharesModel>()
+
+                allBillShares.await().forEachIndexed { billShareIndex, billShare ->
+                    billShares.add(
+                        BillSharesModel(
+                            billShare.id,
+                            billShare.bill_id,
+                            billShare.user_id,
+                            billShare.spent,
+                            billShare.share,
+                            billShare.date_created,
+                            userToIdMap.get(billShare.user_id)
+                        )
+                    )
+                }
+
+                billModel.billShares = billShares
+            }
+
+            billList.value = bills
         }
     }
 
@@ -64,8 +97,8 @@ class BillShareViewModel @Inject constructor(
                 )
             }
 
-            withContext(Dispatchers.IO){
-                getAllGroups()
+            withContext(Dispatchers.IO) {
+                getAllBill()
             }
         }
     }

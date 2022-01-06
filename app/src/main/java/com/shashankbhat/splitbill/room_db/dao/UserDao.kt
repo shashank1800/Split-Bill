@@ -22,4 +22,11 @@ interface UserDao {
                 "ORDER BY date_created"
     )
     fun getAllUserByGroupId(group_id: Int): LiveData<List<User>>?
+
+    @Query(
+        "SELECT * FROM user " +
+                "WHERE group_id= :group_id " +
+                "ORDER BY date_created"
+    )
+    suspend fun getAllUsersByGroupId(group_id: Int): List<User>
 }

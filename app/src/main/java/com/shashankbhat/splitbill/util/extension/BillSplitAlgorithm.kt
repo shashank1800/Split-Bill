@@ -1,22 +1,23 @@
 package com.shashankbhat.splitbill.util.extension
 
-import com.shashankbhat.splitbill.model.BillListDto
+import com.shashankbhat.splitbill.dto.bill_shares.BillModel
+import com.shashankbhat.splitbill.room_db.entity.User
 import kotlin.math.abs
 
-class BillSplitAlgorithm(private val bills: List<List<BillListDto>?>) {
+class BillSplitAlgorithm(private val bills: ArrayList<BillModel>) {
 
     private var min = Int.MAX_VALUE
-    private var minTransactions: List<BS>? = null
-    private var spentAndShares = arrayListOf<SS>()
+    private var minTransactions: List<BillShareBalance>? = null
+    private var spentAndShares = arrayListOf<BillSpentAndShare>()
 
     init {
         splitBill()
     }
 
     private fun splitBillAlgorithm(
-        sharesPositive: List<SS>,
-        sharesNegative: List<SS>,
-        transaction: ArrayList<BS>
+        sharesPositive: List<BillSpentAndShare>,
+        sharesNegative: List<BillSpentAndShare>,
+        transaction: ArrayList<BillShareBalance>
     ) {
         if (sharesPositive.isEmpty() && sharesNegative.isEmpty()) {
             if (transaction.size <= min) {
@@ -43,7 +44,7 @@ class BillSplitAlgorithm(private val bills: List<List<BillListDto>?>) {
 
                     if (amountPayed > 0F)
                         transaction.add(
-                            BS(
+                            BillShareBalance(
                                 payedBy = shareNeg.person,
                                 payedTo = sharePos.person,
                                 amountPayed = amountPayed
@@ -59,15 +60,15 @@ class BillSplitAlgorithm(private val bills: List<List<BillListDto>?>) {
 
                     if (amountPayed > 0F)
                         transaction.add(
-                            BS(
+                            BillShareBalance(
                                 payedBy = shareNeg.person,
                                 payedTo = sharePos.person,
                                 amountPayed = amountPayed
                             )
                         )
                 }
-                val newSharePositive = arrayListOf<SS>()
-                val newSharesNegative = arrayListOf<SS>()
+                val newSharePositive = arrayListOf<BillSpentAndShare>()
+                val newSharesNegative = arrayListOf<BillSpentAndShare>()
 
                 if (sharePos.balanceAmount == 0F) {
                     newSharePositive.addAll(sharesPositive.subList(0, posIndex))
@@ -105,31 +106,25 @@ class BillSplitAlgorithm(private val bills: List<List<BillListDto>?>) {
         var totalAmount = 0F
 
         bills.forEach { bill ->
-            totalAmount += bill?.get(0)?.billDetails?.total_amount ?: 0F
-        }
-
-        bills[0]?.forEach {
-            spentAndShares.add(SS(it))
+            totalAmount += bill.total_amount ?: 0F
         }
 
         bills.forEach { bill ->
-            bill?.forEachIndexed { indexChild, billListDto ->
-                spentAndShares[indexChild].shareAmount += billListDto.billDetails?.share ?: 0F
+            bill.billShares?.forEach { billShare ->
+                val shareAndSpent = BillSpentAndShare(billShare.user)
+                spentAndShares.add(shareAndSpent)
+                shareAndSpent.shareAmount += billShare.share ?: 0F
+                shareAndSpent.spentAmount += billShare.spent ?: 0F
             }
+
         }
 
-        bills.forEach { bill ->
-            bill?.forEachIndexed { indexChild, billListDto ->
-                spentAndShares[indexChild].spentAmount += billListDto.billDetails?.spent ?: 0F
-            }
+        spentAndShares.forEach { sAndS ->
+            sAndS.balanceAmount = sAndS.spentAmount - sAndS.shareAmount
         }
 
-        spentAndShares.forEach { ss ->
-            ss.balanceAmount = ss.spentAmount - ss.shareAmount
-        }
-
-        val posShares = arrayListOf<SS>()
-        val negShares = arrayListOf<SS>()
+        val posShares = arrayListOf<BillSpentAndShare>()
+        val negShares = arrayListOf<BillSpentAndShare>()
         spentAndShares.forEach {
             if (it.balanceAmount > 0)
                 posShares.add(it)
@@ -142,22 +137,21 @@ class BillSplitAlgorithm(private val bills: List<List<BillListDto>?>) {
 
         splitBillAlgorithm(posShareCopy, negShareCopy, arrayListOf())
 
-
     }
 
-    fun getBalances(): List<BS>? = minTransactions
+    fun getBalances(): List<BillShareBalance>? = minTransactions
 
-    fun getSharesAndBalance():List<SS> = spentAndShares
+    fun getSharesAndBalance():List<BillSpentAndShare> = spentAndShares
 }
 
-data class BS(
-    val payedBy: BillListDto,
-    val payedTo: BillListDto,
+data class BillShareBalance(
+    val payedBy: User?,
+    val payedTo: User?,
     val amountPayed: Float
 )
 
-data class SS(
-    val person: BillListDto,
+data class BillSpentAndShare(
+    val person: User?,
     var balanceAmount: Float = 0F,
     var shareAmount: Float = 0F,
     var spentAmount: Float = 0F

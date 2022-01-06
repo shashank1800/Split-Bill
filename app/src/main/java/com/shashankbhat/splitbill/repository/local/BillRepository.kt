@@ -9,4 +9,8 @@ class BillRepository(private val billDao: BillDao) {
         return billDao.insert(bill)
     }
 
+    suspend fun getAllBill(groupId: Int): List<Bill> {
+        return billDao.getAllBill(groupId)
+    }
+
 }

@@ -19,29 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.shashankbhat.splitbill.model.BillDetailsModel
-import com.shashankbhat.splitbill.model.BillListDto
+import com.shashankbhat.splitbill.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
 import com.shashankbhat.splitbill.ui.theme.Typography
 
 @ExperimentalMaterialApi
 @Composable
 fun BillCard(
-    billListDto: List<BillListDto>? = listOf(
-        BillListDto(
-            BillDetailsModel(
-                0,
-                "SSS",
-                0F,
-                0,
-                "SS",
-                0F,
-                0F,
-                0,
-                0
-            )
-        )
-    )
+    billModel: BillModel = BillModel()
 ) {
 
     val context = LocalContext.current
@@ -63,7 +48,7 @@ fun BillCard(
                 val (tvBillName, tvTotalAmount, lcShare, tvTime) = createRefs()
 
                 Text(
-                    text = billListDto?.get(0)?.billDetails?.bill_name ?: "",
+                    text = billModel.name ?: "",
                     modifier = Modifier
                         .constrainAs(tvBillName) {
                             top.linkTo(parent.top)
@@ -75,7 +60,7 @@ fun BillCard(
                 )
 
                 Text(
-                    text = "Total " + billListDto?.get(0)?.billDetails?.total_amount.toString(),
+                    text = "Total " + billModel.total_amount.toString(),
                     modifier = Modifier
                         .constrainAs(tvTotalAmount) {
                             top.linkTo(parent.top)
@@ -98,7 +83,7 @@ fun BillCard(
                             start.linkTo(parent.start)
                         },
                 ) {
-                    items(billListDto ?: emptyList()) { bill ->
+                    items(billModel.billShares ?: emptyList()) { billShare ->
                         ConstraintLayout(
                             modifier = Modifier
                                 .padding(vertical = 4.dp, horizontal = 8.dp)
@@ -107,7 +92,7 @@ fun BillCard(
                             val (tvName, tvSpent, clShareSpent) = createRefs()
 
                             Text(
-                                text = bill.billDetails?.user_name ?: "",
+                                text = billShare.user?.name ?: "",
                                 style = Typography.body1,
                                 modifier = Modifier
                                     .constrainAs(tvName) {
@@ -118,9 +103,9 @@ fun BillCard(
 
                             )
 
-                            if (bill.billDetails?.spent ?: 0F > 0)
+                            if (billShare.spent ?: 0F > 0)
                                 Text(
-                                    text = "Spent " + bill.billDetails?.spent.toString(),
+                                    text = "Spent " + billShare.spent.toString(),
                                     style = TextStyle(
                                         fontSize = 16.sp,
                                         letterSpacing = 0.4.sp,
@@ -142,7 +127,7 @@ fun BillCard(
                                 }) {
 
                                 Text(
-                                    text = "Share " + bill.billDetails?.share.toString(),
+                                    text = "Share " + billShare.share.toString(),
                                     style = TextStyle(
                                         fontSize = 16.sp,
                                         letterSpacing = 0.4.sp
@@ -156,7 +141,7 @@ fun BillCard(
                     }
                 }
                 Text(
-                    text = getRelativeDateTimeString(context, billListDto?.get(0)?.billDetails?.date_created ?: System.currentTimeMillis(), MINUTE_IN_MILLIS, WEEK_IN_MILLIS, FORMAT_SHOW_TIME).toString(),
+                    text = getRelativeDateTimeString(context, billModel.date_created ?: System.currentTimeMillis(), MINUTE_IN_MILLIS, WEEK_IN_MILLIS, FORMAT_SHOW_TIME).toString(),
                     style = Typography.caption,
                     modifier = Modifier
                         .constrainAs(tvTime) {

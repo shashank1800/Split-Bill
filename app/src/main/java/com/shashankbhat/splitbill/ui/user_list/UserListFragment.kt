@@ -28,7 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.shashankbhat.splitbill.R
-import com.shashankbhat.splitbill.model.GroupListModel
+import com.shashankbhat.splitbill.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.util.component.BottomWarningText
 import com.shashankbhat.splitbill.util.extension.findActivity
 
@@ -37,7 +37,7 @@ class UserListFragment : Fragment() {
 
     private val viewModel: UserListViewModel by viewModels()
     private lateinit var navController: NavController
-    private lateinit var groupListModel: GroupListModel
+    private lateinit var groupListDto: GroupListDto
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,9 +47,9 @@ class UserListFragment : Fragment() {
 
         navController = findNavController()
 
-        groupListModel = requireArguments().getSerializable("model") as GroupListModel
-        viewModel.getAllUsersByGroupId(groupListModel.group.id)
-        viewModel.getAllGroups(groupListModel.group.id)
+        groupListDto = requireArguments().getSerializable("model") as GroupListDto
+        viewModel.getAllUsersByGroupId(groupListDto.group.id)
+        viewModel.getAllBill(groupListDto.group.id)
 
         return ComposeView(requireContext()).apply {
             setContent {
@@ -69,10 +69,10 @@ class UserListFragment : Fragment() {
                 .fillMaxSize()
                 .padding(8.dp),
             floatingActionButton = {
-                if (viewModel.billListState.value.isEmpty())
+                if (viewModel.billList.value.isEmpty())
                     FloatingActionButton(
                         onClick = {
-                            val addMember = AddGroupMemberFragment(viewModel, groupListModel)
+                            val addMember = AddGroupMemberFragment(viewModel, groupListDto)
                             context?.findActivity()?.supportFragmentManager?.let {
                                 addMember.show(
                                     it,
@@ -117,10 +117,10 @@ class UserListFragment : Fragment() {
                             bottom.linkTo(parent.bottom, margin = 70.dp)
                             end.linkTo(parent.end)
                         },
-                    text = if (viewModel.billListState.value.isEmpty())
+                    text = if (viewModel.billList.value.isEmpty())
                         "Note : You cannot add people after adding bills and shares to the group, So please make sure that you are adding all the people before adding any bill."
                     else "You cannot add users after adding bills and shares to group",
-                    backgroundColor = if (viewModel.billListState.value.isEmpty()) Color(0xFFA9B5FF) else Color(
+                    backgroundColor = if (viewModel.billList.value.isEmpty()) Color(0xFFA9B5FF) else Color(
                         0xFFFF8B9C
                     )
                 )

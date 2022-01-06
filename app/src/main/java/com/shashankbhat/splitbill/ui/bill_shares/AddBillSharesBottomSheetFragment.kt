@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.core.text.isDigitsOnly
-import com.shashankbhat.splitbill.model.BillShareModel
-import com.shashankbhat.splitbill.model.GroupListModel
+import com.shashankbhat.splitbill.model.bill_shares.BillShareModel
+import com.shashankbhat.splitbill.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.room_db.entity.Bill
 import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
 import com.shashankbhat.splitbill.ui.theme.Typography
@@ -28,7 +28,7 @@ import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class AddBillSharesBottomSheetFragment(
-    private val groupListModel: GroupListModel,
+    private val groupListDto: GroupListDto,
     private val viewModel: BillShareViewModel
 ) : BottomSheetDialogFragment() {
 
@@ -41,7 +41,7 @@ class AddBillSharesBottomSheetFragment(
         savedInstanceState: Bundle?
     ): View {
 
-        groupListModel.userList.forEach {
+        groupListDto.userList.forEach {
             billShareInputList.add(BillShareModel(it.id))
         }
 
@@ -155,7 +155,7 @@ class AddBillSharesBottomSheetFragment(
                         width = Dimension.fillToConstraints
                     },
             ) {
-                itemsIndexed(groupListModel.userList) { index, user ->
+                itemsIndexed(groupListDto.userList) { index, user ->
                     BillShareUser(user = user, billShareModel = billShareInputList[index])
                 }
             }
@@ -167,7 +167,7 @@ class AddBillSharesBottomSheetFragment(
                             top.linkTo(lcUsers.bottom, margin = 8.dp)
                             start.linkTo(parent.start)
                         },
-                    text = "Total amount should be always equal to total spent and total share",
+                    text = "Sum of spent and share should be always equal to total amount",
                     backgroundColor = Color(0xFFFF8B9C)
                 )
 
@@ -196,7 +196,7 @@ class AddBillSharesBottomSheetFragment(
                         if(isAmountValid){
                             viewModel.addBill(
                                 Bill(
-                                    groupListModel.group.id,
+                                    groupListDto.group.id,
                                     billName,
                                     totalAmount.toFloat()
                                 ),

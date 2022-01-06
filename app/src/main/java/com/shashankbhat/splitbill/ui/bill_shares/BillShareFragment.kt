@@ -24,7 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.shashankbhat.splitbill.R
-import com.shashankbhat.splitbill.model.GroupListModel
+import com.shashankbhat.splitbill.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.util.component.InstructionArrowText
 import com.shashankbhat.splitbill.util.extension.BillSplitAlgorithm
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
@@ -34,7 +34,7 @@ class BillShareFragment : Fragment() {
 
     private val viewModel: BillShareViewModel by viewModels()
     private lateinit var navController: NavController
-    private lateinit var groupListModel: GroupListModel
+    private lateinit var groupListDto: GroupListDto
 
     @ExperimentalMaterialApi
     override fun onCreateView(
@@ -45,9 +45,9 @@ class BillShareFragment : Fragment() {
 
         navController = findNavController()
 
-        groupListModel = requireArguments().getSerializable("model") as GroupListModel
+        groupListDto = requireArguments().getSerializable("model") as GroupListDto
 
-        viewModel.getAllGroups(groupListModel.group.id)
+        viewModel.getAllBill(groupListDto.group.id)
 
         return ComposeView(requireContext()).apply {
             setContent {
@@ -71,7 +71,7 @@ class BillShareFragment : Fragment() {
                 FloatingActionButton(
                     onClick = {
                         val addBillDialog = AddBillSharesBottomSheetFragment(
-                            groupListModel = groupListModel,
+                            groupListDto = groupListDto,
                             viewModel = viewModel
                         )
                         addBillDialog.show(parentFragmentManager, addBillDialog.tag)
@@ -89,9 +89,9 @@ class BillShareFragment : Fragment() {
 
             Column(modifier = Modifier.fillMaxWidth()) {
 
-                if (viewModel.billListState.value.isNotEmpty())
+                if (viewModel.billList.value.isNotEmpty())
                     OutlinedButton(onClick = {
-                        val allCalculation = BillSplitAlgorithm(viewModel.billListState.value)
+                        val allCalculation = BillSplitAlgorithm(viewModel.billList.value)
                         val billShareDialog = ShowBillSharesBottomSheetFragment(allCalculation)
                         billShareDialog.show(parentFragmentManager, billShareDialog.tag)
                     }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
@@ -114,11 +114,11 @@ class BillShareFragment : Fragment() {
                                 bottom.linkTo(parent.bottom)
                             }
                     ) {
-                        itemsIndexed(viewModel.billListState.value) { index, bill ->
-                            BillCard(billListDto = bill)
+                        itemsIndexed(viewModel.billList.value) { index, bill ->
+                            BillCard(billModel = bill)
                         }
                     }
-                    if (viewModel.billListState.value.isEmpty())
+                    if (viewModel.billList.value.isEmpty())
                         InstructionArrowText(
                             modifier = Modifier
                                 .padding(8.dp)
