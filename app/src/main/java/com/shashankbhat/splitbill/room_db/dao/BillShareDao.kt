@@ -3,9 +3,6 @@ package com.shashankbhat.splitbill.room_db.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.RawQuery
-import androidx.sqlite.db.SupportSQLiteQuery
-import com.shashankbhat.splitbill.model.BillListDto
 import com.shashankbhat.splitbill.room_db.entity.BillShare
 
 @Dao

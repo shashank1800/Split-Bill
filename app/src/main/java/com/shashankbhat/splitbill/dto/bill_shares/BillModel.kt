@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.model
+package com.shashankbhat.splitbill.dto.bill_shares
 
 data class BillModel(
     var id: Int? = null,

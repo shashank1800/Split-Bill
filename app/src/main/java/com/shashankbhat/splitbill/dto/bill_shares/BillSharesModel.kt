@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.model
+package com.shashankbhat.splitbill.dto.bill_shares
 
 import com.shashankbhat.splitbill.room_db.entity.User
 

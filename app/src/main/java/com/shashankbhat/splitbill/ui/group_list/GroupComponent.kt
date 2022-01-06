@@ -1,7 +1,6 @@
 package com.shashankbhat.splitbill.ui.group_list
 
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.text.format.DateUtils.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,14 +18,14 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import com.shashankbhat.splitbill.R
-import com.shashankbhat.splitbill.model.GroupListModel
+import com.shashankbhat.splitbill.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.ui.theme.Typography
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @Composable
 fun GroupCard(
-    group: GroupListModel,
+    group: GroupListDto,
     scaffoldState: ScaffoldState,
     navController: NavController
 ) {

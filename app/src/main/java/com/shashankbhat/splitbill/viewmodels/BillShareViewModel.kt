@@ -3,9 +3,9 @@ package com.shashankbhat.splitbill.viewmodels
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.shashankbhat.splitbill.model.BillModel
-import com.shashankbhat.splitbill.model.BillShareModel
-import com.shashankbhat.splitbill.model.BillSharesModel
+import com.shashankbhat.splitbill.dto.bill_shares.BillModel
+import com.shashankbhat.splitbill.model.bill_shares.BillShareModel
+import com.shashankbhat.splitbill.dto.bill_shares.BillSharesModel
 import com.shashankbhat.splitbill.repository.local.BillRepository
 import com.shashankbhat.splitbill.repository.local.BillShareRepository
 import com.shashankbhat.splitbill.repository.local.UserRepository
