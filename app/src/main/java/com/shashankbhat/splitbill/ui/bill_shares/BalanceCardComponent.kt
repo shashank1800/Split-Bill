@@ -16,15 +16,15 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.ui.theme.Typography
-import com.shashankbhat.splitbill.util.extension.BS
+import com.shashankbhat.splitbill.util.extension.BillShareBalance
 
 @Composable
-fun BalanceCard(billShare: BS){
+fun BalanceCard(billShare: BillShareBalance){
     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
         val (tvPayedBy, tvPayment, tvPayedTo) = createRefs()
 
         Text(
-            text = billShare.payedBy.billDetails?.user_name ?: "",
+            text = billShare.payedBy?.name ?: "",
             modifier = Modifier.constrainAs(tvPayedBy) {
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)
@@ -63,7 +63,7 @@ fun BalanceCard(billShare: BS){
         }
 
         Text(
-            text = billShare.payedTo.billDetails?.user_name ?: "",
+            text = billShare.payedTo?.name ?: "",
             modifier = Modifier.constrainAs(tvPayedTo) {
                 top.linkTo(parent.top)
                 start.linkTo(tvPayment.end)

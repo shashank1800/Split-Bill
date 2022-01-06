@@ -3,7 +3,6 @@ package com.shashankbhat.splitbill.viewmodels
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.shashankbhat.splitbill.model.BillListDto
 import com.shashankbhat.splitbill.model.BillModel
 import com.shashankbhat.splitbill.model.BillShareModel
 import com.shashankbhat.splitbill.model.BillSharesModel
@@ -24,29 +23,7 @@ class BillShareViewModel @Inject constructor(
     private val userRepo: UserRepository
 ) : ViewModel() {
 
-    var billListState = mutableStateOf(arrayListOf<List<BillListDto>?>())
-
     var groupId = 0
-
-    fun getAllGroups(groupId: Int = 0) {
-        if (groupId != 0)
-            this.groupId = groupId
-
-        viewModelScope.launch {
-            val result = billShareRepo.getAllBills(this@BillShareViewModel.groupId)
-            withContext(Dispatchers.Main) {
-
-                val res = result?.groupBy { model ->
-                    model.billDetails?.bill_id
-                }
-                val billListStateTemp = arrayListOf<List<BillListDto>?>()
-                res?.keys?.sortedBy { t -> t }?.forEach { id -> billListStateTemp.add(res[id]) }
-
-                billListState.value = billListStateTemp
-            }
-        }
-    }
-
     var billList = mutableStateOf(arrayListOf<BillModel>())
 
     fun getAllBill(groupId: Int = 0) {
@@ -122,7 +99,6 @@ class BillShareViewModel @Inject constructor(
 
             withContext(Dispatchers.IO) {
                 getAllBill()
-                getAllGroups()
             }
         }
     }

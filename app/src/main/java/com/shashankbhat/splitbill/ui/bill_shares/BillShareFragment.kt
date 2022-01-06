@@ -48,7 +48,6 @@ class BillShareFragment : Fragment() {
         groupListModel = requireArguments().getSerializable("model") as GroupListModel
 
         viewModel.getAllBill(groupListModel.group.id)
-        viewModel.getAllGroups(groupListModel.group.id)
 
         return ComposeView(requireContext()).apply {
             setContent {
@@ -92,7 +91,7 @@ class BillShareFragment : Fragment() {
 
                 if (viewModel.billList.value.isNotEmpty())
                     OutlinedButton(onClick = {
-                        val allCalculation = BillSplitAlgorithm(viewModel.billListState.value)
+                        val allCalculation = BillSplitAlgorithm(viewModel.billList.value)
                         val billShareDialog = ShowBillSharesBottomSheetFragment(allCalculation)
                         billShareDialog.show(parentFragmentManager, billShareDialog.tag)
                     }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
