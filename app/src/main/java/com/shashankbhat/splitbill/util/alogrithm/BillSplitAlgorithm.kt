@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.util.extension
+package com.shashankbhat.splitbill.util.alogrithm
 
 import com.shashankbhat.splitbill.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.room_db.entity.User
@@ -109,18 +109,19 @@ class BillSplitAlgorithm(private val bills: ArrayList<BillModel>) {
             totalAmount += bill.total_amount ?: 0F
         }
 
-        bills.forEach { bill ->
-            bill.billShares?.forEach { billShare ->
-                val shareAndSpent = BillSpentAndShare(billShare.user)
-                spentAndShares.add(shareAndSpent)
-                shareAndSpent.shareAmount += billShare.share ?: 0F
-                shareAndSpent.spentAmount += billShare.spent ?: 0F
-            }
-
+        bills[0].billShares?.forEach {
+            spentAndShares.add(BillSpentAndShare(it.user))
         }
 
-        spentAndShares.forEach { sAndS ->
-            sAndS.balanceAmount = sAndS.spentAmount - sAndS.shareAmount
+        bills.forEach { bill ->
+            bill.billShares?.forEachIndexed { indexChild, billShare ->
+                spentAndShares[indexChild].shareAmount += billShare.share ?: 0F
+                spentAndShares[indexChild].spentAmount += billShare.spent ?: 0F
+            }
+        }
+
+        spentAndShares.forEach { ss ->
+            ss.balanceAmount = ss.spentAmount - ss.shareAmount
         }
 
         val posShares = arrayListOf<BillSpentAndShare>()

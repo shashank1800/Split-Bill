@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.shashankbhat.splitbill.ui.theme.Typography
-import com.shashankbhat.splitbill.util.extension.BillSpentAndShare
+import com.shashankbhat.splitbill.util.alogrithm.BillSpentAndShare
 
 @Composable
 fun SpentAndShareCard(shareAndBalance: BillSpentAndShare) {
