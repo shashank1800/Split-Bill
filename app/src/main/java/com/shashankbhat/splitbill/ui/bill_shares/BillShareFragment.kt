@@ -26,7 +26,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.util.component.InstructionArrowText
-import com.shashankbhat.splitbill.util.extension.BillSplitAlgorithm
+import com.shashankbhat.splitbill.util.alogrithm.BillSplitAlgorithm
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
 @AndroidEntryPoint
@@ -115,7 +115,7 @@ class BillShareFragment : Fragment() {
                             }
                     ) {
                         itemsIndexed(viewModel.billList.value) { index, bill ->
-                            BillCard(billModel = bill)
+                            BillCard(billModel = bill, viewModel = viewModel)
                         }
                     }
                     if (viewModel.billList.value.isEmpty())

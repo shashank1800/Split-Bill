@@ -13,4 +13,7 @@ class BillShareRepository(private val billShareDao: BillShareDao) {
         return billShareDao.getBillShareByBillId(billId)
     }
 
+    suspend fun delete(billShare: BillShare) {
+        billShareDao.delete(billShare)
+    }
 }

@@ -16,7 +16,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.ui.theme.Typography
-import com.shashankbhat.splitbill.util.extension.BillShareBalance
+import com.shashankbhat.splitbill.util.alogrithm.BillShareBalance
 
 @Composable
 fun BalanceCard(billShare: BillShareBalance){

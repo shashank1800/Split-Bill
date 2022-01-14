@@ -1,5 +1,6 @@
 package com.shashankbhat.splitbill.room_db.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -14,9 +15,12 @@ import androidx.room.PrimaryKey
 )
 data class User(
     var name: String,
-    var group_id: Int
+    @ColumnInfo(name = "group_id")
+    var groupId: Int
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
-    var date_created: Long = System.currentTimeMillis()
+
+    @ColumnInfo(name = "date_created")
+    var dateCreated: Long = System.currentTimeMillis()
 }

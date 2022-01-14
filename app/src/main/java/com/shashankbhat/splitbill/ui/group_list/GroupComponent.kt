@@ -86,7 +86,7 @@ fun GroupCard(
 
                 Text(
                     text = getRelativeDateTimeString(
-                        context, group.group.date_created,
+                        context, group.group.dateCreated,
                         MINUTE_IN_MILLIS,
                         WEEK_IN_MILLIS,
                         FORMAT_SHOW_TIME

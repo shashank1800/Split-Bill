@@ -1,5 +1,6 @@
 package com.shashankbhat.splitbill.room_db.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -13,11 +14,14 @@ import androidx.room.PrimaryKey
     )]
 )
 data class Bill(
-    var group_id: Int,
+    @ColumnInfo(name = "group_id")
+    var groupId: Int,
     var name: String,
-    var total_amount: Float
+    @ColumnInfo(name = "total_amount")
+    var totalAmount: Float
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
-    var date_created: Long = System.currentTimeMillis()
+    @ColumnInfo(name = "date_created")
+    var dateCreated: Long = System.currentTimeMillis()
 }

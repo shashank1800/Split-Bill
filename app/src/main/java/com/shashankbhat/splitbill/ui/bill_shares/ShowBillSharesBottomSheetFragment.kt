@@ -18,7 +18,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
 import com.shashankbhat.splitbill.ui.theme.Typography
-import com.shashankbhat.splitbill.util.extension.BillSplitAlgorithm
+import com.shashankbhat.splitbill.util.alogrithm.BillSplitAlgorithm
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ShowBillSharesBottomSheetFragment(private val billSplitAlgorithm: BillSplitAlgorithm) :
