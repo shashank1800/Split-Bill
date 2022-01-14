@@ -106,7 +106,7 @@ class BillSplitAlgorithm(private val bills: ArrayList<BillModel>) {
         var totalAmount = 0F
 
         bills.forEach { bill ->
-            totalAmount += bill.total_amount ?: 0F
+            totalAmount += bill.totalAmount ?: 0F
         }
 
         bills[0].billShares?.forEach {

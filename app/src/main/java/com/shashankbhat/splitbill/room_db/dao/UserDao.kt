@@ -18,10 +18,10 @@ interface UserDao {
 
     @Query(
         "SELECT * FROM user " +
-                "WHERE group_id= :group_id " +
+                "WHERE group_id= :groupId " +
                 "ORDER BY date_created"
     )
-    fun getAllUserByGroupId(group_id: Int): LiveData<List<User>>?
+    fun getAllUserByGroupId(groupId: Int): LiveData<List<User>>?
 
     @Query(
         "SELECT * FROM user " +

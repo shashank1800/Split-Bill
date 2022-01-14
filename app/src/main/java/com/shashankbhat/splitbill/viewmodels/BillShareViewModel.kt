@@ -46,10 +46,10 @@ class BillShareViewModel @Inject constructor(
             allBill.await().forEach { bill ->
                 val billModel = BillModel(
                     bill.id,
-                    bill.group_id,
+                    bill.groupId,
                     bill.name,
-                    bill.total_amount,
-                    bill.date_created,
+                    bill.totalAmount,
+                    bill.dateCreated,
                     null
                 )
                 bills.add(billModel)
@@ -61,12 +61,12 @@ class BillShareViewModel @Inject constructor(
                     billShares.add(
                         BillSharesModel(
                             billShare.id,
-                            billShare.bill_id,
-                            billShare.user_id,
+                            billShare.billId,
+                            billShare.userId,
                             billShare.spent,
                             billShare.share,
-                            billShare.date_created,
-                            userToIdMap.get(billShare.user_id)
+                            billShare.dateCreated,
+                            userToIdMap.get(billShare.userId)
                         )
                     )
                 }
@@ -90,7 +90,7 @@ class BillShareViewModel @Inject constructor(
                 billShareRepo.insert(
                     BillShare(
                         billId.toInt(),
-                        it.user_id,
+                        it.userId,
                         it.spent.value.toFloat(),
                         it.share.value.toFloat()
                     )

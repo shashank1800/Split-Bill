@@ -60,7 +60,7 @@ fun BillCard(
                 )
 
                 Text(
-                    text = "Total " + billModel.total_amount.toString(),
+                    text = "Total " + billModel.totalAmount.toString(),
                     modifier = Modifier
                         .constrainAs(tvTotalAmount) {
                             top.linkTo(parent.top)
@@ -141,7 +141,7 @@ fun BillCard(
                     }
                 }
                 Text(
-                    text = getRelativeDateTimeString(context, billModel.date_created ?: System.currentTimeMillis(), MINUTE_IN_MILLIS, WEEK_IN_MILLIS, FORMAT_SHOW_TIME).toString(),
+                    text = getRelativeDateTimeString(context, billModel.dateCreated ?: System.currentTimeMillis(), MINUTE_IN_MILLIS, WEEK_IN_MILLIS, FORMAT_SHOW_TIME).toString(),
                     style = Typography.caption,
                     modifier = Modifier
                         .constrainAs(tvTime) {
