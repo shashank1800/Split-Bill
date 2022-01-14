@@ -1,6 +1,7 @@
 package com.shashankbhat.splitbill.room_db.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.shashankbhat.splitbill.room_db.entity.Bill
@@ -13,4 +14,6 @@ interface BillDao {
     @Query("SELECT * FROM bill WHERE bill.group_id = :groupId")
     suspend fun getAllBill(groupId: Int) : List<Bill>
 
+    @Delete
+    suspend fun delete(bill: Bill?): Int
 }

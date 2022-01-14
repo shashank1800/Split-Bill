@@ -115,7 +115,7 @@ class BillShareFragment : Fragment() {
                             }
                     ) {
                         itemsIndexed(viewModel.billList.value) { index, bill ->
-                            BillCard(billModel = bill)
+                            BillCard(billModel = bill, viewModel = viewModel)
                         }
                     }
                     if (viewModel.billList.value.isEmpty())

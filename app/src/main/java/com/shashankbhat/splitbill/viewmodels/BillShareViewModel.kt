@@ -103,5 +103,31 @@ class BillShareViewModel @Inject constructor(
         }
     }
 
+    fun deleteBill(billModel: BillModel) {
+        viewModelScope.launch {
+
+            billModel.billShares?.forEach { billSharesModel ->
+                val billShare = BillShare(
+                    billSharesModel.billId ?: 0,
+                    billSharesModel.userId ?: 0,
+                    billSharesModel.spent ?: 0F,
+                    billSharesModel.share ?: 0F
+                )
+                billShare.id = billSharesModel.id ?: 0
+                billShare.dateCreated = billSharesModel.dateCreated ?: 0
+                billShareRepo.delete(billShare)
+            }
+
+            val bill = Bill(billModel.id ?: 0, billModel.name ?: "", billModel.totalAmount ?: 0F)
+            bill.id = billModel.id ?: 0
+            bill.dateCreated = billModel.dateCreated ?: 0
+            val deleteCount = billRepo.delete(bill)
+
+            withContext(Dispatchers.IO) {
+                getAllBill()
+            }
+        }
+    }
+
 
 }
