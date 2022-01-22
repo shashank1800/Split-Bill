@@ -48,8 +48,8 @@ class UserListFragment : Fragment() {
         navController = findNavController()
 
         groupListDto = requireArguments().getSerializable("model") as GroupListDto
-        viewModel.getAllUsersByGroupId(groupListDto.group.id)
-        viewModel.getAllBill(groupListDto.group.id)
+        viewModel.getAllUsersByGroupId(groupListDto.group.id ?: -1)
+        viewModel.getAllBill(groupListDto.group.id ?: -1)
 
         return ComposeView(requireContext()).apply {
             setContent {

@@ -71,7 +71,7 @@ class UserListViewModel @Inject constructor(
             val userToIdMap = hashMapOf<Int, User>()
 
             allUsersByGroup.await().forEach { user ->
-                userToIdMap[user.id] = user
+                userToIdMap[user.id ?: -1] = user
             }
 
             allBill.await().forEach { bill ->
