@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shashankbhat.splitbill">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".application.SplitBillApplication"
         android:allowBackup="true"

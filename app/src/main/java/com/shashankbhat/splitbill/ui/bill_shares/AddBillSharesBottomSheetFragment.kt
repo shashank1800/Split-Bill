@@ -42,7 +42,7 @@ class AddBillSharesBottomSheetFragment(
     ): View {
 
         groupListDto.userList.forEach {
-            billShareInputList.add(BillShareModel(it.id))
+            billShareInputList.add(BillShareModel(it.id ?: -1))
         }
 
         return ComposeView(requireContext()).apply {
@@ -196,7 +196,7 @@ class AddBillSharesBottomSheetFragment(
                         if(isAmountValid){
                             viewModel.addBill(
                                 Bill(
-                                    groupListDto.group.id,
+                                    groupListDto.group.id ?: -1,
                                     billName,
                                     totalAmount.toFloat()
                                 ),

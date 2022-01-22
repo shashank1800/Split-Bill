@@ -24,6 +24,7 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.shashankbhat.splitbill.util.Status
 import com.shashankbhat.splitbill.util.component.InstructionArrowText
 
 @AndroidEntryPoint
@@ -84,7 +85,17 @@ class GroupListFragment : Fragment() {
                     .padding(8.dp)
             ) {
 
-                val (lcGroup, ivNoData) = createRefs()
+                val (lcGroup, ivNoData, ldProgress) = createRefs()
+
+                if(viewModel.groupsListState.value.status == Status.Loading)
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .constrainAs(ldProgress) {
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                        }
+                )
 
                 LazyColumn(
                     modifier = Modifier
@@ -94,12 +105,12 @@ class GroupListFragment : Fragment() {
                             bottom.linkTo(parent.bottom)
                         }
                 ) {
-                    items(viewModel.groupsListState.value) { group ->
+                    items(viewModel.groupsListState.value.data ?: emptyList()) { group ->
                         GroupCard(group = group, scaffoldState, navController)
                     }
                 }
 
-                if (viewModel.groupsListState.value.isEmpty())
+                if (viewModel.groupsListState.value.data?.isEmpty() == true)
                     InstructionArrowText(
                         modifier = Modifier
                             .padding(8.dp)
