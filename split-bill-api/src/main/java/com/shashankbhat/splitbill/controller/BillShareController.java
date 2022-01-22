@@ -1,0 +1,9 @@
+package com.shashankbhat.splitbill.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/bill_share")
+public class BillShareController {
+}
