@@ -15,7 +15,7 @@ import com.shashankbhat.splitbill.room_db.entity.Bill
 import com.shashankbhat.splitbill.room_db.entity.BillShare
 import com.shashankbhat.splitbill.util.converters.DateConverter
 
-@Database(entities = [Groups::class, User::class, Bill::class, BillShare::class], exportSchema = false, version = 1)
+@Database(entities = [Groups::class, User::class, Bill::class, BillShare::class], exportSchema = false, version = 2)
 @TypeConverters(value = [DateConverter::class])
 abstract class SplitBillDatabase : RoomDatabase() {
     abstract fun groupDao(): GroupDao

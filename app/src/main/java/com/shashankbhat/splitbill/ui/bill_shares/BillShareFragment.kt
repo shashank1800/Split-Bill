@@ -47,7 +47,7 @@ class BillShareFragment : Fragment() {
 
         groupListDto = requireArguments().getSerializable("model") as GroupListDto
 
-        viewModel.getAllBill(groupListDto.group.id)
+        viewModel.getAllBill(groupListDto.group.id ?: -1)
 
         return ComposeView(requireContext()).apply {
             setContent {

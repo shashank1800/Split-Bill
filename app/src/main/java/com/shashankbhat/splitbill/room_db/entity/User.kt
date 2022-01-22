@@ -4,7 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Entity(
     tableName = "user", foreignKeys = [ForeignKey(
         entity = Groups::class,
@@ -15,12 +17,13 @@ import androidx.room.PrimaryKey
 )
 data class User(
     var name: String,
+
     @ColumnInfo(name = "group_id")
-    var groupId: Int
-) {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    var groupId: Int,
+
+    @PrimaryKey(autoGenerate = false)
+    var id: Int? = null,
 
     @ColumnInfo(name = "date_created")
-    var dateCreated: Long = System.currentTimeMillis()
-}
+    var dateCreated: Long? = System.currentTimeMillis()
+)
