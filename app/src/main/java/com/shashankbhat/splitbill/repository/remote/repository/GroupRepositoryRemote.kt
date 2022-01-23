@@ -35,6 +35,8 @@ class GroupRepositoryRemote @Inject constructor(
     suspend fun getAllGroups(groupsListState: MutableState<Response<List<GroupListDto>>>) {
         try {
             groupRepository.getAllGroups(groupsListState)
+            groupsListState.value = Response.loading(groupsListState.value.data)
+
             val response = httpClient.get<GroupsAllDataDto>(BASE_URL + allGroups)
             groupsListState.value = Response.success(response.data)
 
@@ -42,7 +44,7 @@ class GroupRepositoryRemote @Inject constructor(
                 groupRepository.insert(it.group)
             }
         }catch (ex: Exception){
-            groupsListState.value = Response.error("Something went wrong")
+            groupsListState.value = Response.error("Something went wrong $ex", groupsListState.value.data)
         }
     }
 }

@@ -105,7 +105,7 @@ class UserListFragment : Fragment() {
                             bottom.linkTo(parent.bottom)
                         }
                 ) {
-                    items(viewModel.userListState.value) { user ->
+                    items(viewModel.userListState.value.data ?: emptyList()) { user ->
                         UserCard(user = user, viewModel)
                     }
                 }
@@ -126,7 +126,7 @@ class UserListFragment : Fragment() {
                 )
 
 
-                if (viewModel.userListState.value.isEmpty())
+                if (viewModel.userListState.value.data?.isEmpty() == true)
                     Box(modifier = Modifier
                         .constrainAs(tvNoData) {
                             top.linkTo(parent.top)

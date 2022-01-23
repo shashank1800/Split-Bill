@@ -1,8 +1,8 @@
 package com.shashankbhat.splitbill.controller;
 
-import com.shashankbhat.splitbill.dto.GroupsAllDataDto;
-import com.shashankbhat.splitbill.dto.GroupsEntityDto;
-import com.shashankbhat.splitbill.dto.GroupsSaveDto;
+import com.shashankbhat.splitbill.dto.groups.GroupsAllDataDto;
+import com.shashankbhat.splitbill.dto.groups.GroupsEntityDto;
+import com.shashankbhat.splitbill.dto.groups.GroupsSaveDto;
 import com.shashankbhat.splitbill.entity.GroupsEntity;
 
 import com.shashankbhat.splitbill.entity.UsersEntity;

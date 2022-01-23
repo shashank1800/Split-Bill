@@ -1,6 +1,8 @@
 package com.shashankbhat.splitbill.controller;
 
-import com.shashankbhat.splitbill.dto.*;
+import com.shashankbhat.splitbill.dto.bill.BillAllDto;
+import com.shashankbhat.splitbill.dto.bill.BillDto;
+import com.shashankbhat.splitbill.dto.bill.BillSaveDto;
 import com.shashankbhat.splitbill.entity.BillEntity;
 import com.shashankbhat.splitbill.entity.BillShareEntity;
 import com.shashankbhat.splitbill.repository.BillRepository;

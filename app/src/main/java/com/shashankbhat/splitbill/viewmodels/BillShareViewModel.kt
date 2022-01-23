@@ -39,7 +39,7 @@ class BillShareViewModel @Inject constructor(
                 async { userRepo.getAllUserByGroupId(this@BillShareViewModel.groupId) }
             val userToIdMap = hashMapOf<Int, User>()
 
-            allUsersByGroup.await().forEach { user ->
+            allUsersByGroup.await()?.forEach { user ->
                 userToIdMap[user.id?: -1] = user
             }
 

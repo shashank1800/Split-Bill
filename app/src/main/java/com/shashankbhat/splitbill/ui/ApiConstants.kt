@@ -6,4 +6,7 @@ object ApiConstants {
 
     const val saveGroup = "group/saveGroup"
     const val allGroups = "group/allGroups"
+
+    const val saveUser = "users/saveUser"
+    const val getAllUser = "users/getAllUser"
 }

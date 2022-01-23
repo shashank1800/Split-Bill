@@ -1,16 +1,12 @@
 package com.shashankbhat.splitbill.room_db.dao
 
-import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.shashankbhat.splitbill.room_db.entity.User
 
 @Dao
 interface UserDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(user: User?)
 
     @Delete
@@ -21,12 +17,5 @@ interface UserDao {
                 "WHERE group_id= :groupId " +
                 "ORDER BY date_created"
     )
-    fun getAllUserByGroupId(groupId: Int): LiveData<List<User>>?
-
-    @Query(
-        "SELECT * FROM user " +
-                "WHERE group_id= :group_id " +
-                "ORDER BY date_created"
-    )
-    suspend fun getAllUsersByGroupId(group_id: Int): List<User>
+    suspend fun getAllUserByGroupId(groupId: Int): List<User>?
 }
