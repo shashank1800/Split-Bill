@@ -9,4 +9,7 @@ object ApiConstants {
 
     const val saveUser = "users/saveUser"
     const val getAllUser = "users/getAllUser"
+    const val deleteUser = "users/deleteUser"
+
+    const val saveBill = "bill/saveBill"
 }

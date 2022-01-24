@@ -28,15 +28,21 @@ public class BillController {
 
 
     @PostMapping(value = "/saveBill")
-    public ResponseEntity<Integer> saveBill(@RequestBody @Valid BillSaveDto transaction) {
+    public ResponseEntity<BillSaveDto> saveBill(@RequestBody @Valid BillSaveDto transaction) {
+        transaction.getBill().setDateCreated(System.currentTimeMillis());
         BillEntity billEntity = billRepository.save(transaction.getBill());
 
         transaction.getBillShares().forEach(billShareEntity ->{
             billShareEntity.setBillId(billEntity.getId());
-            billShareRepository.save(billShareEntity);
+            billShareEntity.setDateCreated(System.currentTimeMillis());
+            BillShareEntity billShareModel = billShareRepository.save(billShareEntity);
+
+            billShareEntity.setId(billShareModel.getId());
         });
 
-        return new ResponseEntity<>(billEntity.getId(), HttpStatus.OK);
+        transaction.getBill().setId(billEntity.getId());
+
+        return new ResponseEntity<>(transaction, HttpStatus.OK);
     }
 
     @GetMapping(value = "/getBills")

@@ -51,7 +51,10 @@ class UserListViewModel @Inject constructor(
 
     fun deleteUser(user: User) {
         viewModelScope.launch {
-            userRepo.deleteUser(user)
+            userRepoRemote.deleteUser(user)
+            withContext(Dispatchers.Main){
+                getAllUsersByGroupId()
+            }
         }
     }
 
@@ -83,7 +86,7 @@ class UserListViewModel @Inject constructor(
                 )
                 bills.add(billModel)
 
-                val allBillShares = async { billShareRepo.getBillShareByBillId(bill.id) }
+                val allBillShares = async { billShareRepo.getBillShareByBillId(bill.id ?: -1) }
                 val billShares = arrayListOf<BillSharesModel>()
 
                 allBillShares.await().forEachIndexed { billShareIndex, billShare ->

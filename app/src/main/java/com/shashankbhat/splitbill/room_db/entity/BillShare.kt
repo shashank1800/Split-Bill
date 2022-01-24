@@ -4,7 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Entity(
     tableName = "bill_share", foreignKeys = [
         ForeignKey(
@@ -23,14 +25,13 @@ import androidx.room.PrimaryKey
 )
 data class BillShare(
     @ColumnInfo(name = "bill_id")
-    var billId: Int,
+    var billId: Int? = null,
     @ColumnInfo(name = "user_id")
-    var userId: Int,
-    var spent: Float,
-    var share: Float
-) {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    var userId: Int? = null,
+    var spent: Float? = null,
+    var share: Float? = null,
+    @PrimaryKey
+    var id: Int? = null,
     @ColumnInfo(name = "date_created")
-    var dateCreated: Long = System.currentTimeMillis()
-}
+    var dateCreated: Long? = null
+)

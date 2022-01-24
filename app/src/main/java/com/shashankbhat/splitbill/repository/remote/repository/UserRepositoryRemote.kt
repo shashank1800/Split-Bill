@@ -7,6 +7,7 @@ import com.shashankbhat.splitbill.room_db.entity.User
 import com.shashankbhat.splitbill.ui.ApiConstants.BASE_URL
 import com.shashankbhat.splitbill.ui.ApiConstants.getAllUser
 import com.shashankbhat.splitbill.ui.ApiConstants.saveUser
+import com.shashankbhat.splitbill.ui.ApiConstants.deleteUser
 import com.shashankbhat.splitbill.util.Response
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -18,13 +19,14 @@ class UserRepositoryRemote @Inject constructor(
     private val userRepository: UserRepository
 ) {
     suspend fun insert(user: User?) {
-        try {
-            val response = httpClient.post<User>(BASE_URL + saveUser) {
-                contentType(ContentType.Application.Json)
-                body = user ?: {}
-            }
+        val response = httpClient.post<User>(BASE_URL + saveUser) {
+            contentType(ContentType.Application.Json)
+            body = user ?: {}
+        }
 
-            userRepository.insert(response)
+        userRepository.insert(response)
+        try {
+
         }catch (ex:Exception){
 
         }
@@ -49,9 +51,21 @@ class UserRepositoryRemote @Inject constructor(
 
         }
     }
+
+    suspend fun deleteUser(
+        user: User?
+    ) {
+        val response = httpClient.put<User>(BASE_URL + deleteUser){
+            contentType(ContentType.Application.Json)
+            body = user ?: {}
+        }
+        if(response != null)
+            userRepository.deleteUser(user)
+        try {
+
+
+        }catch (ex:Exception){
+
+        }
+    }
 }
-
-
-//suspend fun deleteUser(user: User) {
-//    userDao.delete(user)
-//}

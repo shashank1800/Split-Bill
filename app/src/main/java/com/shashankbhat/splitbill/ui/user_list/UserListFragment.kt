@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.dto.group_list.GroupListDto
+import com.shashankbhat.splitbill.util.Status
 import com.shashankbhat.splitbill.util.component.BottomWarningText
 import com.shashankbhat.splitbill.util.extension.findActivity
 
@@ -66,8 +67,7 @@ class UserListFragment : Fragment() {
 
         Scaffold(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
+                .fillMaxSize(),
             floatingActionButton = {
                 if (viewModel.billList.value.isEmpty())
                     FloatingActionButton(
@@ -92,7 +92,6 @@ class UserListFragment : Fragment() {
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(8.dp)
             ) {
 
                 val (lcGroup, ivNoData, tvNoData) = createRefs()
@@ -126,7 +125,8 @@ class UserListFragment : Fragment() {
                 )
 
 
-                if (viewModel.userListState.value.data?.isEmpty() == true)
+                if (viewModel.userListState.value.data?.isEmpty() == true
+                    && viewModel.userListState.value.status == Status.Success)
                     Box(modifier = Modifier
                         .constrainAs(tvNoData) {
                             top.linkTo(parent.top)

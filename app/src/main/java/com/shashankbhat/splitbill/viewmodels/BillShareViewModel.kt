@@ -9,6 +9,7 @@ import com.shashankbhat.splitbill.dto.bill_shares.BillSharesModel
 import com.shashankbhat.splitbill.repository.local.BillRepository
 import com.shashankbhat.splitbill.repository.local.BillShareRepository
 import com.shashankbhat.splitbill.repository.local.UserRepository
+import com.shashankbhat.splitbill.repository.remote.repository.BillRepositoryRemote
 import com.shashankbhat.splitbill.room_db.entity.Bill
 import com.shashankbhat.splitbill.room_db.entity.BillShare
 import com.shashankbhat.splitbill.room_db.entity.User
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class BillShareViewModel @Inject constructor(
     private val billRepo: BillRepository,
     private val billShareRepo: BillShareRepository,
-    private val userRepo: UserRepository
+    private val userRepo: UserRepository,
+    private val billRepositoryRemote: BillRepositoryRemote
 ) : ViewModel() {
 
     var groupId = 0
@@ -54,7 +56,7 @@ class BillShareViewModel @Inject constructor(
                 )
                 bills.add(billModel)
 
-                val allBillShares = async { billShareRepo.getBillShareByBillId(bill.id) }
+                val allBillShares = async { billShareRepo.getBillShareByBillId(bill.id ?: -1) }
                 val billShares = arrayListOf<BillSharesModel>()
 
                 allBillShares.await().forEachIndexed { billShareIndex, billShare ->
@@ -81,23 +83,9 @@ class BillShareViewModel @Inject constructor(
 
     fun addBill(bill: Bill, billShareList: List<BillShareModel>) {
         viewModelScope.launch {
-            val billIdDeferred = async {
-                billRepo.insert(bill)
-            }
+            billRepositoryRemote.addBill(bill, billShareList)
 
-            billShareList.forEach {
-                val billId = billIdDeferred.await()
-                billShareRepo.insert(
-                    BillShare(
-                        billId.toInt(),
-                        it.userId,
-                        it.spent.value.toFloat(),
-                        it.share.value.toFloat()
-                    )
-                )
-            }
-
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
                 getAllBill()
             }
         }

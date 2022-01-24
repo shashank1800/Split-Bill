@@ -31,5 +31,10 @@ public class UsersController {
         return new ResponseEntity<>(new UsersAllDataDto(users), HttpStatus.OK);
     }
 
+    @PutMapping(value = "/deleteUser")
+    public ResponseEntity<UsersSaveDto> deleteUser(@RequestBody @Valid UsersSaveDto user){
+        usersRepository.deleteById(user.getId());
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 
 }

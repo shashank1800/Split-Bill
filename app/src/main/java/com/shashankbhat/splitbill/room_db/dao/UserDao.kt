@@ -6,7 +6,7 @@ import com.shashankbhat.splitbill.room_db.entity.User
 @Dao
 interface UserDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(user: User?)
 
     @Delete

@@ -85,7 +85,6 @@ class GroupListFragment : Fragment() {
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(8.dp)
             ) {
 
                 val (lcGroup, ivNoData, ldProgress) = createRefs()

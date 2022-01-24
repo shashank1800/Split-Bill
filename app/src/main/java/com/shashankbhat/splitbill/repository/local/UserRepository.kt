@@ -24,7 +24,7 @@ class UserRepository @Inject constructor(private var userDao: UserDao) {
         return userDao.getAllUserByGroupId(groupId)
     }
 
-    suspend fun deleteUser(user: User) {
+    suspend fun deleteUser(user: User?) {
         userDao.delete(user)
     }
 }

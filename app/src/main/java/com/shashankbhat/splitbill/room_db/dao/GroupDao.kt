@@ -10,7 +10,7 @@ import com.shashankbhat.splitbill.room_db.entity.Groups
 @Dao
 interface GroupDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(group: Groups?)
 
     @Query("SELECT * FROM groups ORDER BY date_created DESC")
