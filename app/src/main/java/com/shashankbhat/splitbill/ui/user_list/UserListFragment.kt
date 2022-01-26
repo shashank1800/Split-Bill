@@ -69,7 +69,7 @@ class UserListFragment : Fragment() {
             modifier = Modifier
                 .fillMaxSize(),
             floatingActionButton = {
-                if (viewModel.billList.value.isEmpty())
+                if (viewModel.billList.value.data?.isEmpty() == true)
                     FloatingActionButton(
                         onClick = {
                             val addMember = AddGroupMemberFragment(viewModel, groupListDto)
@@ -116,10 +116,10 @@ class UserListFragment : Fragment() {
                             bottom.linkTo(parent.bottom, margin = 70.dp)
                             end.linkTo(parent.end)
                         },
-                    text = if (viewModel.billList.value.isEmpty())
+                    text = if (viewModel.billList.value.data?.isEmpty() == true)
                         "Note : You cannot add people after adding bills and shares to the group, So please make sure that you are adding all the people before adding any bill."
                     else "You cannot add users after adding bills and shares to group",
-                    backgroundColor = if (viewModel.billList.value.isEmpty()) Color(0xFFA9B5FF) else Color(
+                    backgroundColor = if (viewModel.billList.value.data?.isEmpty() == true) Color(0xFFA9B5FF) else Color(
                         0xFFFF8B9C
                     )
                 )

@@ -35,10 +35,17 @@ class UserRepositoryRemote @Inject constructor(
 
     suspend fun getAllUsersByGroupId(
         groupId: Int,
-        userListState: MutableState<Response<List<User>>>
-    ) {
+        userListState: MutableState<Response<List<User>>>? = null
+    ): List<User>? {
         try {
-            userRepository.getAllUsersByGroupId(groupId, userListState)
+
+            if(userListState == null)
+                return userRepository.getAllUsersByGroupId(groupId)
+
+            userListState.let {
+                userRepository.getAllUsersByGroupId(groupId, userListState)
+            }
+
             val response = httpClient.get<UsersAllDataDto>(BASE_URL + getAllUser){
                 parameter("groupId", groupId)
             }
@@ -50,6 +57,7 @@ class UserRepositoryRemote @Inject constructor(
         }catch (ex:Exception){
 
         }
+        return null
     }
 
     suspend fun deleteUser(

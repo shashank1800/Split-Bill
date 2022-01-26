@@ -55,7 +55,7 @@ fun UserCard(
                     style = Typography.h6,
                 )
 
-                if (viewModel.billList.value.isEmpty())
+                if (viewModel.billList.value.data?.isEmpty() == true)
                     IconButton(
                         onClick = {
                             viewModel.deleteUser(user)

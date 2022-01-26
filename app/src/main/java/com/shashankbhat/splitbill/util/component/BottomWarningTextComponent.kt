@@ -19,7 +19,7 @@ fun BottomWarningText(
     backgroundColor: Color = Color(0xFFA9B5FF)
 ) {
 
-    Box(modifier = modifier) {
+    Box(modifier = modifier.padding(8.dp)) {
         Card(
             modifier = Modifier
                 .fillMaxWidth(),

@@ -5,7 +5,7 @@ import com.shashankbhat.splitbill.room_db.entity.Bill
 
 @Dao
 interface BillDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(bill: Bill?)
 
     @Query("SELECT * FROM bill WHERE bill.group_id = :groupId")

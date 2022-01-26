@@ -89,11 +89,14 @@ class BillShareFragment : Fragment() {
 
             Column(modifier = Modifier.fillMaxWidth()) {
 
-                if (viewModel.billList.value.isNotEmpty())
+                if (viewModel.billList.value.data?.isNotEmpty()==true)
                     OutlinedButton(onClick = {
-                        val allCalculation = BillSplitAlgorithm(viewModel.billList.value)
-                        val billShareDialog = ShowBillSharesBottomSheetFragment(allCalculation)
-                        billShareDialog.show(parentFragmentManager, billShareDialog.tag)
+                        viewModel.billList.value.data?.let {
+                            val allCalculation = BillSplitAlgorithm(it)
+                            val billShareDialog = ShowBillSharesBottomSheetFragment(allCalculation)
+                            billShareDialog.show(parentFragmentManager, billShareDialog.tag)
+                        }
+
                     }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
                         Text(text = "Balances")
                     }
@@ -114,11 +117,11 @@ class BillShareFragment : Fragment() {
                                 bottom.linkTo(parent.bottom)
                             }
                     ) {
-                        itemsIndexed(viewModel.billList.value) { index, bill ->
+                        itemsIndexed(viewModel.billList.value.data ?: emptyList()) { index, bill ->
                             BillCard(billModel = bill, viewModel = viewModel)
                         }
                     }
-                    if (viewModel.billList.value.isEmpty())
+                    if (viewModel.billList.value.data?.isEmpty() == true)
                         InstructionArrowText(
                             modifier = Modifier
                                 .padding(8.dp)

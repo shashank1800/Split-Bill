@@ -6,7 +6,7 @@ import com.shashankbhat.splitbill.room_db.entity.BillShare
 @Dao
 interface BillShareDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(billShare: BillShare?)
 
     @Query("SELECT * FROM bill_share bs WHERE bill_id = :billId")

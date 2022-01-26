@@ -14,14 +14,18 @@ class UserRepository @Inject constructor(private var userDao: UserDao) {
 
     suspend fun getAllUsersByGroupId(
         groupId: Int,
-        userListState: MutableState<Response<List<User>>>
-    ){
-        val users = userDao.getAllUserByGroupId(groupId)
-        userListState.value = Response.success(users)
-    }
+        userListState: MutableState<Response<List<User>>>? = null
+    ): List<User>?{
 
-    suspend fun getAllUserByGroupId(groupId: Int): List<User>? {
-        return userDao.getAllUserByGroupId(groupId)
+        if(userListState == null)
+            return userDao.getAllUserByGroupId(groupId)
+
+        userListState.let {
+            val users = userDao.getAllUserByGroupId(groupId)
+            userListState.value = Response.success(users)
+        }
+
+        return null
     }
 
     suspend fun deleteUser(user: User?) {

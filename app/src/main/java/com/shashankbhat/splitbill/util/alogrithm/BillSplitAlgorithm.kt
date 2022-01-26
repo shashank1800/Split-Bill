@@ -4,7 +4,7 @@ import com.shashankbhat.splitbill.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.room_db.entity.User
 import kotlin.math.abs
 
-class BillSplitAlgorithm(private val bills: ArrayList<BillModel>) {
+class BillSplitAlgorithm(private val bills: List<BillModel>) {
 
     private var min = Int.MAX_VALUE
     private var minTransactions: List<BillShareBalance>? = null
