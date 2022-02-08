@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import com.shashankbhat.splitbill.repository.local.UserRepository
 import com.shashankbhat.splitbill.repository.remote.entity.UsersAllDataDto
 import com.shashankbhat.splitbill.room_db.entity.User
+import com.shashankbhat.splitbill.ui.ApiConstants
 import com.shashankbhat.splitbill.ui.ApiConstants.BASE_URL
 import com.shashankbhat.splitbill.ui.ApiConstants.getAllUser
 import com.shashankbhat.splitbill.ui.ApiConstants.saveUser
@@ -21,6 +22,7 @@ class UserRepositoryRemote @Inject constructor(
     suspend fun insert(user: User?) {
         val response = httpClient.post<User>(BASE_URL + saveUser) {
             contentType(ContentType.Application.Json)
+            header(ApiConstants.AUTHORIZATION, BillRepositoryRemote.token)
             body = user ?: {}
         }
 
@@ -47,6 +49,7 @@ class UserRepositoryRemote @Inject constructor(
             }
 
             val response = httpClient.get<UsersAllDataDto>(BASE_URL + getAllUser){
+                header(ApiConstants.AUTHORIZATION, BillRepositoryRemote.token)
                 parameter("groupId", groupId)
             }
             userListState.value = Response.success(response.data)
@@ -65,6 +68,7 @@ class UserRepositoryRemote @Inject constructor(
     ) {
         val response = httpClient.put<User>(BASE_URL + deleteUser){
             contentType(ContentType.Application.Json)
+            header(ApiConstants.AUTHORIZATION, BillRepositoryRemote.token)
             body = user ?: {}
         }
         if(response != null)

@@ -13,13 +13,13 @@ import kotlinx.serialization.Serializable
             entity = Bill::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("bill_id"),
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.NO_ACTION
         ),
         ForeignKey(
             entity = User::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("user_id"),
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.NO_ACTION
         )
     ]
 )

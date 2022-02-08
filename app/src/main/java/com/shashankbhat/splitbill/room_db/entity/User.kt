@@ -12,7 +12,7 @@ import kotlinx.serialization.Serializable
         entity = Groups::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("group_id"),
-        onDelete = ForeignKey.CASCADE
+        onDelete = ForeignKey.NO_ACTION
     )]
 )
 data class User(
@@ -25,5 +25,8 @@ data class User(
     var id: Int? = null,
 
     @ColumnInfo(name = "date_created")
-    var dateCreated: Long? = System.currentTimeMillis()
+    var dateCreated: Long? = System.currentTimeMillis(),
+
+    @ColumnInfo(name = "unique_id")
+    var uniqueId: Int? = null
 )

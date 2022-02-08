@@ -18,4 +18,5 @@ public class GroupsEntity {
     Integer id;
     String name;
     Long dateCreated;
+    Integer uniqueId;
 }

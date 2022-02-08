@@ -12,5 +12,7 @@ data class Groups(
     @PrimaryKey(autoGenerate = false)
     var id: Int? = null,
     @ColumnInfo(name = "date_created")
-    var dateCreated: Long = System.currentTimeMillis()
+    var dateCreated: Long = System.currentTimeMillis(),
+    @ColumnInfo(name = "unique_id")
+    var uniqueId: Int? = null
 )

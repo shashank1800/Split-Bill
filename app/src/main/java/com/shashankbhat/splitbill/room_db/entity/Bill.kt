@@ -12,7 +12,7 @@ import kotlinx.serialization.Serializable
         entity = Groups::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("group_id"),
-        onDelete = ForeignKey.CASCADE
+        onDelete = ForeignKey.NO_ACTION
     )]
 )
 data class Bill(

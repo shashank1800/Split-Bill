@@ -3,6 +3,7 @@ package com.shashankbhat.splitbill.ui
 object ApiConstants {
 
     const val BASE_URL = "http://192.168.1.11:8080/"
+    const val AUTHORIZATION = "Authorization"
 
     const val saveGroup = "group/saveGroup"
     const val allGroups = "group/allGroups"
@@ -14,4 +15,6 @@ object ApiConstants {
     const val saveBill = "bill/saveBill"
     const val getAllBill = "bill/getBills"
     const val deleteBill = "bill/deleteBills"
+
+    const val authentication = "/authenticate"
 }

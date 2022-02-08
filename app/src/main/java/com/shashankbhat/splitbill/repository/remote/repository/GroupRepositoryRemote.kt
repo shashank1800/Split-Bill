@@ -5,6 +5,8 @@ import com.shashankbhat.splitbill.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.repository.local.GroupRepository
 import com.shashankbhat.splitbill.repository.remote.entity.GroupsAllDataDto
 import com.shashankbhat.splitbill.room_db.entity.Groups
+import com.shashankbhat.splitbill.ui.ApiConstants
+import com.shashankbhat.splitbill.ui.ApiConstants.AUTHORIZATION
 import com.shashankbhat.splitbill.ui.ApiConstants.BASE_URL
 import com.shashankbhat.splitbill.ui.ApiConstants.allGroups
 import com.shashankbhat.splitbill.ui.ApiConstants.saveGroup
@@ -22,6 +24,7 @@ class GroupRepositoryRemote @Inject constructor(
         try {
             val response = httpClient.post<Int>(BASE_URL + saveGroup) {
                 contentType(ContentType.Application.Json)
+                header(AUTHORIZATION, BillRepositoryRemote.token)
                 body = group
             }
 
@@ -37,7 +40,9 @@ class GroupRepositoryRemote @Inject constructor(
             groupRepository.getAllGroups(groupsListState)
             groupsListState.value = Response.loading(groupsListState.value.data)
 
-            val response = httpClient.get<GroupsAllDataDto>(BASE_URL + allGroups)
+            val response = httpClient.get<GroupsAllDataDto>(BASE_URL + allGroups){
+                header(AUTHORIZATION, BillRepositoryRemote.token)
+            }
             groupsListState.value = Response.success(response.data)
 
             response.data?.forEach { it ->
