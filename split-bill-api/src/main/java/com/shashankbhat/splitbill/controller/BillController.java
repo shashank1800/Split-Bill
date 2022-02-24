@@ -9,17 +9,16 @@ import com.shashankbhat.splitbill.entity.BillShareEntity;
 import com.shashankbhat.splitbill.entity.UsersEntity;
 import com.shashankbhat.splitbill.repository.BillRepository;
 import com.shashankbhat.splitbill.repository.BillShareRepository;
+import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.repository.UsersRepository;
+import com.shashankbhat.splitbill.util.HelperMethods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,15 +34,22 @@ public class BillController {
     @Autowired
     private UsersRepository usersRepository;
 
+    @Autowired
+    private LoggedUsersRepository loggedUsersRepository;
 
     @PostMapping(value = "/saveBill")
     public ResponseEntity<BillSaveDto> saveBill(@RequestBody BillSaveDto transaction) {
+
+        Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
+
         transaction.getBill().setDateCreated(System.currentTimeMillis());
+        transaction.getBill().setUniqueId(uniqueId);
         BillEntity billEntity = billRepository.save(transaction.getBill());
 
         transaction.getBillShares().forEach(billShareEntity -> {
             billShareEntity.setBillId(billEntity.getId());
             billShareEntity.setDateCreated(System.currentTimeMillis());
+            billShareEntity.setUniqueId(uniqueId);
             BillShareEntity billShareModel = billShareRepository.save(billShareEntity);
 
             billShareEntity.setId(billShareModel.getId());
@@ -106,7 +112,12 @@ public class BillController {
     }
 
     @PutMapping(value = "/deleteBills")
-    public ResponseEntity<BillDto> deleteBills(@RequestBody BillDto billDto) {
+    public ResponseEntity<BillDto> deleteBills(@RequestBody BillDto billDto) throws Exception {
+        Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
+        BillEntity billEntity = billRepository.findOneById(billDto.getId());
+
+        if(!Objects.equals(uniqueId, billEntity.getUniqueId()))
+            throw new Exception("Unauthorized Exception");
 
         billDto.getBillShares().forEach(billShareEntityDto -> {
             billShareRepository.deleteById(billShareEntityDto.getId());

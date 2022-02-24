@@ -10,6 +10,7 @@ import com.shashankbhat.splitbill.entity.UsersEntity;
 import com.shashankbhat.splitbill.repository.GroupsRepository;
 import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.repository.UsersRepository;
+import com.shashankbhat.splitbill.util.HelperMethods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -37,20 +38,18 @@ class GroupsController {
     @PostMapping(value = "/saveGroup")
     public ResponseEntity<Integer> saveGroup(@RequestBody @Valid GroupsSaveDto group) {
 
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        LoggedUsersEntity loggedUser =  loggedUsersRepository.findOneByUsername(userDetails.getUsername());
+        Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
 
-        GroupsEntity result = groupsRepository.save(new GroupsEntity(null, group.name, System.currentTimeMillis(), loggedUser.getId()));
+        GroupsEntity result = groupsRepository.save(new GroupsEntity(null, group.name, System.currentTimeMillis(), uniqueId));
         return new ResponseEntity<>(result.getId(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/allGroups")
     public ResponseEntity<?> getAllGroups() {
 
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        LoggedUsersEntity loggedUser =  loggedUsersRepository.findOneByUsername(userDetails.getUsername());
+        Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
 
-        List<GroupsEntity> result = groupsRepository.findByUniqueId(loggedUser.getId()/*, Sort.by(Sort.Direction.DESC, "id")*/);
+        List<GroupsEntity> result = groupsRepository.findByUniqueId(uniqueId/*, Sort.by(Sort.Direction.DESC, "id")*/);
         List<GroupsEntityDto> response = new ArrayList<>();
         result.forEach(groupsEntity -> {
             List<UsersEntity> users = usersRepository.findByGroupId(groupsEntity.getId());

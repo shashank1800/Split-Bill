@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface BillRepository extends JpaRepository<BillEntity, Integer>{
     List<BillEntity> findAllByGroupId(Integer groupId);
+    BillEntity findOneById(Integer id);
 }

@@ -16,5 +16,5 @@ object ApiConstants {
     const val getAllBill = "bill/getBills"
     const val deleteBill = "bill/deleteBills"
 
-    const val authentication = "/authenticate"
+    const val authentication = "authenticate"
 }

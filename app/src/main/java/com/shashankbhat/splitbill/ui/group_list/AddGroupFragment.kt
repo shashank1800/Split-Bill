@@ -1,6 +1,11 @@
 package com.shashankbhat.splitbill.ui.group_list
 
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.provider.Settings.System.getString
+import android.telephony.TelephonyManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

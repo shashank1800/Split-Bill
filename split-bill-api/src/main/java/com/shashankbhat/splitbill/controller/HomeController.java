@@ -33,7 +33,7 @@ public class HomeController {
 
 
     @PostMapping("/authenticate")
-    public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception{
+    public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) {
 
         try {
             authenticationManager.authenticate(
@@ -44,6 +44,9 @@ public class HomeController {
             );
         } catch (BadCredentialsException e) {
             loggedUsersRepository.save(new LoggedUsersEntity(null, jwtRequest.getUsername(), jwtRequest.getPassword()));
+        }catch (Exception exception){
+            loggedUsersRepository.save(new LoggedUsersEntity(null, jwtRequest.getUsername(), jwtRequest.getPassword()));
+            Exception exception1 = exception;
         }
 
 

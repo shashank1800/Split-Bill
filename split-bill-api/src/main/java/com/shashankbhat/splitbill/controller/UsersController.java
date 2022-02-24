@@ -6,6 +6,7 @@ import com.shashankbhat.splitbill.entity.LoggedUsersEntity;
 import com.shashankbhat.splitbill.entity.UsersEntity;
 import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.repository.UsersRepository;
+import com.shashankbhat.splitbill.util.HelperMethods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,8 @@ public class UsersController {
 
     @PostMapping(value = "/saveUser")
     public ResponseEntity<UsersEntity> saveUser(@RequestBody @Valid UsersSaveDto user){
-        UsersEntity result = usersRepository.save(new UsersEntity(null, user.getGroupId(), user.getName(), System.currentTimeMillis(), null));
+        Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
+        UsersEntity result = usersRepository.save(new UsersEntity(null, user.getGroupId(), user.getName(), System.currentTimeMillis(), uniqueId));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

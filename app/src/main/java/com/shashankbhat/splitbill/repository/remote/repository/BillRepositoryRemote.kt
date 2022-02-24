@@ -1,5 +1,6 @@
 package com.shashankbhat.splitbill.repository.remote.repository
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import com.shashankbhat.splitbill.dto.bill_shares.BillModel
@@ -19,6 +20,7 @@ import com.shashankbhat.splitbill.ui.ApiConstants.saveBill
 import com.shashankbhat.splitbill.ui.ApiConstants.getAllBill
 import com.shashankbhat.splitbill.ui.ApiConstants.deleteBill
 import com.shashankbhat.splitbill.util.Response
+import com.shashankbhat.splitbill.util.extension.getToken
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -28,11 +30,9 @@ class BillRepositoryRemote @Inject constructor(
     private val httpClient: HttpClient,
     private val billRepository: BillRepository,
     private val billShareRepository: BillShareRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val sharedPreferences: SharedPreferences
 ) {
-    companion object{
-        const val token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY0NDE3NDE2MCwiaWF0IjoxNjQ0MTU2MTYwfQ.vvdL8WXXjzFC-CG-4rjaZkJ-CEZAxWPzseQ5SRBFe02O34By3BX0bq8GphJGSJvtd36HXXxSZ79zUY_-1qxzyQ"
-    }
 
     suspend fun getAllBill(groupId: Int, billList: MutableState<Response<List<BillModel>>>) {
 
@@ -40,7 +40,7 @@ class BillRepositoryRemote @Inject constructor(
             getAllBillOffline(groupId, billList)
 
             val response = httpClient.get<BillSharesGetAllDto>(BASE_URL + getAllBill) {
-                header(ApiConstants.AUTHORIZATION, token)
+                header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
                 parameter("groupId", groupId)
             }
 
@@ -112,6 +112,8 @@ class BillRepositoryRemote @Inject constructor(
                 )
             }
 
+            val token = sharedPreferences.getToken()
+
             val response = httpClient.post<BillSaveDto>(BASE_URL + saveBill) {
                 contentType(ContentType.Application.Json)
                 header(ApiConstants.AUTHORIZATION, token)
@@ -126,7 +128,7 @@ class BillRepositoryRemote @Inject constructor(
             }
 
         } catch (ex: Exception) {
-
+            print("ERROR MESSAGE $ex")
         }
     }
 
@@ -135,7 +137,7 @@ class BillRepositoryRemote @Inject constructor(
 
         val response = httpClient.put<BillModel>(BASE_URL + deleteBill) {
             contentType(ContentType.Application.Json)
-            header(ApiConstants.AUTHORIZATION, token)
+            header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
             body = billModel
         }
 
