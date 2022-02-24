@@ -19,4 +19,5 @@ public class UsersEntity {
     Integer groupId;
     String name;
     Long dateCreated;
+    Integer uniqueId;
 }

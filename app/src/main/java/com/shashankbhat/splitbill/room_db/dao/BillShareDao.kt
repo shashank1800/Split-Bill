@@ -1,15 +1,12 @@
 package com.shashankbhat.splitbill.room_db.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.shashankbhat.splitbill.room_db.entity.BillShare
 
 @Dao
 interface BillShareDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(billShare: BillShare?)
 
     @Query("SELECT * FROM bill_share bs WHERE bill_id = :billId")

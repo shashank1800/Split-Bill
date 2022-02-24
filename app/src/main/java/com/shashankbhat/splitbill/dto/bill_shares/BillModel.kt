@@ -1,5 +1,8 @@
 package com.shashankbhat.splitbill.dto.bill_shares
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class BillModel(
     var id: Int? = null,
     var groupId: Int? = null,

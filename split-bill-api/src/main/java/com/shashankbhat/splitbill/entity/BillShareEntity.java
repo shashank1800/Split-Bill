@@ -21,4 +21,5 @@ public class BillShareEntity {
     Float spent;
     Float share;
     Long dateCreated;
+    Integer uniqueId;
 }

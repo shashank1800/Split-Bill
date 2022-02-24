@@ -25,6 +25,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.shashankbhat.splitbill.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
 import com.shashankbhat.splitbill.ui.theme.Typography
+import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
 @ExperimentalMaterialApi
@@ -210,7 +211,11 @@ fun DeleteBillAlertDialog(
             confirmButton = {
                 Button(
                     onClick = {
+                        openRemoveDialog.value = false
+
                         viewModel?.deleteBill(billModel)
+                        val deletedList = viewModel?.billList?.value?.data?.filter { it != billModel }?.toMutableList()
+                        viewModel?.billList?.value = Response.success(deletedList)
                     }
                 ) {
                     Text("Yes")

@@ -10,12 +10,12 @@ data class Response<out T>(
             return Response(Status.Success, data, null)
         }
 
-        fun <T> error(message: String?): Response<T> {
-            return Response(Status.Error, null, message)
+        fun <T> error(message: String?, data: T? = null): Response<T> {
+            return Response(Status.Error, data, message)
         }
 
-        fun <T> loading(): Response<T> {
-            return Response(Status.Loading, null, null)
+        fun <T> loading(data: T? = null): Response<T> {
+            return Response(Status.Loading, data, null)
         }
 
         fun <T> isNothing(): Response<T> {

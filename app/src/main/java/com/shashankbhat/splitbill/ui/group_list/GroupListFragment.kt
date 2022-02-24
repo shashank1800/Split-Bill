@@ -21,11 +21,13 @@ import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.shashankbhat.splitbill.util.Status
 import com.shashankbhat.splitbill.util.component.InstructionArrowText
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class GroupListFragment : Fragment() {
@@ -58,6 +60,7 @@ class GroupListFragment : Fragment() {
     fun GroupList() {
 
         val scaffoldState = rememberScaffoldState()
+        val coroutineScope = rememberCoroutineScope()
 
         Scaffold(
             modifier = Modifier
@@ -82,26 +85,26 @@ class GroupListFragment : Fragment() {
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(8.dp)
             ) {
 
                 val (lcGroup, ivNoData, ldProgress) = createRefs()
 
-                if(viewModel.groupsListState.value.status == Status.Loading)
-                LinearProgressIndicator(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .constrainAs(ldProgress) {
-                            top.linkTo(parent.top)
-                            bottom.linkTo(parent.bottom)
-                        }
-                )
+                if(viewModel.groupsListState.value.status == Status.Loading){
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .constrainAs(ldProgress) {
+                                top.linkTo(parent.top)
+                            }
+                    )
+                }
+
 
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
                         .constrainAs(lcGroup) {
-                            top.linkTo(parent.top)
+                            top.linkTo(ldProgress.bottom)
                             bottom.linkTo(parent.bottom)
                         }
                 ) {
@@ -120,6 +123,15 @@ class GroupListFragment : Fragment() {
                             },
                         text = "TAP HERE TO  \n  ADD GROUP"
                     )
+
+                if(viewModel.groupsListState.value.status == Status.Error){
+                    coroutineScope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            viewModel.groupsListState.value.message ?: "",
+                            ""
+                        )
+                    }
+                }
             }
 
         }

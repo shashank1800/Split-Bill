@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.dto.group_list.GroupListDto
+import com.shashankbhat.splitbill.util.Status
 import com.shashankbhat.splitbill.util.component.BottomWarningText
 import com.shashankbhat.splitbill.util.extension.findActivity
 
@@ -66,10 +67,9 @@ class UserListFragment : Fragment() {
 
         Scaffold(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
+                .fillMaxSize(),
             floatingActionButton = {
-                if (viewModel.billList.value.isEmpty())
+                if (viewModel.billList.value.data?.isEmpty() == true)
                     FloatingActionButton(
                         onClick = {
                             val addMember = AddGroupMemberFragment(viewModel, groupListDto)
@@ -92,7 +92,6 @@ class UserListFragment : Fragment() {
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(8.dp)
             ) {
 
                 val (lcGroup, ivNoData, tvNoData) = createRefs()
@@ -105,7 +104,7 @@ class UserListFragment : Fragment() {
                             bottom.linkTo(parent.bottom)
                         }
                 ) {
-                    items(viewModel.userListState.value) { user ->
+                    items(viewModel.userListState.value.data ?: emptyList()) { user ->
                         UserCard(user = user, viewModel)
                     }
                 }
@@ -117,16 +116,17 @@ class UserListFragment : Fragment() {
                             bottom.linkTo(parent.bottom, margin = 70.dp)
                             end.linkTo(parent.end)
                         },
-                    text = if (viewModel.billList.value.isEmpty())
+                    text = if (viewModel.billList.value.data?.isEmpty() == true)
                         "Note : You cannot add people after adding bills and shares to the group, So please make sure that you are adding all the people before adding any bill."
                     else "You cannot add users after adding bills and shares to group",
-                    backgroundColor = if (viewModel.billList.value.isEmpty()) Color(0xFFA9B5FF) else Color(
+                    backgroundColor = if (viewModel.billList.value.data?.isEmpty() == true) Color(0xFFA9B5FF) else Color(
                         0xFFFF8B9C
                     )
                 )
 
 
-                if (viewModel.userListState.value.isEmpty())
+                if (viewModel.userListState.value.data?.isEmpty() == true
+                    && viewModel.userListState.value.status == Status.Success)
                     Box(modifier = Modifier
                         .constrainAs(tvNoData) {
                             top.linkTo(parent.top)

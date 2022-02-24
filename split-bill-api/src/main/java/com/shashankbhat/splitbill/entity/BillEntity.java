@@ -20,4 +20,5 @@ public class BillEntity {
     String name;
     Float totalAmount;
     Long dateCreated;
+    Integer uniqueId;
 }

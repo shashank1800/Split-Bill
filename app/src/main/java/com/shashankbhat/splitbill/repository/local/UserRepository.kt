@@ -1,8 +1,9 @@
 package com.shashankbhat.splitbill.repository.local
 
-import androidx.lifecycle.LiveData
+import androidx.compose.runtime.MutableState
 import com.shashankbhat.splitbill.room_db.dao.UserDao
 import com.shashankbhat.splitbill.room_db.entity.User
+import com.shashankbhat.splitbill.util.Response
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(private var userDao: UserDao) {
@@ -11,15 +12,23 @@ class UserRepository @Inject constructor(private var userDao: UserDao) {
         userDao.insert(user)
     }
 
-    suspend fun getAllUsersByGroupId(groupId: Int): LiveData<List<User>>? {
-        return userDao.getAllUserByGroupId(groupId)
+    suspend fun getAllUsersByGroupId(
+        groupId: Int,
+        userListState: MutableState<Response<List<User>>>? = null
+    ): List<User>?{
+
+        if(userListState == null)
+            return userDao.getAllUserByGroupId(groupId)
+
+        userListState.let {
+            val users = userDao.getAllUserByGroupId(groupId)
+            userListState.value = Response.success(users)
+        }
+
+        return null
     }
 
-    suspend fun getAllUserByGroupId(groupId: Int): List<User> {
-        return userDao.getAllUsersByGroupId(groupId)
-    }
-
-    suspend fun deleteUser(user: User) {
+    suspend fun deleteUser(user: User?) {
         userDao.delete(user)
     }
 }
