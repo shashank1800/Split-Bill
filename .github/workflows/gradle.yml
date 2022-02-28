@@ -26,7 +26,7 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     - name: Deploy to Heroku
-      uses: shashank1800/split-bill@master
+      uses: shashank1800/split-bill@main
       with:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
         heroku_email: ${{secrets.HEROKU_API_KEY}}
