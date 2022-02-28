@@ -21,7 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Deploy to Heroku
-      uses: shashank1800/split-bill@main
+      uses: ./.github/actions/gradle.yml
       with:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
         heroku_email: ${{secrets.HEROKU_API_KEY}}
