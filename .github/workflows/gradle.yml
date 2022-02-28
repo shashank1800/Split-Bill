@@ -10,8 +10,10 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    
+    paths:
+      - 'split-bill-api/**'
+
 
 jobs:
   build:
