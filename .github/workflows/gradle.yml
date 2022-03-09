@@ -9,9 +9,9 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ main ]
-    
-
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
@@ -19,10 +19,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v1
+    
+    - name: Install Heroku CLI
+      run: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+
     - name: Deploy to Heroku
-      uses: actions/checkout@v2
-      with:
-        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-        heroku_email: ${{secrets.HEROKU_EMAIL}}
-        heroku_app_name: ${{secrets.HEROKU_SPLIT_BILL_NAME}}
-        appdir: split-bill-api/
+      run: |
+        git config --global user.name ${{ github.actor }}
+        git config --global user.email ${{ secrets.HEROKU_EMAIL }}
+        echo ${HEROKU_AUTH} > ~/.netrc
+        heroku git:remote --app ${{ secrets.HEROKU_SPLIT_BILL_NAME }}
+        git subtree push --prefix split-bill-api heroku HEAD:master
+      env:
+        HEROKU_AUTH: ${{ secrets.HEROKU_AUTH }}
