@@ -14,5 +14,5 @@ public interface GroupsRepository extends JpaRepository<GroupsEntity, Integer> {
             "UNION " +
             "SELECT * FROM groups_tbl g WHERE g.id IN (SELECT DISTINCT u.group_id FROM users u WHERE unique_id = ?1) " +
             "ORDER BY date_created DESC;", nativeQuery = true)
-    List<GroupsEntity> findByUniqueId(Integer uniqueId);
+    List<GroupsEntity> findAllGroupsWithUniqueId(Integer uniqueId);
 }
