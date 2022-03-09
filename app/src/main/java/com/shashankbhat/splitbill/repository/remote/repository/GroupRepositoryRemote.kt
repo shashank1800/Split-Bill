@@ -14,6 +14,7 @@ import com.shashankbhat.splitbill.ui.ApiConstants.saveGroup
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.getToken
 import io.ktor.client.*
+import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import javax.inject.Inject
@@ -39,20 +40,24 @@ class GroupRepositoryRemote @Inject constructor(
     }
 
     suspend fun getAllGroups(groupsListState: MutableState<Response<List<GroupListDto>>>) {
-        groupRepository.getAllGroups(groupsListState)
-        groupsListState.value = Response.loading(groupsListState.value.data)
-        val token = sharedPreferences.getToken()
-        val response = httpClient.get<GroupsAllDataDto>(BASE_URL + allGroups){
-            header(AUTHORIZATION, token)
-        }
-        groupsListState.value = Response.success(response.data)
 
-        response.data?.forEach { it ->
-            groupRepository.insert(it.group)
-        }
         try {
+            groupRepository.getAllGroups(groupsListState)
+            groupsListState.value = Response.loading(groupsListState.value.data)
+            val token = sharedPreferences.getToken()
+            val response = httpClient.get<GroupsAllDataDto>(BASE_URL + allGroups){
+                header(AUTHORIZATION, token)
+            }
+            groupsListState.value = Response.success(response.data)
 
-        }catch (ex: Exception){
+            response.data?.forEach { it ->
+                groupRepository.insert(it.group)
+            }
+        }
+//        catch (ce: ClientRequestException){
+//            groupsListState.value = Response.unauthorized("Please restart app")
+//        }
+        catch (ex: Exception){
             groupsListState.value = Response.error("Something went wrong $ex", groupsListState.value.data)
         }
     }

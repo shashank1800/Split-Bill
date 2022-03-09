@@ -21,6 +21,10 @@ data class Response<out T>(
         fun <T> isNothing(): Response<T> {
             return Response(Status.Nothing, null, null)
         }
+
+        fun <T> unauthorized(message: String?, data: T? = null): Response<T> {
+            return Response(Status.Unauthorized, null, null)
+        }
     }
 }
 
@@ -29,5 +33,6 @@ enum class Status {
     Loading,
     Nothing,
     Success,
-    Error
+    Error,
+    Unauthorized
 }

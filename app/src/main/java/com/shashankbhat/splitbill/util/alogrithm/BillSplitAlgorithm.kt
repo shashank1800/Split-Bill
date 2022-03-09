@@ -109,12 +109,27 @@ class BillSplitAlgorithm(private val bills: List<BillModel>) {
             totalAmount += bill.totalAmount ?: 0F
         }
 
-        bills[0].billShares?.forEach {
+        var maxUser = 0
+        var index = 0
+
+        bills.forEachIndexed { i, it ->
+            if(it.billShares?.size ?:0 > maxUser) {
+                maxUser = it.billShares?.size ?: 0
+                index = i
+            }
+        }
+        bills[index].billShares?.forEach {
             spentAndShares.add(BillSpentAndShare(it.user))
         }
 
         bills.forEach { bill ->
             bill.billShares?.forEachIndexed { indexChild, billShare ->
+                if(indexChild > spentAndShares.size){
+                    spentAndShares[indexChild].shareAmount += billShare.share ?: 0F
+                    spentAndShares[indexChild].spentAmount += billShare.spent ?: 0F
+                    return
+                }
+
                 spentAndShares[indexChild].shareAmount += billShare.share ?: 0F
                 spentAndShares[indexChild].spentAmount += billShare.spent ?: 0F
             }

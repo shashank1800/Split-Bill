@@ -25,8 +25,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.util.Status
 import com.shashankbhat.splitbill.util.component.InstructionArrowText
+import com.shashankbhat.splitbill.util.extension.putToken
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -44,6 +46,14 @@ class GroupListFragment : Fragment() {
 
         navController = findNavController()
         viewModel.getAllGroups()
+
+        viewModel.unauthorized.observe(viewLifecycleOwner) {
+            if(it == true){
+                viewModel.sharedPreferences.putToken("")
+                navController.navigate(R.id.nav_splash_screen)
+            }
+
+        }
 
         return ComposeView(requireContext()).apply {
             setContent {
