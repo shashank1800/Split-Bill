@@ -1,13 +1,13 @@
 package com.shashankbhat.splitbill.di
 
-import com.shashankbhat.splitbill.repository.local.BillRepository
-import com.shashankbhat.splitbill.repository.local.BillShareRepository
-import com.shashankbhat.splitbill.repository.local.GroupRepository
-import com.shashankbhat.splitbill.repository.local.UserRepository
-import com.shashankbhat.splitbill.room_db.dao.BillDao
-import com.shashankbhat.splitbill.room_db.dao.BillShareDao
-import com.shashankbhat.splitbill.room_db.dao.GroupDao
-import com.shashankbhat.splitbill.room_db.dao.UserDao
+import com.shashankbhat.splitbill.database.local.repository.BillRepository
+import com.shashankbhat.splitbill.database.local.repository.BillShareRepository
+import com.shashankbhat.splitbill.database.local.repository.GroupRepository
+import com.shashankbhat.splitbill.database.local.repository.UserRepository
+import com.shashankbhat.splitbill.database.local.dao.BillDao
+import com.shashankbhat.splitbill.database.local.dao.BillShareDao
+import com.shashankbhat.splitbill.database.local.dao.GroupDao
+import com.shashankbhat.splitbill.database.local.dao.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

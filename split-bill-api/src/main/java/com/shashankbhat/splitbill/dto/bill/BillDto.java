@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.dto.bill;
+package com.shashankbhat.splitbill.database.local.dto.bill;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

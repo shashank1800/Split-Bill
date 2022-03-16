@@ -1,11 +1,6 @@
 package com.shashankbhat.splitbill.ui.group_list
 
-import android.content.Context
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
-import android.provider.Settings.System.getString
-import android.telephony.TelephonyManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +15,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.shashankbhat.splitbill.room_db.entity.Groups
+import com.shashankbhat.splitbill.database.local.entity.Groups
 import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
 import com.shashankbhat.splitbill.ui.theme.Typography
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel

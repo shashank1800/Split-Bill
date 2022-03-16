@@ -3,7 +3,7 @@ package com.shashankbhat.splitbill.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.shashankbhat.splitbill.room_db.SplitBillDatabase
+import com.shashankbhat.splitbill.database.local.SplitBillDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,6 +34,7 @@ object AppModule {
                 serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
                     prettyPrint = true
                     isLenient = true
+                    ignoreUnknownKeys = true
                 })
             }
             install(Logging) {

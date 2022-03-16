@@ -19,8 +19,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.core.text.isDigitsOnly
 import com.shashankbhat.splitbill.model.bill_shares.BillShareModel
-import com.shashankbhat.splitbill.dto.group_list.GroupListDto
-import com.shashankbhat.splitbill.room_db.entity.Bill
+import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
+import com.shashankbhat.splitbill.database.local.entity.Bill
 import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
 import com.shashankbhat.splitbill.ui.theme.Typography
 import com.shashankbhat.splitbill.util.component.BottomWarningText

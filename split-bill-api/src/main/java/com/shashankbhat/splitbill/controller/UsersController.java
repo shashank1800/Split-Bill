@@ -1,7 +1,7 @@
 package com.shashankbhat.splitbill.controller;
 
-import com.shashankbhat.splitbill.dto.user.UsersAllDataDto;
-import com.shashankbhat.splitbill.dto.user.UsersSaveDto;
+import com.shashankbhat.splitbill.database.local.dto.user.UsersAllDataDto;
+import com.shashankbhat.splitbill.database.local.dto.user.UsersSaveDto;
 import com.shashankbhat.splitbill.entity.LoggedUsersEntity;
 import com.shashankbhat.splitbill.entity.UsersEntity;
 import com.shashankbhat.splitbill.repository.LoggedUsersRepository;

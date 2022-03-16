@@ -20,3 +20,33 @@ fun SharedPreferences.putToken(token : String){
 fun SharedPreferences.getToken(): String {
     return this.getString("token", "") ?: ""
 }
+
+fun SharedPreferences.getLocalId(): Int {
+
+    val editor = this.edit()
+
+    val key = "local_id"
+    val keyCount = "keyCount"
+
+    editor.putInt(key, getInt(key, 0) - 1)
+    editor.putInt(keyCount, getInt(keyCount, 0) + 1)
+    editor.apply()
+
+    return this.getInt("local_id", -1)
+}
+
+fun SharedPreferences.releaseOne(): Int {
+
+    val key = "local_id"
+    val keyCount = "keyCount"
+
+    val editor = this.edit()
+    val count = getInt(keyCount, 0) - 1
+    editor.putInt(keyCount,  count)
+
+    if(count == 0)
+        editor.putInt(key, 0)
+    editor.apply()
+
+    return this.getInt("local_id", -1)
+}

@@ -11,7 +11,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -28,9 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.shashankbhat.splitbill.R
-import com.shashankbhat.splitbill.dto.group_list.GroupListDto
+import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.util.Status
-import com.shashankbhat.splitbill.util.component.BottomWarningText
 import com.shashankbhat.splitbill.util.extension.findActivity
 
 @AndroidEntryPoint
@@ -69,24 +67,24 @@ class UserListFragment : Fragment() {
             modifier = Modifier
                 .fillMaxSize(),
             floatingActionButton = {
-                if (viewModel.billList.value.data?.isEmpty() == true)
-                    FloatingActionButton(
-                        onClick = {
-                            val addMember = AddGroupMemberFragment(viewModel, groupListDto)
-                            context?.findActivity()?.supportFragmentManager?.let {
-                                addMember.show(
-                                    it,
-                                    addMember.tag
-                                )
-                            }
+                FloatingActionButton(
+                    onClick = {
+                        val addMember = AddGroupMemberFragment(viewModel, groupListDto)
+                        context?.findActivity()?.supportFragmentManager?.let {
+                            addMember.show(
+                                it,
+                                addMember.tag
+                            )
                         }
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_outline_person_add),
-                            contentDescription = "Add Member",
-                            tint = Color.White
-                        )
                     }
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_outline_person_add),
+                        contentDescription = "Add Member",
+                        tint = Color.White
+                    )
+                }
+
             },
         ) {
             ConstraintLayout(
@@ -110,19 +108,19 @@ class UserListFragment : Fragment() {
                 }
 
 
-                BottomWarningText(
-                    modifier = Modifier
-                        .constrainAs(ivNoData) {
-                            bottom.linkTo(parent.bottom, margin = 70.dp)
-                            end.linkTo(parent.end)
-                        },
-                    text = if (viewModel.billList.value.data?.isEmpty() == true)
-                        "Note : You cannot add people after adding bills and shares to the group, So please make sure that you are adding all the people before adding any bill."
-                    else "You cannot add users after adding bills and shares to group",
-                    backgroundColor = if (viewModel.billList.value.data?.isEmpty() == true) Color(0xFFA9B5FF) else Color(
-                        0xFFFF8B9C
-                    )
-                )
+//                BottomWarningText(
+//                    modifier = Modifier
+//                        .constrainAs(ivNoData) {
+//                            bottom.linkTo(parent.bottom, margin = 70.dp)
+//                            end.linkTo(parent.end)
+//                        },
+//                    text = if (viewModel.billList.value.data?.isEmpty() == true)
+//                        "Note : You cannot add people after adding bills and shares to the group, So please make sure that you are adding all the people before adding any bill."
+//                    else "You cannot add users after adding bills and shares to group",
+//                    backgroundColor = if (viewModel.billList.value.data?.isEmpty() == true) Color(0xFFA9B5FF) else Color(
+//                        0xFFFF8B9C
+//                    )
+//                )
 
 
                 if (viewModel.userListState.value.data?.isEmpty() == true

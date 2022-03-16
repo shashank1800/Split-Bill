@@ -6,8 +6,8 @@ import android.provider.Settings
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.shashankbhat.splitbill.repository.remote.entity.TokenDto
-import com.shashankbhat.splitbill.repository.remote.repository.LoginRepositoryRemote
+import com.shashankbhat.splitbill.database.remote.entity.TokenDto
+import com.shashankbhat.splitbill.database.remote.repository.LoginRepositoryRemote
 import com.shashankbhat.splitbill.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

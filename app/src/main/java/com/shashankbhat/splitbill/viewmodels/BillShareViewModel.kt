@@ -4,10 +4,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.shashankbhat.splitbill.dto.bill_shares.BillModel
+import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.model.bill_shares.BillShareModel
-import com.shashankbhat.splitbill.repository.remote.repository.BillRepositoryRemote
-import com.shashankbhat.splitbill.room_db.entity.Bill
+import com.shashankbhat.splitbill.database.remote.repository.BillRepositoryRemote
+import com.shashankbhat.splitbill.database.local.entity.Bill
 import com.shashankbhat.splitbill.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -32,7 +32,7 @@ class BillShareViewModel @Inject constructor(
 
 
     fun addBill(bill: Bill, billShareList: List<BillShareModel>) {
-        viewModelScope.launch {
+        GlobalScope.launch {
             billRepositoryRemote.addBill(bill, billShareList)
 
             withContext(Dispatchers.Main) {
@@ -42,7 +42,7 @@ class BillShareViewModel @Inject constructor(
     }
 
     fun deleteBill(billModel: BillModel) {
-        viewModelScope.launch {
+        GlobalScope.launch {
             billRepositoryRemote.deleteBill(billModel)
         }
     }

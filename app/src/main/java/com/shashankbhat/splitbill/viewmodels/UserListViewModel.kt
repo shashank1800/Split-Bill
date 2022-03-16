@@ -4,13 +4,15 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.shashankbhat.splitbill.dto.bill_shares.BillModel
-import com.shashankbhat.splitbill.repository.remote.repository.BillRepositoryRemote
-import com.shashankbhat.splitbill.repository.remote.repository.UserRepositoryRemote
-import com.shashankbhat.splitbill.room_db.entity.User
+import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
+import com.shashankbhat.splitbill.database.remote.repository.BillRepositoryRemote
+import com.shashankbhat.splitbill.database.remote.repository.UserRepositoryRemote
+import com.shashankbhat.splitbill.database.local.entity.User
+import com.shashankbhat.splitbill.database.local.repository.UserRepository
 import com.shashankbhat.splitbill.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -18,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class UserListViewModel @Inject constructor(
     private val userRepoRemote: UserRepositoryRemote,
-    private val billRepositoryRemote: BillRepositoryRemote
+    private val billRepositoryRemote: BillRepositoryRemote,
+    private val userRepo: UserRepository,
 ) : ViewModel() {
 
     var userListState: MutableState<Response<List<User>>> = mutableStateOf(Response.isNothing())
@@ -35,19 +38,23 @@ class UserListViewModel @Inject constructor(
 
 
     fun addPeople(user: User) {
-        viewModelScope.launch {
-            userRepoRemote.insert(user)
-            withContext(Dispatchers.Main){
-                getAllUsersByGroupId()
+        GlobalScope.launch {
+            userRepoRemote.insert(user) { added ->
+                if (added)
+                    viewModelScope.launch {
+                        userRepo.getAllUsersByGroupId(user.groupId, userListState)
+                    }
             }
         }
     }
 
     fun deleteUser(user: User) {
-        viewModelScope.launch {
-            userRepoRemote.deleteUser(user)
-            withContext(Dispatchers.Main){
-                getAllUsersByGroupId()
+        GlobalScope.launch {
+            userRepoRemote.deleteUser(user){ deleted ->
+                if (deleted)
+                    viewModelScope.launch {
+                        userRepo.getAllUsersByGroupId(user.groupId, userListState)
+                    }
             }
         }
     }

@@ -1,8 +1,8 @@
 package com.shashankbhat.splitbill.controller;
 
-import com.shashankbhat.splitbill.dto.groups.GroupsAllDataDto;
-import com.shashankbhat.splitbill.dto.groups.GroupsEntityDto;
-import com.shashankbhat.splitbill.dto.groups.GroupsSaveDto;
+import com.shashankbhat.splitbill.database.local.dto.groups.GroupsAllDataDto;
+import com.shashankbhat.splitbill.database.local.dto.groups.GroupsEntityDto;
+import com.shashankbhat.splitbill.database.local.dto.groups.GroupsSaveDto;
 import com.shashankbhat.splitbill.entity.GroupsEntity;
 
 import com.shashankbhat.splitbill.entity.LoggedUsersEntity;
@@ -49,7 +49,7 @@ class GroupsController {
 
         Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
 
-        List<GroupsEntity> result = groupsRepository.findByUniqueId(uniqueId/*, Sort.by(Sort.Direction.DESC, "id")*/);
+        List<GroupsEntity> result = groupsRepository.findAllGroupsWithUniqueId(uniqueId);
         List<GroupsEntityDto> response = new ArrayList<>();
         result.forEach(groupsEntity -> {
             List<UsersEntity> users = usersRepository.findByGroupId(groupsEntity.getId());

@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.dto.user;
+package com.shashankbhat.splitbill.database.local.dto.user;
 
 import lombok.Data;
 

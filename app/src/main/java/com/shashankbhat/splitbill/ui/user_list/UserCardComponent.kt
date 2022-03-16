@@ -16,8 +16,9 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.shashankbhat.splitbill.R
-import com.shashankbhat.splitbill.room_db.entity.User
+import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.ui.theme.Typography
+import com.shashankbhat.splitbill.util.Status
 import com.shashankbhat.splitbill.viewmodels.UserListViewModel
 
 @Composable
@@ -55,7 +56,7 @@ fun UserCard(
                     style = Typography.h6,
                 )
 
-                if (viewModel.billList.value.data?.isEmpty() == true)
+                if (viewModel.billList.value.data?.isEmpty() == true && viewModel.userListState.value.status != Status.Nothing)
                     IconButton(
                         onClick = {
                             viewModel.deleteUser(user)

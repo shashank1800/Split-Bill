@@ -3,13 +3,15 @@ package com.shashankbhat.splitbill.viewmodels
 import android.content.SharedPreferences
 import androidx.compose.runtime.*
 import androidx.lifecycle.*
-import com.shashankbhat.splitbill.dto.group_list.GroupListDto
-import com.shashankbhat.splitbill.room_db.entity.Groups
-import com.shashankbhat.splitbill.repository.remote.repository.GroupRepositoryRemote
+import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
+import com.shashankbhat.splitbill.database.local.entity.Groups
+import com.shashankbhat.splitbill.database.local.repository.GroupRepository
+import com.shashankbhat.splitbill.database.remote.repository.GroupRepositoryRemote
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -17,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GroupListViewModel @Inject constructor(
     private val groupRepoRemote: GroupRepositoryRemote,
+    private val groupRepository: GroupRepository,
     val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
@@ -36,10 +39,14 @@ class GroupListViewModel @Inject constructor(
     }
 
     fun addGroup(group: Groups) {
-        viewModelScope.launch {
-            groupRepoRemote.insert(group)
-            withContext(Dispatchers.Main) {
-                getAllGroups()
+
+        GlobalScope.launch {
+            groupRepository.getAllGroups(groupsListState)
+            groupRepoRemote.insert(group){added ->
+                if(added)
+                    viewModelScope.launch {
+                        groupRepository.getAllGroups(groupsListState)
+                    }
             }
         }
     }

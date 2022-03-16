@@ -18,7 +18,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import com.shashankbhat.splitbill.R
-import com.shashankbhat.splitbill.dto.group_list.GroupListDto
+import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.ui.theme.Typography
 import kotlinx.coroutines.launch
 
