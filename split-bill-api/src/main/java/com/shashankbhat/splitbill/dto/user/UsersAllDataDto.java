@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.database.local.dto.user;
+package com.shashankbhat.splitbill.dto.user;
 
 import com.shashankbhat.splitbill.entity.UsersEntity;
 import lombok.AllArgsConstructor;

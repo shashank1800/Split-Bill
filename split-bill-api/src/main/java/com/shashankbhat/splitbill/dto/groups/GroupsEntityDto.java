@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.database.local.dto.groups;
+package com.shashankbhat.splitbill.dto.groups;
 
 import com.shashankbhat.splitbill.entity.GroupsEntity;
 import com.shashankbhat.splitbill.entity.UsersEntity;

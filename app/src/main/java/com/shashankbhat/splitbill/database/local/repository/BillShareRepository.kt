@@ -9,6 +9,10 @@ class BillShareRepository(private val billShareDao: BillShareDao) {
         billShareDao.insert(billShare)
     }
 
+    suspend fun update(billIdLocal: Int, billShareIdLocal: Int, billIdRemote: Int, billShareIdRemote: Int) {
+        billShareDao.update(billIdLocal, billShareIdLocal, billIdRemote, billShareIdRemote)
+    }
+
     suspend fun getBillShareByBillId(billId: Int): List<BillShare> {
         return billShareDao.getBillShareByBillId(billId)
     }

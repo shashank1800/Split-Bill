@@ -21,7 +21,9 @@ import com.shashankbhat.splitbill.ui.ApiConstants.getAllBill
 import com.shashankbhat.splitbill.ui.ApiConstants.deleteBill
 import com.shashankbhat.splitbill.util.DatabaseOperation
 import com.shashankbhat.splitbill.util.Response
+import com.shashankbhat.splitbill.util.extension.getLocalId
 import com.shashankbhat.splitbill.util.extension.getToken
+import com.shashankbhat.splitbill.util.extension.releaseOne
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -127,14 +129,22 @@ class BillRepositoryRemote @Inject constructor(
         try {
             val billShares = arrayListOf<BillShare>()
 
+            val billIdLocal = sharedPreferences.getLocalId()
             billShareList.forEach {
                 billShares.add(
                     BillShare(
+                        id = sharedPreferences.getLocalId(),
+                        billId = billIdLocal,
                         userId = it.userId,
                         share = it.share.value.toFloat(),
                         spent = it.spent.value.toFloat()
                     )
                 )
+            }
+
+            billRepository.insert(bill)
+            billShares.forEach {
+                billShareRepository.insert(it)
             }
 
             addLocalCallback(DatabaseOperation.LOCAL)
@@ -149,9 +159,17 @@ class BillRepositoryRemote @Inject constructor(
 
             Log.i("response", "$response")
 
-            billRepository.insert(response.bill)
-            response.billShares?.forEach {
-                billShareRepository.insert(it)
+            billRepository.update(bill.id ?: 0, response.bill?.id ?: 0)
+            sharedPreferences.releaseOne()
+
+            if(response.billShares?.size == billShares.size){
+                billShares.forEachIndexed { index, it ->
+
+                    val billShareIdLocal = bill.id ?: 0
+                    val billShareIdRemote = response.billShares?.get(index)?.id
+                    billShareRepository.update(billIdLocal, billShareIdLocal, response.bill?.id ?: 0, billShareIdRemote ?: 0)
+                    sharedPreferences.releaseOne()
+                }
             }
 
             addLocalCallback(DatabaseOperation.REMOTE)

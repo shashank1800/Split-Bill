@@ -1,22 +1,17 @@
 package com.shashankbhat.splitbill.controller;
 
-import com.shashankbhat.splitbill.database.local.dto.groups.GroupsAllDataDto;
-import com.shashankbhat.splitbill.database.local.dto.groups.GroupsEntityDto;
-import com.shashankbhat.splitbill.database.local.dto.groups.GroupsSaveDto;
+import com.shashankbhat.splitbill.dto.groups.GroupsAllDataDto;
+import com.shashankbhat.splitbill.dto.groups.GroupsEntityDto;
+import com.shashankbhat.splitbill.dto.groups.GroupsSaveDto;
 import com.shashankbhat.splitbill.entity.GroupsEntity;
-
-import com.shashankbhat.splitbill.entity.LoggedUsersEntity;
 import com.shashankbhat.splitbill.entity.UsersEntity;
 import com.shashankbhat.splitbill.repository.GroupsRepository;
 import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.repository.UsersRepository;
 import com.shashankbhat.splitbill.util.HelperMethods;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

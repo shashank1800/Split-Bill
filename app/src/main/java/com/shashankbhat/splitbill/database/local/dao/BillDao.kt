@@ -8,6 +8,9 @@ interface BillDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(bill: Bill?)
 
+    @Query("Update bill SET id = :remoteId WHERE id = :localId")
+    suspend fun update(localId: Int, remoteId: Int)
+
     @Query("SELECT * FROM bill WHERE bill.group_id = :groupId")
     suspend fun getAllBill(groupId: Int) : List<Bill>
 

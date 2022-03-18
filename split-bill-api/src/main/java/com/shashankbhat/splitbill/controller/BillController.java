@@ -1,9 +1,9 @@
 package com.shashankbhat.splitbill.controller;
 
-import com.shashankbhat.splitbill.database.local.dto.bill.BillAllDto;
-import com.shashankbhat.splitbill.database.local.dto.bill.BillDto;
-import com.shashankbhat.splitbill.database.local.dto.bill.BillSaveDto;
-import com.shashankbhat.splitbill.database.local.dto.bill.BillShareEntityDto;
+import com.shashankbhat.splitbill.dto.bill.BillAllDto;
+import com.shashankbhat.splitbill.dto.bill.BillDto;
+import com.shashankbhat.splitbill.dto.bill.BillSaveDto;
+import com.shashankbhat.splitbill.dto.bill.BillShareEntityDto;
 import com.shashankbhat.splitbill.entity.BillEntity;
 import com.shashankbhat.splitbill.entity.BillShareEntity;
 import com.shashankbhat.splitbill.entity.UsersEntity;
@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,6 +42,7 @@ public class BillController {
 
         transaction.getBill().setDateCreated(System.currentTimeMillis());
         transaction.getBill().setUniqueId(uniqueId);
+        transaction.getBill().setId(null);
         BillEntity billEntity = billRepository.save(transaction.getBill());
 
         transaction.getBillShares().forEach(billShareEntity -> {
