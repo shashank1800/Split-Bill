@@ -9,7 +9,7 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(user: User?)
 
-    @Query("Update user SET id = :remoteId, is_uploaded = 1 WHERE id = :localId")
+    @Query("Update user SET id = :remoteId WHERE id = :localId")
     suspend fun update(localId: Int, remoteId: Int)
 
     @Delete

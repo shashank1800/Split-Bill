@@ -10,9 +10,11 @@ import com.shashankbhat.splitbill.ui.ApiConstants.BASE_URL
 import com.shashankbhat.splitbill.ui.ApiConstants.getAllUser
 import com.shashankbhat.splitbill.ui.ApiConstants.saveUser
 import com.shashankbhat.splitbill.ui.ApiConstants.deleteUser
+import com.shashankbhat.splitbill.util.DatabaseOperation
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.getLocalId
 import com.shashankbhat.splitbill.util.extension.getToken
+import com.shashankbhat.splitbill.util.extension.releaseOne
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -23,14 +25,13 @@ class UserRepositoryRemote @Inject constructor(
     private val userRepository: UserRepository,
     private val sharedPreferences: SharedPreferences
 ) {
-    suspend fun insert(user: User?, addLocalCallback:(isAdded: Boolean)-> Unit) {
+    suspend fun insert(user: User?, addLocalCallback:(type: DatabaseOperation)-> Unit) {
 
         try {
             user?.id = sharedPreferences.getLocalId()
-            user?.isUploaded = false
 
             userRepository.insert(user)
-            addLocalCallback(true)
+            addLocalCallback(DatabaseOperation.LOCAL)
 
             val response = httpClient.post<User>(BASE_URL + saveUser) {
                 contentType(ContentType.Application.Json)
@@ -39,9 +40,9 @@ class UserRepositoryRemote @Inject constructor(
             }
 
             val localId = user?.id ?: 0
-            user?.isUploaded = true
-
             userRepository.update(localId, response.id ?: 0)
+            addLocalCallback(DatabaseOperation.REMOTE)
+            sharedPreferences.releaseOne()
         }catch (ex:Exception){
 
         }
@@ -77,12 +78,12 @@ class UserRepositoryRemote @Inject constructor(
     }
 
     suspend fun deleteUser(
-        user: User?, addLocalCallback:(isDeleted: Boolean)-> Unit
+        user: User?, addLocalCallback:(type: DatabaseOperation) -> Unit
     ) {
 
         try {
             userRepository.deleteUser(user)
-            addLocalCallback(true)
+            addLocalCallback(DatabaseOperation.LOCAL)
 
             val response = httpClient.put<User>(BASE_URL + deleteUser){
                 contentType(ContentType.Application.Json)

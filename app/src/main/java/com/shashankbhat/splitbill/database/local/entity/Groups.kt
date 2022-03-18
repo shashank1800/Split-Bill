@@ -14,7 +14,5 @@ data class Groups(
     @ColumnInfo(name = "date_created")
     var dateCreated: Long = System.currentTimeMillis(),
     @ColumnInfo(name = "unique_id")
-    var uniqueId: Int? = null,
-    @ColumnInfo(name = "is_uploaded")
-    var isUploaded: Boolean? = null
+    var uniqueId: Int? = null
 )

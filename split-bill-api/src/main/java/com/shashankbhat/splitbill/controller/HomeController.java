@@ -55,7 +55,8 @@ public class HomeController {
 
         final String token =
                 jwtUtility.generateToken(userDetails);
+        LoggedUsersEntity loggedUser =  loggedUsersRepository.findOneByUsername(userDetails.getUsername());
 
-        return  new JwtResponse(token);
+        return  new JwtResponse(token, userDetails.getUsername(), loggedUser.getId());
     }
 }

@@ -1,6 +1,7 @@
 package com.shashankbhat.splitbill.viewmodels
 
 import android.content.SharedPreferences
+import android.os.CountDownTimer
 import androidx.compose.runtime.*
 import androidx.lifecycle.*
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
@@ -27,11 +28,25 @@ class GroupListViewModel @Inject constructor(
         mutableStateOf(Response.isNothing())
 
     var unauthorized = MutableLiveData(false)
+    var isTakingMoreTime = mutableStateOf(false)
 
     fun getAllGroups() {
+        isTakingMoreTime.value = false
+        val timer = object: CountDownTimer(5000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {}
+            override fun onFinish() {
+                isTakingMoreTime.value = true
+            }
+        }
+
         viewModelScope.launch {
+            timer.start()
             groupRepoRemote.getAllGroups(groupsListState)
             withContext(Dispatchers.Main) {
+
+                timer.cancel()
+                isTakingMoreTime.value = false
+
                 if (groupsListState.value.status == Status.Unauthorized)
                     unauthorized.value = true
             }
@@ -42,11 +57,16 @@ class GroupListViewModel @Inject constructor(
 
         GlobalScope.launch {
             groupRepository.getAllGroups(groupsListState)
-            groupRepoRemote.insert(group){added ->
-                if(added)
-                    viewModelScope.launch {
+            groupRepoRemote.insert(group){ type ->
+                when(type.isLocal()){
+                    type.isLocal() -> viewModelScope.launch {
                         groupRepository.getAllGroups(groupsListState)
                     }
+
+                    type.isRemote() -> viewModelScope.launch {
+                        groupRepoRemote.getAllGroups(groupsListState)
+                    }
+                }
             }
         }
     }

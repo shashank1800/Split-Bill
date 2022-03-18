@@ -1,9 +1,11 @@
 package com.shashankbhat.splitbill.ui.bill_shares
 
 import android.text.format.DateUtils.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -26,6 +28,8 @@ import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
 import com.shashankbhat.splitbill.ui.theme.Typography
 import com.shashankbhat.splitbill.util.Response
+import com.shashankbhat.splitbill.util.extension.badgeLayout
+import com.shashankbhat.splitbill.util.extension.getColor
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
 @ExperimentalMaterialApi
@@ -101,15 +105,29 @@ fun BillCard(
                                 .padding(vertical = 4.dp, horizontal = 8.dp)
                                 .fillMaxWidth()
                         ) {
-                            val (tvName, tvSpent, clShareSpent) = createRefs()
+                            val (bIcon, tvName, tvSpent, clShareSpent) = createRefs()
+
+                            Text(
+                                text = if (billShare.user?.name?.length ?: 0 > 0) billShare.user?.name?.get(0).toString() else "",
+                                modifier = Modifier
+                                    .background((billShare.user?.name ?: "").getColor(), shape = CircleShape)
+                                    .badgeLayout()
+                                    .constrainAs(bIcon) {
+                                        top.linkTo(parent.top)
+                                        start.linkTo(parent.start)
+                                    },
+                                style = Typography.subtitle1,
+                                color = Color.White
+                            )
 
                             Text(
                                 text = billShare.user?.name ?: "",
                                 style = Typography.body1,
                                 modifier = Modifier
+                                    .padding(10.dp, 0.dp)
                                     .constrainAs(tvName) {
                                         top.linkTo(parent.top)
-                                        start.linkTo(parent.start)
+                                        start.linkTo(bIcon.end)
                                         width = Dimension.wrapContent
                                     }
 
@@ -119,14 +137,15 @@ fun BillCard(
                                 Text(
                                     text = "Spent " + billShare.spent.toString(),
                                     style = TextStyle(
-                                        fontSize = 16.sp,
+                                        fontSize = 14.sp,
                                         letterSpacing = 0.4.sp,
-                                        color = Color(0, 170, 91, 255)
+                                        color = Color(0, 129, 69, 255)
                                     ),
                                     modifier = Modifier
+                                        .padding(10.dp, 0.dp)
                                         .constrainAs(tvSpent) {
                                             top.linkTo(tvName.bottom)
-                                            start.linkTo(parent.start)
+                                            start.linkTo(tvName.start)
                                             width = Dimension.wrapContent
                                         }
                                 )

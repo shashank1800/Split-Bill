@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BillShareViewModel @Inject constructor(
-    private val billRepositoryRemote: BillRepositoryRemote,
+    private val billRepositoryRemote: BillRepositoryRemote
 ) : ViewModel() {
 
     var groupId = 0
@@ -33,17 +33,29 @@ class BillShareViewModel @Inject constructor(
 
     fun addBill(bill: Bill, billShareList: List<BillShareModel>) {
         GlobalScope.launch {
-            billRepositoryRemote.addBill(bill, billShareList)
+            billRepositoryRemote.addBill(bill, billShareList){ type ->
+                when(type.isLocal()){
+                    type.isLocal() -> viewModelScope.launch {
+                        billRepositoryRemote.getAllBillOffline(this@BillShareViewModel.groupId, billList)
+                    }
 
-            withContext(Dispatchers.Main) {
-                getAllBill()
+                    type.isRemote() -> viewModelScope.launch {
+                        billRepositoryRemote.getAllBill(this@BillShareViewModel.groupId, billList)
+                    }
+                }
             }
         }
     }
 
     fun deleteBill(billModel: BillModel) {
         GlobalScope.launch {
-            billRepositoryRemote.deleteBill(billModel)
+            billRepositoryRemote.deleteBill(billModel){ type ->
+                when(type.isLocal()){
+                    type.isLocal() -> viewModelScope.launch {
+                        billRepositoryRemote.getAllBillOffline(this@BillShareViewModel.groupId, billList)
+                    }
+                }
+            }
         }
     }
 

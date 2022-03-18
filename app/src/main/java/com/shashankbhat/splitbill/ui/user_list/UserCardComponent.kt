@@ -1,30 +1,33 @@
 package com.shashankbhat.splitbill.ui.user_list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.database.local.entity.User
+import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
 import com.shashankbhat.splitbill.ui.theme.Typography
 import com.shashankbhat.splitbill.util.Status
+import com.shashankbhat.splitbill.util.extension.badgeLayout
+import com.shashankbhat.splitbill.util.extension.getColor
 import com.shashankbhat.splitbill.viewmodels.UserListViewModel
 
 @Composable
 fun UserCard(
-    user: User,
-    viewModel: UserListViewModel
+    user: User? = null,
+    viewModel: UserListViewModel? = null
 ) {
 
     Box(
@@ -41,14 +44,30 @@ fun UserCard(
                     .padding(8.dp)
                     .fillMaxWidth()
             ) {
-                val (tvUserName, btnDeleteUser) = createRefs()
+                val (bIcon, tvUserName, btnDeleteUser) = createRefs()
+
 
                 Text(
-                    text = user.name,
+                    text = if (user?.name?.length ?: 0 > 0) user?.name?.get(0).toString() else "",
                     modifier = Modifier
-                        .constrainAs(tvUserName) {
+                        .background((user?.name ?: "").getColor(), shape = CircleShape)
+                        .badgeLayout()
+                        .constrainAs(bIcon) {
                             top.linkTo(parent.top)
                             start.linkTo(parent.start)
+                            bottom.linkTo(parent.bottom)
+                        },
+                    style = Typography.h5,
+                    color = Color.White
+                )
+
+                Text(
+                    text = user?.name ?: "",
+                    modifier = Modifier
+                        .padding(10.dp, 0.dp)
+                        .constrainAs(tvUserName) {
+                            top.linkTo(parent.top)
+                            start.linkTo(bIcon.end)
                             end.linkTo(btnDeleteUser.start)
                             bottom.linkTo(parent.bottom)
                             width = Dimension.fillToConstraints
@@ -56,7 +75,7 @@ fun UserCard(
                     style = Typography.h6,
                 )
 
-                if (viewModel.billList.value.data?.isEmpty() == true && viewModel.userListState.value.status != Status.Nothing)
+                if (viewModel?.billList?.value?.data?.isEmpty() == true && viewModel.userListState.value.status != Status.Nothing)
                     IconButton(
                         onClick = {
                             viewModel.deleteUser(user)
@@ -77,5 +96,14 @@ fun UserCard(
 
             }
         }
+    }
+}
+
+@ExperimentalMaterialApi
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    SplitBillTheme {
+        UserCard(User("Shashank", 1))
     }
 }

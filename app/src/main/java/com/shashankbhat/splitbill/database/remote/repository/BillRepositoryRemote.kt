@@ -19,6 +19,7 @@ import com.shashankbhat.splitbill.ui.ApiConstants.BASE_URL
 import com.shashankbhat.splitbill.ui.ApiConstants.saveBill
 import com.shashankbhat.splitbill.ui.ApiConstants.getAllBill
 import com.shashankbhat.splitbill.ui.ApiConstants.deleteBill
+import com.shashankbhat.splitbill.util.DatabaseOperation
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.getToken
 import io.ktor.client.*
@@ -74,7 +75,7 @@ class BillRepositoryRemote @Inject constructor(
         }
     }
 
-    private suspend fun getAllBillOffline(
+    suspend fun getAllBillOffline(
         groupId: Int,
         billList: MutableState<Response<List<BillModel>>>
     ) {
@@ -122,7 +123,7 @@ class BillRepositoryRemote @Inject constructor(
     }
 
 
-    suspend fun addBill(bill: Bill, billShareList: List<BillShareModel>) {
+    suspend fun addBill(bill: Bill, billShareList: List<BillShareModel>, addLocalCallback: (type: DatabaseOperation) -> Unit) {
         try {
             val billShares = arrayListOf<BillShare>()
 
@@ -135,6 +136,8 @@ class BillRepositoryRemote @Inject constructor(
                     )
                 )
             }
+
+            addLocalCallback(DatabaseOperation.LOCAL)
 
             val token = sharedPreferences.getToken()
 
@@ -151,13 +154,22 @@ class BillRepositoryRemote @Inject constructor(
                 billShareRepository.insert(it)
             }
 
+            addLocalCallback(DatabaseOperation.REMOTE)
+
         } catch (ex: Exception) {
             print("ERROR MESSAGE $ex")
         }
     }
 
 
-    suspend fun deleteBill(billModel: BillModel) {
+    suspend fun deleteBill(billModel: BillModel, databaseCallback: (type: DatabaseOperation) -> Unit) {
+
+        try {
+            deleteBillOffline(billModel)
+            databaseCallback(DatabaseOperation.LOCAL)
+        } catch (ex: Exception) {
+
+        }
 
         val response = httpClient.put<BillModel>(BASE_URL + deleteBill) {
             contentType(ContentType.Application.Json)
@@ -166,14 +178,6 @@ class BillRepositoryRemote @Inject constructor(
         }
 
         Log.i("response", "$response")
-
-        if(response != null)
-            deleteBillOffline(billModel)
-        try {
-
-        } catch (ex: Exception) {
-
-        }
     }
 
     private suspend fun deleteBillOffline(billModel: BillModel) {

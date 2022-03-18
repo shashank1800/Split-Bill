@@ -99,7 +99,7 @@ class GroupListFragment : Fragment() {
 
                 val (lcGroup, ivNoData, ldProgress) = createRefs()
 
-                if(viewModel.groupsListState.value.status == Status.Loading){
+                if(viewModel.groupsListState.value.status == Status.Loading && viewModel.isTakingMoreTime.value){
                     LinearProgressIndicator(
                         modifier = Modifier
                             .fillMaxWidth()

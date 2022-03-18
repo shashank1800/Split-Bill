@@ -102,9 +102,11 @@ fun GroupCard(
 
                 IconButton(
                     onClick = {
-                        val bundle = Bundle()
-                        bundle.putSerializable("model", group)
-                        navController.navigate(R.id.nav_user_list, bundle)
+                        if(group.group.id ?: -1 > 0){
+                            val bundle = Bundle()
+                            bundle.putSerializable("model", group)
+                            navController.navigate(R.id.nav_user_list, bundle)
+                        }
                     },
                     modifier = Modifier
                         .padding(10.dp)

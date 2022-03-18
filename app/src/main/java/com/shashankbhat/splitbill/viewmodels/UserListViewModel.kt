@@ -39,22 +39,31 @@ class UserListViewModel @Inject constructor(
 
     fun addPeople(user: User) {
         GlobalScope.launch {
-            userRepoRemote.insert(user) { added ->
-                if (added)
-                    viewModelScope.launch {
+            userRepoRemote.insert(user) { type ->
+                when (type.isLocal()) {
+                    type.isLocal() -> viewModelScope.launch {
                         userRepo.getAllUsersByGroupId(user.groupId, userListState)
                     }
+
+                    type.isRemote() -> viewModelScope.launch {
+                        userRepoRemote.getAllUsersByGroupId(user.groupId, userListState)
+                    }
+                }
             }
         }
     }
 
-    fun deleteUser(user: User) {
-        GlobalScope.launch {
-            userRepoRemote.deleteUser(user){ deleted ->
-                if (deleted)
-                    viewModelScope.launch {
-                        userRepo.getAllUsersByGroupId(user.groupId, userListState)
+    fun deleteUser(user: User?) {
+        user?.let {
+            GlobalScope.launch {
+                userRepoRemote.deleteUser(user){ type ->
+
+                    when (type.isLocal()) {
+                        type.isLocal() -> viewModelScope.launch {
+                            userRepo.getAllUsersByGroupId(user.groupId, userListState)
+                        }
                     }
+                }
             }
         }
     }

@@ -108,21 +108,6 @@ class UserListFragment : Fragment() {
                 }
 
 
-//                BottomWarningText(
-//                    modifier = Modifier
-//                        .constrainAs(ivNoData) {
-//                            bottom.linkTo(parent.bottom, margin = 70.dp)
-//                            end.linkTo(parent.end)
-//                        },
-//                    text = if (viewModel.billList.value.data?.isEmpty() == true)
-//                        "Note : You cannot add people after adding bills and shares to the group, So please make sure that you are adding all the people before adding any bill."
-//                    else "You cannot add users after adding bills and shares to group",
-//                    backgroundColor = if (viewModel.billList.value.data?.isEmpty() == true) Color(0xFFA9B5FF) else Color(
-//                        0xFFFF8B9C
-//                    )
-//                )
-
-
                 if (viewModel.userListState.value.data?.isEmpty() == true
                     && viewModel.userListState.value.status == Status.Success)
                     Box(modifier = Modifier
