@@ -78,4 +78,20 @@ class UserListViewModel @Inject constructor(
 
     }
 
+    fun linkPeople(user: User?, uniqueId: String?) {
+        GlobalScope.launch {
+            userRepoRemote.linkUser(user?.id, uniqueId) { type ->
+                when (type.isLocal()) {
+                    type.isLocal() -> viewModelScope.launch {
+                        userRepo.getAllUsersByGroupId(user?.groupId ?: -1, userListState)
+                    }
+
+                    type.isRemote() -> viewModelScope.launch {
+                        userRepoRemote.getAllUsersByGroupId(user?.groupId ?: -1, userListState)
+                    }
+                }
+            }
+        }
+    }
+
 }

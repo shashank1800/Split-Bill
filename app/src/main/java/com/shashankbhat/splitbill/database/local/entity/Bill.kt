@@ -8,12 +8,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @Entity(
-    tableName = "bill", foreignKeys = [ForeignKey(
-        entity = Groups::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("group_id"),
-        onDelete = ForeignKey.NO_ACTION
-    )]
+    tableName = "bill", foreignKeys = [
+        ForeignKey(
+            entity = Groups::class,
+            parentColumns = arrayOf("id"),
+            childColumns = arrayOf("group_id"),
+            onDelete = ForeignKey.NO_ACTION
+        )
+    ]
 )
 data class Bill(
     @ColumnInfo(name = "group_id")

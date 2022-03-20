@@ -1,10 +1,8 @@
 package com.shashankbhat.splitbill.ui.group_list
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,6 +26,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.util.Status
 import com.shashankbhat.splitbill.util.component.InstructionArrowText
+import com.shashankbhat.splitbill.util.extension.getUniqueId
 import com.shashankbhat.splitbill.util.extension.putToken
 import kotlinx.coroutines.launch
 
@@ -36,6 +35,11 @@ class GroupListFragment : Fragment() {
 
     private val viewModel: GroupListViewModel by viewModels()
     private lateinit var navController: NavController
+
+    override fun onStart() {
+        super.onStart()
+        setHasOptionsMenu(true)
+    }
 
     @ExperimentalMaterialApi
     override fun onCreateView(
@@ -62,6 +66,16 @@ class GroupListFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main_menu, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.findItem(R.id.menu_unique_id).title = "# "+ viewModel.sharedPreferences.getUniqueId()
     }
 
 

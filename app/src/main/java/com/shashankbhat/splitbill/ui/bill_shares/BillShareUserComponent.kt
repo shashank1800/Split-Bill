@@ -77,7 +77,8 @@ fun BillShareUser(
             label = {
                 Text(text = "Spent")
             },
-            isError = isEmptySpentAmount
+            isError = isEmptySpentAmount,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
         OutlinedTextField(

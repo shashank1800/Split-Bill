@@ -9,10 +9,10 @@ interface BillShareDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(billShare: BillShare?)
 
-    @Query("Update bill_share SET id = :billShareIdRemote, bill_id = :billIdRemote WHERE id = :billShareIdLocal AND bill_id = :billIdLocal ")
-    suspend fun update(billIdLocal: Int, billShareIdLocal: Int, billIdRemote: Int, billShareIdRemote: Int)
+    @Query("Update bill_share SET id = :billShareIdRemote, bill_id = :billIdRemote WHERE id = :billShareIdLocal")
+    suspend fun update(billShareIdLocal: Int, billIdRemote: Int, billShareIdRemote: Int)
 
-    @Query("SELECT * FROM bill_share bs WHERE bill_id = :billId")
+    @Query("SELECT * FROM bill_share bs WHERE bill_id = :billId ORDER BY date_created DESC")
     suspend fun getBillShareByBillId(billId: Int): List<BillShare>
 
     @Delete

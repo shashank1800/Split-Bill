@@ -8,6 +8,7 @@ import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.model.bill_shares.BillShareModel
 import com.shashankbhat.splitbill.database.remote.repository.BillRepositoryRemote
 import com.shashankbhat.splitbill.database.local.entity.Bill
+import com.shashankbhat.splitbill.database.remote.repository.UserRepositoryRemote
 import com.shashankbhat.splitbill.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BillShareViewModel @Inject constructor(
-    private val billRepositoryRemote: BillRepositoryRemote
+    private val billRepositoryRemote: BillRepositoryRemote,
+    private val userRepoRemote : UserRepositoryRemote
 ) : ViewModel() {
 
     var groupId = 0
@@ -26,6 +28,7 @@ class BillShareViewModel @Inject constructor(
             this.groupId = groupId
 
         viewModelScope.launch {
+            getAllUsersByGroupId()
             billRepositoryRemote.getAllBill(this@BillShareViewModel.groupId, billList)
         }
     }
@@ -56,6 +59,12 @@ class BillShareViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun getAllUsersByGroupId() {
+        viewModelScope.launch {
+            userRepoRemote.getAllUsersByGroupId(this@BillShareViewModel.groupId, mutableStateOf(Response.isNothing()))
         }
     }
 

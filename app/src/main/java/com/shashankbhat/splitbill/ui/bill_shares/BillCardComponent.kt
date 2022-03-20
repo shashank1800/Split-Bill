@@ -86,7 +86,7 @@ fun BillCard(
                     style = TextStyle(
                         fontFamily = FontFamily.SansSerif,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
+                        fontSize = 16.sp,
                         color = Color(0xFF2196F3)
                     )
                 )
@@ -108,7 +108,7 @@ fun BillCard(
                             val (bIcon, tvName, tvSpent, clShareSpent) = createRefs()
 
                             Text(
-                                text = if (billShare.user?.name?.length ?: 0 > 0) billShare.user?.name?.get(0).toString() else "",
+                                text = if (billShare.user?.name?.length ?: 0 > 0) billShare.user?.name?.get(0).toString().uppercase() else "",
                                 modifier = Modifier
                                     .background((billShare.user?.name ?: "").getColor(), shape = CircleShape)
                                     .badgeLayout()
@@ -160,8 +160,8 @@ fun BillCard(
                                 Text(
                                     text = "Share " + billShare.share.toString(),
                                     style = TextStyle(
-                                        fontSize = 16.sp,
-                                        letterSpacing = 0.4.sp
+                                        fontSize = 14.sp,
+                                        letterSpacing = 0.4.sp,
                                     ),
                                     modifier = Modifier.align(Alignment.End)
                                 )

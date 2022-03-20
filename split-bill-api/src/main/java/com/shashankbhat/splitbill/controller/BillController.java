@@ -13,6 +13,7 @@ import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.repository.UsersRepository;
 import com.shashankbhat.splitbill.util.HelperMethods;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +50,7 @@ public class BillController {
             billShareEntity.setBillId(billEntity.getId());
             billShareEntity.setDateCreated(System.currentTimeMillis());
             billShareEntity.setUniqueId(uniqueId);
+            billShareEntity.setId(null);
             BillShareEntity billShareModel = billShareRepository.save(billShareEntity);
 
             billShareEntity.setId(billShareModel.getId());
@@ -64,7 +66,7 @@ public class BillController {
 
         BillAllDto billAllDto = new BillAllDto();
 
-        List<BillEntity> allBillEntity = billRepository.findAllByGroupId(groupId);
+        List<BillEntity> allBillEntity = billRepository.findAllByGroupId(groupId, Sort.by(Sort.Direction.DESC, "dateCreated"));
         List<UsersEntity> users = usersRepository.findByGroupId(groupId);
 
         Map<Integer, UsersEntity> usersEntityMap = new HashMap<>();
@@ -85,7 +87,7 @@ public class BillController {
                     null
             );
 
-            List<BillShareEntity> billShares = billShareRepository.findAllByBillId(billEntity.getId());
+            List<BillShareEntity> billShares = billShareRepository.findAllByBillId(billEntity.getId(), Sort.by(Sort.Direction.DESC, "dateCreated"));
 
             List<BillShareEntityDto> billSharesEntity = billShares.stream().map(billShareEntity -> new BillShareEntityDto(
                     billShareEntity.getId(),

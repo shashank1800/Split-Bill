@@ -2,8 +2,9 @@ package com.shashankbhat.splitbill.ui
 
 object ApiConstants {
 
-//    const val BASE_URL = "http://192.168.1.11:8080/"
-    const val BASE_URL = "https://split-bill-online.herokuapp.com/"
+    const val BASE_URL = "http://192.168.1.6:8080/"
+//    const val BASE_URL = "http://192.168.95.121:8080/"
+//    const val BASE_URL = "https://split-bill-online.herokuapp.com/"
     const val AUTHORIZATION = "Authorization"
 
     const val saveGroup = "group/saveGroup"
@@ -12,6 +13,7 @@ object ApiConstants {
     const val saveUser = "users/saveUser"
     const val getAllUser = "users/getAllUser"
     const val deleteUser = "users/deleteUser"
+    const val linkUser = "users/linkUser"
 
     const val saveBill = "bill/saveBill"
     const val getAllBill = "bill/getBills"

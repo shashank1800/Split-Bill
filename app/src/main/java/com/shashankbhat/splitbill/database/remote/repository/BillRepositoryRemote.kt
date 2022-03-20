@@ -128,8 +128,10 @@ class BillRepositoryRemote @Inject constructor(
     suspend fun addBill(bill: Bill, billShareList: List<BillShareModel>, addLocalCallback: (type: DatabaseOperation) -> Unit) {
         try {
             val billShares = arrayListOf<BillShare>()
-
             val billIdLocal = sharedPreferences.getLocalId()
+            bill.id = billIdLocal
+            bill.dateCreated = System.currentTimeMillis()
+
             billShareList.forEach {
                 billShares.add(
                     BillShare(
@@ -137,7 +139,8 @@ class BillRepositoryRemote @Inject constructor(
                         billId = billIdLocal,
                         userId = it.userId,
                         share = it.share.value.toFloat(),
-                        spent = it.spent.value.toFloat()
+                        spent = it.spent.value.toFloat(),
+                        dateCreated = System.currentTimeMillis()
                     )
                 )
             }
@@ -159,15 +162,16 @@ class BillRepositoryRemote @Inject constructor(
 
             Log.i("response", "$response")
 
-            billRepository.update(bill.id ?: 0, response.bill?.id ?: 0)
+
+            billRepository.update(billIdLocal, response.bill?.id ?: 0)
             sharedPreferences.releaseOne()
 
             if(response.billShares?.size == billShares.size){
                 billShares.forEachIndexed { index, it ->
 
-                    val billShareIdLocal = bill.id ?: 0
+                    val billShareIdLocal = it.id ?: 0
                     val billShareIdRemote = response.billShares?.get(index)?.id
-                    billShareRepository.update(billIdLocal, billShareIdLocal, response.bill?.id ?: 0, billShareIdRemote ?: 0)
+                    billShareRepository.update(billShareIdLocal, response.bill?.id ?: 0, billShareIdRemote ?: 0)
                     sharedPreferences.releaseOne()
                 }
             }

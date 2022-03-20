@@ -9,12 +9,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Entity(
     tableName = "bill_share", foreignKeys = [
-        ForeignKey(
-            entity = Bill::class,
-            parentColumns = arrayOf("id"),
-            childColumns = arrayOf("bill_id"),
-            onDelete = ForeignKey.NO_ACTION
-        ),
+//        ForeignKey(
+//            entity = Bill::class,
+//            parentColumns = arrayOf("id"),
+//            childColumns = arrayOf("bill_id"),
+//            onDelete = ForeignKey.NO_ACTION
+//        ),
         ForeignKey(
             entity = User::class,
             parentColumns = arrayOf("id"),
