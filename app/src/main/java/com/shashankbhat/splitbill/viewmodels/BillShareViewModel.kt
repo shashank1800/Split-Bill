@@ -1,5 +1,6 @@
 package com.shashankbhat.splitbill.viewmodels
 
+import android.content.SharedPreferences
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class BillShareViewModel @Inject constructor(
     private val billRepositoryRemote: BillRepositoryRemote,
-    private val userRepoRemote : UserRepositoryRemote
+    private val userRepoRemote : UserRepositoryRemote,
+    val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     var groupId = 0

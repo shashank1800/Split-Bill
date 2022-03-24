@@ -13,5 +13,6 @@ public class BillDto{
     String name;
     Float totalAmount;
     Long dateCreated;
+    Integer uniqueId;
     List<BillShareEntityDto> billShares;
 }

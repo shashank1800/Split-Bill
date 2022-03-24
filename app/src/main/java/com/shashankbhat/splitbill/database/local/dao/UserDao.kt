@@ -18,7 +18,7 @@ interface UserDao {
     @Query(
         "SELECT * FROM user " +
                 "WHERE group_id= :groupId " +
-                "ORDER BY date_created"
+                "ORDER BY name COLLATE NOCASE"
     )
     suspend fun getAllUserByGroupId(groupId: Int): List<User>?
 }

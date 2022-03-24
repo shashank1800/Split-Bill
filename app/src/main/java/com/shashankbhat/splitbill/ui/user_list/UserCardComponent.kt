@@ -69,6 +69,7 @@ fun UserCard(
                     text = user?.name ?: "",
                     modifier = Modifier
                         .padding(10.dp, 0.dp)
+                        .fillMaxWidth()
                         .constrainAs(tvUserName) {
                             top.linkTo(parent.top)
                             start.linkTo(bIcon.end)

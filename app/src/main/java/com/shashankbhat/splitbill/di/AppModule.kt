@@ -38,8 +38,8 @@ object AppModule {
                 })
             }
             install(Logging) {
-                logger = Logger.DEFAULT
-                level = LogLevel.HEADERS
+                logger = Logger.SIMPLE
+                level = LogLevel.ALL
             }
         }
     }

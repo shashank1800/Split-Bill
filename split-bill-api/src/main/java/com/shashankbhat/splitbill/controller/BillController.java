@@ -67,7 +67,7 @@ public class BillController {
         BillAllDto billAllDto = new BillAllDto();
 
         List<BillEntity> allBillEntity = billRepository.findAllByGroupId(groupId, Sort.by(Sort.Direction.DESC, "dateCreated"));
-        List<UsersEntity> users = usersRepository.findByGroupId(groupId);
+        List<UsersEntity> users = usersRepository.findByGroupId(groupId, Sort.by(Sort.Direction.ASC, "name"));
 
         Map<Integer, UsersEntity> usersEntityMap = new HashMap<>();
         users.forEach(usersEntity -> {
@@ -84,6 +84,7 @@ public class BillController {
                     billEntity.getName(),
                     billEntity.getTotalAmount(),
                     billEntity.getDateCreated(),
+                    billEntity.getUniqueId(),
                     null
             );
 
@@ -102,6 +103,10 @@ public class BillController {
                 billSharesEntity.get(i).setUserId(billShares.get(i).getUserId());
                 billSharesEntity.get(i).setUser(usersEntityMap.get(billShares.get(i).getUserId()));
             }
+
+            billSharesEntity = billSharesEntity.stream()
+                    .sorted(Comparator.comparing(billShareEntityDto -> billShareEntityDto.getUser().getName().toUpperCase(Locale.ROOT)))
+                    .collect(Collectors.toList());
 
             bill.setBillShares(billSharesEntity);
 

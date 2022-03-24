@@ -10,6 +10,7 @@ import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.repository.UsersRepository;
 import com.shashankbhat.splitbill.util.HelperMethods;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +48,7 @@ class GroupsController {
         List<GroupsEntity> result = groupsRepository.findAllGroupsWithUniqueId(uniqueId);
         List<GroupsEntityDto> response = new ArrayList<>();
         result.forEach(groupsEntity -> {
-            List<UsersEntity> users = usersRepository.findByGroupId(groupsEntity.getId());
+            List<UsersEntity> users = usersRepository.findByGroupId(groupsEntity.getId(), Sort.by(Sort.Direction.ASC, "name"));
             response.add(new GroupsEntityDto(groupsEntity, users));
         });
 

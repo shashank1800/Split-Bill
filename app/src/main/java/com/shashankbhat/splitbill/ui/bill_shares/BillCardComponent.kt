@@ -30,6 +30,7 @@ import com.shashankbhat.splitbill.ui.theme.Typography
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.badgeLayout
 import com.shashankbhat.splitbill.util.extension.getColor
+import com.shashankbhat.splitbill.util.extension.getUniqueId
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
 @ExperimentalMaterialApi
@@ -110,7 +111,10 @@ fun BillCard(
                             Text(
                                 text = if (billShare.user?.name?.length ?: 0 > 0) billShare.user?.name?.get(0).toString().uppercase() else "",
                                 modifier = Modifier
-                                    .background((billShare.user?.name ?: "").getColor(), shape = CircleShape)
+                                    .background(
+                                        (billShare.user?.name ?: "").getColor(),
+                                        shape = CircleShape
+                                    )
                                     .badgeLayout()
                                     .constrainAs(bIcon) {
                                         top.linkTo(parent.top)
@@ -172,17 +176,18 @@ fun BillCard(
                     }
                 }
 
-                OutlinedButton(modifier = Modifier
-                    .constrainAs(btnRemove) {
-                        top.linkTo(lcShare.bottom)
-                        start.linkTo(parent.start)
-                        width = Dimension.wrapContent
-                    },
-                    onClick = {
-                        openRemoveDialog.value = true
-                    }) {
-                    Text(text = "Remove")
-                }
+                if (billModel.uniqueId == viewModel?.sharedPreferences?.getUniqueId())
+                    OutlinedButton(modifier = Modifier
+                        .constrainAs(btnRemove) {
+                            top.linkTo(lcShare.bottom)
+                            start.linkTo(parent.start)
+                            width = Dimension.wrapContent
+                        },
+                        onClick = {
+                            openRemoveDialog.value = true
+                        }) {
+                        Text(text = "Remove")
+                    }
 
                 Text(
                     text = getRelativeDateTimeString(

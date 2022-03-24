@@ -114,10 +114,12 @@ class BillRepositoryRemote @Inject constructor(
                         billShare.spent,
                         billShare.share,
                         billShare.dateCreated,
-                        userToIdMap.get(billShare.userId)
+                        userToIdMap[billShare.userId]
                     )
                 )
             }
+
+            billShares.sortBy { billSharesModel -> billSharesModel.user?.name?.uppercase() }
 
             billModel.billShares = billShares
         }

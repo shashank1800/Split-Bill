@@ -9,5 +9,6 @@ data class BillModel(
     var name: String? = null,
     var totalAmount: Float? = null,
     var dateCreated: Long? = null,
+    var uniqueId:Int? = null,
     var billShares: List<BillSharesModel>? = null
 )

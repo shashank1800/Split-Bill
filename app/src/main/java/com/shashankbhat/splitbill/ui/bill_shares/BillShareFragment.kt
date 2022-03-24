@@ -1,7 +1,6 @@
 package com.shashankbhat.splitbill.ui.bill_shares
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,13 +23,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.shashankbhat.splitbill.R
+import com.shashankbhat.splitbill.base.TitleFragment
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.util.component.InstructionArrowText
 import com.shashankbhat.splitbill.util.alogrithm.BillSplitAlgorithm
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
 @AndroidEntryPoint
-class BillShareFragment : Fragment() {
+class BillShareFragment : TitleFragment() {
 
     private val viewModel: BillShareViewModel by viewModels()
     private lateinit var navController: NavController
@@ -44,8 +44,9 @@ class BillShareFragment : Fragment() {
     ): View {
 
         navController = findNavController()
-
         groupListDto = requireArguments().getSerializable("model") as GroupListDto
+
+        setTitle(groupListDto.group.name)
 
         viewModel.getAllBill(groupListDto.group.id ?: -1)
 

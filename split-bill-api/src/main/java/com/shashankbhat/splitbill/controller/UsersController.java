@@ -7,6 +7,7 @@ import com.shashankbhat.splitbill.entity.UsersEntity;
 import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class UsersController {
 
     @GetMapping(value = "/getAllUser")
     public ResponseEntity<UsersAllDataDto> getAllUser(@RequestParam Integer groupId){
-        List<UsersEntity> users = usersRepository.findByGroupId(groupId);
+        List<UsersEntity> users = usersRepository.findByGroupId(groupId, Sort.by(Sort.Direction.ASC, "name"));
         return new ResponseEntity<>(new UsersAllDataDto(users), HttpStatus.OK);
     }
 
