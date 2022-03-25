@@ -31,3 +31,5 @@ local.properties
 /split-bill-api/build/tmp/jar/MANIFEST.MF
 /split-bill-api/.idea/vcs.xml
 /split-bill-api/.idea/.name
+/split-bill-api/bin
+/split-bill-api/bin/
