@@ -26,5 +26,7 @@ data class Bill(
     @PrimaryKey
     var id: Int? = null,
     @ColumnInfo(name = "date_created")
-    var dateCreated: Long? = null
+    var dateCreated: Long? = null,
+    @ColumnInfo(name = "unique_id")
+    var uniqueId: Int? = null,
 )

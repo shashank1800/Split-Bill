@@ -23,6 +23,7 @@ import com.shashankbhat.splitbill.util.DatabaseOperation
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.getLocalId
 import com.shashankbhat.splitbill.util.extension.getToken
+import com.shashankbhat.splitbill.util.extension.getUniqueId
 import com.shashankbhat.splitbill.util.extension.releaseOne
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -47,6 +48,9 @@ class BillRepositoryRemote @Inject constructor(
                 parameter("groupId", groupId)
             }
 
+            if(billList.value.data?.size ?:0 > 0)
+                checkAnyDataDeleted(billList.value.data, response.data)
+
             billList.value = Response.success(response.data)
 
             response.data.forEach {
@@ -56,7 +60,8 @@ class BillRepositoryRemote @Inject constructor(
                         it.name ?: "",
                         it.totalAmount ?: 0F,
                         it.id,
-                        it.dateCreated
+                        it.dateCreated,
+                        it.uniqueId
                     )
                 )
                 it.billShares?.forEach { billShare ->
@@ -67,6 +72,7 @@ class BillRepositoryRemote @Inject constructor(
                             billShare.spent,
                             billShare.share,
                             billShare.id,
+                            billShare.uniqueId,
                             billShare.dateCreated
                         )
                     )
@@ -74,6 +80,25 @@ class BillRepositoryRemote @Inject constructor(
             }
         } catch (ex: Exception) {
 
+        }
+    }
+
+    private suspend fun checkAnyDataDeleted(
+        localList: List<BillModel>?,
+        remoteList: List<BillModel>?
+    ){
+        val idSet = HashSet<Int>()
+
+        if(localList != null && remoteList != null){
+            remoteList.forEach {
+                it.id?.let { it1 -> idSet.add(it1) }
+            }
+
+            localList.forEach {
+                if(it.id != null || !idSet.contains(it.id)){
+                    deleteBillOffline(it)
+                }
+            }
         }
     }
 
@@ -98,7 +123,7 @@ class BillRepositoryRemote @Inject constructor(
                 bill.name,
                 bill.totalAmount,
                 bill.dateCreated,
-                null
+                bill.uniqueId
             )
             bills.add(billModel)
 
@@ -132,6 +157,7 @@ class BillRepositoryRemote @Inject constructor(
             val billShares = arrayListOf<BillShare>()
             val billIdLocal = sharedPreferences.getLocalId()
             bill.id = billIdLocal
+            bill.uniqueId = sharedPreferences.getUniqueId()
             bill.dateCreated = System.currentTimeMillis()
 
             billShareList.forEach {

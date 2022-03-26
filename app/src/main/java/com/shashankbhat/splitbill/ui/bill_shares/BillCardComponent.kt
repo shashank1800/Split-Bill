@@ -200,7 +200,7 @@ fun BillCard(
                     style = Typography.caption,
                     modifier = Modifier
                         .constrainAs(tvTime) {
-                            bottom.linkTo(btnRemove.bottom)
+                            linkTo(lcShare.bottom, parent.bottom,  0.dp, 0.dp, 1F)
                             end.linkTo(parent.end)
                             width = Dimension.wrapContent
                         }

@@ -11,5 +11,6 @@ data class BillSharesModel(
     var spent: Float?,
     var share: Float?,
     var dateCreated: Long?,
-    var user : User?
+    var user : User?,
+    var uniqueId: Int? = null,
 )

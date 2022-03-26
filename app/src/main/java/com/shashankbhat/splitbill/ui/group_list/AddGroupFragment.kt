@@ -101,7 +101,7 @@ class AddGroupFragment(private val viewModel: GroupListViewModel) : BottomSheetD
                     }
                 },
                 modifier = Modifier.constrainAs(btnCreate) {
-                    top.linkTo(tfGroupName.bottom, margin = 16.dp)
+                    top.linkTo(parent.top)
                     end.linkTo(parent.end)
                 },
             ) {

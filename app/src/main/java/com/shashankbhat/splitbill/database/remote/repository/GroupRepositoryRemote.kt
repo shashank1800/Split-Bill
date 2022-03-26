@@ -59,6 +59,7 @@ class GroupRepositoryRemote @Inject constructor(
             groupsListState.value = Response.success(response.data)
 
             response.data?.forEach { it ->
+                it.group.usersCount = it.userList.size
                 groupRepository.insert(it.group)
             }
         }

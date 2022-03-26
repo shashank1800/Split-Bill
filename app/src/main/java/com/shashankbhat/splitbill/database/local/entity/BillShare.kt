@@ -32,6 +32,8 @@ data class BillShare(
     var share: Float? = null,
     @PrimaryKey
     var id: Int? = null,
+    @ColumnInfo(name = "unique_id")
+    var uniqueId: Int? = null,
     @ColumnInfo(name = "date_created")
     var dateCreated: Long? = null
 )
