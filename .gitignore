@@ -25,8 +25,6 @@ local.properties
 /.idea/inspectionProfiles/Project_Default.xml
 /.idea/codeStyles/Project.xml
 /app/prod/release/
-/app/src/androidTest/
-/app/src/test/
 /split-bill-api/build/tmp/bootJar/MANIFEST.MF
 /split-bill-api/build/tmp/jar/MANIFEST.MF
 /split-bill-api/.idea/vcs.xml
