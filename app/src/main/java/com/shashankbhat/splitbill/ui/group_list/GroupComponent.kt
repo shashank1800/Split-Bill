@@ -75,7 +75,7 @@ fun GroupCard(
                 )
 
                 Text(
-                    text = group.userList.size.toString(),
+                    text = group.group.usersCount.toString(),
                     modifier = Modifier
                         .constrainAs(tvCount) {
                             top.linkTo(tvGroupName.bottom)

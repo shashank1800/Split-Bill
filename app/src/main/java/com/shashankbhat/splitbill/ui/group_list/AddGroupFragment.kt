@@ -96,7 +96,7 @@ class AddGroupFragment(private val viewModel: GroupListViewModel) : BottomSheetD
                     if(groupName.isNullOrEmpty()){
                         isEmpty = true
                     }else{
-                        viewModel.addGroup(Groups(groupName))
+                        viewModel.addGroup(Groups(groupName, usersCount = 0))
                         dialog?.cancel()
                     }
                 },

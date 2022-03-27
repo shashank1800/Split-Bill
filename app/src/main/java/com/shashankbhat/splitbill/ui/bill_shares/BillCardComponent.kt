@@ -184,7 +184,11 @@ fun BillCard(
                             width = Dimension.wrapContent
                         },
                         onClick = {
-                            openRemoveDialog.value = true
+                            if(billModel.id ?:0 > 0){
+                                openRemoveDialog.value = true
+                            }else{
+                                viewModel?.getAllBill()
+                            }
                         }) {
                         Text(text = "Remove")
                     }

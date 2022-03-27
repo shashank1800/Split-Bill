@@ -56,12 +56,14 @@ class GroupRepositoryRemote @Inject constructor(
             val response = httpClient.get<GroupsAllDataDto>(BASE_URL + allGroups){
                 header(AUTHORIZATION, token)
             }
-            groupsListState.value = Response.success(response.data)
-
             response.data?.forEach { it ->
                 it.group.usersCount = it.userList.size
                 groupRepository.insert(it.group)
             }
+
+            groupsListState.value = Response.success(response.data)
+
+
         }
 //        catch (ce: ClientRequestException){
 //            groupsListState.value = Response.unauthorized("Please restart app")
