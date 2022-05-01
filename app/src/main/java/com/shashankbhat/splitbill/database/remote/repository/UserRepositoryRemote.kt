@@ -7,7 +7,7 @@ import com.shashankbhat.splitbill.database.local.repository.UserRepository
 import com.shashankbhat.splitbill.database.remote.entity.UsersAllDataDto
 import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.ui.ApiConstants
-import com.shashankbhat.splitbill.ui.ApiConstants.BASE_URL
+import com.shashankbhat.splitbill.BuildConfig.BASE_URL
 import com.shashankbhat.splitbill.ui.ApiConstants.getAllUser
 import com.shashankbhat.splitbill.ui.ApiConstants.saveUser
 import com.shashankbhat.splitbill.ui.ApiConstants.deleteUser

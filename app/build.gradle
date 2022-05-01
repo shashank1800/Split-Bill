@@ -13,8 +13,8 @@ android {
         applicationId "com.shashankbhat.splitbill"
         minSdk 23
         targetSdk 31
-        versionCode 7
-        versionName "1.6"
+        versionCode 8
+        versionName "1.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -23,9 +23,15 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", "\"https://split-bill-develop.herokuapp.com/\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", "\"https://split-bill-online.herokuapp.com/\""
         }
     }
     compileOptions {
@@ -55,12 +61,10 @@ android {
 
     productFlavors {
         dev {
-            applicationId android.defaultConfig.applicationId
             dimension "mode"
         }
 
         prod {
-            applicationId android.defaultConfig.applicationId
             dimension "mode"
         }
     }
