@@ -3,6 +3,7 @@ package com.shashankbhat.splitbill.database.remote.repository
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.compose.runtime.MutableState
+import com.shashankbhat.splitbill.BuildConfig.BASE_URL
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillSharesModel
 import com.shashankbhat.splitbill.model.bill_shares.BillShareModel
@@ -15,7 +16,6 @@ import com.shashankbhat.splitbill.database.local.entity.Bill
 import com.shashankbhat.splitbill.database.local.entity.BillShare
 import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.ui.ApiConstants
-import com.shashankbhat.splitbill.ui.ApiConstants.BASE_URL
 import com.shashankbhat.splitbill.ui.ApiConstants.saveBill
 import com.shashankbhat.splitbill.ui.ApiConstants.getAllBill
 import com.shashankbhat.splitbill.ui.ApiConstants.deleteBill

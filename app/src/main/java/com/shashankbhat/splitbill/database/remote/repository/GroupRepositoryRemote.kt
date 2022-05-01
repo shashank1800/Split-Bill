@@ -7,7 +7,7 @@ import com.shashankbhat.splitbill.database.local.repository.GroupRepository
 import com.shashankbhat.splitbill.database.remote.entity.GroupsAllDataDto
 import com.shashankbhat.splitbill.database.local.entity.Groups
 import com.shashankbhat.splitbill.ui.ApiConstants.AUTHORIZATION
-import com.shashankbhat.splitbill.ui.ApiConstants.BASE_URL
+import com.shashankbhat.splitbill.BuildConfig.BASE_URL
 import com.shashankbhat.splitbill.ui.ApiConstants.allGroups
 import com.shashankbhat.splitbill.ui.ApiConstants.saveGroup
 import com.shashankbhat.splitbill.util.DatabaseOperation

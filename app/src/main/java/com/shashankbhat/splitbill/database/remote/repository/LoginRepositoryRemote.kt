@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import com.shashankbhat.splitbill.database.remote.entity.LoginDto
 import com.shashankbhat.splitbill.database.remote.entity.TokenDto
-import com.shashankbhat.splitbill.ui.ApiConstants.BASE_URL
+import com.shashankbhat.splitbill.BuildConfig.BASE_URL
 import com.shashankbhat.splitbill.ui.ApiConstants.authentication
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.putToken
