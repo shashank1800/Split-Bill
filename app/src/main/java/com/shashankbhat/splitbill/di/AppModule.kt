@@ -20,11 +20,7 @@ object AppModule {
 
     @Provides
     fun providesDatabase(@ApplicationContext context: Context): SplitBillDatabase {
-        return Room.databaseBuilder(
-            context,
-            SplitBillDatabase::class.java,
-            "split_bill_db"
-        ).fallbackToDestructiveMigration().build()
+        return SplitBillDatabase.invoke(context)
     }
 
     @Provides

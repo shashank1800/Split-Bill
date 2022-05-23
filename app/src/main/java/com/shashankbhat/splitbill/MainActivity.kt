@@ -44,10 +44,9 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             hideKeyboard()
             when (destination.id) {
-                R.id.nav_group_list -> {
-                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                R.id.nav_home_screen -> supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                R.id.nav_splash_screen -> supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
-                }
                 else -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                     supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back)

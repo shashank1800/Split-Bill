@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.ui.group_list
+package com.shashankbhat.splitbill.ui.main_ui.group_list
 
 import android.os.Bundle
 import android.text.format.DateUtils.*
@@ -51,7 +51,7 @@ fun GroupCard(
                 } else {
                     val bundle = Bundle()
                     bundle.putSerializable("model", group)
-                    navController.navigate(R.id.nav_bill_shares, bundle)
+                    navController.navigate(R.id.nav_bill_shares_view_pager, bundle)
                 }
             },
         ) {

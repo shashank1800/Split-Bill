@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.ui.group_list
+package com.shashankbhat.splitbill.ui.main_ui.group_list
 
 import android.os.Bundle
 import android.view.*
@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
@@ -20,9 +19,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.fragment.app.activityViewModels
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.util.Status
 import com.shashankbhat.splitbill.util.component.InstructionArrowText
@@ -33,15 +34,10 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class GroupListFragment : Fragment() {
 
-    private val viewModel: GroupListViewModel by viewModels()
+    private val viewModel: GroupListViewModel by activityViewModels()
     private lateinit var navController: NavController
 
-    override fun onStart() {
-        super.onStart()
-        setHasOptionsMenu(true)
-    }
-
-    @ExperimentalMaterialApi
+    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -79,6 +75,7 @@ class GroupListFragment : Fragment() {
     }
 
 
+    @OptIn(ExperimentalComposeUiApi::class)
     @ExperimentalMaterialApi
     @Composable
     fun GroupList() {
@@ -159,6 +156,11 @@ class GroupListFragment : Fragment() {
             }
 
         }
+    }
+
+    companion object {
+        @JvmStatic
+        fun getInstance() = GroupListFragment()
     }
 
 

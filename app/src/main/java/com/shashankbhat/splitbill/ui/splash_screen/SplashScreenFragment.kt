@@ -31,7 +31,7 @@ class SplashScreenFragment : Fragment() {
     private val viewModel: SplashScreenViewModel by viewModels()
     private lateinit var navController: NavController
 
-    @ExperimentalMaterialApi
+    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,7 +43,7 @@ class SplashScreenFragment : Fragment() {
         if(viewModel.sharedPreferences.getToken().isNullOrEmpty()){
             viewModel.login()
         }else{
-            navController.navigate(R.id.nav_group_list)
+            navController.navigate(R.id.nav_home_screen)
         }
         viewModel.loginState.observe(viewLifecycleOwner) { tokenData ->
             if(tokenData.status == Status.Success){

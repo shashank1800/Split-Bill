@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.ui.group_list
+package com.shashankbhat.splitbill.ui.main_ui.group_list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,9 +21,9 @@ import com.shashankbhat.splitbill.ui.theme.Typography
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
+@ExperimentalComposeUiApi
 class AddGroupFragment(private val viewModel: GroupListViewModel) : BottomSheetDialogFragment() {
 
-    @ExperimentalComposeUiApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

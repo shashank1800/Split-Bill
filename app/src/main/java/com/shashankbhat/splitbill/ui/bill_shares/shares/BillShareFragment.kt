@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.ui.bill_shares
+package com.shashankbhat.splitbill.ui.bill_shares.shares
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
@@ -22,9 +21,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.fragment.app.activityViewModels
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.base.TitleFragment
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
+import com.shashankbhat.splitbill.ui.bill_shares.add_bill.AddBillSharesBottomSheetFragment
+import com.shashankbhat.splitbill.ui.bill_shares.balance.ShowBillSharesBottomSheetFragment
 import com.shashankbhat.splitbill.util.component.InstructionArrowText
 import com.shashankbhat.splitbill.util.alogrithm.BillSplitAlgorithm
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
@@ -32,7 +34,7 @@ import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 @AndroidEntryPoint
 class BillShareFragment : TitleFragment() {
 
-    private val viewModel: BillShareViewModel by viewModels()
+    private val viewModel: BillShareViewModel by activityViewModels()
     private lateinit var navController: NavController
     private lateinit var groupListDto: GroupListDto
 
@@ -67,40 +69,10 @@ class BillShareFragment : TitleFragment() {
         Scaffold(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp, 8.dp, 8.dp, 4.dp),
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = {
-                        val addBillDialog = AddBillSharesBottomSheetFragment(
-                            groupListDto = groupListDto,
-                            viewModel = viewModel
-                        )
-                        addBillDialog.show(parentFragmentManager, addBillDialog.tag)
-                    },
-                    backgroundColor = Color(0xFF3EC590)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_baseline_add_bill),
-                        contentDescription = "Add Bill Shares",
-                        tint = Color.White
-                    )
-                }
-            },
+                .padding(8.dp, 8.dp, 8.dp, 4.dp)
         ) {
 
             Column(modifier = Modifier.fillMaxWidth()) {
-
-                if (viewModel.billList.value.data?.isNotEmpty()==true)
-                    OutlinedButton(onClick = {
-                        viewModel.billList.value.data?.let {
-                            val allCalculation = BillSplitAlgorithm(it)
-                            val billShareDialog = ShowBillSharesBottomSheetFragment(allCalculation)
-                            billShareDialog.show(parentFragmentManager, billShareDialog.tag)
-                        }
-
-                    }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                        Text(text = "Balances")
-                    }
 
                 ConstraintLayout(
                     modifier = Modifier
@@ -136,6 +108,14 @@ class BillShareFragment : TitleFragment() {
 
             }
 
+        }
+    }
+
+    companion object {
+        fun getInstance(bundle: Bundle): BillShareFragment {
+            val fragment = BillShareFragment()
+            fragment.arguments = bundle
+            return fragment
         }
     }
 

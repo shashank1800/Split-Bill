@@ -5,8 +5,13 @@
     app:startDestination="@id/nav_splash_screen">
 
     <fragment
+        android:id="@+id/nav_home_screen"
+        android:name="com.shashankbhat.splitbill.ui.main_ui.HomeScreenViewPager"
+        android:label="Home Screen" />
+
+    <fragment
         android:id="@+id/nav_group_list"
-        android:name="com.shashankbhat.splitbill.ui.group_list.GroupListFragment"
+        android:name="com.shashankbhat.splitbill.ui.main_ui.group_list.GroupListFragment"
         android:label="Group List" />
 
     <fragment
@@ -16,12 +21,17 @@
 
     <fragment
         android:id="@+id/nav_bill_shares"
-        android:name="com.shashankbhat.splitbill.ui.bill_shares.BillShareFragment"
+        android:name="com.shashankbhat.splitbill.ui.bill_shares.shares.BillShareFragment"
         android:label="Bill Shares" />
 
     <fragment
         android:id="@+id/nav_splash_screen"
         android:name="com.shashankbhat.splitbill.ui.splash_screen.SplashScreenFragment"
         android:label="Splash Screen" />
+
+    <fragment
+        android:id="@+id/nav_bill_shares_view_pager"
+        android:name="com.shashankbhat.splitbill.ui.bill_shares.BillShareViewPager"
+        android:label="Bill shares" />
 
 </navigation>

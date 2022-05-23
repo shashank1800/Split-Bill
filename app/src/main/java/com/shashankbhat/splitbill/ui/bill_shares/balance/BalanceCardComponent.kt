@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.ui.bill_shares
+package com.shashankbhat.splitbill.ui.bill_shares.balance
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth

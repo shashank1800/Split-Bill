@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.ui.bill_shares
+package com.shashankbhat.splitbill.ui.bill_shares.add_bill
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,6 +26,7 @@ import com.shashankbhat.splitbill.ui.theme.Typography
 import com.shashankbhat.splitbill.util.component.BottomWarningText
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.shashankbhat.splitbill.ui.bill_shares.shares.BillShareUser
 
 class AddBillSharesBottomSheetFragment(
     private val groupListDto: GroupListDto,

@@ -103,6 +103,10 @@ class BillSplitAlgorithm(private val bills: List<BillModel>) {
     }
 
     fun splitBill() {
+
+        if(bills.isEmpty())
+            return
+
         var totalAmount = 0F
 
         bills.forEach { bill ->

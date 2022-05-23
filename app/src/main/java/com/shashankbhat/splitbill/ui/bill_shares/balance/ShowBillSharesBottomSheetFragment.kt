@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.ui.bill_shares
+package com.shashankbhat.splitbill.ui.bill_shares.balance
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,10 +19,18 @@ import androidx.constraintlayout.compose.Dimension
 import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
 import com.shashankbhat.splitbill.ui.theme.Typography
 import com.shashankbhat.splitbill.util.alogrithm.BillSplitAlgorithm
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.shashankbhat.splitbill.base.TitleFragment
+import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class ShowBillSharesBottomSheetFragment(private val billSplitAlgorithm: BillSplitAlgorithm) :
-    BottomSheetDialogFragment() {
+@AndroidEntryPoint
+class ShowBillSharesBottomSheetFragment : TitleFragment() {
+
+    private val billSplitAlgorithm: MutableState<BillSplitAlgorithm> = mutableStateOf(BillSplitAlgorithm(emptyList()))
+
+    fun setBill(bills: List<BillModel>){
+        billSplitAlgorithm.value = BillSplitAlgorithm(bills)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,14 +56,14 @@ class ShowBillSharesBottomSheetFragment(private val billSplitAlgorithm: BillSpli
                 .padding(8.dp)
         ) {
 
-            if(billSplitAlgorithm.getBalances()?.size != 0){
+            if(billSplitAlgorithm.value.getBalances()?.size != 0){
                 Text(
                     text = "Balance",
                     style = Typography.h6
                 )
 
                 LazyColumn {
-                    items(billSplitAlgorithm.getBalances() ?: emptyList()) { billShare ->
+                    items(billSplitAlgorithm.value.getBalances() ?: emptyList()) { billShare ->
                         BalanceCard(billShare)
                     }
                 }
@@ -71,7 +79,7 @@ class ShowBillSharesBottomSheetFragment(private val billSplitAlgorithm: BillSpli
             SpentAndShareHead()
 
             LazyColumn {
-                items(billSplitAlgorithm.getSharesAndBalance()) { shareAndBalance ->
+                items(billSplitAlgorithm.value.getSharesAndBalance()) { shareAndBalance ->
                     SpentAndShareCard(shareAndBalance)
                 }
             }
@@ -129,6 +137,12 @@ class ShowBillSharesBottomSheetFragment(private val billSplitAlgorithm: BillSpli
                 },
                 style = Typography.h1
             )
+        }
+    }
+
+    companion object {
+        fun getInstance(): ShowBillSharesBottomSheetFragment {
+            return ShowBillSharesBottomSheetFragment()
         }
     }
 

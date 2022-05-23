@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.ui.bill_shares
+package com.shashankbhat.splitbill.ui.bill_shares.shares
 
 import android.text.format.DateUtils.*
 import androidx.compose.foundation.background

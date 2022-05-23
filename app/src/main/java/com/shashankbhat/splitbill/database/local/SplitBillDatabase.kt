@@ -24,7 +24,11 @@ abstract class SplitBillDatabase : RoomDatabase() {
     abstract fun billShareDao(): BillShareDao
 
     companion object {
-        var instance: SplitBillDatabase? = null
+
+        private const val DatabaseName = "articles_db.db"
+
+        @Volatile
+        private var instance: SplitBillDatabase? = null
 
 //        val MIGRATION_1_2 = object : Migration(1, 2) {
 //            override fun migrate(database: SupportSQLiteDatabase) {
@@ -32,18 +36,17 @@ abstract class SplitBillDatabase : RoomDatabase() {
 //            }
 //        }
 
-
-        @Synchronized
-        fun getInstance(context: Context): SplitBillDatabase? {
-            if (instance == null)
-                instance = Room
-                    .databaseBuilder(
-                        context,
-                        SplitBillDatabase::class.java,
-                        "split_bill_db"
-                    ).fallbackToDestructiveMigration()
-                    .build()
-            return instance
+        // Check for DB instance if not null then get or insert or else create new DB Instance
+        operator fun invoke(context: Context) = instance ?: synchronized(this) {
+            instance ?: createDatabase(context)
+                .also { instance = it }
         }
+
+        // create db instance
+        private fun createDatabase(context: Context) = Room.databaseBuilder(
+            context.applicationContext,
+            SplitBillDatabase::class.java,
+            DatabaseName
+        ).fallbackToDestructiveMigration().build()
     }
 }
