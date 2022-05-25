@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "user_profile")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserProfileEntity {
     @Id
     private Integer uniqueId;

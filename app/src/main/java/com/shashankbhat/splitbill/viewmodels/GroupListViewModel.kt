@@ -3,6 +3,7 @@ package com.shashankbhat.splitbill.viewmodels
 import android.content.SharedPreferences
 import android.os.CountDownTimer
 import androidx.compose.runtime.*
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.*
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.database.local.entity.Groups
@@ -70,5 +71,8 @@ class GroupListViewModel @Inject constructor(
             }
         }
     }
+
+    // Profile
+    var isNearbyEnabled = ObservableBoolean(false)
 
 }

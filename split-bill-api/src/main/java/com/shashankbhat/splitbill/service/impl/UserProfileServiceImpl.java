@@ -22,25 +22,29 @@ public class UserProfileServiceImpl implements IUserProfileService {
 
     @Override
     public void saveProfile(Integer uniqueId, String name, String photoUrl, Boolean isNearbyVisible) {
-        userProfileRepository.save(
-                new UserProfileEntity(
-                        uniqueId,
-                        name,
-                        photoUrl,
-                        isNearbyVisible,
-                        System.currentTimeMillis()
-                )
-        );
+        try{
+            userProfileRepository.save(
+                    new UserProfileEntity(
+                            uniqueId,
+                            name,
+                            photoUrl,
+                            isNearbyVisible,
+                            System.currentTimeMillis()
+                    )
+            );
 
-        locationDetailRepository.save(
-                new LocationDetailEntity(
-                        uniqueId,
-                        1000d,
-                        null,
-                        null,
-                        System.currentTimeMillis()
-                )
-        );
+            locationDetailRepository.save(
+                    new LocationDetailEntity(
+                            uniqueId,
+                            1000d,
+                            null,
+                            null,
+                            System.currentTimeMillis()
+                    )
+            );
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
     @Transactional

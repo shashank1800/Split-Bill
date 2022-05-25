@@ -1,24 +1,17 @@
 package com.shashankbhat.splitbill.ui.main_ui
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.shashankbhat.splitbill.R
-import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
-import com.shashankbhat.splitbill.databinding.FragmentBillShareViewPagerBinding
 import com.shashankbhat.splitbill.databinding.FragmentHomeScreenViewPagerBinding
-import com.shashankbhat.splitbill.ui.bill_shares.add_bill.AddBillSharesBottomSheetFragment
-import com.shashankbhat.splitbill.ui.bill_shares.balance.ShowBillSharesBottomSheetFragment
-import com.shashankbhat.splitbill.ui.bill_shares.shares.BillShareFragment
 import com.shashankbhat.splitbill.ui.main_ui.group_list.GroupListFragment
 import com.shashankbhat.splitbill.ui.main_ui.nearby_people.NearbyPeopleFragment
 import com.shashankbhat.splitbill.ui.main_ui.profile.ProfileFragment
 import com.shashankbhat.splitbill.util.ViewPagerAdapter
-import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
+import com.shashankbhat.splitbill.util.extension.getUniqueId
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,6 +24,16 @@ class HomeScreenViewPager : Fragment() {
     override fun onStart() {
         super.onStart()
         setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main_menu, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.findItem(R.id.menu_unique_id).title = "# "+ viewModel.sharedPreferences.getUniqueId()
     }
 
     override fun onCreateView(
