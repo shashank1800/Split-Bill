@@ -21,7 +21,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
     private LocationDetailRepository locationDetailRepository;
 
     @Override
-    public void saveProfile(Integer uniqueId, String name, String photoUrl, Boolean isNearbyVisible) {
+    public void saveProfile(Integer uniqueId, String name, String photoUrl, Boolean isNearbyVisible, Double distanceRange) {
         try{
             userProfileRepository.save(
                     new UserProfileEntity(
@@ -36,7 +36,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
             locationDetailRepository.save(
                     new LocationDetailEntity(
                             uniqueId,
-                            1000d,
+                            distanceRange,
                             null,
                             null,
                             System.currentTimeMillis()

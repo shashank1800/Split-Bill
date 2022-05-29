@@ -4,7 +4,7 @@ import com.shashankbhat.splitbill.dto.user_profile.SetLocationPreferenceDto;
 
 public interface IUserProfileService {
 
-    void saveProfile(Integer uniqueId, String name, String photoUrl, Boolean isNearbyVisible);
+    void saveProfile(Integer uniqueId, String name, String photoUrl, Boolean isNearbyVisible, Double distanceRange);
 
     void locationPreference(Integer uniqueId, SetLocationPreferenceDto locationPreferenceDto);
 

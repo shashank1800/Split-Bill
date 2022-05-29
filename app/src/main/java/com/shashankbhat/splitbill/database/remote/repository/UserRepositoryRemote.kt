@@ -8,10 +8,12 @@ import com.shashankbhat.splitbill.database.remote.entity.UsersAllDataDto
 import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.ui.ApiConstants
 import com.shashankbhat.splitbill.BuildConfig.BASE_URL
+import com.shashankbhat.splitbill.database.remote.entity.SaveProfileDto
 import com.shashankbhat.splitbill.ui.ApiConstants.getAllUser
 import com.shashankbhat.splitbill.ui.ApiConstants.saveUser
 import com.shashankbhat.splitbill.ui.ApiConstants.deleteUser
 import com.shashankbhat.splitbill.ui.ApiConstants.linkUser
+import com.shashankbhat.splitbill.ui.ApiConstants.saveProfile
 import com.shashankbhat.splitbill.util.DatabaseOperation
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.getLocalId
@@ -114,4 +116,20 @@ class UserRepositoryRemote @Inject constructor(
 
         }
     }
+
+    suspend fun saveProfile(name: String? = null, photoUrl: String? = null, isNearbyVisible: Boolean? = null, distanceRange: Double? = null) {
+
+        try {
+            httpClient.post(BASE_URL + saveProfile) {
+                contentType(ContentType.Application.Json)
+                header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
+                body = SaveProfileDto(name, photoUrl, isNearbyVisible, distanceRange)
+            }
+
+        }catch (ex:Exception){
+            print(ex)
+        }
+    }
+
+
 }

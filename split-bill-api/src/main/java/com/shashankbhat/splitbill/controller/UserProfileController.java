@@ -31,7 +31,7 @@ public class UserProfileController {
             Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
 
             userProfileService.saveProfile(uniqueId, userProfileSaveDto.getName(),
-                    userProfileSaveDto.getPhotoUrl(), userProfileSaveDto.getIsNearbyVisible());
+                    userProfileSaveDto.getPhotoUrl(), userProfileSaveDto.getIsNearbyVisible(), userProfileSaveDto.getDistanceRange());
 
             return new ResponseEntity<>(uniqueId, HttpStatus.OK);
         } catch (Exception ex){

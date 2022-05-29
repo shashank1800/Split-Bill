@@ -4,6 +4,6 @@ import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
 import kotlinx.serialization.Serializable
 
 @Serializable
-class BillSharesGetAllDto (
+data class BillSharesGetAllDto (
     var data: List<BillModel>
 )

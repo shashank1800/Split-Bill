@@ -7,6 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.shashankbhat.splitbill.databinding.FragmentProfileBinding
+import com.shashankbhat.splitbill.model.profile.DistanceRangeModel
+import com.shashankbhat.splitbill.util.bottom_sheet.BottomSheetItem
+import com.shashankbhat.splitbill.util.bottom_sheet.SingleItemSelectionBottomSheet
+import com.shashankbhat.splitbill.util.extension.getBottomSheetList
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,6 +32,29 @@ class ProfileFragment : Fragment() {
 
         binding.viewModel = viewModel
 
+        binding.btnNearbyRange.setOnClickListener {
+            val dialog = SingleItemSelectionBottomSheet(viewModel.distanceList.getBottomSheetList(),
+                object : SingleItemSelectionBottomSheet.EventListeners<DistanceRangeModel> {
+                    override fun onClick(position: Int, item: BottomSheetItem<DistanceRangeModel>) {
+                        viewModel.distanceRange.set(item.originalItem)
+                    }
+                }, viewModel.distanceRange)
+            dialog.show(parentFragmentManager, dialog.tag)
+        }
+
+        binding.btnEdit.setOnClickListener {
+            viewModel.isEditEnabled.set(true)
+        }
+
+        binding.btnCancel.setOnClickListener {
+            viewModel.isEditEnabled.set(false)
+        }
+
+        binding.btnSave.setOnClickListener {
+            viewModel.isEditEnabled.set(false)
+
+            viewModel.saveProfile(binding.tvName.text.toString())
+        }
 
     }
 

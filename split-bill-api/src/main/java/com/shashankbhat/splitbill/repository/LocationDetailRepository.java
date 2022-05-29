@@ -13,14 +13,14 @@ import java.util.List;
 public interface LocationDetailRepository extends JpaRepository<LocationDetailEntity, Integer> {
 
     @Modifying
-    @Query(value = "UPDATE location_detail SET latitude = ?2 longitude = ?3 WHERE unique_id = ?1", nativeQuery = true)
+    @Query(value = "UPDATE location_detail SET latitude = ?2, longitude = ?3 WHERE unique_id = ?1", nativeQuery = true)
     void setLatLong(Integer uniqueId, Double latitude, Double longitude);
 
     @Modifying
     @Query(value = "UPDATE location_detail SET distance_range = ?2 WHERE unique_id = ?1", nativeQuery = true)
     void updateLocationRange(Integer uniqueId, Double distanceRange);
 
-    @Query(value = "SELECT up.unique_id, up.name, up.photo_url, ld.latitude, ld.longitude from user_profile up " +
+    @Query(value = "SELECT up.unique_id as uniqueId, up.name, up.photo_url as photoUrl, ld.latitude, ld.longitude from user_profile up " +
             "INNER JOIN location_detail ld on ld.unique_id = up.unique_id " +
             "WHERE ld.latitude < (?1 + ?3) and ld.longitude < (?2 + ?3) " +
             "and ld.latitude > (?1 - ?3) and ld.longitude > (?2 - ?3) " +

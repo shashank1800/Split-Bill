@@ -1,9 +1,8 @@
 package com.shashankbhat.splitbill.controller;
 
-import com.shashankbhat.splitbill.dto.location_detail.GetNearUserDto;
 import com.shashankbhat.splitbill.dto.location_detail.LocationDetailDto;
+import com.shashankbhat.splitbill.dto.location_detail.NearUserListDto;
 import com.shashankbhat.splitbill.dto.user_profile.UpdateLocationRangeDto;
-import com.shashankbhat.splitbill.dto.user_profile.UpdateNameDto;
 import com.shashankbhat.splitbill.exception.KnownException;
 import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.service.ILocationDetailService;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/location_detail")
@@ -44,11 +42,11 @@ public class LocationDetailController {
     }
 
     @GetMapping(value = "/getNearUsers")
-    public ResponseEntity<?> getNearUsers(@RequestBody @Valid LocationDetailDto locationDetailDto){
+    public ResponseEntity<?> getNearUsers(@RequestBody LocationDetailDto locationDetailDto){
         try{
             Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
 
-            List<GetNearUserDto> nearUsers = locationDetailService.getNearUsers(uniqueId,
+            NearUserListDto nearUsers = locationDetailService.getNearUsers(uniqueId,
                     locationDetailDto.getLatitude(), locationDetailDto.getLongitude());
             return new ResponseEntity<>(nearUsers, HttpStatus.OK);
         }catch (KnownException kn){

@@ -1,0 +1,29 @@
+package com.shashankbhat.splitbill.util.recyclergenericadapter
+
+import android.view.View
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
+
+/**
+ * Created by SHASHANK BHAT on 29-May-22.
+ *
+ *
+ */
+
+class RecyclerViewHolder<BIND_TYPE : ViewDataBinding>(var binding: BIND_TYPE) :
+    RecyclerView.ViewHolder(binding.root) {
+    fun <MODEL_TYPE> bindTo(model: MODEL_TYPE, variableId: Int) {
+        binding.setVariable(variableId, model)
+    }
+
+    fun <MODEL_TYPE> bindClickListener(model: MODEL_TYPE, callbacks: ArrayList<CallBackModel<BIND_TYPE, MODEL_TYPE>>?){
+
+        callbacks?.forEach { callback ->
+            binding.root.findViewById<View>(callback.id).setOnClickListener {
+                callback.block(model, adapterPosition, binding)
+            }
+        }
+
+    }
+}
+

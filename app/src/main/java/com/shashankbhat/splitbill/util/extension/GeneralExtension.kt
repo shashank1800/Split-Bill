@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
+import com.shashankbhat.splitbill.util.LatLong
 
 fun Context.findActivity(): AppCompatActivity? = when (this) {
     is AppCompatActivity -> this
@@ -119,3 +120,19 @@ val colors = listOf(
     "#a16ae8",
     "#04d4f0"
 )
+
+
+fun SharedPreferences.setLocation(location : LatLong){
+    val editor = this.edit()
+    editor.putString("location.latitude", location.latitude.toString())
+    editor.putString("location.longitude", location.longitude.toString())
+    editor.apply()
+}
+
+fun SharedPreferences.getLocation(): LatLong {
+    val latitude = this.getString("location.latitude", "0.0")?.toDouble()
+    val longitude = this.getString("location.longitude", "0.0")?.toDouble()
+    return LatLong(latitude ?: 0.0, longitude ?: 0.0)
+}
+
+fun Double.format(digits: Int) = "%.${digits}f".format(this)

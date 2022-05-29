@@ -24,6 +24,7 @@ object ApiConstants {
     const val updateName = "user_profile/updateName"
 
     const val updateLocationRange = "location_detail/updateLocationRange"
+    const val getNearUsers = "location_detail/getNearUsers"
 
     const val authentication = "authenticate"
 }

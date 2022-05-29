@@ -15,4 +15,6 @@ public class UserProfileSaveDto {
     private String photoUrl;
     @NotNull(message = ErrorMessage.IS_NEAR_VISIBLE_CANNOT_BE_EMPTY)
     private Boolean isNearbyVisible;
+    @NotNull(message = ErrorMessage.DISTANCE_RANGE_CANNOT_BE_EMPTY)
+    private Double distanceRange;
 }
