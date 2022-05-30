@@ -60,7 +60,7 @@ class NearbyPeopleFragment : Fragment() {
 
         lifecycleScope.launch{
             viewModel.nearUserList.collect {
-                adapter.submitList(it.users)
+                adapter.replaceList(it.users)
             }
         }
 
@@ -68,15 +68,6 @@ class NearbyPeopleFragment : Fragment() {
 
     private fun findNearPeople(){
         myLocation.getLocation(requireContext()){ location ->
-            /*
-            * 0.4 0.4 - 48 km
-            * 0 0.1 - 4.87
-            * 0.1 0.1 - 12.1
-            * */
-//            val locationFrom = LatLong(64.0, 175.0)
-//            val locationTo = LatLong(64.0, 177.5)
-//            Log.i("NearbyPeopleFragment", " ${locationFrom.findDistance(locationTo)}")
-
             viewModel.getNearUser(location)
             myLocation.stopLocationUpdate()
         }

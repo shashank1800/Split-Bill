@@ -47,7 +47,7 @@ class SplashScreenFragment : Fragment() {
         }
         viewModel.loginState.observe(viewLifecycleOwner) { tokenData ->
             if(tokenData.status == Status.Success){
-                navController.navigate(R.id.nav_group_list)
+                navController.navigate(R.id.nav_home_screen)
             }
         }
 

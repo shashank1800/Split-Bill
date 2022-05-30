@@ -16,13 +16,13 @@ class LocationListener {
 
     fun getLocation(context: Context, locationUpdate: (LatLong) -> Unit) {
 
+        if(fusedLocationClient != null)
+            stopLocationUpdate()
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
         locationRequest = LocationRequest.create()
         locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest?.interval = (2 * 5000).toLong()
-
-        if(locationCallback != null)
-            stopLocationUpdate()
 
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
