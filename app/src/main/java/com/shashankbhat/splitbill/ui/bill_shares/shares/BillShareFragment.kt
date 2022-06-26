@@ -38,7 +38,7 @@ class BillShareFragment : TitleFragment() {
     private lateinit var navController: NavController
     private lateinit var groupListDto: GroupListDto
 
-    @ExperimentalMaterialApi
+    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
