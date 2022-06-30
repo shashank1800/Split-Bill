@@ -9,16 +9,16 @@ import androidx.lifecycle.*
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.database.local.entity.Groups
 import com.shashankbhat.splitbill.database.local.repository.GroupRepository
-import com.shashankbhat.splitbill.database.remote.entity.NearUsersList
 import com.shashankbhat.splitbill.database.remote.repository.GroupRepositoryRemote
 import com.shashankbhat.splitbill.database.remote.repository.LocationRepositoryRemote
 import com.shashankbhat.splitbill.database.remote.repository.UserRepositoryRemote
+import com.shashankbhat.splitbill.model.NearUserModel
+import com.shashankbhat.splitbill.model.ProfileIconModel
 import com.shashankbhat.splitbill.model.profile.DistanceRangeModel
 import com.shashankbhat.splitbill.util.LatLong
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.Status
-import com.shashankbhat.splitbill.util.extension.putToken
-import com.shashankbhat.splitbill.util.extension.setLocation
+import com.shashankbhat.splitbill.util.extension.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -68,7 +68,6 @@ class GroupListViewModel @Inject constructor(
     fun addGroup(group: Groups) {
 
         GlobalScope.launch {
-            groupRepository.getAllGroups(groupsListState)
             groupRepoRemote.insert(group){ type ->
                 when(type.isLocal()){
                     type.isLocal() -> viewModelScope.launch {
@@ -83,10 +82,45 @@ class GroupListViewModel @Inject constructor(
         }
     }
 
+    var addGroupResponse = MutableLiveData(Response.isNothing<Int>())
+
+    fun addGroupWithPeople(groupName: String) {
+
+        val peopleList = nearUserList.value
+            .filter { it.isSelected.get() }
+            .map { it.uniqueId }
+            .toList()
+
+        viewModelScope.launch {
+
+            val id = groupRepoRemote.insertWithPeople(groupName, peopleList)
+            withContext(Dispatchers.Main) {
+                if(id != null) {
+                    nearUserList.value
+                        .forEach {
+                            it.isSelected.set(false)
+                        }
+                    groupRepository.getAllGroups(groupsListState)
+
+                }
+
+                addGroupResponse.value = Response.success(id)
+
+            }
+        }
+    }
+
     // Profile
-    var isNearbyEnabled = ObservableBoolean(false)
+    var isNearbyEnabled = ObservableBoolean(sharedPreferences.getIsNearVisible())
     var isEditEnabled = ObservableBoolean(false)
-    var distanceRange = ObservableField<DistanceRangeModel>()
+    var distanceRange = ObservableField(DistanceRangeModel("${sharedPreferences.getDistanceRange().toInt()} KM", sharedPreferences.getDistanceRange()))
+    var fullName = ObservableField(sharedPreferences.getFullName())
+    var profilePhoto = ObservableField<ProfileIconModel>().also { profile ->
+        sharedPreferences.getProfileIcons().forEachIndexed { index, it ->
+            if(it == sharedPreferences.getPhotoUrl())
+                profile.set(ProfileIconModel(index, it))
+        }
+    }
 
     var distanceList = arrayListOf<DistanceRangeModel>().apply {
         add(DistanceRangeModel("1 KM", 1.0))
@@ -95,7 +129,13 @@ class GroupListViewModel @Inject constructor(
         add(DistanceRangeModel("1000 KM", 1000.0))
     }
 
-    var nearUserList = MutableStateFlow(NearUsersList(arrayListOf()))
+    var iconList = arrayListOf<ProfileIconModel>().also { list ->
+        sharedPreferences.getProfileIcons().forEachIndexed { index, it ->
+            list.add(ProfileIconModel(index, it))
+        }
+    }
+
+    var nearUserList = MutableStateFlow(arrayListOf<NearUserModel>())
 
     fun getNearUser(location: LatLong) {
 

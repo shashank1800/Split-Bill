@@ -16,9 +16,7 @@ import com.shashankbhat.splitbill.ui.ApiConstants.linkUser
 import com.shashankbhat.splitbill.ui.ApiConstants.saveProfile
 import com.shashankbhat.splitbill.util.DatabaseOperation
 import com.shashankbhat.splitbill.util.Response
-import com.shashankbhat.splitbill.util.extension.getLocalId
-import com.shashankbhat.splitbill.util.extension.getToken
-import com.shashankbhat.splitbill.util.extension.releaseOne
+import com.shashankbhat.splitbill.util.extension.*
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -120,11 +118,16 @@ class UserRepositoryRemote @Inject constructor(
     suspend fun saveProfile(name: String? = null, photoUrl: String? = null, isNearbyVisible: Boolean? = null, distanceRange: Double? = null) {
 
         try {
-            httpClient.post(BASE_URL + saveProfile) {
+            httpClient.post<Int>(BASE_URL + saveProfile) {
                 contentType(ContentType.Application.Json)
                 header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
                 body = SaveProfileDto(name, photoUrl, isNearbyVisible, distanceRange)
             }
+
+            sharedPreferences.putFullName(name ?:"")
+            sharedPreferences.putPhotoUrl(photoUrl ?:"")
+            sharedPreferences.putIsNearVisible(isNearbyVisible ?: false)
+            sharedPreferences.putDistanceRange(distanceRange ?: 0.0)
 
         }catch (ex:Exception){
             print(ex)

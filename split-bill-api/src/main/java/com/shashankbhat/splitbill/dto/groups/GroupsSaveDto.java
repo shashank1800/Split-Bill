@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -13,4 +14,5 @@ import javax.validation.constraints.NotEmpty;
 public class GroupsSaveDto {
     @NotEmpty(message = "Group name cannot be empty")
     public String name;
+    public List<Integer> peoples;
 }

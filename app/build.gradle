@@ -124,5 +124,5 @@ dependencies {
     implementation 'ru.superjob:kotlin-permissions:1.0.3'
 
     implementation 'com.github.bumptech.glide:glide:4.12.0'
-    implementation 'io.github.shashank1800:com-shahankbhat-recyclergenericadapter:1.1'
+    implementation 'io.github.shashank1800:com-shahankbhat-recyclergenericadapter:1.4'
 }

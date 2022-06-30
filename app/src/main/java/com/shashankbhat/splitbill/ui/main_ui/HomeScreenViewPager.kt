@@ -58,15 +58,14 @@ class HomeScreenViewPager : Fragment() {
 
         binding.vpBillShares.adapter = ViewPagerAdapter(requireActivity(), adapterFragments)
 
-//        binding.fab.setOnClickListener {
-//            showAddBillBottomSheet()
-//        }
-
         binding.vpBillShares.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 when(position){
-                    0 -> binding.bottomNavigation.selectedItemId = R.id.menu_groups
+                    0 ->{
+                        binding.bottomNavigation.selectedItemId = R.id.menu_groups
+                        viewModel.getAllGroups()
+                    }
                     2 -> binding.bottomNavigation.selectedItemId = R.id.menu_profile
                     else -> {
                         binding.bottomNavigation.selectedItemId = R.id.menu_people
@@ -77,7 +76,11 @@ class HomeScreenViewPager : Fragment() {
 
         binding.bottomNavigation.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.menu_groups -> binding.vpBillShares.setCurrentItem(0, true)
+                R.id.menu_groups -> {
+                    binding.vpBillShares.setCurrentItem(0, true)
+
+                    viewModel.getAllGroups()
+                }
                 R.id.menu_people -> binding.vpBillShares.setCurrentItem(1, true)
                 R.id.menu_profile -> binding.vpBillShares.setCurrentItem(2, true)
             }
@@ -85,13 +88,5 @@ class HomeScreenViewPager : Fragment() {
         }
 
     }
-
-//    private fun showAddBillBottomSheet(){
-//        val addBillDialog = AddBillSharesBottomSheetFragment(
-//            groupListDto = groupListDto,
-//            viewModel = viewModel
-//        )
-//        addBillDialog.show(parentFragmentManager, addBillDialog.tag)
-//    }
 
 }

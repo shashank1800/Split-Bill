@@ -70,9 +70,9 @@
 
     <!-- Card View Style -->
     <style name="Common.CardViewStyle" parent="Widget.MaterialComponents.CardView">
-        <item name="android:layout_marginStart" tools:ignore="NewApi">16dp</item>
+        <item name="android:layout_marginStart" tools:ignore="NewApi">4dp</item>
         <item name="android:layout_marginTop">6dp</item>
-        <item name="android:layout_marginEnd" tools:ignore="NewApi">16dp</item>
+        <item name="android:layout_marginEnd" tools:ignore="NewApi">4dp</item>
         <item name="android:layout_marginBottom">6dp</item>
         <item name="contentPadding">8dp</item>
 

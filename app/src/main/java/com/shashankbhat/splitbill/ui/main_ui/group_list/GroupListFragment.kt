@@ -25,11 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import com.shashankbhat.splitbill.R
+import com.shashankbhat.splitbill.database.local.entity.Groups
 import com.shashankbhat.splitbill.util.Status
 import com.shashankbhat.splitbill.util.component.InstructionArrowText
-import com.shashankbhat.splitbill.util.extension.getUniqueId
 import com.shashankbhat.splitbill.util.extension.putToken
-import kotlinx.coroutines.launch
+//import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class GroupListFragment : Fragment() {
@@ -80,7 +80,9 @@ class GroupListFragment : Fragment() {
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        val addGroupDialog = AddGroupFragment(viewModel)
+                        val addGroupDialog = AddGroupFragment{
+                            viewModel.addGroup(Groups(it, usersCount = 0))
+                        }
                         addGroupDialog.show(parentFragmentManager, addGroupDialog.tag)
                     },
                     backgroundColor = Color(0xFF3EC590)
@@ -135,14 +137,14 @@ class GroupListFragment : Fragment() {
                         text = "TAP HERE TO  \n  ADD GROUP"
                     )
 
-                if(viewModel.groupsListState.value.status == Status.Error){
-                    coroutineScope.launch {
-                        scaffoldState.snackbarHostState.showSnackbar(
-                            viewModel.groupsListState.value.message ?: "",
-                            ""
-                        )
-                    }
-                }
+//                if(viewModel.groupsListState.value.status == Status.Error){
+//                    coroutineScope.launch {
+//                        scaffoldState.snackbarHostState.showSnackbar(
+//                            viewModel.groupsListState.value.message ?: "",
+//                            ""
+//                        )
+//                    }
+//                }
             }
 
         }

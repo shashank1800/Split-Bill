@@ -37,7 +37,7 @@ public class LocationDetailServiceImpl implements ILocationDetailService {
         Double distanceRange = locationDetailRepository.getDistanceRange(uniqueId);
         double difference = distanceRange / (4.87 * 10);
 
-        NearUserListDto nearUserListDto = new NearUserListDto(locationDetailRepository.getNearUsers(latitude, longitude, difference));
+        NearUserListDto nearUserListDto = new NearUserListDto(locationDetailRepository.getNearUsers(latitude, longitude, difference, uniqueId));
 
         return nearUserListDto;
 

@@ -5,6 +5,11 @@ data class Response<out T>(
     val data: T? = null,
     val message: String? = null
 ) {
+
+    fun isSuccess(): Boolean {
+        return status == Status.Success
+    }
+
     companion object {
         fun <T> success(data: T?): Response<T> {
             return Response(Status.Success, data, null)

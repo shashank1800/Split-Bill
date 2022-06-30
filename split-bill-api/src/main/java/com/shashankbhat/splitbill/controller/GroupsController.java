@@ -4,10 +4,12 @@ import com.shashankbhat.splitbill.dto.groups.GroupsAllDataDto;
 import com.shashankbhat.splitbill.dto.groups.GroupsEntityDto;
 import com.shashankbhat.splitbill.dto.groups.GroupsSaveDto;
 import com.shashankbhat.splitbill.entity.GroupsEntity;
+import com.shashankbhat.splitbill.entity.UserProfileEntity;
 import com.shashankbhat.splitbill.entity.UsersEntity;
 import com.shashankbhat.splitbill.repository.GroupsRepository;
 import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.repository.UsersRepository;
+import com.shashankbhat.splitbill.service.IUserProfileService;
 import com.shashankbhat.splitbill.util.HelperMethods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -31,12 +33,26 @@ class GroupsController {
     @Autowired
     private LoggedUsersRepository loggedUsersRepository;
 
+    @Autowired
+    private IUserProfileService userProfileService;
+
     @PostMapping(value = "/saveGroup")
     public ResponseEntity<Integer> saveGroup(@RequestBody @Valid GroupsSaveDto group) {
 
         Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
 
         GroupsEntity result = groupsRepository.save(new GroupsEntity(null, group.name, System.currentTimeMillis(), uniqueId));
+
+        if(group.peoples != null && !group.peoples.isEmpty()){
+            group.peoples.forEach(uId ->{
+                UserProfileEntity user = userProfileService.getProfile(uId);
+                usersRepository.save(new UsersEntity(null, result.getId(), user.getName(), System.currentTimeMillis(), user.getUniqueId()));
+            });
+        }
+
+        UserProfileEntity user = userProfileService.getProfile(uniqueId);
+        usersRepository.save(new UsersEntity(null, result.getId(), user.getName(), System.currentTimeMillis(), uniqueId));
+
         return new ResponseEntity<>(result.getId(), HttpStatus.OK);
     }
 

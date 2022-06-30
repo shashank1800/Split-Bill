@@ -3,10 +3,13 @@ package com.shashankbhat.splitbill.util.extension
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.SharedPreferences
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
+import androidx.databinding.ViewDataBinding
+import com.google.android.material.snackbar.Snackbar
 import com.shashankbhat.splitbill.util.LatLong
 
 fun Context.findActivity(): AppCompatActivity? = when (this) {
@@ -136,3 +139,69 @@ fun SharedPreferences.getLocation(): LatLong {
 }
 
 fun Double.format(digits: Int) = "%.${digits}f".format(this)
+
+fun SharedPreferences.putFullName(value : String){
+    val editor = this.edit()
+    editor.putString("full_name", value)
+    editor.apply()
+}
+
+fun SharedPreferences.getFullName(): String = this.getString("full_name", "") ?: ""
+
+fun SharedPreferences.putPhotoUrl(value : String){
+    val editor = this.edit()
+    editor.putString("photo_url", value)
+    editor.apply()
+}
+
+fun SharedPreferences.getPhotoUrl(): String = this.getString("photo_url", "") ?: ""
+
+fun SharedPreferences.putDistanceRange(value : Double){
+    val editor = this.edit()
+    editor.putString("distance_range", value.toString())
+    editor.apply()
+}
+
+fun SharedPreferences.getDistanceRange(): Double = this.getString("distance_range", "0.0")?.toDouble() ?: 0.0
+
+fun SharedPreferences.putIsNearVisible(value : Boolean){
+    val editor = this.edit()
+    editor.putBoolean("is_near_visible", value)
+    editor.apply()
+}
+
+fun SharedPreferences.getIsNearVisible(): Boolean = this.getBoolean("is_near_visible", false)
+
+
+fun SharedPreferences.getProfileIcons(): List<String> = listOf(
+    "#2ab7ca",
+    "#005b96",
+    "#fed766",
+    "#f6abb6",
+    "#03396c",
+    "#b3cde0",
+    "#051e3e",
+    "#251e3e",
+    "#451e3e",
+    "#651e3e",
+    "#851e3e",
+    "#009688",
+    "#35a79c",
+    "#854442",
+    "#7f8e9e",
+    "#343d46",
+    "#4f5b66",
+    "#a16ae8",
+    "#04d4f0"
+)
+
+fun <T : ViewDataBinding> T.showSnackBar(message: String, action: String? = null, duration: Int = Snackbar.LENGTH_SHORT,
+                                         actionListener: View.OnClickListener? = null) {
+    val snackBar = Snackbar.make(this.root, message, duration)
+        .setBackgroundTint(android.graphics.Color.parseColor("#FF3EC590"))
+        .setTextColor(android.graphics.Color.WHITE)
+    if (action != null && actionListener!=null) {
+        snackBar.setAction(action, actionListener)
+    }
+    snackBar.show()
+}

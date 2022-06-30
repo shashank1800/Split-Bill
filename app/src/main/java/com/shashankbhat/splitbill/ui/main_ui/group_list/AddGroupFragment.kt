@@ -22,7 +22,7 @@ import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 @ExperimentalComposeUiApi
-class AddGroupFragment(private val viewModel: GroupListViewModel) : BottomSheetDialogFragment() {
+class AddGroupFragment(private val addGroup: (String) ->Unit) : BottomSheetDialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -96,7 +96,7 @@ class AddGroupFragment(private val viewModel: GroupListViewModel) : BottomSheetD
                     if(groupName.isNullOrEmpty()){
                         isEmpty = true
                     }else{
-                        viewModel.addGroup(Groups(groupName, usersCount = 0))
+                        addGroup(groupName)
                         dialog?.cancel()
                     }
                 },

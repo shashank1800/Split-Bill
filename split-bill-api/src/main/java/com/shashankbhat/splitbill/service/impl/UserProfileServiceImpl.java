@@ -66,4 +66,9 @@ public class UserProfileServiceImpl implements IUserProfileService {
         locationDetailRepository.updateLocationRange(uniqueId, distanceRange);
     }
 
+    @Override
+    public UserProfileEntity getProfile(Integer uniqueId) {
+        return userProfileRepository.getById(uniqueId);
+    }
+
 }

@@ -24,8 +24,8 @@ public interface LocationDetailRepository extends JpaRepository<LocationDetailEn
             "INNER JOIN location_detail ld on ld.unique_id = up.unique_id " +
             "WHERE ld.latitude < (?1 + ?3) and ld.longitude < (?2 + ?3) " +
             "and ld.latitude > (?1 - ?3) and ld.longitude > (?2 - ?3) " +
-            "and up.is_nearby_visible = true ", nativeQuery = true)
-    List<GetNearUserDto> getNearUsers(Double latitude, Double longitude, Double difference);
+            "and up.is_nearby_visible = true AND up.unique_id <> ?4 ", nativeQuery = true)
+    List<GetNearUserDto> getNearUsers(Double latitude, Double longitude, Double difference, Integer uniqueId);
 
 
     @Query(value = "SELECT ld.distance_range FROM location_detail ld " +

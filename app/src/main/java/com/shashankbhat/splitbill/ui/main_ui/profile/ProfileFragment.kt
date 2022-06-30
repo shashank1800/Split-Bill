@@ -56,6 +56,12 @@ class ProfileFragment : Fragment() {
             viewModel.saveProfile(binding.tvName.text.toString())
         }
 
+        binding.ivProfilePhoto.setOnClickListener {
+            val dialog = ProfileSelectBottomSheetFragment(viewModel.iconList){
+                viewModel.profilePhoto.set(it)
+            }
+            dialog.show(parentFragmentManager, dialog.tag)
+        }
     }
 
     companion object {

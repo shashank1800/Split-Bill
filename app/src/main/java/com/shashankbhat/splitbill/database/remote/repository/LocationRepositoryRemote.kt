@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.shashankbhat.splitbill.BuildConfig.BASE_URL
 import com.shashankbhat.splitbill.database.remote.entity.LocationDto
 import com.shashankbhat.splitbill.database.remote.entity.NearUsersList
+import com.shashankbhat.splitbill.model.NearUserModel
 import com.shashankbhat.splitbill.ui.ApiConstants
 import com.shashankbhat.splitbill.ui.ApiConstants.getNearUsers
 import com.shashankbhat.splitbill.util.LatLong
@@ -20,7 +21,7 @@ class LocationRepositoryRemote @Inject constructor(
 ){
     suspend fun getNearUser(
         location: LatLong,
-        nearUserList: MutableStateFlow<NearUsersList>
+        nearUserList: MutableStateFlow<ArrayList<NearUserModel>>
     ) {
         try {
             val response = httpClient.get<NearUsersList>(BASE_URL + getNearUsers) {
@@ -29,7 +30,13 @@ class LocationRepositoryRemote @Inject constructor(
                 body = LocationDto(location.latitude, location.longitude)
             }
 
-            nearUserList.emit(response)
+            val listData = arrayListOf<NearUserModel>()
+
+            response.users.forEach {
+                listData.add(NearUserModel(it.uniqueId ?: -1, it.name, it.photoUrl, it.latitude, it.longitude))
+            }
+
+            nearUserList.emit(listData)
         }catch (ex: Exception){
             println(ex)
         }
