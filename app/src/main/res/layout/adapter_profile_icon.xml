@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="model"
+            type="com.shashankbhat.splitbill.model.ProfileIconModel" />
     </data>
 
     <LinearLayout
@@ -29,7 +32,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:adjustViewBounds="true"
-                    android:src="@mipmap/ic_launcher"
+                    bindImageViewByUrl="@{model.url}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

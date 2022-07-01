@@ -37,7 +37,7 @@ class GroupListViewModel @Inject constructor(
 ) : ViewModel() {
 
     var groupsListState: MutableState<Response<List<GroupListDto>>> =
-        mutableStateOf(Response.isNothing())
+        mutableStateOf(Response.nothing())
 
     var unauthorized = MutableLiveData(false)
     var isTakingMoreTime = mutableStateOf(false)
@@ -82,7 +82,7 @@ class GroupListViewModel @Inject constructor(
         }
     }
 
-    var addGroupResponse = MutableLiveData(Response.isNothing<Int>())
+    var addGroupResponse = MutableLiveData(Response.nothing<Int>())
 
     fun addGroupWithPeople(groupName: String) {
 
@@ -145,10 +145,27 @@ class GroupListViewModel @Inject constructor(
         }
     }
 
-    fun saveProfile(name: String) {
+    fun saveProfile() {
 
         viewModelScope.launch {
-            userRepoRemote.saveProfile(name, "https://lh3.googleusercontent.com/ogw/ADea4I6FVPUszdCfkCSoIP6ccUa87r1YFt7TMU3JhuVssA=s32-c-mo", isNearbyEnabled.get(), distanceRange.get()?.distance)
+            userRepoRemote.saveProfile(fullName.get(), profilePhoto.get()?.url, isNearbyEnabled.get(), distanceRange.get()?.distance)
+        }
+    }
+
+    fun getProfile() {
+
+        viewModelScope.launch {
+            val response = userRepoRemote.getProfile()
+
+            withContext(Dispatchers.Main) {
+                fullName.set(sharedPreferences.getFullName())
+                sharedPreferences.getProfileIcons().forEachIndexed { index, it ->
+                    if(it == sharedPreferences.getPhotoUrl())
+                        profilePhoto.set(ProfileIconModel(index, it))
+                }
+                isNearbyEnabled.set(response.data?.isNearbyVisible ?: false)
+                distanceRange.set(DistanceRangeModel("${sharedPreferences.getDistanceRange().toInt()} KM", sharedPreferences.getDistanceRange()))
+            }
         }
     }
 

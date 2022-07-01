@@ -1,6 +1,7 @@
 package com.shashankbhat.splitbill.service.impl;
 
 import com.shashankbhat.splitbill.dto.user_profile.SetLocationPreferenceDto;
+import com.shashankbhat.splitbill.dto.user_profile.UserProfileDataDto;
 import com.shashankbhat.splitbill.entity.LocationDetailEntity;
 import com.shashankbhat.splitbill.entity.UserProfileEntity;
 import com.shashankbhat.splitbill.repository.LocationDetailRepository;
@@ -69,6 +70,22 @@ public class UserProfileServiceImpl implements IUserProfileService {
     @Override
     public UserProfileEntity getProfile(Integer uniqueId) {
         return userProfileRepository.getById(uniqueId);
+    }
+
+
+    @Override
+    public UserProfileDataDto profileData(Integer uniqueId) {
+
+        UserProfileEntity userProfileEntity =  userProfileRepository.getById(uniqueId);
+        LocationDetailEntity locationDetailEntity = locationDetailRepository.getById(uniqueId);
+
+        return new UserProfileDataDto(
+                uniqueId,
+                userProfileEntity.getName(),
+                userProfileEntity.getPhotoUrl(),
+                userProfileEntity.getIsNearbyVisible(),
+                locationDetailEntity.getDistanceRange()
+        );
     }
 
 }

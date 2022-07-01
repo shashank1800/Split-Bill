@@ -24,9 +24,9 @@ class UserListViewModel @Inject constructor(
     private val userRepo: UserRepository,
 ) : ViewModel() {
 
-    var userListState: MutableState<Response<List<User>>> = mutableStateOf(Response.isNothing())
+    var userListState: MutableState<Response<List<User>>> = mutableStateOf(Response.nothing())
     var groupId = 0
-    var billList: MutableState<Response<List<BillModel>>> = mutableStateOf(Response.isNothing())
+    var billList: MutableState<Response<List<BillModel>>> = mutableStateOf(Response.nothing())
 
     fun getAllUsersByGroupId(groupId: Int = 0) {
         if (groupId != 0)

@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.shashankbhat.splitbill.databinding.FragmentProfileBinding
+import com.shashankbhat.splitbill.enums.SnackBarType
 import com.shashankbhat.splitbill.model.profile.DistanceRangeModel
 import com.shashankbhat.splitbill.util.bottom_sheet.BottomSheetItem
 import com.shashankbhat.splitbill.util.bottom_sheet.SingleItemSelectionBottomSheet
 import com.shashankbhat.splitbill.util.extension.getBottomSheetList
+import com.shashankbhat.splitbill.util.extension.showSnackBar
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -51,9 +53,12 @@ class ProfileFragment : Fragment() {
         }
 
         binding.btnSave.setOnClickListener {
-            viewModel.isEditEnabled.set(false)
 
-            viewModel.saveProfile(binding.tvName.text.toString())
+            if(isFieldsValid()){
+                viewModel.isEditEnabled.set(false)
+                viewModel.saveProfile()
+            }
+
         }
 
         binding.ivProfilePhoto.setOnClickListener {
@@ -62,6 +67,28 @@ class ProfileFragment : Fragment() {
             }
             dialog.show(parentFragmentManager, dialog.tag)
         }
+
+        viewModel.getProfile()
+    }
+
+    private fun isFieldsValid(): Boolean{
+
+        if(viewModel.profilePhoto.get() == null || viewModel.profilePhoto.get()?.url.isNullOrEmpty()){
+            binding.showSnackBar("Please select profile icon", snackBarType = SnackBarType.ERROR)
+            return false
+        }
+
+        if(viewModel.fullName.get() == null || viewModel.fullName.get().isNullOrEmpty()){
+            binding.showSnackBar("Please enter full name", snackBarType = SnackBarType.ERROR)
+            return false
+        }
+
+        if(viewModel.isNearbyEnabled.get() && viewModel.distanceRange.get() == null){
+            binding.showSnackBar("Please select distance range", snackBarType = SnackBarType.ERROR)
+            return false
+        }
+
+        return true
     }
 
     companion object {

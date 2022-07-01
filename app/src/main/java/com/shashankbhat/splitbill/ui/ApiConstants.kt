@@ -22,6 +22,7 @@ object ApiConstants {
     const val saveProfile = "user_profile/saveProfile"
     const val locationPreference = "user_profile/locationPreference"
     const val updateName = "user_profile/updateName"
+    const val profileDetail = "user_profile/profileDetail"
 
     const val updateLocationRange = "location_detail/updateLocationRange"
     const val getNearUsers = "location_detail/getNearUsers"

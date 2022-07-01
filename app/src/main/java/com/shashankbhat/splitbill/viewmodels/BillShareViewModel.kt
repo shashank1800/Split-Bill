@@ -23,7 +23,7 @@ class BillShareViewModel @Inject constructor(
 ) : ViewModel() {
 
     var groupId = 0
-    var billList: MutableState<Response<List<BillModel>>> = mutableStateOf(Response.isNothing())
+    var billList: MutableState<Response<List<BillModel>>> = mutableStateOf(Response.nothing())
 
     fun getAllBill(groupId: Int = 0) {
         if (groupId != 0)
@@ -66,7 +66,7 @@ class BillShareViewModel @Inject constructor(
 
     private fun getAllUsersByGroupId() {
         viewModelScope.launch {
-            userRepoRemote.getAllUsersByGroupId(this@BillShareViewModel.groupId, mutableStateOf(Response.isNothing()))
+            userRepoRemote.getAllUsersByGroupId(this@BillShareViewModel.groupId, mutableStateOf(Response.nothing()))
         }
     }
 

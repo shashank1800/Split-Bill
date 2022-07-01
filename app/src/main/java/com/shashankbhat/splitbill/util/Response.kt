@@ -10,6 +10,14 @@ data class Response<out T>(
         return status == Status.Success
     }
 
+    fun isLoading(): Boolean {
+        return status == Status.Loading
+    }
+
+    fun isError(): Boolean {
+        return status == Status.Error
+    }
+
     companion object {
         fun <T> success(data: T?): Response<T> {
             return Response(Status.Success, data, null)
@@ -23,7 +31,7 @@ data class Response<out T>(
             return Response(Status.Loading, data, null)
         }
 
-        fun <T> isNothing(): Response<T> {
+        fun <T> nothing(): Response<T> {
             return Response(Status.Nothing, null, null)
         }
 

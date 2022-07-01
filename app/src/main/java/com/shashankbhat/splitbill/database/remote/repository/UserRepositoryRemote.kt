@@ -13,6 +13,7 @@ import com.shashankbhat.splitbill.ui.ApiConstants.getAllUser
 import com.shashankbhat.splitbill.ui.ApiConstants.saveUser
 import com.shashankbhat.splitbill.ui.ApiConstants.deleteUser
 import com.shashankbhat.splitbill.ui.ApiConstants.linkUser
+import com.shashankbhat.splitbill.ui.ApiConstants.profileDetail
 import com.shashankbhat.splitbill.ui.ApiConstants.saveProfile
 import com.shashankbhat.splitbill.util.DatabaseOperation
 import com.shashankbhat.splitbill.util.Response
@@ -131,6 +132,26 @@ class UserRepositoryRemote @Inject constructor(
 
         }catch (ex:Exception){
             print(ex)
+        }
+    }
+
+    suspend fun getProfile(): Response<SaveProfileDto> {
+
+        try {
+            val result = httpClient.get<SaveProfileDto>(BASE_URL + profileDetail) {
+                contentType(ContentType.Application.Json)
+                header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
+            }
+
+            sharedPreferences.putFullName(result.name ?:"")
+            sharedPreferences.putPhotoUrl(result.photoUrl ?:"")
+            sharedPreferences.putIsNearVisible(result.isNearbyVisible ?: false)
+            sharedPreferences.putDistanceRange(result.distanceRange ?: 0.0)
+
+            return Response.success(result)
+        }catch (ex:Exception){
+            print(ex)
+            return Response.error(ex.message)
         }
     }
 

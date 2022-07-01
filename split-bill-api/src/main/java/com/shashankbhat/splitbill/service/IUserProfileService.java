@@ -1,6 +1,7 @@
 package com.shashankbhat.splitbill.service;
 
 import com.shashankbhat.splitbill.dto.user_profile.SetLocationPreferenceDto;
+import com.shashankbhat.splitbill.dto.user_profile.UserProfileDataDto;
 import com.shashankbhat.splitbill.entity.UserProfileEntity;
 
 public interface IUserProfileService {
@@ -14,4 +15,6 @@ public interface IUserProfileService {
     void updateLocationRange(Integer uniqueId, Double distanceRange);
 
     UserProfileEntity getProfile(Integer uniqueId);
+
+    UserProfileDataDto profileData(Integer uniqueId);
 }

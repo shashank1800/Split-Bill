@@ -39,6 +39,7 @@ class ProfileSelectBottomSheetFragment(
     private inner class ViewHolder(val itemBinding: AdapterProfileIconBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         fun bindTo(position: Int) {
+            itemBinding.model = items[position]
             itemBinding.root.setOnClickListener{
                 onImageSelect(items[position])
                 dismiss()

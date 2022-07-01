@@ -2,7 +2,9 @@ package com.shashankbhat.splitbill.controller;
 
 import com.shashankbhat.splitbill.dto.user_profile.SetLocationPreferenceDto;
 import com.shashankbhat.splitbill.dto.user_profile.UpdateNameDto;
+import com.shashankbhat.splitbill.dto.user_profile.UserProfileDataDto;
 import com.shashankbhat.splitbill.dto.user_profile.UserProfileSaveDto;
+import com.shashankbhat.splitbill.entity.UserProfileEntity;
 import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.service.IUserProfileService;
 import com.shashankbhat.splitbill.util.HelperMethods;
@@ -61,6 +63,20 @@ public class UserProfileController {
             userProfileService.updateName(uniqueId, updateNameDto.getName());
 
             return new ResponseEntity<>(uniqueId, HttpStatus.OK);
+        } catch (Exception ex){
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping(value = "/profileDetail")
+    public ResponseEntity<?> getProfile() {
+
+        try{
+            Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
+
+            UserProfileDataDto profile = userProfileService.profileData(uniqueId);
+
+            return new ResponseEntity<>(profile, HttpStatus.OK);
         } catch (Exception ex){
             return ResponseEntity.internalServerError().build();
         }
