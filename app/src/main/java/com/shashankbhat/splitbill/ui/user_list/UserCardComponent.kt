@@ -1,14 +1,14 @@
 package com.shashankbhat.splitbill.ui.user_list
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -16,6 +16,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
@@ -48,22 +51,41 @@ fun UserCard(
                     .padding(8.dp)
                     .fillMaxWidth()
             ) {
-                val (bIcon, tvUserName, btnDeleteUser, btnLinkUser) = createRefs()
+                val (bIcon, profilePhoto, tvUserName, btnDeleteUser, btnLinkUser) = createRefs()
 
 
-                Text(
-                    text = if (user?.name?.length ?: 0 > 0) user?.name?.get(0).toString().uppercase() else "",
-                    modifier = Modifier
-                        .background((user?.name ?: "").getColor(), shape = CircleShape)
-                        .badgeLayout()
-                        .constrainAs(bIcon) {
-                            top.linkTo(parent.top)
-                            start.linkTo(parent.start)
-                            bottom.linkTo(parent.bottom)
-                        },
-                    style = Typography.h5,
-                    color = Color.White
-                )
+                if(user?.photoUrl.isNullOrEmpty())
+                    Text(
+                        text = if (user?.name?.length ?: 0 > 0) user?.name?.get(0).toString().uppercase() else "",
+                        modifier = Modifier
+                            .background((user?.name ?: "").getColor(), shape = CircleShape)
+                            .badgeLayout()
+                            .constrainAs(bIcon) {
+                                top.linkTo(parent.top)
+                                start.linkTo(parent.start)
+                                bottom.linkTo(parent.bottom)
+                            },
+                        style = Typography.h5,
+                        color = Color.White
+                    )
+
+                else
+                    AsyncImage(
+                        model = user?.photoUrl,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(40.dp)
+                            .height(40.dp)
+                            .clip(CircleShape)
+                            .background((user?.name ?: "").getColor(), shape = CircleShape)
+                            .constrainAs(profilePhoto) {
+                                top.linkTo(parent.top)
+                                start.linkTo(parent.start)
+                                bottom.linkTo(parent.bottom)
+                            },
+                    )
+
+                val endBarrier = createEndBarrier(bIcon, profilePhoto)
 
                 Text(
                     text = user?.name ?: "",
@@ -72,7 +94,7 @@ fun UserCard(
                         .fillMaxWidth()
                         .constrainAs(tvUserName) {
                             top.linkTo(parent.top)
-                            start.linkTo(bIcon.end)
+                            start.linkTo(endBarrier)
                             end.linkTo(btnDeleteUser.start)
                             bottom.linkTo(parent.bottom)
                             width = Dimension.fillToConstraints

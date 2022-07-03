@@ -88,4 +88,11 @@ public class UserProfileServiceImpl implements IUserProfileService {
         );
     }
 
+    @Transactional
+    @Override
+    public void updateProfilePhoto(Integer uniqueId, String name) {
+        userProfileRepository.updateProfilePhoto(uniqueId, name);
+    }
+
+
 }

@@ -176,13 +176,13 @@ fun SharedPreferences.getIsNearVisible(): Boolean = this.getBoolean("is_near_vis
 
 fun SharedPreferences.getProfileIcons(): List<String> = listOf(
     "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/5c50a231ad7531502a2473e57e667260-removebg-preview.png?alt=media",
-    "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/7d28da3215341c59795732fade92fb73-removebg-preview.png?alt=media&token=38d6446d-feb5-4e52-9755-db634f2e70bc",
-    "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/663d97041b80b124fe1c69e4f0cc6991-removebg-preview.png?alt=media&token=998fda16-2738-4ec7-aa45-cc8f22d04da1",
-    "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/8845413435a514d89ed2cc27b5aa7439-removebg-preview.png?alt=media&token=3d66c6d4-6eaf-40da-a36e-5b4dc1aa64ff",
-    "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/a455d2aa8277d9938b53d0f2ec114005-removebg-preview(1).png?alt=media&token=e7bff389-7ce0-4c78-9f4b-8171bfed4620",
-    "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/a9a134e819bbc6b36fb4afe1b4695430-removebg-preview.png?alt=media&token=f636f26a-1e5d-4dde-907f-c3283ecd709b",
-    "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/ad698f8eec47d6cf88fbea82f667ed27-removebg-preview.png?alt=media&token=6fb0d149-92dc-4f1e-ae13-85f8af9d45bc",
-    "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/af050e9a16aaea9d984516b62d02eb36-removebg-preview.png?alt=media&token=75f73fb8-ee09-4554-9bba-6a0a7f490bb2",
+    "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/7d28da3215341c59795732fade92fb73-removebg-preview.png?alt=media",
+    "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/663d97041b80b124fe1c69e4f0cc6991-removebg-preview.png?alt=media",
+    "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/8845413435a514d89ed2cc27b5aa7439-removebg-preview.png?alt=media",
+    "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/a455d2aa8277d9938b53d0f2ec114005-removebg-preview(1).png?alt=media",
+    "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/a9a134e819bbc6b36fb4afe1b4695430-removebg-preview.png?alt=media",
+    "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/ad698f8eec47d6cf88fbea82f667ed27-removebg-preview.png?alt=media",
+    "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/af050e9a16aaea9d984516b62d02eb36-removebg-preview.png?alt=media",
 )
 
 fun <T : ViewDataBinding> T.showSnackBar(message: String, action: String? = null, duration: Int = Snackbar.LENGTH_SHORT,

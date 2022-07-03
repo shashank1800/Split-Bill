@@ -20,4 +20,9 @@ public interface UserProfileRepository extends JpaRepository<UserProfileEntity, 
     @Query(value = "SELECT up.unique_id FROM user_profile up " +
             "WHERE unique_id = ?1 AND up.is_nearby_visible = true ", nativeQuery = true)
     Integer checkIsNearbyEnabled(Integer uniqueId);
+
+
+    @Modifying
+    @Query(value = "UPDATE user_profile SET photo_url = ?2 WHERE unique_id = ?1", nativeQuery = true)
+    void updateProfilePhoto(Integer uniqueId, String photoUrl);
 }

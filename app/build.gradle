@@ -125,4 +125,6 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     implementation 'io.github.shashank1800:com-shahankbhat-recyclergenericadapter:1.4'
+
+    implementation "io.coil-kt:coil-compose:2.0.0-rc01"
 }

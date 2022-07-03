@@ -71,7 +71,6 @@ class GroupListFragment : Fragment() {
     fun GroupList() {
 
         val scaffoldState = rememberScaffoldState()
-        val coroutineScope = rememberCoroutineScope()
 
         Scaffold(
             modifier = Modifier
@@ -137,14 +136,6 @@ class GroupListFragment : Fragment() {
                         text = "TAP HERE TO  \n  ADD GROUP"
                     )
 
-//                if(viewModel.groupsListState.value.status == Status.Error){
-//                    coroutineScope.launch {
-//                        scaffoldState.snackbarHostState.showSnackbar(
-//                            viewModel.groupsListState.value.message ?: "",
-//                            ""
-//                        )
-//                    }
-//                }
             }
 
         }

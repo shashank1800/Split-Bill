@@ -15,6 +15,7 @@ import com.shashankbhat.splitbill.ui.ApiConstants.deleteUser
 import com.shashankbhat.splitbill.ui.ApiConstants.linkUser
 import com.shashankbhat.splitbill.ui.ApiConstants.profileDetail
 import com.shashankbhat.splitbill.ui.ApiConstants.saveProfile
+import com.shashankbhat.splitbill.ui.ApiConstants.updateProfilePhoto
 import com.shashankbhat.splitbill.util.DatabaseOperation
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.*
@@ -152,6 +153,23 @@ class UserRepositoryRemote @Inject constructor(
         }catch (ex:Exception){
             print(ex)
             return Response.error(ex.message)
+        }
+    }
+
+    suspend fun updateProfilePhoto(photoUrl: String? = null) {
+
+        try {
+            val id = httpClient.put<Int?>(BASE_URL + updateProfilePhoto) {
+                contentType(ContentType.Application.Json)
+                header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
+                body = photoUrl ?: ""
+            }
+
+            if(id != null){
+                sharedPreferences.putPhotoUrl(photoUrl ?:"")
+            }
+        }catch (ex:Exception){
+            print(ex)
         }
     }
 

@@ -17,4 +17,6 @@ public interface IUserProfileService {
     UserProfileEntity getProfile(Integer uniqueId);
 
     UserProfileDataDto profileData(Integer uniqueId);
+
+    void updateProfilePhoto(Integer uniqueId, String name);
 }

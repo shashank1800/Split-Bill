@@ -10,7 +10,9 @@ import com.shashankbhat.splitbill.databinding.FragmentHomeScreenViewPagerBinding
 import com.shashankbhat.splitbill.ui.main_ui.group_list.GroupListFragment
 import com.shashankbhat.splitbill.ui.main_ui.nearby_people.NearbyPeopleFragment
 import com.shashankbhat.splitbill.ui.main_ui.profile.ProfileFragment
+import com.shashankbhat.splitbill.ui.main_ui.profile.ProfileWithDataFragment
 import com.shashankbhat.splitbill.util.ViewPagerAdapter
+import com.shashankbhat.splitbill.util.extension.getFullName
 import com.shashankbhat.splitbill.util.extension.getUniqueId
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,13 +52,20 @@ class HomeScreenViewPager : Fragment() {
         val groupsFragment = GroupListFragment.getInstance()
         val peopleFragment = NearbyPeopleFragment.getInstance()
         val profileFragment = ProfileFragment.getInstance()
+        val profileWithDataFragment = ProfileWithDataFragment.getInstance()
 
         val adapterFragments = arrayListOf<Fragment>()
         adapterFragments.add(groupsFragment)
         adapterFragments.add(peopleFragment)
-        adapterFragments.add(profileFragment)
 
-        binding.vpBillShares.adapter = ViewPagerAdapter(requireActivity(), adapterFragments)
+        if(viewModel.sharedPreferences.getFullName().isEmpty())
+            adapterFragments.add(profileFragment)
+        else
+            adapterFragments.add(profileWithDataFragment)
+
+
+        val adapter = ViewPagerAdapter(requireActivity(), adapterFragments)
+        binding.vpBillShares.adapter = adapter
 
         binding.vpBillShares.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {

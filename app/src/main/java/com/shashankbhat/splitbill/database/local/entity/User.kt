@@ -24,6 +24,9 @@ data class User(
     @PrimaryKey(autoGenerate = false)
     var id: Int? = null,
 
+    @ColumnInfo(name = "photo_url")
+    var photoUrl: String? = null,
+
     @ColumnInfo(name = "date_created")
     var dateCreated: Long? = System.currentTimeMillis(),
 

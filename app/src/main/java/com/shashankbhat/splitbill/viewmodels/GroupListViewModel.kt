@@ -170,5 +170,12 @@ class GroupListViewModel @Inject constructor(
     }
 
 
+    fun updateProfilePhoto() {
+
+        viewModelScope.launch {
+            userRepoRemote.updateProfilePhoto(profilePhoto.get()?.url)
+        }
+    }
+
 
 }

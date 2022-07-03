@@ -83,5 +83,18 @@ public class UserProfileController {
     }
 
 
+    @PutMapping(value = "/updateProfilePhoto")
+    public ResponseEntity<?> updateProfilePhoto(@RequestBody String photoUrl) {
+
+        try{
+            Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
+            userProfileService.updateProfilePhoto(uniqueId, photoUrl);
+
+            return new ResponseEntity<>(uniqueId, HttpStatus.OK);
+        } catch (Exception ex){
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
 
 }
