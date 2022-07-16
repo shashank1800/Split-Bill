@@ -7,7 +7,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.databinding.FragmentHomeScreenViewPagerBinding
-import com.shashankbhat.splitbill.ui.main_ui.group_list.GroupListFragment
+import com.shashankbhat.splitbill.ui.main_ui.group_list.GroupList
 import com.shashankbhat.splitbill.ui.main_ui.nearby_people.NearbyPeopleFragment
 import com.shashankbhat.splitbill.ui.main_ui.profile.ProfileFragment
 import com.shashankbhat.splitbill.ui.main_ui.profile.ProfileWithDataFragment
@@ -49,7 +49,7 @@ class HomeScreenViewPager : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val groupsFragment = GroupListFragment.getInstance()
+        val groupsFragment = GroupList.getInstance()
         val peopleFragment = NearbyPeopleFragment.getInstance()
         val profileFragment = ProfileFragment.getInstance()
         val profileWithDataFragment = ProfileWithDataFragment.getInstance()
@@ -75,7 +75,10 @@ class HomeScreenViewPager : Fragment() {
                         binding.bottomNavigation.selectedItemId = R.id.menu_groups
                         viewModel.getAllGroups()
                     }
-                    2 -> binding.bottomNavigation.selectedItemId = R.id.menu_profile
+                    2 -> {
+                        binding.bottomNavigation.selectedItemId = R.id.menu_profile
+                        viewModel.getProfile()
+                    }
                     else -> {
                         binding.bottomNavigation.selectedItemId = R.id.menu_people
                     }
@@ -91,7 +94,10 @@ class HomeScreenViewPager : Fragment() {
                     viewModel.getAllGroups()
                 }
                 R.id.menu_people -> binding.vpBillShares.setCurrentItem(1, true)
-                R.id.menu_profile -> binding.vpBillShares.setCurrentItem(2, true)
+                R.id.menu_profile -> {
+                    viewModel.getProfile()
+                    binding.vpBillShares.setCurrentItem(2, true)
+                }
             }
             return@setOnItemSelectedListener true
         }

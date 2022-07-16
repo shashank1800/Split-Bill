@@ -3,12 +3,14 @@ package com.shashankbhat.splitbill.viewmodels
 import android.content.SharedPreferences
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.model.bill_shares.BillShareModel
 import com.shashankbhat.splitbill.database.remote.repository.BillRepositoryRemote
 import com.shashankbhat.splitbill.database.local.entity.Bill
+import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.database.remote.repository.UserRepositoryRemote
 import com.shashankbhat.splitbill.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -66,7 +68,7 @@ class BillShareViewModel @Inject constructor(
 
     private fun getAllUsersByGroupId() {
         viewModelScope.launch {
-            userRepoRemote.getAllUsersByGroupId(this@BillShareViewModel.groupId, mutableStateOf(Response.nothing()))
+            userRepoRemote.getAllUsersByGroupId(this@BillShareViewModel.groupId, MutableLiveData<Response<List<User>>>(Response.nothing()))
         }
     }
 

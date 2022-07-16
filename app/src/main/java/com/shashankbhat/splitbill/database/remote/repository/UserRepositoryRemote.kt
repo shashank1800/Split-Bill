@@ -2,6 +2,7 @@ package com.shashankbhat.splitbill.database.remote.repository
 
 import android.content.SharedPreferences
 import androidx.compose.runtime.MutableState
+import androidx.lifecycle.MutableLiveData
 import com.shashankbhat.splitbill.database.local.dto.users.UsersLinkDto
 import com.shashankbhat.splitbill.database.local.repository.UserRepository
 import com.shashankbhat.splitbill.database.remote.entity.UsersAllDataDto
@@ -55,7 +56,7 @@ class UserRepositoryRemote @Inject constructor(
 
     suspend fun getAllUsersByGroupId(
         groupId: Int,
-        userListState: MutableState<Response<List<User>>>? = null
+        userListState: MutableLiveData<Response<List<User>>>? = null
     ): List<User>? {
         try {
 

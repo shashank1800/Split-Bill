@@ -25,4 +25,6 @@ public interface UserProfileRepository extends JpaRepository<UserProfileEntity, 
     @Modifying
     @Query(value = "UPDATE user_profile SET photo_url = ?2 WHERE unique_id = ?1", nativeQuery = true)
     void updateProfilePhoto(Integer uniqueId, String photoUrl);
+
+    UserProfileEntity findOneByUniqueId(Integer uniqueId);
 }

@@ -36,8 +36,9 @@ class GroupListViewModel @Inject constructor(
     private val userRepoRemote: UserRepositoryRemote,
 ) : ViewModel() {
 
-    var groupsListState: MutableState<Response<List<GroupListDto>>> =
-        mutableStateOf(Response.nothing())
+    var groupsListState: MutableLiveData<Response<List<GroupListDto>>> =
+        MutableLiveData(Response.nothing())
+    var isGroupListEmpty = ObservableBoolean(false)
 
     var unauthorized = MutableLiveData(false)
     var isTakingMoreTime = mutableStateOf(false)
@@ -59,7 +60,7 @@ class GroupListViewModel @Inject constructor(
                 timer.cancel()
                 isTakingMoreTime.value = false
 
-                if (groupsListState.value.status == Status.Unauthorized)
+                if (groupsListState.value?.status == Status.Unauthorized)
                     unauthorized.value = true
             }
         }

@@ -1,6 +1,6 @@
 package com.shashankbhat.splitbill.database.local.repository
 
-import androidx.compose.runtime.MutableState
+import androidx.lifecycle.MutableLiveData
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.database.local.entity.Groups
 import com.shashankbhat.splitbill.database.local.dao.GroupDao
@@ -16,7 +16,7 @@ class GroupRepository(private val groupDao: GroupDao) {
         groupDao.update(localId, remoteId)
     }
 
-    suspend fun getAllGroups(groupsListState: MutableState<Response<List<GroupListDto>>>) {
+    suspend fun getAllGroups(groupsListState: MutableLiveData<Response<List<GroupListDto>>>) {
         val groups = groupDao.getAllGroups()
         groupsListState.value = Response.success(groups)
     }

@@ -2,6 +2,7 @@ package com.shashankbhat.splitbill.database.remote.repository
 
 import android.content.SharedPreferences
 import androidx.compose.runtime.MutableState
+import androidx.lifecycle.MutableLiveData
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.database.local.repository.GroupRepository
 import com.shashankbhat.splitbill.database.remote.entity.GroupsAllDataDto
@@ -48,11 +49,11 @@ class GroupRepositoryRemote @Inject constructor(
         }
     }
 
-    suspend fun getAllGroups(groupsListState: MutableState<Response<List<GroupListDto>>>) {
+    suspend fun getAllGroups(groupsListState: MutableLiveData<Response<List<GroupListDto>>>) {
 
         try {
             groupRepository.getAllGroups(groupsListState)
-            groupsListState.value = Response.loading(groupsListState.value.data)
+            groupsListState.value = Response.loading(groupsListState.value?.data)
             val token = sharedPreferences.getToken()
             val response = httpClient.get<GroupsAllDataDto>(BASE_URL + allGroups){
                 header(AUTHORIZATION, token)
@@ -70,7 +71,7 @@ class GroupRepositoryRemote @Inject constructor(
 //            groupsListState.value = Response.unauthorized("Please restart app")
 //        }
         catch (ex: Exception){
-            groupsListState.value = Response.error("Something went wrong $ex", groupsListState.value.data)
+            groupsListState.value = Response.error("Something went wrong $ex", groupsListState.value?.data)
         }
     }
 

@@ -2,6 +2,7 @@ package com.shashankbhat.splitbill.repository;
 
 import com.shashankbhat.splitbill.dto.location_detail.GetNearUserDto;
 import com.shashankbhat.splitbill.entity.LocationDetailEntity;
+import com.shashankbhat.splitbill.entity.UserProfileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -31,4 +32,6 @@ public interface LocationDetailRepository extends JpaRepository<LocationDetailEn
     @Query(value = "SELECT ld.distance_range FROM location_detail ld " +
             "WHERE unique_id = ?1", nativeQuery = true)
     Double getDistanceRange(Integer uniqueId);
+
+    LocationDetailEntity findOneByUniqueId(Integer uniqueId);
 }

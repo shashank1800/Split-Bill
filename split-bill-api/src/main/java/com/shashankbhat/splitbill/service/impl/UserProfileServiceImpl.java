@@ -69,15 +69,18 @@ public class UserProfileServiceImpl implements IUserProfileService {
 
     @Override
     public UserProfileEntity getProfile(Integer uniqueId) {
-        return userProfileRepository.getById(uniqueId);
+        return userProfileRepository.findOneByUniqueId(uniqueId);
     }
 
 
     @Override
     public UserProfileDataDto profileData(Integer uniqueId) {
 
-        UserProfileEntity userProfileEntity =  userProfileRepository.getById(uniqueId);
-        LocationDetailEntity locationDetailEntity = locationDetailRepository.getById(uniqueId);
+        UserProfileEntity userProfileEntity =  userProfileRepository.findOneByUniqueId(uniqueId);
+        LocationDetailEntity locationDetailEntity = locationDetailRepository.findOneByUniqueId(uniqueId);
+
+        if(userProfileEntity == null || locationDetailEntity == null)
+            return null;
 
         return new UserProfileDataDto(
                 uniqueId,
