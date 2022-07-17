@@ -83,12 +83,13 @@
 
             <TextView
                 android:id="@+id/tv_time_ago"
+                bindMilliSecondsToAgoTime="@{model.group.dateCreated}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5 minutes ago"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier_head_bottom" />
+                app:layout_constraintTop_toBottomOf="@+id/barrier_head_bottom"
+                app:layout_constraintVertical_bias="1.0" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

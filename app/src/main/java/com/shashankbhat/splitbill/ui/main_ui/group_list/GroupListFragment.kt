@@ -1,159 +1,115 @@
-//package com.shashankbhat.splitbill.ui.main_ui.group_list
-//
-//import android.os.Bundle
-//import android.view.*
-//import androidx.fragment.app.Fragment
-//import androidx.compose.foundation.layout.*
-//import androidx.compose.foundation.lazy.LazyColumn
-//import androidx.compose.foundation.lazy.items
-//import androidx.compose.material.*
-//import androidx.compose.runtime.Composable
-//import androidx.compose.ui.Modifier
-//import androidx.compose.ui.platform.ComposeView
-//import androidx.compose.ui.tooling.preview.Preview
-//import androidx.navigation.NavController
-//import androidx.navigation.fragment.findNavController
-//import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
-//import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
-//import dagger.hilt.android.AndroidEntryPoint
-//import androidx.compose.material.icons.Icons
-//import androidx.compose.material.icons.rounded.Add
-//import androidx.compose.runtime.rememberCoroutineScope
-//import androidx.compose.ui.ExperimentalComposeUiApi
-//import androidx.compose.ui.graphics.Color
-//import androidx.compose.ui.unit.dp
-//import androidx.constraintlayout.compose.ConstraintLayout
-//import androidx.fragment.app.activityViewModels
-//import com.shashankbhat.splitbill.R
-//import com.shashankbhat.splitbill.database.local.entity.Groups
-//import com.shashankbhat.splitbill.util.Status
-//import com.shashankbhat.splitbill.util.component.InstructionArrowText
-//import com.shashankbhat.splitbill.util.extension.putToken
-////import kotlinx.coroutines.launch
-//
-//@AndroidEntryPoint
-//class GroupListFragment : Fragment() {
-//
-//    private val viewModel: GroupListViewModel by activityViewModels()
-//    private lateinit var navController: NavController
-//
-//    @OptIn(ExperimentalMaterialApi::class)
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View {
-//
-//        navController = findNavController()
-//        viewModel.getAllGroups()
-//
-//        viewModel.unauthorized.observe(viewLifecycleOwner) {
-//            if(it == true){
-//                viewModel.sharedPreferences.putToken("")
-//                navController.navigate(R.id.nav_splash_screen)
-//            }
-//
-//        }
-//
-//        return ComposeView(requireContext()).apply {
-//            setContent {
-//                SplitBillTheme {
-//                    GroupList()
-//                }
-//            }
-//        }
-//    }
-//
-//
-//    @OptIn(ExperimentalComposeUiApi::class)
-//    @ExperimentalMaterialApi
-//    @Composable
-//    fun GroupList() {
-//
-//        val scaffoldState = rememberScaffoldState()
-//
-//        Scaffold(
-//            modifier = Modifier
-//                .fillMaxSize(),
-//            scaffoldState = scaffoldState,
-//            floatingActionButton = {
-//                FloatingActionButton(
-//                    onClick = {
-//
-//                    },
-//                    backgroundColor = Color(0xFF3EC590)
-//                ) {
-//                    Icon(
-//                        Icons.Rounded.Add,
-//                        contentDescription = "Add Group",
-//                        tint = Color.White
-//                    )
-//                }
-//            },
-//        ) {
-//            ConstraintLayout(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//            ) {
-//
-//                val (lcGroup, ivNoData, ldProgress) = createRefs()
-//
-//                if(viewModel.groupsListState.value.status == Status.Loading && viewModel.isTakingMoreTime.value){
-//                    LinearProgressIndicator(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .constrainAs(ldProgress) {
-//                                top.linkTo(parent.top)
-//                            }
-//                    )
-//                }
-//
-//
-//                LazyColumn(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .constrainAs(lcGroup) {
-//                            top.linkTo(ldProgress.bottom)
-//                            bottom.linkTo(parent.bottom)
-//                        }
-//                ) {
-//                    items(viewModel.groupsListState.value.data ?: emptyList()) { group ->
-//                        GroupCard(group = group, scaffoldState, navController)
-//                    }
-//                }
-//
-//                if (viewModel.groupsListState.value.data?.isEmpty() == true)
-//                    InstructionArrowText(
-//                        modifier = Modifier
-//                            .padding(8.dp)
-//                            .constrainAs(ivNoData) {
-//                                bottom.linkTo(parent.bottom, margin = 60.dp)
-//                                end.linkTo(parent.end, margin = 90.dp)
-//                            },
-//                        text = "TAP HERE TO  \n  ADD GROUP"
-//                    )
-//
-//            }
-//
-//        }
-//    }
-//
-//    companion object {
-//        @JvmStatic
-//        fun getInstance() = GroupListFragment()
-//    }
-//
-//
-//    @ExperimentalMaterialApi
-//    @Preview(showBackground = true)
-//    @Composable
-//    fun DefaultPreview() {
-//        SplitBillTheme {
-//            GroupList()
-//        }
-//    }
-//
-//}
-//
-//
-//
+package com.shashankbhat.splitbill.ui.main_ui.group_list
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
+import com.shahankbhat.recyclergenericadapter.util.CallBackModel
+import com.shashankbhat.splitbill.BR
+import com.shashankbhat.splitbill.R
+import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
+import com.shashankbhat.splitbill.database.local.entity.Groups
+import com.shashankbhat.splitbill.databinding.AdapterGroupBinding
+import com.shashankbhat.splitbill.databinding.FragmentGroupListBinding
+import com.shashankbhat.splitbill.enums.SnackBarType
+import com.shashankbhat.splitbill.util.extension.putToken
+import com.shashankbhat.splitbill.util.extension.showSnackBar
+import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class GroupListFragment : Fragment() {
+    private lateinit var binding: FragmentGroupListBinding
+    private lateinit var navController: NavController
+    private val viewModel: GroupListViewModel by activityViewModels()
+
+    lateinit var adapter: RecyclerGenericAdapter<AdapterGroupBinding, GroupListDto>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getAllGroups()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentGroupListBinding.inflate(LayoutInflater.from(requireContext()))
+        return binding.root
+    }
+
+    @OptIn(ExperimentalComposeUiApi::class)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.isGroupListEmpty = viewModel.isGroupListEmpty
+        navController = findNavController()
+
+
+        viewModel.unauthorized.observe(viewLifecycleOwner) {
+            if(it == true){
+                viewModel.sharedPreferences.putToken("")
+                navController.navigate(R.id.nav_splash_screen)
+            }
+
+        }
+
+        binding.fab.setOnClickListener {
+
+            val addGroupDialog = AddGroupFragment{
+                viewModel.addGroup(Groups(it, usersCount = 0))
+            }
+            addGroupDialog.show(parentFragmentManager, addGroupDialog.tag)
+
+        }
+
+        adapter = RecyclerGenericAdapter.Builder<AdapterGroupBinding, GroupListDto>(R.layout.adapter_group, BR.model)
+            .setClickCallbacks(arrayListOf<CallBackModel<AdapterGroupBinding, GroupListDto>>().apply {
+                add(CallBackModel(R.id.iv_user_icon){ model, position, binding ->
+                    if((model.group.id ?: -1) > 0){
+                        val bundle = Bundle()
+                        bundle.putSerializable("model", model)
+                        navController.navigate(R.id.nav_user_list, bundle)
+                    }
+                })
+                add(CallBackModel(R.id.cv_root){ model, position, binding ->
+                    if (model.userList.isEmpty()) {
+                        binding.showSnackBar(
+                                "Please add atleast one user to group",
+                                "Okay",
+                            snackBarType = SnackBarType.ERROR
+                        )
+                    } else {
+                        val bundle = Bundle()
+                        bundle.putSerializable("model", model)
+                        navController.navigate(R.id.nav_bill_shares_view_pager, bundle)
+                    }
+                })
+            })
+            .build()
+
+        binding.rvNearbyUsers.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvNearbyUsers.adapter = adapter
+
+        viewModel.groupsListState.observe(viewLifecycleOwner) {
+            if(it.isSuccess()) {
+                adapter.replaceList(ArrayList(it.data ?: emptyList()))
+                viewModel.isGroupListEmpty.set(it.data?.size == 0)
+            }
+        }
+
+
+    }
+
+    companion object {
+        @JvmStatic
+        fun getInstance() = GroupListFragment()
+    }
+}

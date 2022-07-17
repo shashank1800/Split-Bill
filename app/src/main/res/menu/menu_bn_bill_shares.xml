@@ -9,4 +9,8 @@
         android:icon="@drawable/ic_baseline_account_balance_wallet"
         android:title="@string/balances" />
 
+    <item android:id="@+id/menu_statistics"
+        android:icon="@drawable/ic_baseline_account_balance_wallet"
+        android:title="Stats" />
+
 </menu>

@@ -30,9 +30,9 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_profile_photo"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                app:cardCornerRadius="40dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:cardCornerRadius="60dp"
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -46,9 +46,9 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_profile_checked"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                app:cardCornerRadius="40dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:cardCornerRadius="60dp"
                 android:visibility="gone"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="#2196F3"

@@ -24,7 +24,6 @@
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomBar"
-            style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -37,6 +36,10 @@
                 android:id="@+id/bottomNavigation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:itemBackground="@color/primaryColor"
+                app:itemIconTint="@color/bottom_nav_item_color"
+                app:itemTextColor="@color/bottom_nav_item_color"
+                app:itemRippleColor="@color/secondaryColor"
                 app:menu="@menu/menu_bn_bill_shares" />
 
         </com.google.android.material.bottomappbar.BottomAppBar>

@@ -8,8 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
+import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.snackbar.Snackbar
+import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.enums.SnackBarType
 import com.shashankbhat.splitbill.util.LatLong
 
@@ -88,6 +90,17 @@ fun String.getColor(): Color{
     }
 
     return Color(android.graphics.Color.parseColor(colors[sum % colors.size]))
+}
+
+fun String.getColorV2(): Int {
+
+    var sum = 0
+
+    this.forEach { character ->
+        sum += character.code
+    }
+
+    return android.graphics.Color.parseColor(colors[sum % colors.size])
 }
 
 fun Modifier.badgeLayout() =
@@ -191,6 +204,8 @@ fun <T : ViewDataBinding> T.showSnackBar(message: String, action: String? = null
     var color = android.graphics.Color.parseColor("#FF3EC590")
     if(snackBarType == SnackBarType.ERROR)
         color = android.graphics.Color.parseColor("#ef5350")
+    if(snackBarType == SnackBarType.INSTRUCTION)
+        color = ContextCompat.getColor(this.root.context, R.color.primaryColor)
 
     val snackBar = Snackbar.make(this.root, message, duration)
         .setBackgroundTint(color)

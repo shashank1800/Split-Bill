@@ -3,6 +3,7 @@ package com.shashankbhat.splitbill.controller;
 import com.shashankbhat.splitbill.dto.groups.GroupsAllDataDto;
 import com.shashankbhat.splitbill.dto.groups.GroupsEntityDto;
 import com.shashankbhat.splitbill.dto.groups.GroupsSaveDto;
+import com.shashankbhat.splitbill.dto.user.UserDto;
 import com.shashankbhat.splitbill.entity.GroupsEntity;
 import com.shashankbhat.splitbill.entity.UserProfileEntity;
 import com.shashankbhat.splitbill.entity.UsersEntity;
@@ -64,8 +65,18 @@ class GroupsController {
         List<GroupsEntity> result = groupsRepository.findAllGroupsWithUniqueId(uniqueId);
         List<GroupsEntityDto> response = new ArrayList<>();
         result.forEach(groupsEntity -> {
+            List<UserDto> usersList = new ArrayList<>();
             List<UsersEntity> users = usersRepository.findByGroupId(groupsEntity.getId(), Sort.by(Sort.Direction.ASC, "name"));
-            response.add(new GroupsEntityDto(groupsEntity, users));
+
+            users.forEach(usersEntity -> {
+                String profileUrl = "";
+                if(usersEntity.getUniqueId() != null){
+                    profileUrl = userProfileService.getProfile(usersEntity.getUniqueId()).getPhotoUrl();
+                }
+
+                usersList.add(new UserDto(usersEntity.getId(), usersEntity.getGroupId(), usersEntity.getName(), profileUrl, usersEntity.getDateCreated(), usersEntity.getUniqueId()));
+            });
+            response.add(new GroupsEntityDto(groupsEntity, usersList));
         });
 
         return new ResponseEntity<>(new GroupsAllDataDto(response), HttpStatus.OK);

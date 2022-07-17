@@ -4,6 +4,7 @@ import com.shashankbhat.splitbill.dto.bill.BillAllDto;
 import com.shashankbhat.splitbill.dto.bill.BillDto;
 import com.shashankbhat.splitbill.dto.bill.BillSaveDto;
 import com.shashankbhat.splitbill.dto.bill.BillShareEntityDto;
+import com.shashankbhat.splitbill.dto.user.UserDto;
 import com.shashankbhat.splitbill.entity.BillEntity;
 import com.shashankbhat.splitbill.entity.BillShareEntity;
 import com.shashankbhat.splitbill.entity.UsersEntity;
@@ -11,6 +12,7 @@ import com.shashankbhat.splitbill.repository.BillRepository;
 import com.shashankbhat.splitbill.repository.BillShareRepository;
 import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.repository.UsersRepository;
+import com.shashankbhat.splitbill.service.IUserProfileService;
 import com.shashankbhat.splitbill.util.HelperMethods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -35,6 +37,9 @@ public class BillController {
 
     @Autowired
     private LoggedUsersRepository loggedUsersRepository;
+
+    @Autowired
+    private IUserProfileService userProfileService;
 
     @PostMapping(value = "/saveBill")
     public ResponseEntity<BillSaveDto> saveBill(@RequestBody BillSaveDto transaction) {
@@ -69,9 +74,13 @@ public class BillController {
         List<BillEntity> allBillEntity = billRepository.findAllByGroupId(groupId, Sort.by(Sort.Direction.DESC, "dateCreated"));
         List<UsersEntity> users = usersRepository.findByGroupId(groupId, Sort.by(Sort.Direction.ASC, "name"));
 
-        Map<Integer, UsersEntity> usersEntityMap = new HashMap<>();
+        Map<Integer, UserDto> usersEntityMap = new HashMap<>();
         users.forEach(usersEntity -> {
-            usersEntityMap.put(usersEntity.getId(), usersEntity);
+            String profileUrl = "";
+            if(usersEntity.getUniqueId() != null){
+                profileUrl = userProfileService.getProfile(usersEntity.getUniqueId()).getPhotoUrl();
+            }
+            usersEntityMap.put(usersEntity.getId(), new UserDto(usersEntity.getId(), usersEntity.getGroupId(), usersEntity.getName(), profileUrl, usersEntity.getDateCreated(), usersEntity.getUniqueId()));
         });
 
 

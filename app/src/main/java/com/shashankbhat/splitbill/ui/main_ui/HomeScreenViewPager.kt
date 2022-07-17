@@ -7,11 +7,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.databinding.FragmentHomeScreenViewPagerBinding
-import com.shashankbhat.splitbill.ui.main_ui.group_list.GroupList
+import com.shashankbhat.splitbill.ui.main_ui.group_list.GroupListFragment
 import com.shashankbhat.splitbill.ui.main_ui.nearby_people.NearbyPeopleFragment
 import com.shashankbhat.splitbill.ui.main_ui.profile.ProfileFragment
 import com.shashankbhat.splitbill.ui.main_ui.profile.ProfileWithDataFragment
 import com.shashankbhat.splitbill.util.ViewPagerAdapter
+import com.shashankbhat.splitbill.util.extension.findActivity
 import com.shashankbhat.splitbill.util.extension.getFullName
 import com.shashankbhat.splitbill.util.extension.getUniqueId
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
@@ -25,17 +26,12 @@ class HomeScreenViewPager : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        setHasOptionsMenu(true)
+        context?.findActivity()?.supportActionBar?.hide()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.main_menu, menu)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.menu_unique_id).title = "# "+ viewModel.sharedPreferences.getUniqueId()
+    override fun onStop() {
+        super.onStop()
+        context?.findActivity()?.supportActionBar?.show()
     }
 
     override fun onCreateView(
@@ -49,7 +45,9 @@ class HomeScreenViewPager : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val groupsFragment = GroupList.getInstance()
+        binding.tvId.text = "# ${viewModel.sharedPreferences.getUniqueId()}"
+
+        val groupsFragment = GroupListFragment.getInstance()
         val peopleFragment = NearbyPeopleFragment.getInstance()
         val profileFragment = ProfileFragment.getInstance()
         val profileWithDataFragment = ProfileWithDataFragment.getInstance()
@@ -73,7 +71,7 @@ class HomeScreenViewPager : Fragment() {
                 when(position){
                     0 ->{
                         binding.bottomNavigation.selectedItemId = R.id.menu_groups
-                        viewModel.getAllGroups()
+//                        viewModel.getAllGroups()
                     }
                     2 -> {
                         binding.bottomNavigation.selectedItemId = R.id.menu_profile
@@ -91,7 +89,7 @@ class HomeScreenViewPager : Fragment() {
                 R.id.menu_groups -> {
                     binding.vpBillShares.setCurrentItem(0, true)
 
-                    viewModel.getAllGroups()
+//                    viewModel.getAllGroups()
                 }
                 R.id.menu_people -> binding.vpBillShares.setCurrentItem(1, true)
                 R.id.menu_profile -> {
