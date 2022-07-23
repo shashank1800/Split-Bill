@@ -16,6 +16,7 @@ import com.shahankbhat.recyclergenericadapter.util.DataBinds
 import com.shahankbhat.recyclergenericadapter.util.MoreDataBindings
 import com.shashankbhat.splitbill.BR
 import com.shashankbhat.splitbill.R
+import com.shashankbhat.splitbill.base.TitleFragment
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.databinding.AdapterGroupUserBinding
@@ -25,13 +26,18 @@ import com.shashankbhat.splitbill.viewmodels.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class UserList : Fragment() {
+class UserList : TitleFragment() {
     private lateinit var binding: FragmentUserListBinding
     private lateinit var navController: NavController
     private lateinit var groupListDto: GroupListDto
     private val viewModel: UserListViewModel by viewModels()
 
     lateinit var adapter: RecyclerGenericAdapter<AdapterGroupUserBinding, User>
+
+    override fun onStart() {
+        super.onStart()
+        setTitle("Group Members")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

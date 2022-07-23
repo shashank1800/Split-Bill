@@ -55,13 +55,15 @@ class GroupListFragment : Fragment() {
 
         viewModel.unauthorized.observe(viewLifecycleOwner) {
             if(it == true){
-                viewModel.sharedPreferences.putToken("")
+                viewModel.unauthorized.value = false
                 navController.navigate(R.id.nav_splash_screen)
             }
 
         }
 
         binding.fab.setOnClickListener {
+
+            viewModel.sharedPreferences.putToken("Heheehe")
 
             val addGroupDialog = AddGroupFragment{
                 viewModel.addGroup(Groups(it, usersCount = 0))

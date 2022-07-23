@@ -28,47 +28,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
+            <include
                 android:id="@+id/cv_profile_photo"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                app:cardCornerRadius="60dp"
-                app:cardElevation="0dp"
+                layout="@layout/adapter_user_profile_photo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    bindImageViewByUrl="@{model.photoUrl}" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_profile_checked"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                app:cardCornerRadius="60dp"
-                android:visibility="gone"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="#2196F3"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:src="@drawable/ic_baseline_check" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="right"
-                app:constraint_referenced_ids="cv_profile_photo, cv_profile_checked" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:model="@{model}" />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -79,7 +47,7 @@
                 android:text="@{model.name}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/left_barrier"
-                app:layout_constraintStart_toEndOf="@id/barrier"
+                app:layout_constraintStart_toEndOf="@id/cv_profile_photo"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.Barrier

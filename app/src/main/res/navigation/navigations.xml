@@ -7,12 +7,29 @@
     <fragment
         android:id="@+id/nav_home_screen"
         android:name="com.shashankbhat.splitbill.ui.main_ui.HomeScreenViewPager"
-        android:label="Home Screen" />
+        android:label="Home Screen" >
+        <action
+            android:id="@+id/action_nav_home_screen_to_nav_group_list"
+            app:destination="@id/nav_group_list" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_group_list"
         android:name="com.shashankbhat.splitbill.ui.main_ui.group_list.GroupListFragment"
-        android:label="Group List" />
+        android:label="Group List" >
+        <action
+            android:id="@+id/action_nav_group_list_to_nav_user_list"
+            app:destination="@id/nav_user_list" />
+        <action
+            android:id="@+id/action_nav_group_list_to_nav_bill_shares"
+            app:destination="@id/nav_bill_shares" />
+        <action
+            android:id="@+id/action_nav_group_list_to_nav_bill_shares_view_pager"
+            app:destination="@id/nav_bill_shares_view_pager" />
+        <action
+            android:id="@+id/action_nav_group_list_to_nav_bill_shares_view_pager2"
+            app:destination="@id/nav_bill_shares_view_pager" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_user_list"
@@ -27,7 +44,11 @@
     <fragment
         android:id="@+id/nav_splash_screen"
         android:name="com.shashankbhat.splitbill.ui.splash_screen.SplashScreenFragment"
-        android:label="Splash Screen" />
+        android:label="Splash Screen" >
+        <action
+            android:id="@+id/action_nav_splash_screen_to_nav_home_screen"
+            app:destination="@id/nav_home_screen" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_bill_shares_view_pager"

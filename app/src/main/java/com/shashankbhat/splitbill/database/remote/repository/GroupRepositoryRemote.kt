@@ -19,6 +19,7 @@ import com.shashankbhat.splitbill.util.extension.getToken
 import com.shashankbhat.splitbill.util.extension.getUniqueId
 import com.shashankbhat.splitbill.util.extension.releaseOne
 import io.ktor.client.*
+import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import javax.inject.Inject
@@ -63,6 +64,7 @@ class GroupRepositoryRemote @Inject constructor(
                 groupRepository.insert(it.group)
             }
 
+//            if()
             groupsListState.value = Response.success(response.data)
 
 
@@ -70,6 +72,10 @@ class GroupRepositoryRemote @Inject constructor(
 //        catch (ce: ClientRequestException){
 //            groupsListState.value = Response.unauthorized("Please restart app")
 //        }
+        catch (ce: ClientRequestException){
+            if(ce.response.status == HttpStatusCode.Forbidden)
+                groupsListState.value = Response.unauthorized("Something went wrong", groupsListState.value?.data)
+        }
         catch (ex: Exception){
             groupsListState.value = Response.error("Something went wrong $ex", groupsListState.value?.data)
         }

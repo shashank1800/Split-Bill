@@ -60,8 +60,10 @@ class GroupListViewModel @Inject constructor(
                 timer.cancel()
                 isTakingMoreTime.value = false
 
-                if (groupsListState.value?.status == Status.Unauthorized)
+                if (groupsListState.value?.isUnauthorized() == true) {
+                    sharedPreferences.putToken("")
                     unauthorized.value = true
+                }
             }
         }
     }

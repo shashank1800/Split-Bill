@@ -18,6 +18,10 @@ data class Response<out T>(
         return status == Status.Error
     }
 
+    fun isUnauthorized(): Boolean {
+        return status == Status.Unauthorized
+    }
+
     companion object {
         fun <T> success(data: T?): Response<T> {
             return Response(Status.Success, data, null)
@@ -36,7 +40,7 @@ data class Response<out T>(
         }
 
         fun <T> unauthorized(message: String?, data: T? = null): Response<T> {
-            return Response(Status.Unauthorized, null, null)
+            return Response(Status.Unauthorized, data, null)
         }
     }
 }

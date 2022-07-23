@@ -16,46 +16,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_profile_photo"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:cardCornerRadius="40dp"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.cardview.widget.CardView
+        <include
+            layout="@layout/adapter_user_profile_photo"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            app:cardCornerRadius="35dp"
-            android:layout_gravity="center"
-            app:cardElevation="0dp"
-            bindProfileColor="@{model.name}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/iv_profile_photo"
-                android:visibility="@{model.photoUrl == null || model.photoUrl.length() == 0 ? View.GONE : View.VISIBLE, default=gone}"
-                bindImageViewByUrl="@{model.photoUrl}"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:visibility="@{model.photoUrl == null || model.photoUrl.length() == 0 ? View.VISIBLE : View.GONE, default=gone}"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:textColor="@color/white"
-                android:text="@{model.name.substring(0, 1)}" />
-
-        </androidx.cardview.widget.CardView>
-
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintTop_toTopOf="parent"
+            app:model="@{model}" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
