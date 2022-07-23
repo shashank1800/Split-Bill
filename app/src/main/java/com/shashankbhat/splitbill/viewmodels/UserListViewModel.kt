@@ -79,6 +79,9 @@ class UserListViewModel @Inject constructor(
 
         viewModelScope.launch {
             billRepositoryRemote.getAllBill(this@UserListViewModel.groupId, billList)
+            withContext(Dispatchers.Main){
+                billList.value.data?.isEmpty()?.let { isBillListEmpty.set(it) }
+            }
         }
 
     }

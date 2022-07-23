@@ -24,7 +24,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:model="@{model}" />
+            app:name="@{model.name}"
+            app:photoUrl="@{model.photoUrl}" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

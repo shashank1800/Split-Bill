@@ -97,7 +97,6 @@ class UserList : TitleFragment() {
                 adapter.replaceList(ArrayList(it.data ?: emptyList()))
 
         }
-//        viewModel.isBillListEmpty.set(it.data?.size == 0)
 
 
     }

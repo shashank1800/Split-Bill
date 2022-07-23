@@ -28,22 +28,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
+            <include
                 android:id="@+id/cv_profile_photo"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                app:cardCornerRadius="40dp"
-                app:cardElevation="0dp"
                 android:visibility="@{!model.isSelected() ? View.VISIBLE : View.GONE}"
+                layout="@layout/adapter_user_profile_photo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    bindImageViewByUrl="@{model.photoUrl}" />
-            </androidx.cardview.widget.CardView>
+                app:layout_constraintTop_toTopOf="parent"
+                app:name="@{model.name}"
+                app:photoUrl="@{model.photoUrl}" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_profile_checked"

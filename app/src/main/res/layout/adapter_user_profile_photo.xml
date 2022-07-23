@@ -4,11 +4,15 @@
 
     <data>
 
-        <variable
-            name="model"
-            type="com.shashankbhat.splitbill.database.local.entity.User" />
-
         <import type="android.view.View" />
+
+        <variable
+            name="name"
+            type="String" />
+
+        <variable
+            name="photoUrl"
+            type="String" />
 
     </data>
 
@@ -33,26 +37,26 @@
                 app:cardCornerRadius="200dp"
                 android:layout_gravity="center"
                 app:cardElevation="0dp"
-                bindProfileColor="@{model.name}"
+                bindProfileColor="@{name}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/iv_profile_photo"
-                    android:visibility="@{model.photoUrl == null || model.photoUrl.length() == 0 ? View.GONE : View.VISIBLE, default=gone}"
-                    bindImageViewByUrl="@{model.photoUrl}"
+                    android:visibility="@{photoUrl == null || photoUrl.length() == 0 ? View.GONE : View.VISIBLE, default=gone}"
+                    bindImageViewByUrl="@{photoUrl}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
                 <TextView
-                    android:visibility="@{model.photoUrl == null || model.photoUrl.length() == 0 ? View.VISIBLE : View.GONE, default=gone}"
+                    android:visibility="@{photoUrl == null || photoUrl.length() == 0 ? View.VISIBLE : View.GONE, default=gone}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textSize="18sp"
                     android:textColor="@color/white"
-                    android:text="@{model.name.substring(0, 1)}" />
+                    android:text="@{name.substring(0, 1)}" />
 
             </androidx.cardview.widget.CardView>
 
