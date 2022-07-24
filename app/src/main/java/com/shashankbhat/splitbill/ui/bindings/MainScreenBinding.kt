@@ -9,15 +9,16 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
-import com.shahankbhat.recyclergenericadapter.util.DataBinds
-import com.shahankbhat.recyclergenericadapter.util.MoreDataBindings
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.databinding.AdapterGroupUsersProfileBinding
 import com.shashankbhat.splitbill.model.NearUserModel
 import com.shashankbhat.splitbill.util.LatLong
 import com.shashankbhat.splitbill.BR
+import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
+import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillSharesModel
 import com.shashankbhat.splitbill.database.local.entity.User
+import com.shashankbhat.splitbill.databinding.AdapterBillShareBillBinding
 import com.shashankbhat.splitbill.util.RecyclerItemOverlap
 import com.shashankbhat.splitbill.util.extension.*
 
@@ -74,6 +75,18 @@ object MainScreenBinding {
             WEEK_IN_MILLIS,
             FORMAT_SHOW_TIME
         ).toString()
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["bindBillShareBillList"], requireAll = true)
+    fun bindBillShareBillList(recyclerView: RecyclerView, billModel: BillModel) {
+        billModel.billShares?.let {
+            val adapter = RecyclerGenericAdapter.Builder<AdapterBillShareBillBinding, BillSharesModel>(R.layout.adapter_bill_share_bill, BR.model)
+                .build()
+            recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
+            recyclerView.adapter = adapter
+            adapter.replaceList(ArrayList(it))
+        }
     }
 
 

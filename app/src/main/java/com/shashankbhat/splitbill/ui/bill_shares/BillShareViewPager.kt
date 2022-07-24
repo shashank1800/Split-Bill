@@ -10,7 +10,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.databinding.FragmentBillShareViewPagerBinding
-import com.shashankbhat.splitbill.ui.bill_shares.add_bill.AddBillSharesBottomSheetFragment
 import com.shashankbhat.splitbill.ui.bill_shares.balance.ShowBillSharesBottomSheetFragment
 import com.shashankbhat.splitbill.ui.bill_shares.shares.BillShareFragment
 import com.shashankbhat.splitbill.util.ViewPagerAdapter
@@ -46,10 +45,6 @@ class BillShareViewPager : Fragment() {
 
         binding.vpBillShares.adapter = ViewPagerAdapter(requireActivity(), adapterFragments)
 
-        binding.fab.setOnClickListener {
-            showAddBillBottomSheet()
-        }
-
         binding.vpBillShares.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -58,7 +53,7 @@ class BillShareViewPager : Fragment() {
                     else -> {
                         binding.bottomNavigation.selectedItemId = R.id.menu_balances
 
-                        balanceFragment.setBill(viewModel.billList.value.data ?: emptyList())
+                        balanceFragment.setBill(viewModel.billList.value?.data ?: emptyList())
                     }
                 }
             }
@@ -68,7 +63,7 @@ class BillShareViewPager : Fragment() {
             when(it.itemId){
                 R.id.menu_bill_shares -> binding.vpBillShares.setCurrentItem(0, true)
                 R.id.menu_balances -> {
-                    balanceFragment.setBill(viewModel.billList.value.data ?: emptyList())
+                    balanceFragment.setBill(viewModel.billList.value?.data ?: emptyList())
                     binding.vpBillShares.setCurrentItem(1, true)
                 }
             }
@@ -76,14 +71,6 @@ class BillShareViewPager : Fragment() {
             return@setOnItemSelectedListener true
         }
 
-    }
-
-    private fun showAddBillBottomSheet(){
-        val addBillDialog = AddBillSharesBottomSheetFragment(
-            groupListDto = groupListDto,
-            viewModel = viewModel
-        )
-        addBillDialog.show(parentFragmentManager, addBillDialog.tag)
     }
 
 }

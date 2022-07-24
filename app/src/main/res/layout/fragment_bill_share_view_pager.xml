@@ -10,12 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-<!--        <com.google.android.material.tabs.TabLayout-->
-<!--            android:id="@+id/tab_layout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content" />-->
-
-
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_bill_shares"
             android:layout_width="match_parent"
@@ -44,14 +38,6 @@
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:src="@drawable/ic_baseline_add_bill"
-            app:tint="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_anchor="@id/bottomBar"
-            android:contentDescription="Add Bill Share" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

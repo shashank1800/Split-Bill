@@ -1,7 +1,5 @@
 package com.shashankbhat.splitbill.viewmodels
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,8 +13,6 @@ import com.shashankbhat.splitbill.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -30,7 +26,7 @@ class UserListViewModel @Inject constructor(
 
     var userListState: MutableLiveData<Response<List<User>>> = MutableLiveData(Response.nothing())
     var groupId = 0
-    var billList: MutableState<Response<List<BillModel>>> = mutableStateOf(Response.nothing())
+    var billList: MutableLiveData<Response<List<BillModel>>> = MutableLiveData(Response.nothing())
     var isBillListEmpty = ObservableBoolean(false)
 
     fun getAllUsersByGroupId(groupId: Int = 0) {
@@ -80,7 +76,7 @@ class UserListViewModel @Inject constructor(
         viewModelScope.launch {
             billRepositoryRemote.getAllBill(this@UserListViewModel.groupId, billList)
             withContext(Dispatchers.Main){
-                billList.value.data?.isEmpty()?.let { isBillListEmpty.set(it) }
+                billList.value?.data?.isEmpty()?.let { isBillListEmpty.set(it) }
             }
         }
 

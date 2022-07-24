@@ -11,5 +11,6 @@
 
     <color name="primaryColor">#432545</color>
     <color name="secondaryColor">@color/teal_200</color>
+    <color name="colorPrimaryVariant">@color/purple_700</color>
 
 </resources>
