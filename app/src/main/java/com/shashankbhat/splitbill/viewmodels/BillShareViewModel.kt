@@ -1,8 +1,7 @@
 package com.shashankbhat.splitbill.viewmodels
 
 import android.content.SharedPreferences
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,6 +25,7 @@ class BillShareViewModel @Inject constructor(
 
     var groupId = 0
     var billList: MutableLiveData<Response<List<BillModel>>> = MutableLiveData(Response.nothing())
+    var isBillListEmpty = ObservableBoolean(false)
 
     fun getAllBill(groupId: Int = 0) {
         if (groupId != 0)
@@ -34,6 +34,18 @@ class BillShareViewModel @Inject constructor(
         viewModelScope.launch {
             getAllUsersByGroupId()
             billRepositoryRemote.getAllBill(this@BillShareViewModel.groupId, billList)
+        }
+    }
+
+    var billListBalance: MutableLiveData<Response<List<BillModel>>> = MutableLiveData(Response.nothing())
+
+    fun getAllBillForShowingBalances(groupId: Int = 0) {
+        if (groupId != 0)
+            this.groupId = groupId
+
+        viewModelScope.launch {
+            getAllUsersByGroupId()
+            billRepositoryRemote.getAllBill(this@BillShareViewModel.groupId, billListBalance)
         }
     }
 

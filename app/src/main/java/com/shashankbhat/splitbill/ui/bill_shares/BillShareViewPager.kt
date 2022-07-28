@@ -20,7 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class BillShareViewPager : Fragment() {
 
     private lateinit var binding: FragmentBillShareViewPagerBinding
-    private val viewModel: BillShareViewModel by activityViewModels()
     private lateinit var groupListDto: GroupListDto
 
     override fun onCreateView(
@@ -37,7 +36,7 @@ class BillShareViewPager : Fragment() {
         groupListDto = requireArguments().getSerializable("model") as GroupListDto
 
         val billSharesFragment = BillShareFragment.getInstance(requireArguments())
-        val balanceFragment = ShowBillSharesBottomSheetFragment.getInstance()
+        val balanceFragment = ShowBillSharesBottomSheetFragment.getInstance(requireArguments())
 
         val adapterFragments = arrayListOf<Fragment>()
         adapterFragments.add(billSharesFragment)
@@ -52,8 +51,6 @@ class BillShareViewPager : Fragment() {
                     0 -> binding.bottomNavigation.selectedItemId = R.id.menu_bill_shares
                     else -> {
                         binding.bottomNavigation.selectedItemId = R.id.menu_balances
-
-                        balanceFragment.setBill(viewModel.billList.value?.data ?: emptyList())
                     }
                 }
             }
@@ -63,7 +60,6 @@ class BillShareViewPager : Fragment() {
             when(it.itemId){
                 R.id.menu_bill_shares -> binding.vpBillShares.setCurrentItem(0, true)
                 R.id.menu_balances -> {
-                    balanceFragment.setBill(viewModel.billList.value?.data ?: emptyList())
                     binding.vpBillShares.setCurrentItem(1, true)
                 }
             }

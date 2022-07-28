@@ -25,7 +25,6 @@ import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 class BillShareFragment : TitleFragment() {
 
     private val viewModel: BillShareViewModel by activityViewModels()
-    private lateinit var navController: NavController
     private lateinit var groupListDto: GroupListDto
     private lateinit var binding: FragmentBillShareBinding
     lateinit var adapter: RecyclerGenericAdapter<AdapterBillShareBinding, BillModel>
@@ -43,10 +42,10 @@ class BillShareFragment : TitleFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        navController = findNavController()
         groupListDto = requireArguments().getSerializable("model") as GroupListDto
 
         setTitle(groupListDto.group.name)
+        binding.isBillListEmpty = viewModel.isBillListEmpty
 
         viewModel.getAllBill(groupListDto.group.id ?: -1)
 
@@ -63,7 +62,7 @@ class BillShareFragment : TitleFragment() {
         viewModel.billList.observe(viewLifecycleOwner) {
             if(it.isSuccess()) {
                 adapter.replaceList(ArrayList(it.data ?: emptyList()))
-//                viewModel.isGroupListEmpty.set(it.data?.size == 0)
+                viewModel.isBillListEmpty.set(it.data?.size == 0)
             }
         }
     }
@@ -76,54 +75,6 @@ class BillShareFragment : TitleFragment() {
         addBillDialog.show(parentFragmentManager, addBillDialog.tag)
     }
 
-//    @ExperimentalMaterialApi
-//    @Composable
-//    fun BillShares() {
-//
-//        Scaffold(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .padding(8.dp, 8.dp, 8.dp, 4.dp)
-//        ) {
-//
-//            Column(modifier = Modifier.fillMaxWidth()) {
-//
-//                ConstraintLayout(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .padding(8.dp)
-//                ) {
-//
-//                    val (lcGroup, ivNoData) = createRefs()
-//
-//                    LazyColumn(
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .constrainAs(lcGroup) {
-//                                top.linkTo(parent.top)
-//                                bottom.linkTo(parent.bottom)
-//                            }
-//                    ) {
-//                        itemsIndexed(viewModel.billList.value.data ?: emptyList()) { index, bill ->
-//                            BillCard(billModel = bill, viewModel = viewModel)
-//                        }
-//                    }
-//                    if (viewModel.billList.value.data?.isEmpty() == true)
-//                        InstructionArrowText(
-//                            modifier = Modifier
-//                                .padding(8.dp)
-//                                .constrainAs(ivNoData) {
-//                                    bottom.linkTo(parent.bottom, margin = 60.dp)
-//                                    end.linkTo(parent.end, margin = 90.dp)
-//                                },
-//                            text = "TAP HERE TO  \n ADD BILLS"
-//                        )
-//                }
-//
-//            }
-//
-//        }
-//    }
 
     companion object {
         fun getInstance(bundle: Bundle): BillShareFragment {

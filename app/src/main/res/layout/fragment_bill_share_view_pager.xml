@@ -24,7 +24,8 @@
             app:fabCradleMargin="30dp"
             app:contentInsetEnd="0dp"
             app:contentInsetStart="0dp"
-            app:fabAlignmentMode="center">
+            app:fabAlignmentMode="center"
+            android:background="@color/black">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottomNavigation"

@@ -47,6 +47,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:rotation="-90"
+                android:padding="5dp"
                 android:src="@drawable/ic_round_hdr_strong"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

@@ -14,6 +14,8 @@
         <!-- Customize your theme here. -->
 
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
+
+        <item name="android:windowBackground">@color/background</item>
     </style>
 
     <style name="Theme.SplitBill.NoActionBar">
