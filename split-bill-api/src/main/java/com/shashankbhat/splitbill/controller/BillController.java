@@ -76,7 +76,7 @@ public class BillController {
 
         Map<Integer, UserDto> usersEntityMap = new HashMap<>();
         users.forEach(usersEntity -> {
-            String profileUrl = "";
+            String profileUrl = null;
             if(usersEntity.getUniqueId() != null){
                 profileUrl = userProfileService.getProfile(usersEntity.getUniqueId()).getPhotoUrl();
             }

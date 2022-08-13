@@ -55,8 +55,7 @@ object MainScreenBinding {
         val adapter = RecyclerGenericAdapter.Builder<AdapterGroupUsersProfileBinding, User>(R.layout.adapter_group_users_profile, BR.model)
             .build()
         if (groupListDto.userList != null && groupListDto.userList.isNotEmpty()) {
-
-//            recyclerView.addItemDecoration(RecyclerItemOverlap(left = -15))
+            recyclerView.addItemDecoration(RecyclerItemOverlap(left = -15))
             recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, RecyclerView.HORIZONTAL, false)
             recyclerView.adapter = adapter
             adapter.replaceList(ArrayList(groupListDto.userList.take(3)))

@@ -10,19 +10,18 @@ import androidx.viewpager2.widget.ViewPager2
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.databinding.FragmentBillShareViewPagerBinding
-import com.shashankbhat.splitbill.ui.bill_shares.balance.ShowBillSharesBottomSheetFragment
+import com.shashankbhat.splitbill.ui.bill_shares.balance.ShowBillSharesBalanceFragment
 import com.shashankbhat.splitbill.ui.bill_shares.shares.BillShareFragment
 import com.shashankbhat.splitbill.util.ViewPagerAdapter
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class BillShareViewPager : Fragment() {
 
     private lateinit var binding: FragmentBillShareViewPagerBinding
     private lateinit var groupListDto: GroupListDto
 
     private val viewModel: BillShareViewModel by activityViewModels()
+    private val adapterFragments = arrayListOf<Fragment>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,9 +39,7 @@ class BillShareViewPager : Fragment() {
         binding.isBillListEmpty = viewModel.isBillListEmpty
 
         val billSharesFragment = BillShareFragment.getInstance(requireArguments())
-        val balanceFragment = ShowBillSharesBottomSheetFragment.getInstance(requireArguments())
-
-        val adapterFragments = arrayListOf<Fragment>()
+        val balanceFragment = ShowBillSharesBalanceFragment.getInstance(requireArguments())
         adapterFragments.add(billSharesFragment)
         adapterFragments.add(balanceFragment)
 
@@ -71,6 +68,11 @@ class BillShareViewPager : Fragment() {
             return@setOnItemSelectedListener true
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clear()
     }
 
 }

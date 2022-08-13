@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -63,7 +64,7 @@ class SingleItemSelectionBottomSheet<T : BottomSheetHelper<T>>(
 
             //Ripple effect
 
-            val pressedStates = ColorStateList.valueOf(R.color.teal_200)
+            val pressedStates = ColorStateList.valueOf(ContextCompat.getColor(itemBinding.root.context, R.color.primaryColor))
 
             val contentDrawable = GradientDrawable()
             contentDrawable.setColor(Color.WHITE)

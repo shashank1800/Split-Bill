@@ -1,10 +1,12 @@
 package com.shashankbhat.splitbill.ui.main_ui.profile
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import com.shashankbhat.splitbill.databinding.FragmentProfileBinding
 import com.shashankbhat.splitbill.enums.SnackBarType
@@ -12,11 +14,11 @@ import com.shashankbhat.splitbill.model.profile.DistanceRangeModel
 import com.shashankbhat.splitbill.util.bottom_sheet.BottomSheetItem
 import com.shashankbhat.splitbill.util.bottom_sheet.SingleItemSelectionBottomSheet
 import com.shashankbhat.splitbill.util.extension.getBottomSheetList
+import com.shashankbhat.splitbill.util.extension.getColorV2
 import com.shashankbhat.splitbill.util.extension.showSnackBar
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
+
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private val viewModel: GroupListViewModel by activityViewModels()
@@ -70,6 +72,13 @@ class ProfileFragment : Fragment() {
         }
 
         viewModel.getProfile()
+
+        binding.tvName.doOnTextChanged { text, _, _, _ ->
+            if(!text.isNullOrEmpty())
+                binding.cvProfilePhoto.setCardBackgroundColor(text.toString().getColorV2())
+            else
+                binding.cvProfilePhoto.setCardBackgroundColor(Color.WHITE)
+        }
     }
 
     private fun isFieldsValid(): Boolean{

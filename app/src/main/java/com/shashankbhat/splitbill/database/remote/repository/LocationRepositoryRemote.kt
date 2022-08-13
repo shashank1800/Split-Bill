@@ -1,6 +1,7 @@
 package com.shashankbhat.splitbill.database.remote.repository
 
 import android.content.SharedPreferences
+import androidx.lifecycle.MutableLiveData
 import com.shashankbhat.splitbill.BuildConfig.BASE_URL
 import com.shashankbhat.splitbill.database.remote.entity.LocationDto
 import com.shashankbhat.splitbill.database.remote.entity.NearUsersList
@@ -8,6 +9,7 @@ import com.shashankbhat.splitbill.model.NearUserModel
 import com.shashankbhat.splitbill.ui.ApiConstants
 import com.shashankbhat.splitbill.ui.ApiConstants.getNearUsers
 import com.shashankbhat.splitbill.util.LatLong
+import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.getToken
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -21,7 +23,7 @@ class LocationRepositoryRemote @Inject constructor(
 ){
     suspend fun getNearUser(
         location: LatLong,
-        nearUserList: MutableStateFlow<ArrayList<NearUserModel>>
+        nearUserList: MutableLiveData<Response<ArrayList<NearUserModel>>>
     ) {
         try {
             val response = httpClient.get<NearUsersList>(BASE_URL + getNearUsers) {
@@ -36,9 +38,11 @@ class LocationRepositoryRemote @Inject constructor(
                 listData.add(NearUserModel(it.uniqueId ?: -1, it.name, it.photoUrl, it.latitude, it.longitude))
             }
 
-            nearUserList.emit(listData)
+            nearUserList.value = Response.success(listData)
+
         }catch (ex: Exception){
             println(ex)
+            nearUserList.value = Response.error(ex.message)
         }
 
     }

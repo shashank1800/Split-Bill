@@ -92,9 +92,20 @@ class UserListFragment : TitleFragment() {
         binding.rvNearbyUsers.adapter = adapter
 
         viewModel.userListState.observe(viewLifecycleOwner) {
-            if(it.isSuccess())
-                adapter.replaceList(ArrayList(it.data ?: emptyList()))
-
+            if(it.isSuccess()){
+                if(adapter.getItemList().size == it.data?.size){
+                    val oldList = adapter.getItemList()
+                    val newList = it.data
+                    val listSize = it.data.size
+                    for(index in 0 until listSize){
+                        if(newList[index] != oldList[index]){
+                            // Replace complete group
+                            adapter.replaceItemAt(index, newList[index])
+                        }
+                    }
+                }else
+                    adapter.replaceList(ArrayList(it.data ?: emptyList()))
+            }
         }
 
 

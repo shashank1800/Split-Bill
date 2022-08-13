@@ -1,7 +1,6 @@
 package com.shashankbhat.splitbill.ui.main_ui.group_list
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,9 +23,7 @@ import com.shashankbhat.splitbill.databinding.FragmentGroupListBinding
 import com.shashankbhat.splitbill.enums.SnackBarType
 import com.shashankbhat.splitbill.util.extension.showSnackBar
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: FragmentGroupListBinding
     private lateinit var navController: NavController
@@ -53,7 +50,7 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         binding.srlGroupList.setOnRefreshListener(this)
 
         viewModel.unauthorized.observe(viewLifecycleOwner) {
-            if(it == true){
+            if (it == true) {
                 viewModel.unauthorized.value = false
                 navController.navigate(R.id.nav_splash_screen)
             }
@@ -62,36 +59,30 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         binding.fab.setOnClickListener {
 
-            val addGroupDialog = AddGroupFragment{
+            val addGroupDialog = AddGroupFragment {
                 viewModel.addGroup(Groups(it))
             }
             addGroupDialog.show(parentFragmentManager, addGroupDialog.tag)
 
         }
 
-        adapter = RecyclerGenericAdapter.Builder<AdapterGroupBinding, GroupRecyclerListDto>(R.layout.adapter_group, BR.model)
+        adapter = RecyclerGenericAdapter.Builder<AdapterGroupBinding, GroupRecyclerListDto>(
+            R.layout.adapter_group,
+            BR.model
+        )
             .setClickCallbacks(arrayListOf<CallBackModel<AdapterGroupBinding, GroupRecyclerListDto>>().apply {
-                add(CallBackModel(R.id.iv_user_icon){ model, position, binding ->
-                    if((model.group?.id ?: -1) > 0){
+                add(CallBackModel(R.id.iv_user_icon) { model, position, binding ->
+                    if ((model.group?.id ?: -1) > 0) {
                         val bundle = Bundle()
-                        bundle.putSerializable("model", GroupListDto(model.group!!,
-                            model.userList ?: emptyList()))
+                        bundle.putSerializable(
+                            "model",
+                            GroupListDto(model.group!!, model.userList ?: emptyList())
+                        )
                         navController.navigate(R.id.nav_user_list, bundle)
                     }
                 })
-                add(CallBackModel(R.id.cv_root){ model, position, binding ->
-                    if (model.userList != null && model.userList.isEmpty()) {
-                        binding.showSnackBar(
-                                "Please add atleast one user to group",
-                                "Okay",
-                            snackBarType = SnackBarType.ERROR
-                        )
-                    } else {
-                        val bundle = Bundle()
-                        bundle.putSerializable("model", GroupListDto(model.group!!,
-                            model.userList ?: emptyList()))
-                        navController.navigate(R.id.nav_bill_shares_view_pager, bundle)
-                    }
+                add(CallBackModel(R.id.cv_root) { model, position, binding ->
+                    navigateToBillSharesScreen(model)
                 })
             })
             .build()
@@ -100,29 +91,33 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         binding.rvNearbyUsers.adapter = adapter
 
         viewModel.groupsListState.observe(viewLifecycleOwner) {
-            if(it.isSuccess()) {
+            if (it.isSuccess()) {
                 viewModel.isGroupListEmpty.set(it.data?.size == 0)
-                if(adapter.getItemList().size == it.data?.size){
+                if (adapter.getItemList().size == it.data?.size) {
                     val oldList = adapter.getItemList()
                     val newList = it.data
                     val listSize = it.data.size
-                    for(index in 0 until listSize){
-                        if(newList[index].group == oldList[index].group
-                            && newList[index].userList != oldList[index].userList){
-
+                    for (index in 0 until listSize) {
+                        if (newList[index].group == oldList[index].group
+                            && newList[index].userList != oldList[index].userList
+                        ) {
                             // Replace only user list
                             newList[index].userList?.let { uList ->
                                 oldList[index].adapter?.replaceList(ArrayList(uList.take(3)))
                             }
-                        }
-                        else if(newList[index].group != oldList[index].group){
+                        } else if (newList[index].group != oldList[index].group) {
 
                             // Replace complete group
-                            adapter.removeItemAt(index)
-                            adapter.addItemAt(index, GroupRecyclerListDto(newList[index].group, newList[index].userList, null) )
+                            adapter.replaceItemAt(index,
+                                GroupRecyclerListDto(
+                                    newList[index].group,
+                                    newList[index].userList,
+                                    null
+                                )
+                            )
                         }
                     }
-                }else
+                } else
                     adapter.replaceList(ArrayList(it.data ?: emptyList()))
 
             }
@@ -131,12 +126,32 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     }
 
+    private fun navigateToBillSharesScreen(model: GroupRecyclerListDto) {
+        if (model.userList != null && model.userList.isEmpty()) {
+            binding.showSnackBar(
+                "Please add atleast one user to group",
+                "Okay",
+                snackBarType = SnackBarType.ERROR
+            )
+        } else {
+            val bundle = Bundle()
+            bundle.putSerializable(
+                "model", GroupListDto(
+                    model.group!!,
+                    model.userList ?: emptyList()
+                )
+            )
+            navController.navigate(R.id.nav_bill_shares_view_pager, bundle)
+        }
+    }
+
     companion object {
         @JvmStatic
         fun getInstance() = GroupListFragment()
     }
 
     override fun onRefresh() {
+        viewModel.isRefreshing.set(true)
         viewModel.getAllGroups()
     }
 }

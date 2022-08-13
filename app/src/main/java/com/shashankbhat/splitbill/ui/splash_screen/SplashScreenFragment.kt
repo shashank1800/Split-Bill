@@ -10,11 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.shashankbhat.splitbill.viewmodels.SplashScreenViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.databinding.FragmentSplashScreenBinding
 import com.shashankbhat.splitbill.util.Status
 import com.shashankbhat.splitbill.util.extension.getToken
+import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SplashScreenFragment : Fragment() {

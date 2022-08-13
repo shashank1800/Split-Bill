@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kotlinpermissions.KotlinPermissions
 import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
@@ -17,18 +15,17 @@ import com.shahankbhat.recyclergenericadapter.util.DataBinds
 import com.shahankbhat.recyclergenericadapter.util.MoreDataBindings
 import com.shashankbhat.splitbill.BR
 import com.shashankbhat.splitbill.R
+import com.shashankbhat.splitbill.base.TitleFragment
 import com.shashankbhat.splitbill.databinding.AdapterNearbyUserBinding
 import com.shashankbhat.splitbill.databinding.FragmentNearbyPeopleBinding
 import com.shashankbhat.splitbill.model.NearUserModel
 import com.shashankbhat.splitbill.ui.main_ui.group_list.AddGroupFragment
 import com.shashankbhat.splitbill.util.LocationListener
+import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.showSnackBar
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
-class NearbyPeopleFragment : Fragment() {
+class NearbyPeopleFragment : TitleFragment() {
     private lateinit var binding: FragmentNearbyPeopleBinding
     private val myLocation = LocationListener()
     private val viewModel: GroupListViewModel by activityViewModels()
@@ -48,16 +45,16 @@ class NearbyPeopleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.key.setOnClickListener {
-
             KotlinPermissions.with(requireActivity())
                 .permissions(Manifest.permission.ACCESS_FINE_LOCATION)
-                .onAccepted { permissions -> findNearPeople() }.ask()
-
+                .onAccepted {
+                    findNearPeople()
+                }.ask()
         }
 
         adapter = RecyclerGenericAdapter.Builder<AdapterNearbyUserBinding, NearUserModel>(R.layout.adapter_nearby_user, BR.model)
             .setClickCallbacks(arrayListOf<CallBackModel<AdapterNearbyUserBinding, NearUserModel>>().apply {
-                add(CallBackModel(R.id.main_card_view){ model, position, binding ->
+                add(CallBackModel(R.id.main_card_view){ model, _, _ ->
                     if(model.isSelected.get()) deSelectUser(model)
                     else selectUser(model)
                 })
@@ -69,9 +66,20 @@ class NearbyPeopleFragment : Fragment() {
         binding.rvNearbyUsers.layoutManager = LinearLayoutManager(requireContext())
         binding.rvNearbyUsers.adapter = adapter
 
-        lifecycleScope.launch{
-            viewModel.nearUserList.collect {
-                adapter.replaceList(it)
+        viewModel.nearUserList.observe(viewLifecycleOwner) {
+            when {
+                it.isSuccess() -> {
+                    adapter.replaceList(it.data ?: arrayListOf())
+                    hideLoading()
+                }
+
+                it.isLoading() -> {
+                    showLoading()
+                }
+
+                else -> {
+                    hideLoading()
+                }
             }
         }
 
@@ -83,9 +91,10 @@ class NearbyPeopleFragment : Fragment() {
         }
 
         viewModel.addGroupResponse.observe(viewLifecycleOwner) {
-
             if(it.isSuccess()){
+                viewModel.getAllGroups()
                 binding.showSnackBar("Group created successfully")
+                viewModel.vpBillShares?.setCurrentItem(0, true)
             }
         }
 
@@ -116,6 +125,7 @@ class NearbyPeopleFragment : Fragment() {
     }
 
     private fun findNearPeople(){
+        viewModel.nearUserList.value = Response.loading()
         myLocation.getLocation(requireContext()){ location ->
             viewModel.getNearUser(location)
             myLocation.stopLocationUpdate()

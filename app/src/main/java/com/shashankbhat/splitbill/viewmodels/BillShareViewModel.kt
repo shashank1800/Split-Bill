@@ -19,7 +19,6 @@ import javax.inject.Inject
 @HiltViewModel
 class BillShareViewModel @Inject constructor(
     private val billRepositoryRemote: BillRepositoryRemote,
-    private val userRepoRemote : UserRepositoryRemote,
     val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
@@ -32,8 +31,15 @@ class BillShareViewModel @Inject constructor(
             this.groupId = groupId
 
         viewModelScope.launch {
-            getAllUsersByGroupId()
             billRepositoryRemote.getAllBill(this@BillShareViewModel.groupId, billList)
+            withContext(Dispatchers.IO) {
+                when {
+                    billList.value?.isSuccess() ?: false -> {
+                        isBillListEmpty.set((billList.value?.data?.size ?: 0) == 0)
+                    }
+                }
+
+            }
         }
     }
 
@@ -44,7 +50,6 @@ class BillShareViewModel @Inject constructor(
             this.groupId = groupId
 
         viewModelScope.launch {
-            getAllUsersByGroupId()
             billRepositoryRemote.getAllBill(this@BillShareViewModel.groupId, billListBalance)
         }
     }
@@ -66,23 +71,30 @@ class BillShareViewModel @Inject constructor(
         }
     }
 
-    fun deleteBill(billModel: BillModel) {
-        GlobalScope.launch {
-            billRepositoryRemote.deleteBill(billModel){ type ->
-                when {
-                    type.isLocal() -> viewModelScope.launch {
-                        billRepositoryRemote.getAllBillOffline(this@BillShareViewModel.groupId, billList)
-                    }
-                }
-            }
-        }
+    fun clear() {
+        groupId = 0
+        billList = MutableLiveData(Response.nothing())
+        billListBalance = MutableLiveData(Response.nothing())
+        isBillListEmpty.set(false)
     }
 
-    private fun getAllUsersByGroupId() {
-        viewModelScope.launch {
-            userRepoRemote.getAllUsersByGroupId(this@BillShareViewModel.groupId, MutableLiveData<Response<List<User>>>(Response.nothing()))
-        }
-    }
+//    fun deleteBill(billModel: BillModel) {
+//        GlobalScope.launch {
+//            billRepositoryRemote.deleteBill(billModel){ type ->
+//                when {
+//                    type.isLocal() -> viewModelScope.launch {
+//                        billRepositoryRemote.getAllBillOffline(this@BillShareViewModel.groupId, billList)
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//    private fun getAllUsersByGroupId() {
+//        viewModelScope.launch {
+//            userRepoRemote.getAllUsersByGroupId(this@BillShareViewModel.groupId, MutableLiveData<Response<List<User>>>(Response.nothing()))
+//        }
+//    }
 
 
 }

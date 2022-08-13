@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,8 +28,8 @@ class MainActivity : AppCompatActivity() {
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     when (navController.currentDestination?.id) {
-                        R.id.nav_group_list -> finish()
-                        else -> navController.popBackStack()
+                        R.id.nav_home_screen -> finish()
+                        else -> navController.navigateUp()
                     }
 
                 }

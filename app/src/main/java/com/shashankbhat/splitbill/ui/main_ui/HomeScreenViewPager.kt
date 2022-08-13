@@ -17,9 +17,7 @@ import com.shashankbhat.splitbill.util.extension.findActivity
 import com.shashankbhat.splitbill.util.extension.getFullName
 import com.shashankbhat.splitbill.util.extension.getUniqueId
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class HomeScreenViewPager : Fragment() {
 
     private lateinit var binding: FragmentHomeScreenViewPagerBinding
@@ -47,6 +45,7 @@ class HomeScreenViewPager : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.tvId.text = "# ${viewModel.sharedPreferences.getUniqueId()}"
+        viewModel.vpBillShares = binding.vpBillShares
 
         val groupsFragment = GroupListFragment.getInstance()
         val peopleFragment = NearbyPeopleFragment.getInstance()
@@ -70,28 +69,19 @@ class HomeScreenViewPager : Fragment() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 when(position){
-                    0 ->{
-                        binding.bottomNavigation.selectedItemId = R.id.menu_groups
-//                        viewModel.getAllGroups()
-                    }
+                    0 ->binding.bottomNavigation.selectedItemId = R.id.menu_groups
                     2 -> {
                         binding.bottomNavigation.selectedItemId = R.id.menu_profile
                         viewModel.getProfile()
                     }
-                    else -> {
-                        binding.bottomNavigation.selectedItemId = R.id.menu_people
-                    }
+                    else ->  binding.bottomNavigation.selectedItemId = R.id.menu_people
                 }
             }
         })
 
         binding.bottomNavigation.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.menu_groups -> {
-                    binding.vpBillShares.setCurrentItem(0, true)
-
-//                    viewModel.getAllGroups()
-                }
+                R.id.menu_groups -> binding.vpBillShares.setCurrentItem(0, true)
                 R.id.menu_people -> binding.vpBillShares.setCurrentItem(1, true)
                 R.id.menu_profile -> {
                     viewModel.getProfile()

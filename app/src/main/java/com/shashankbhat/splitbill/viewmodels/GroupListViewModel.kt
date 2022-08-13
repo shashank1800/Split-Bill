@@ -6,6 +6,7 @@ import androidx.compose.runtime.*
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.*
+import androidx.viewpager2.widget.ViewPager2
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupRecyclerListDto
 import com.shashankbhat.splitbill.database.local.entity.Groups
 import com.shashankbhat.splitbill.database.local.repository.GroupRepository
@@ -41,9 +42,9 @@ class GroupListViewModel @Inject constructor(
     var isRefreshing = ObservableBoolean(false)
     var unauthorized = MutableLiveData(false)
     var isTakingMoreTime = mutableStateOf(false)
+    var vpBillShares: ViewPager2? = null
 
     fun getAllGroups() {
-        isRefreshing.set(true)
         isTakingMoreTime.value = false
         val timer = object: CountDownTimer(5000, 1000) {
             override fun onTick(millisUntilFinished: Long) {}
@@ -91,18 +92,18 @@ class GroupListViewModel @Inject constructor(
 
     fun addGroupWithPeople(groupName: String) {
 
-        val peopleList = nearUserList.value
-            .filter { it.isSelected.get() }
-            .map { it.uniqueId }
-            .toList()
+        val peopleList = nearUserList.value?.data
+            ?.filter { it.isSelected.get() }
+            ?.map { it.uniqueId }
+            ?.toList()
 
         viewModelScope.launch {
 
             val id = groupRepoRemote.insertWithPeople(groupName, peopleList)
             withContext(Dispatchers.Main) {
                 if(id != null) {
-                    nearUserList.value
-                        .forEach {
+                    nearUserList.value?.data
+                        ?.forEach {
                             it.isSelected.set(false)
                         }
                     groupRepository.getAllGroups(groupsListState)
@@ -140,7 +141,7 @@ class GroupListViewModel @Inject constructor(
         }
     }
 
-    var nearUserList = MutableStateFlow(arrayListOf<NearUserModel>())
+    var nearUserList = MutableLiveData<Response<ArrayList<NearUserModel>>>(Response.nothing())
 
     fun getNearUser(location: LatLong) {
 

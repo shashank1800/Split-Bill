@@ -3,7 +3,7 @@
 
     <color name="primaryColor">#939393</color>
     <color name="secondaryColor">#1EDD93</color>
-    <color name="colorPrimaryVariant">@color/purple_700</color>
+    <color name="colorPrimaryVariant">#386AFF</color>
 
     <color name="background">#303030</color>
 

@@ -15,6 +15,7 @@ object GeneralDataBindings {
         Glide.with(imageView.context)
             .load(url)
             .centerCrop()
+            .circleCrop()
             .placeholder(R.drawable.ic_outline_account_circle)
             .into(imageView)
 

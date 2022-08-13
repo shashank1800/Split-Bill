@@ -15,9 +15,8 @@ import com.shashankbhat.splitbill.util.bottom_sheet.SingleItemSelectionBottomShe
 import com.shashankbhat.splitbill.util.extension.getBottomSheetList
 import com.shashankbhat.splitbill.util.extension.showSnackBar
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
+
 class ProfileWithDataFragment : Fragment() {
     private lateinit var binding: FragmentProfileWithDataBinding
     private val viewModel: GroupListViewModel by activityViewModels()

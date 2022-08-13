@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/on_board_navigation"
     app:startDestination="@id/nav_splash_screen">
 
     <fragment
         android:id="@+id/nav_home_screen"
         android:name="com.shashankbhat.splitbill.ui.main_ui.HomeScreenViewPager"
-        android:label="Home Screen" >
+        android:label="Home Screen"
+        tools:layout="@layout/fragment_home_screen_view_pager">
         <action
             android:id="@+id/action_nav_home_screen_to_nav_group_list"
             app:destination="@id/nav_group_list" />
@@ -16,7 +18,8 @@
     <fragment
         android:id="@+id/nav_group_list"
         android:name="com.shashankbhat.splitbill.ui.main_ui.group_list.GroupListFragment"
-        android:label="Group List" >
+        android:label="Group List"
+        tools:layout="@layout/fragment_group_list">
         <action
             android:id="@+id/action_nav_group_list_to_nav_user_list"
             app:destination="@id/nav_user_list" />
@@ -34,17 +37,20 @@
     <fragment
         android:id="@+id/nav_user_list"
         android:name="com.shashankbhat.splitbill.ui.user_list.UserListFragment"
-        android:label="User List" />
+        android:label="User List"
+        tools:layout="@layout/fragment_user_list"/>
 
     <fragment
         android:id="@+id/nav_bill_shares"
         android:name="com.shashankbhat.splitbill.ui.bill_shares.shares.BillShareFragment"
-        android:label="Bill Shares" />
+        android:label="Bill Shares"
+        tools:layout="@layout/fragment_bill_share"/>
 
     <fragment
         android:id="@+id/nav_splash_screen"
         android:name="com.shashankbhat.splitbill.ui.splash_screen.SplashScreenFragment"
-        android:label="Splash Screen" >
+        android:label="Splash Screen"
+        tools:layout="@layout/fragment_splash_screen">
         <action
             android:id="@+id/action_nav_splash_screen_to_nav_home_screen"
             app:destination="@id/nav_home_screen" />
@@ -53,6 +59,7 @@
     <fragment
         android:id="@+id/nav_bill_shares_view_pager"
         android:name="com.shashankbhat.splitbill.ui.bill_shares.BillShareViewPager"
-        android:label="Bill shares" />
+        android:label="Bill shares"
+        tools:layout="@layout/fragment_bill_share_view_pager"/>
 
 </navigation>

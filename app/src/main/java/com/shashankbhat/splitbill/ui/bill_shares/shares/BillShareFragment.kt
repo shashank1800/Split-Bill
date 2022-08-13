@@ -4,10 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.material.*
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
-import dagger.hilt.android.AndroidEntryPoint
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
@@ -21,15 +18,13 @@ import com.shashankbhat.splitbill.databinding.FragmentBillShareBinding
 import com.shashankbhat.splitbill.ui.bill_shares.add_bill.AddBillSharesBottomSheetFragment
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
-@AndroidEntryPoint
-class BillShareFragment : TitleFragment() {
+class BillShareFragment : Fragment() {
 
     private val viewModel: BillShareViewModel by activityViewModels()
     private lateinit var groupListDto: GroupListDto
     private lateinit var binding: FragmentBillShareBinding
     lateinit var adapter: RecyclerGenericAdapter<AdapterBillShareBinding, BillModel>
 
-    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,7 +39,7 @@ class BillShareFragment : TitleFragment() {
 
         groupListDto = requireArguments().getSerializable("model") as GroupListDto
 
-        setTitle(groupListDto.group.name)
+//        setTitle(groupListDto.group.name)
         binding.isBillListEmpty = viewModel.isBillListEmpty
 
         viewModel.getAllBill(groupListDto.group.id ?: -1)
@@ -60,9 +55,19 @@ class BillShareFragment : TitleFragment() {
         binding.rvNearbyUsers.adapter = adapter
 
         viewModel.billList.observe(viewLifecycleOwner) {
-            if(it.isSuccess()) {
-                adapter.replaceList(ArrayList(it.data ?: emptyList()))
-                viewModel.isBillListEmpty.set(it.data?.size == 0)
+            if(it.isSuccess() || (it.isLoading() || (it.data?.size ?: 0) > 0)) {
+                if(adapter.getItemList().size == it.data?.size){
+                    val oldList = adapter.getItemList()
+                    val newList = it.data
+                    val listSize = it.data.size
+                    for(index in 0 until listSize){
+                       if(newList[index] != oldList[index]){
+                            // Replace complete group
+                            adapter.replaceItemAt(index, newList[index])
+                        }
+                    }
+                }else
+                    adapter.replaceList(ArrayList(it.data ?: emptyList()))
             }
         }
     }
@@ -74,7 +79,6 @@ class BillShareFragment : TitleFragment() {
         )
         addBillDialog.show(parentFragmentManager, addBillDialog.tag)
     }
-
 
     companion object {
         fun getInstance(bundle: Bundle): BillShareFragment {
