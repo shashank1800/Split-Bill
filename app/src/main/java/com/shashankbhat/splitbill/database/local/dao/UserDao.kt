@@ -6,7 +6,7 @@ import com.shashankbhat.splitbill.database.local.entity.User
 @Dao
 interface UserDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(user: User?)
 
     @Query("Update user SET id = :remoteId WHERE id = :localId")

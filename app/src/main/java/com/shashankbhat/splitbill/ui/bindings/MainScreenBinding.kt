@@ -8,6 +8,7 @@ import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
@@ -17,6 +18,7 @@ import com.shashankbhat.splitbill.util.LatLong
 import com.shashankbhat.splitbill.BR
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillSharesModel
+import com.shashankbhat.splitbill.database.local.dto.group_list.GroupRecyclerListDto
 import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.databinding.AdapterBillShareBillBinding
 import com.shashankbhat.splitbill.util.RecyclerItemOverlap
@@ -49,15 +51,21 @@ object MainScreenBinding {
 
     @JvmStatic
     @BindingAdapter(value = ["bindUsersList"], requireAll = true)
-    fun bindUsersList(recyclerView: RecyclerView, groupListDto: GroupListDto) {
-        if (groupListDto.userList.isNotEmpty()) {
-            val adapter = RecyclerGenericAdapter.Builder<AdapterGroupUsersProfileBinding, User>(R.layout.adapter_group_users_profile, BR.model)
-                .build()
-            recyclerView.addItemDecoration(RecyclerItemOverlap(left = -15))
+    fun bindUsersList(recyclerView: RecyclerView, groupListDto: GroupRecyclerListDto) {
+        val adapter = RecyclerGenericAdapter.Builder<AdapterGroupUsersProfileBinding, User>(R.layout.adapter_group_users_profile, BR.model)
+            .build()
+        if (groupListDto.userList != null && groupListDto.userList.isNotEmpty()) {
+
+//            recyclerView.addItemDecoration(RecyclerItemOverlap(left = -15))
             recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, RecyclerView.HORIZONTAL, false)
             recyclerView.adapter = adapter
             adapter.replaceList(ArrayList(groupListDto.userList.take(3)))
+            groupListDto.adapter = adapter
+        }else {
+            recyclerView.adapter = adapter
+            adapter.replaceList(ArrayList())
         }
+
     }
 
     @JvmStatic
@@ -87,6 +95,12 @@ object MainScreenBinding {
             recyclerView.adapter = adapter
             adapter.replaceList(ArrayList(it))
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["setRefreshing"], requireAll = true)
+    fun setRefreshing(srl: SwipeRefreshLayout, isRefreshing: Boolean) {
+        srl.isRefreshing = isRefreshing
     }
 
 

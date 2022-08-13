@@ -9,6 +9,7 @@ import com.shashankbhat.splitbill.database.remote.entity.UsersAllDataDto
 import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.ui.ApiConstants
 import com.shashankbhat.splitbill.BuildConfig.BASE_URL
+import com.shashankbhat.splitbill.database.local.dto.profile.UpdateProfilePhotoDto
 import com.shashankbhat.splitbill.database.remote.entity.SaveProfileDto
 import com.shashankbhat.splitbill.ui.ApiConstants.getAllUser
 import com.shashankbhat.splitbill.ui.ApiConstants.saveUser
@@ -157,19 +158,24 @@ class UserRepositoryRemote @Inject constructor(
         }
     }
 
-    suspend fun updateProfilePhoto(photoUrl: String? = null) {
+    suspend fun updateProfilePhoto(
+        updateProfileResponse: MutableLiveData<Response<String>>,
+        photoUrl: String? = null
+    ) {
 
         try {
             val id = httpClient.put<Int?>(BASE_URL + updateProfilePhoto) {
                 contentType(ContentType.Application.Json)
                 header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
-                body = photoUrl ?: ""
+                body = UpdateProfilePhotoDto(photoUrl)
             }
 
             if(id != null){
                 sharedPreferences.putPhotoUrl(photoUrl ?:"")
+                updateProfileResponse.value = Response.success(photoUrl)
             }
         }catch (ex:Exception){
+            updateProfileResponse.value = Response.error(ex.message)
             print(ex)
         }
     }

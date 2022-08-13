@@ -53,7 +53,7 @@ class BillShareViewModel @Inject constructor(
     fun addBill(bill: Bill, billShareList: List<BillShareModel>) {
         GlobalScope.launch {
             billRepositoryRemote.addBill(bill, billShareList){ type ->
-                when(type.isLocal()){
+                when{
                     type.isLocal() -> viewModelScope.launch {
                         billRepositoryRemote.getAllBillOffline(this@BillShareViewModel.groupId, billList)
                     }
@@ -69,7 +69,7 @@ class BillShareViewModel @Inject constructor(
     fun deleteBill(billModel: BillModel) {
         GlobalScope.launch {
             billRepositoryRemote.deleteBill(billModel){ type ->
-                when(type.isLocal()){
+                when {
                     type.isLocal() -> viewModelScope.launch {
                         billRepositoryRemote.getAllBillOffline(this@BillShareViewModel.groupId, billList)
                     }

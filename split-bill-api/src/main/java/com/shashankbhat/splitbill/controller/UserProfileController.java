@@ -1,9 +1,6 @@
 package com.shashankbhat.splitbill.controller;
 
-import com.shashankbhat.splitbill.dto.user_profile.SetLocationPreferenceDto;
-import com.shashankbhat.splitbill.dto.user_profile.UpdateNameDto;
-import com.shashankbhat.splitbill.dto.user_profile.UserProfileDataDto;
-import com.shashankbhat.splitbill.dto.user_profile.UserProfileSaveDto;
+import com.shashankbhat.splitbill.dto.user_profile.*;
 import com.shashankbhat.splitbill.entity.UserProfileEntity;
 import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.service.IUserProfileService;
@@ -84,11 +81,11 @@ public class UserProfileController {
 
 
     @PutMapping(value = "/updateProfilePhoto")
-    public ResponseEntity<?> updateProfilePhoto(@RequestBody String photoUrl) {
+    public ResponseEntity<?> updateProfilePhoto(@RequestBody @Valid UpdateProfilePhotoDto updateProfilePhotoDto) {
 
         try{
             Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
-            userProfileService.updateProfilePhoto(uniqueId, photoUrl);
+            userProfileService.updateProfilePhoto(uniqueId, updateProfilePhotoDto.getPhotoUrl());
 
             return new ResponseEntity<>(uniqueId, HttpStatus.OK);
         } catch (Exception ex){

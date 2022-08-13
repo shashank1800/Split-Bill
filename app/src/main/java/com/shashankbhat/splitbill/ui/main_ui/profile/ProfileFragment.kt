@@ -33,6 +33,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.viewModel = viewModel
+        viewModel.isEditEnabled.set(true)
 
         binding.btnNearbyRange.setOnClickListener {
             val dialog = SingleItemSelectionBottomSheet(viewModel.distanceList.getBottomSheetList(),

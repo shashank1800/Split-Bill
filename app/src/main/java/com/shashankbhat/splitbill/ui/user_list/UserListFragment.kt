@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -26,7 +25,7 @@ import com.shashankbhat.splitbill.viewmodels.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class UserList : TitleFragment() {
+class UserListFragment : TitleFragment() {
     private lateinit var binding: FragmentUserListBinding
     private lateinit var navController: NavController
     private lateinit var groupListDto: GroupListDto
@@ -103,6 +102,6 @@ class UserList : TitleFragment() {
 
     companion object {
         @JvmStatic
-        fun getInstance() = UserList()
+        fun getInstance() = UserListFragment()
     }
 }

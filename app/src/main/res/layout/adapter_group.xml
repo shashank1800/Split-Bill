@@ -7,12 +7,12 @@
 
         <variable
             name="model"
-            type="com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto" />
+            type="com.shashankbhat.splitbill.database.local.dto.group_list.GroupRecyclerListDto" />
 
         <import type="android.view.View" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_root"
         style="@style/Common.CardViewStyle"
         android:layout_width="match_parent"
@@ -94,5 +94,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

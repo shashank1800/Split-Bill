@@ -38,23 +38,24 @@ class GroupsController {
     private IUserProfileService userProfileService;
 
     @PostMapping(value = "/saveGroup")
-    public ResponseEntity<Integer> saveGroup(@RequestBody @Valid GroupsSaveDto group) {
+    public ResponseEntity<GroupsEntityDto> saveGroup(@RequestBody @Valid GroupsSaveDto group) {
 
         Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
 
-        GroupsEntity result = groupsRepository.save(new GroupsEntity(null, group.name, System.currentTimeMillis(), uniqueId));
+        GroupsEntity groupsEntity = groupsRepository.save(new GroupsEntity(null, group.name, System.currentTimeMillis(), uniqueId));
 
         if(group.peoples != null && !group.peoples.isEmpty()){
             group.peoples.forEach(uId ->{
                 UserProfileEntity user = userProfileService.getProfile(uId);
-                usersRepository.save(new UsersEntity(null, result.getId(), user.getName(), System.currentTimeMillis(), user.getUniqueId()));
+                usersRepository.save(new UsersEntity(null, groupsEntity.getId(), user.getName(), System.currentTimeMillis(), user.getUniqueId()));
             });
+
+            UserProfileEntity user = userProfileService.getProfile(uniqueId);
+            usersRepository.save(new UsersEntity(null, groupsEntity.getId(), user.getName(), System.currentTimeMillis(), uniqueId));
         }
+        List<UserDto> usersList = getAllUsers(groupsEntity);
 
-        UserProfileEntity user = userProfileService.getProfile(uniqueId);
-        usersRepository.save(new UsersEntity(null, result.getId(), user.getName(), System.currentTimeMillis(), uniqueId));
-
-        return new ResponseEntity<>(result.getId(), HttpStatus.OK);
+        return new ResponseEntity<>(new GroupsEntityDto(groupsEntity, usersList), HttpStatus.OK);
     }
 
     @GetMapping(value = "/allGroups")
@@ -65,21 +66,27 @@ class GroupsController {
         List<GroupsEntity> result = groupsRepository.findAllGroupsWithUniqueId(uniqueId);
         List<GroupsEntityDto> response = new ArrayList<>();
         result.forEach(groupsEntity -> {
-            List<UserDto> usersList = new ArrayList<>();
-            List<UsersEntity> users = usersRepository.findByGroupId(groupsEntity.getId(), Sort.by(Sort.Direction.ASC, "name"));
-
-            users.forEach(usersEntity -> {
-                String profileUrl = "";
-                if(usersEntity.getUniqueId() != null){
-                    profileUrl = userProfileService.getProfile(usersEntity.getUniqueId()).getPhotoUrl();
-                }
-
-                usersList.add(new UserDto(usersEntity.getId(), usersEntity.getGroupId(), usersEntity.getName(), profileUrl, usersEntity.getDateCreated(), usersEntity.getUniqueId()));
-            });
+            List<UserDto> usersList = getAllUsers(groupsEntity);
             response.add(new GroupsEntityDto(groupsEntity, usersList));
         });
 
         return new ResponseEntity<>(new GroupsAllDataDto(response), HttpStatus.OK);
+    }
+
+    public List<UserDto> getAllUsers(GroupsEntity groupsEntity){
+        List<UserDto> usersList = new ArrayList<>();
+        List<UsersEntity> users = usersRepository.findByGroupId(groupsEntity.getId(), Sort.by(Sort.Direction.ASC, "name"));
+
+        users.forEach(usersEntity -> {
+            String profileUrl = null;
+            if(usersEntity.getUniqueId() != null){
+                profileUrl = userProfileService.getProfile(usersEntity.getUniqueId()).getPhotoUrl();
+            }
+
+            usersList.add(new UserDto(usersEntity.getId(), usersEntity.getGroupId(), usersEntity.getName(), profileUrl, usersEntity.getDateCreated(), usersEntity.getUniqueId()));
+        });
+
+        return usersList;
     }
 }
 

@@ -41,7 +41,7 @@ class UserListViewModel @Inject constructor(
     fun addPeople(user: User) {
         GlobalScope.launch {
             userRepoRemote.insert(user) { type ->
-                when (type.isLocal()) {
+                when {
                     type.isLocal() -> viewModelScope.launch {
                         userRepo.getAllUsersByGroupId(user.groupId, userListState)
                     }
@@ -59,7 +59,7 @@ class UserListViewModel @Inject constructor(
             GlobalScope.launch {
                 userRepoRemote.deleteUser(user){ type ->
 
-                    when (type.isLocal()) {
+                    when {
                         type.isLocal() -> viewModelScope.launch {
                             userRepo.getAllUsersByGroupId(user.groupId, userListState)
                         }
@@ -85,7 +85,7 @@ class UserListViewModel @Inject constructor(
     fun linkPeople(user: User?, uniqueId: String?) {
         GlobalScope.launch {
             userRepoRemote.linkUser(user?.id, uniqueId) { type ->
-                when (type.isLocal()) {
+                when {
                     type.isLocal() -> viewModelScope.launch {
                         userRepo.getAllUsersByGroupId(user?.groupId ?: -1, userListState)
                     }

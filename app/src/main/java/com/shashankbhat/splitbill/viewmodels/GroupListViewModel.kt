@@ -6,7 +6,7 @@ import androidx.compose.runtime.*
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.*
-import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
+import com.shashankbhat.splitbill.database.local.dto.group_list.GroupRecyclerListDto
 import com.shashankbhat.splitbill.database.local.entity.Groups
 import com.shashankbhat.splitbill.database.local.repository.GroupRepository
 import com.shashankbhat.splitbill.database.remote.repository.GroupRepositoryRemote
@@ -17,7 +17,6 @@ import com.shashankbhat.splitbill.model.ProfileIconModel
 import com.shashankbhat.splitbill.model.profile.DistanceRangeModel
 import com.shashankbhat.splitbill.util.LatLong
 import com.shashankbhat.splitbill.util.Response
-import com.shashankbhat.splitbill.util.Status
 import com.shashankbhat.splitbill.util.extension.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -36,14 +35,15 @@ class GroupListViewModel @Inject constructor(
     private val userRepoRemote: UserRepositoryRemote,
 ) : ViewModel() {
 
-    var groupsListState: MutableLiveData<Response<List<GroupListDto>>> =
+    var groupsListState: MutableLiveData<Response<List<GroupRecyclerListDto>>> =
         MutableLiveData(Response.nothing())
     var isGroupListEmpty = ObservableBoolean(false)
-
+    var isRefreshing = ObservableBoolean(false)
     var unauthorized = MutableLiveData(false)
     var isTakingMoreTime = mutableStateOf(false)
 
     fun getAllGroups() {
+        isRefreshing.set(true)
         isTakingMoreTime.value = false
         val timer = object: CountDownTimer(5000, 1000) {
             override fun onTick(millisUntilFinished: Long) {}
@@ -64,6 +64,8 @@ class GroupListViewModel @Inject constructor(
                     sharedPreferences.putToken("")
                     unauthorized.value = true
                 }
+
+                isRefreshing.set(false)
             }
         }
     }
@@ -71,8 +73,8 @@ class GroupListViewModel @Inject constructor(
     fun addGroup(group: Groups) {
 
         GlobalScope.launch {
-            groupRepoRemote.insert(group){ type ->
-                when(type.isLocal()){
+            groupRepoRemote.insert(group) { type ->
+                when {
                     type.isLocal() -> viewModelScope.launch {
                         groupRepository.getAllGroups(groupsListState)
                     }
@@ -166,17 +168,21 @@ class GroupListViewModel @Inject constructor(
                     if(it == sharedPreferences.getPhotoUrl())
                         profilePhoto.set(ProfileIconModel(index, it))
                 }
-                isNearbyEnabled.set(response.data?.isNearbyVisible ?: false)
+                isNearbyEnabled.set(response.data?.isNearbyVisible ?: sharedPreferences.getIsNearVisible())
                 distanceRange.set(DistanceRangeModel("${sharedPreferences.getDistanceRange().toInt()} KM", sharedPreferences.getDistanceRange()))
             }
         }
     }
 
+    var updateProfileResponse: MutableLiveData<Response<String>> = MutableLiveData(Response.nothing())
 
-    fun updateProfilePhoto() {
-
+    fun updateProfilePhoto(profileIconModel: ProfileIconModel) {
         viewModelScope.launch {
-            userRepoRemote.updateProfilePhoto(profilePhoto.get()?.url)
+            userRepoRemote.updateProfilePhoto(updateProfileResponse, profileIconModel.url)
+            withContext(Dispatchers.Main) {
+                if(updateProfileResponse.value?.isSuccess() == true)
+                    profilePhoto.set(profileIconModel)
+            }
         }
     }
 

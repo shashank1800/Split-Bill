@@ -22,6 +22,8 @@ class BillShareViewPager : Fragment() {
     private lateinit var binding: FragmentBillShareViewPagerBinding
     private lateinit var groupListDto: GroupListDto
 
+    private val viewModel: BillShareViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,6 +36,8 @@ class BillShareViewPager : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         groupListDto = requireArguments().getSerializable("model") as GroupListDto
+
+        binding.isBillListEmpty = viewModel.isBillListEmpty
 
         val billSharesFragment = BillShareFragment.getInstance(requireArguments())
         val balanceFragment = ShowBillSharesBottomSheetFragment.getInstance(requireArguments())

@@ -3,6 +3,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="isBillListEmpty"
+            type="androidx.databinding.ObservableBoolean" />
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -18,6 +24,7 @@
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomBar"
+            android:visibility="@{isBillListEmpty ? View.VISIBLE : View.GONE, default=gone}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

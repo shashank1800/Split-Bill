@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import com.shashankbhat.splitbill.databinding.FragmentProfileBinding
 import com.shashankbhat.splitbill.databinding.FragmentProfileWithDataBinding
 import com.shashankbhat.splitbill.enums.SnackBarType
+import com.shashankbhat.splitbill.model.ProfileIconModel
 import com.shashankbhat.splitbill.model.profile.DistanceRangeModel
 import com.shashankbhat.splitbill.util.bottom_sheet.BottomSheetItem
 import com.shashankbhat.splitbill.util.bottom_sheet.SingleItemSelectionBottomSheet
@@ -64,10 +64,17 @@ class ProfileWithDataFragment : Fragment() {
 
         binding.ivProfilePhoto.setOnClickListener {
             val dialog = ProfileSelectBottomSheetFragment(viewModel.iconList){
-                viewModel.profilePhoto.set(it)
-                viewModel.updateProfilePhoto()
+                viewModel.updateProfilePhoto(it)
             }
             dialog.show(parentFragmentManager, dialog.tag)
+        }
+
+        viewModel.updateProfileResponse.observe(viewLifecycleOwner){
+            when{
+                it.isError() -> {
+                    binding.showSnackBar("Please check your internet", snackBarType = SnackBarType.INSTRUCTION)
+                }
+            }
         }
 
         viewModel.getProfile()

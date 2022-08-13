@@ -11,9 +11,9 @@
     <color name="red">#E8004A</color>
 
     <color name="primaryColor">#432545</color>
-    <color name="secondaryColor">@color/teal_200</color>
-    <color name="colorPrimaryVariant">@color/purple_700</color>
+    <color name="secondaryColor">#FF3EC590</color>
+    <color name="colorPrimaryVariant">@color/primaryColor</color>
 
-    <color name="background">#F9F1FF</color>
+    <color name="background">#FAF6FD</color>
 
 </resources>

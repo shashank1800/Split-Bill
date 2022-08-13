@@ -176,7 +176,7 @@ fun SharedPreferences.putDistanceRange(value : Double){
     editor.apply()
 }
 
-fun SharedPreferences.getDistanceRange(): Double = this.getString("distance_range", "0.0")?.toDouble() ?: 0.0
+fun SharedPreferences.getDistanceRange(): Double = this.getString("distance_range", "1.0")?.toDouble() ?: 1.0
 
 fun SharedPreferences.putIsNearVisible(value : Boolean){
     val editor = this.edit()
