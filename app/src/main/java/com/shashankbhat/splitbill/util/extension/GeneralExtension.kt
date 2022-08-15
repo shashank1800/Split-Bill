@@ -103,19 +103,6 @@ fun String.getColorV2(): Int {
     return android.graphics.Color.parseColor(colors[sum % colors.size])
 }
 
-fun Modifier.badgeLayout() =
-    layout { measurable, constraints ->
-        val placeable = measurable.measure(constraints)
-
-        // based on the expectation of only one line of text
-        val minPadding = placeable.height / 4
-
-        val width = maxOf(placeable.width + minPadding, placeable.height)
-        layout(width, placeable.height) {
-            placeable.place((width - placeable.width) / 2, 0)
-        }
-    }
-
 val colors = listOf(
     "#2ab7ca",
     "#005b96",
@@ -199,13 +186,13 @@ fun SharedPreferences.getProfileIcons(): List<String> = listOf(
 )
 
 fun <T : ViewDataBinding> T.showSnackBar(message: String, action: String? = null, duration: Int = Snackbar.LENGTH_SHORT,
-                                         actionListener: View.OnClickListener? = null, snackBarType: SnackBarType = SnackBarType.SUCCESS) {
+                                         actionListener: View.OnClickListener? = View.OnClickListener { }, snackBarType: SnackBarType = SnackBarType.SUCCESS) {
 
     var color = android.graphics.Color.parseColor("#FF3EC590")
     if(snackBarType == SnackBarType.ERROR)
         color = android.graphics.Color.parseColor("#ef5350")
     if(snackBarType == SnackBarType.INSTRUCTION)
-        color = ContextCompat.getColor(this.root.context, R.color.primaryColor)
+        color = ContextCompat.getColor(this.root.context, R.color.snack_bar_instruction)
 
     val snackBar = Snackbar.make(this.root, message, duration)
         .setBackgroundTint(color)

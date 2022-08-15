@@ -22,7 +22,6 @@ import com.shashankbhat.splitbill.util.extension.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -148,6 +147,9 @@ class GroupListViewModel @Inject constructor(
         sharedPreferences.setLocation(location)
         viewModelScope.launch {
             locationRepoRemote.getNearUser(location, nearUserList)
+            withContext(Dispatchers.IO){
+                isRefreshing.set(false)
+            }
         }
     }
 

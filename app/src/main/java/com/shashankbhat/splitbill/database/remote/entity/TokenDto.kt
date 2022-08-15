@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TokenDto(
-    var token: String,
-    var username: String,
-    var uniqueId: Int
+    var token: String? = null,
+    var username: String? = null,
+    var uniqueId: Int? = null
 )

@@ -45,7 +45,7 @@ class GroupRepositoryRemote @Inject constructor(
             }
 
             val localId = group.id ?: 0
-            remoteGroup.group.id?.let { groupRepository.update(localId, it) }
+            remoteGroup.group?.id?.let { groupRepository.update(localId, it) }
             addLocalCallback(DatabaseOperation.REMOTE)
             sharedPreferences.releaseOne()
         } catch (ex: Exception) {
@@ -62,11 +62,11 @@ class GroupRepositoryRemote @Inject constructor(
                 header(AUTHORIZATION, token)
             }
             response.data?.forEach { it ->
-                it.group.let { group ->
+                it.group?.let { group ->
                     groupRepository.insert(group)
                 }
 
-                it.userList.forEach { user ->
+                it.userList?.forEach { user ->
                     userRepository.insert(user)
                 }
             }
@@ -95,7 +95,7 @@ class GroupRepositoryRemote @Inject constructor(
                 body = GroupSaveDto(groupName, peoples)
             }
 
-            remoteId.group.id
+            remoteId.group?.id
         } catch (ex: Exception) {
             null
         }

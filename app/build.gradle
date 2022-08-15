@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlinx-serialization'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -26,8 +27,8 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            buildConfigField "String", "BASE_URL", "\"https://split-bill-develop.herokuapp.com/\""
-            buildConfigField "String", "BASE_URL", "\"http://192.168.1.7:8080/\""
+            buildConfigField "String", "BASE_URL", "\"https://split-bill-develop.herokuapp.com/\""
+//            buildConfigField "String", "BASE_URL", "\"http://192.168.1.7:8080/\""
         }
         release {
             minifyEnabled false
@@ -79,9 +80,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
 
     // Jetpack Navigation component
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.navigation:navigation-runtime-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
     //Dagger
     implementation "com.google.dagger:hilt-android:$hilt_version"

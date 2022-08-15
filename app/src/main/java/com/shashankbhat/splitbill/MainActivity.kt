@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         navController = Navigation.findNavController(this, R.id.fragment_container)
+        navController.setGraph(R.navigation.navigations)
 
         val callback: OnBackPressedCallback =
             object : OnBackPressedCallback(true) {

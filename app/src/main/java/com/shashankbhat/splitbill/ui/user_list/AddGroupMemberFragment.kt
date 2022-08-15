@@ -98,7 +98,7 @@ class AddGroupMemberFragment(private val viewModel: UserListViewModel, private v
                     if (name.isNullOrEmpty()) {
                         isEmpty = true
                     } else {
-                        viewModel.addPeople(User(name, group.group.id ?: -1))
+                        viewModel.addPeople(User(name, group.group?.id ?: -1))
                         dialog?.cancel()
                     }
                 },

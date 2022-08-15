@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.snackbar.Snackbar
 import com.kotlinpermissions.KotlinPermissions
 import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
 import com.shahankbhat.recyclergenericadapter.util.CallBackModel
@@ -25,7 +28,7 @@ import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.showSnackBar
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
 
-class NearbyPeopleFragment : TitleFragment() {
+class NearbyPeopleFragment : TitleFragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: FragmentNearbyPeopleBinding
     private val myLocation = LocationListener()
     private val viewModel: GroupListViewModel by activityViewModels()
@@ -43,14 +46,10 @@ class NearbyPeopleFragment : TitleFragment() {
     @OptIn(ExperimentalComposeUiApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.isRefreshing = viewModel.isRefreshing
+        binding.srlGroupList.setOnRefreshListener(this)
 
-        binding.key.setOnClickListener {
-            KotlinPermissions.with(requireActivity())
-                .permissions(Manifest.permission.ACCESS_FINE_LOCATION)
-                .onAccepted {
-                    findNearPeople()
-                }.ask()
-        }
+        getNearUserList()
 
         adapter = RecyclerGenericAdapter.Builder<AdapterNearbyUserBinding, NearUserModel>(R.layout.adapter_nearby_user, BR.model)
             .setClickCallbacks(arrayListOf<CallBackModel<AdapterNearbyUserBinding, NearUserModel>>().apply {
@@ -62,7 +61,7 @@ class NearbyPeopleFragment : TitleFragment() {
             .setMoreDataBinds(DataBinds().apply {
                 add(MoreDataBindings(BR.sharedPref, viewModel.sharedPreferences))
             }).build()
-
+        (binding.rvNearbyUsers.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         binding.rvNearbyUsers.layoutManager = LinearLayoutManager(requireContext())
         binding.rvNearbyUsers.adapter = adapter
 
@@ -71,14 +70,23 @@ class NearbyPeopleFragment : TitleFragment() {
                 it.isSuccess() -> {
                     adapter.replaceList(it.data ?: arrayListOf())
                     hideLoading()
+                    binding.tvInstruction.text = ""
                 }
 
                 it.isLoading() -> {
                     showLoading()
+                    binding.tvInstruction.text = ""
+                }
+
+                it.isError() -> {
+                    hideLoading()
+                    if(it.message != null)
+                        binding.tvInstruction.text = it.message
                 }
 
                 else -> {
                     hideLoading()
+                    binding.tvInstruction.text = ""
                 }
             }
         }
@@ -98,6 +106,27 @@ class NearbyPeopleFragment : TitleFragment() {
             }
         }
 
+    }
+
+    private fun getNearUserList(){
+        KotlinPermissions.with(requireActivity())
+            .permissions(Manifest.permission.ACCESS_FINE_LOCATION)
+            .onAccepted {
+                viewModel.isRefreshing.set(true)
+                findNearPeople()
+            }.onDenied {
+                requestUserToAllowPermission()
+                viewModel.isRefreshing.set(false)
+            }.onForeverDenied {
+                binding.tvInstruction.text = "Permit app to use location to see nearby people"
+                viewModel.isRefreshing.set(false)
+            }.ask()
+    }
+
+    private fun requestUserToAllowPermission(){
+        binding.showSnackBar("Permit app to use location to see nearby people", "Allow", actionListener =  {
+            getNearUserList()
+        }, duration = Snackbar.LENGTH_INDEFINITE)
     }
 
     private fun selectUser(model : NearUserModel){
@@ -135,5 +164,10 @@ class NearbyPeopleFragment : TitleFragment() {
     companion object {
         @JvmStatic
         fun getInstance() = NearbyPeopleFragment()
+    }
+
+    override fun onRefresh() {
+        viewModel.isRefreshing.set(true)
+        getNearUserList()
     }
 }

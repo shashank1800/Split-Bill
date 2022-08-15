@@ -8,14 +8,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.shashankbhat.splitbill.R
+import com.shashankbhat.splitbill.base.TitleFragment
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.databinding.FragmentBillShareViewPagerBinding
+import com.shashankbhat.splitbill.enums.SnackBarType
 import com.shashankbhat.splitbill.ui.bill_shares.balance.ShowBillSharesBalanceFragment
 import com.shashankbhat.splitbill.ui.bill_shares.shares.BillShareFragment
 import com.shashankbhat.splitbill.util.ViewPagerAdapter
+import com.shashankbhat.splitbill.util.extension.showSnackBar
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
-class BillShareViewPager : Fragment() {
+class BillShareViewPager : TitleFragment() {
 
     private lateinit var binding: FragmentBillShareViewPagerBinding
     private lateinit var groupListDto: GroupListDto
@@ -62,6 +65,9 @@ class BillShareViewPager : Fragment() {
                 R.id.menu_bill_shares -> binding.vpBillShares.setCurrentItem(0, true)
                 R.id.menu_balances -> {
                     binding.vpBillShares.setCurrentItem(1, true)
+                }
+                R.id.menu_statistics -> {
+                    binding.showSnackBar("Work in progress", "Okay", snackBarType = SnackBarType.INSTRUCTION)
                 }
             }
 

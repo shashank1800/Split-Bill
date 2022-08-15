@@ -1,7 +1,6 @@
 package com.shashankbhat.splitbill.ui.main_ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,7 +12,6 @@ import com.shashankbhat.splitbill.ui.main_ui.nearby_people.NearbyPeopleFragment
 import com.shashankbhat.splitbill.ui.main_ui.profile.ProfileFragment
 import com.shashankbhat.splitbill.ui.main_ui.profile.ProfileWithDataFragment
 import com.shashankbhat.splitbill.util.ViewPagerAdapter
-import com.shashankbhat.splitbill.util.extension.findActivity
 import com.shashankbhat.splitbill.util.extension.getFullName
 import com.shashankbhat.splitbill.util.extension.getUniqueId
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
@@ -23,16 +21,6 @@ class HomeScreenViewPager : Fragment() {
     private lateinit var binding: FragmentHomeScreenViewPagerBinding
     private val viewModel: GroupListViewModel by activityViewModels()
 
-    override fun onStart() {
-        super.onStart()
-        context?.findActivity()?.supportActionBar?.hide()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        context?.findActivity()?.supportActionBar?.show()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,10 +29,23 @@ class HomeScreenViewPager : Fragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main_menu, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.findItem(R.id.menu_unique_id).title = "# " + viewModel.sharedPreferences.getUniqueId()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.tvId.text = "# ${viewModel.sharedPreferences.getUniqueId()}"
         viewModel.vpBillShares = binding.vpBillShares
 
         val groupsFragment = GroupListFragment.getInstance()

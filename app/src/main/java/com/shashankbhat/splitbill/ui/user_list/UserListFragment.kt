@@ -53,8 +53,8 @@ class UserListFragment : TitleFragment() {
         navController = findNavController()
 
         groupListDto = requireArguments().getSerializable("model") as GroupListDto
-        viewModel.getAllUsersByGroupId(groupListDto.group.id ?: -1)
-        viewModel.getAllBill(groupListDto.group.id ?: -1)
+        viewModel.getAllUsersByGroupId(groupListDto.group?.id ?: -1)
+        viewModel.getAllBill(groupListDto.group?.id ?: -1)
 
         binding.fab.setOnClickListener {
 
@@ -70,7 +70,7 @@ class UserListFragment : TitleFragment() {
 
         adapter = RecyclerGenericAdapter.Builder<AdapterGroupUserBinding, User>(R.layout.adapter_group_user, BR.model)
             .setClickCallbacks(arrayListOf<CallBackModel<AdapterGroupUserBinding, User>>().apply {
-                add(CallBackModel(R.id.iv_link){ model, position, binding ->
+                add(CallBackModel(R.id.iv_link){ model, _, _ ->
                     val dialog = LinkGroupMemberFragment(viewModel, model)
                     requireContext().findActivity()?.supportFragmentManager?.let {
                         dialog.show(
@@ -79,7 +79,7 @@ class UserListFragment : TitleFragment() {
                         )
                     }
                 })
-                add(CallBackModel(R.id.iv_delete){ model, position, binding ->
+                add(CallBackModel(R.id.iv_delete){ model, _, _ ->
                     viewModel.deleteUser(model)
                 })
             })

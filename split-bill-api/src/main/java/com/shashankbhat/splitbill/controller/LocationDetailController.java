@@ -42,7 +42,7 @@ public class LocationDetailController {
     }
 
     @GetMapping(value = "/getNearUsers")
-    public ResponseEntity<?> getNearUsers(@RequestBody LocationDetailDto locationDetailDto){
+    public ResponseEntity<?> getNearUsers(@RequestBody LocationDetailDto locationDetailDto) throws KnownException {
         try{
             Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
 
@@ -50,7 +50,7 @@ public class LocationDetailController {
                     locationDetailDto.getLatitude(), locationDetailDto.getLongitude());
             return new ResponseEntity<>(nearUsers, HttpStatus.OK);
         }catch (KnownException kn){
-            return ResponseEntity.badRequest().body(kn.getLocalizedMessage());
+            throw kn;
         } catch (Exception ex){
             return ResponseEntity.internalServerError().build();
         }

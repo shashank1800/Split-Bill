@@ -14,5 +14,6 @@ public class ErrorResponse {
     private String error;
     private String developerMessage;
     private HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+    private Integer code = HttpStatus.INTERNAL_SERVER_ERROR.value();
     private Date timestamp = new Date(System.currentTimeMillis());
 }

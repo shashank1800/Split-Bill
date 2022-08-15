@@ -9,6 +9,8 @@
     <color name="secondaryColor">#FF3EC590</color>
     <color name="colorPrimaryVariant">@color/primaryColor</color>
 
+    <color name="snack_bar_instruction">#191E2B</color>
+
     <color name="background">#FAF6FD</color>
 
 </resources>

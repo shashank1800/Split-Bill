@@ -6,6 +6,6 @@ import java.io.Serializable
 
 @kotlinx.serialization.Serializable
 data class GroupListDto(
-    val group: Groups,
-    val userList: List<User>
+    val group: Groups? = null,
+    val userList: List<User>? = null
 ) : Serializable

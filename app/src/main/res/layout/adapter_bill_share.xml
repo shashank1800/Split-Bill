@@ -16,13 +16,11 @@
         android:id="@+id/cv_root"
         style="@style/Common.CardViewStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp">
+        android:layout_height="wrap_content" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp">
+            android:layout_height="match_parent" >
 
             <TextView
                 android:id="@+id/tv_group_name"
@@ -31,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="@{model.name}"
-                app:layout_constraintEnd_toStartOf="@+id/iv_user_icon"
+                app:layout_constraintEnd_toStartOf="@+id/iv_more_option"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,14 +38,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="iv_user_icon, tv_group_name" />
+                app:constraint_referenced_ids="iv_more_option, tv_group_name" />
 
             <ImageView
-                android:id="@+id/iv_user_icon"
+                android:id="@+id/iv_more_option"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:rotation="-90"
                 android:padding="5dp"
+                android:contentDescription="@string/more"
                 android:src="@drawable/ic_round_hdr_strong"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

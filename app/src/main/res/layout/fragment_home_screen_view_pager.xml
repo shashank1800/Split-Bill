@@ -13,85 +13,43 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="?attr/actionBarSize">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout2"
-                android:layout_width="0dp"
-                android:layout_height="?attr/actionBarSize"
-                android:padding="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/iv_app_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_launcher_foreground"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/primaryColor" />
-
-                <TextView
-                    android:id="@+id/tv_app_name"
-                    style="@style/TextStyleHeadMediumBold"
-                    android:textColor="@color/primaryColor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/app_name"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/iv_app_icon"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_id"
-                    style="@style/TextStyleHeadMediumBold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="match_parent">
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vp_bill_shares"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/bottomBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/bottomBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                app:contentInsetEnd="0dp"
+                app:contentInsetStart="0dp"
+                app:fabAlignmentMode="end"
+                app:fabCradleMargin="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bottomNavigation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:itemBackground="@color/primaryColor"
+                    app:itemIconTint="@color/bottom_nav_item_color"
+                    app:itemRippleColor="@color/secondaryColor"
+                    app:itemTextColor="@color/bottom_nav_item_color"
+                    app:menu="@menu/menu_bn_home_screen" />
+
+            </com.google.android.material.bottomappbar.BottomAppBar>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:fabCradleMargin="30dp"
-            app:contentInsetEnd="0dp"
-            app:contentInsetStart="0dp"
-            app:fabAlignmentMode="end">
-
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottomNavigation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:itemBackground="@color/primaryColor"
-                app:itemIconTint="@color/bottom_nav_item_color"
-                app:itemTextColor="@color/bottom_nav_item_color"
-                app:itemRippleColor="@color/secondaryColor"
-                app:menu="@menu/menu_bn_home_screen" />
-
-        </com.google.android.material.bottomappbar.BottomAppBar>
-
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

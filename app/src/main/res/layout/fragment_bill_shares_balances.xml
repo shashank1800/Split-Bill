@@ -71,6 +71,7 @@
                     android:layout_marginStart="4dp"
                     android:nestedScrollingEnabled="false"
                     android:layout_marginEnd="4dp"
+                    android:paddingBottom="50dp"
                     tools:listitem="@layout/adapter_bill_shares_total"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

@@ -5,10 +5,16 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
+import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.databinding.FragmentLoadingDialogBinding
 
 class LoadingDialogFragment : DialogFragment() {
     private lateinit var binding: FragmentLoadingDialogBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NO_TITLE, R.style.DialogTheme)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -42,7 +42,7 @@ class AddBillSharesBottomSheetFragment(
         savedInstanceState: Bundle?
     ): View {
 
-        groupListDto.userList.forEach {
+        groupListDto.userList?.forEach {
             billShareInputList.add(BillShareModel(it.id ?: -1))
         }
 
@@ -156,7 +156,7 @@ class AddBillSharesBottomSheetFragment(
                         width = Dimension.fillToConstraints
                     },
             ) {
-                itemsIndexed(groupListDto.userList) { index, user ->
+                itemsIndexed(groupListDto.userList ?: emptyList()) { index, user ->
                     BillShareUser(user = user, billShareModel = billShareInputList[index])
                 }
             }
@@ -197,7 +197,7 @@ class AddBillSharesBottomSheetFragment(
                         if(isAmountValid){
                             viewModel.addBill(
                                 Bill(
-                                    groupListDto.group.id ?: -1,
+                                    groupListDto.group?.id ?: -1,
                                     billName,
                                     totalAmount.toFloat()
                                 ),

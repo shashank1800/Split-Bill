@@ -31,4 +31,9 @@ class SplashScreenViewModel @Inject constructor(
             loginRepositoryRemote.authentication(androidId, loginState)
         }
     }
+
+    suspend fun ping(): Boolean {
+        return loginRepositoryRemote.ping()
+    }
+
 }
