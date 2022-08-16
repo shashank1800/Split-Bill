@@ -10,8 +10,7 @@ sourceCompatibility = '1.8'
 
 configurations {
 	compileOnly {
-		targetCompatibility = '11'
-		sourceCompatibility = '11'
+		extendsFrom annotationProcessor
 	}
 }
 
