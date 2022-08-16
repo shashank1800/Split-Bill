@@ -34,6 +34,8 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 }
 
+task stage(dependsOn: ['clean', 'bootRun'])
+
 
 //test {
 //	useJUnitPlatform()
