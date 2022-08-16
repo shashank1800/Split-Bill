@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.shashankbhat'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = JavaVersion.VERSION_17
 
 configurations {
 	compileOnly {
@@ -34,7 +34,6 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 }
 
-task stage(dependsOn: ['clean', 'bootRun'])
 
 
 //test {
