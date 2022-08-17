@@ -6,21 +6,16 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v1
-    
-    - name: Install Heroku CLI
-      run: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_AUTH}}
+          heroku_app_name: ${{ secrets.HEROKU_SPLIT_BILL_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          appdir: "split-bill-api"
+          branch: main
+        env:
+          HEROKU_AUTH: ${{ secrets.HEROKU_AUTH }}
 
-    - name: Deploy to Heroku
-      run: |
-        git config --global user.name ${{ github.actor }}
-        git config --global user.email ${{ secrets.HEROKU_EMAIL }}
-        echo ${HEROKU_AUTH} > ~/.netrc
-        heroku git:remote --app ${{ secrets.HEROKU_SPLIT_BILL_NAME }}
-        git subtree push --prefix split-bill-api heroku HEAD:main
-      env:
-        HEROKU_AUTH: ${{ secrets.HEROKU_AUTH }}

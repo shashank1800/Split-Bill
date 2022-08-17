@@ -116,7 +116,7 @@ class SplashScreenFragment : Fragment() {
         networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 super.onAvailable(network)
-                onInternetAvailable()
+//                onInternetAvailable()
             }
 
             override fun onUnavailable() {
