@@ -19,16 +19,16 @@ jobs:
         run: git config --global user.name ${{ github.actor }}
 
       - name: Set Email
-          run: git config --global user.email ${{ secrets.HEROKU_EMAIL }}
+        run: git config --global user.email ${{ secrets.HEROKU_EMAIL }}
 
       - name: Show password
-          run: echo ${HEROKU_AUTH} > ~/.netrc
+        run: echo ${HEROKU_AUTH} > ~/.netrc
 
       - name: Set app name
-          run: heroku git:remote --app ${{ secrets.HEROKU_SPLIT_BILL_DEVELOP_NAME }}
+        run: heroku git:remote --app ${{ secrets.HEROKU_SPLIT_BILL_DEVELOP_NAME }}
 
       - name: Push code
-          run: git subtree push --prefix split-bill-api heroku HEAD:master
+        run: git subtree push --prefix split-bill-api heroku HEAD:master
 
         env:
           HEROKU_AUTH: ${{ secrets.HEROKU_AUTH }}
