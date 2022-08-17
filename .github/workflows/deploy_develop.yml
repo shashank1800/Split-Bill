@@ -9,11 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+      - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_AUTH}}
           heroku_app_name: ${{ secrets.HEROKU_SPLIT_BILL_NAME }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          appdir: "split-bill-api" #
+          appdir: "split-bill-api"
+          branch: main
         env:
           HEROKU_AUTH: ${{ secrets.HEROKU_AUTH }}
