@@ -2,21 +2,25 @@ package com.shashankbhat.splitbill.database.remote.repository
 
 import android.content.SharedPreferences
 import androidx.compose.runtime.MutableState
+import androidx.lifecycle.MutableLiveData
 import com.shashankbhat.splitbill.database.local.dto.users.UsersLinkDto
 import com.shashankbhat.splitbill.database.local.repository.UserRepository
 import com.shashankbhat.splitbill.database.remote.entity.UsersAllDataDto
 import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.ui.ApiConstants
 import com.shashankbhat.splitbill.BuildConfig.BASE_URL
+import com.shashankbhat.splitbill.database.local.dto.profile.UpdateProfilePhotoDto
+import com.shashankbhat.splitbill.database.remote.entity.SaveProfileDto
 import com.shashankbhat.splitbill.ui.ApiConstants.getAllUser
 import com.shashankbhat.splitbill.ui.ApiConstants.saveUser
 import com.shashankbhat.splitbill.ui.ApiConstants.deleteUser
 import com.shashankbhat.splitbill.ui.ApiConstants.linkUser
+import com.shashankbhat.splitbill.ui.ApiConstants.profileDetail
+import com.shashankbhat.splitbill.ui.ApiConstants.saveProfile
+import com.shashankbhat.splitbill.ui.ApiConstants.updateProfilePhoto
 import com.shashankbhat.splitbill.util.DatabaseOperation
 import com.shashankbhat.splitbill.util.Response
-import com.shashankbhat.splitbill.util.extension.getLocalId
-import com.shashankbhat.splitbill.util.extension.getToken
-import com.shashankbhat.splitbill.util.extension.releaseOne
+import com.shashankbhat.splitbill.util.extension.*
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -53,7 +57,7 @@ class UserRepositoryRemote @Inject constructor(
 
     suspend fun getAllUsersByGroupId(
         groupId: Int,
-        userListState: MutableState<Response<List<User>>>? = null
+        userListState: MutableLiveData<Response<List<User>>>? = null
     ): List<User>? {
         try {
 
@@ -114,4 +118,67 @@ class UserRepositoryRemote @Inject constructor(
 
         }
     }
+
+    suspend fun saveProfile(name: String? = null, photoUrl: String? = null, isNearbyVisible: Boolean? = null, distanceRange: Double? = null) {
+
+        try {
+            httpClient.post<Int>(BASE_URL + saveProfile) {
+                contentType(ContentType.Application.Json)
+                header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
+                body = SaveProfileDto(name, photoUrl, isNearbyVisible, distanceRange)
+            }
+
+            sharedPreferences.putFullName(name ?:"")
+            sharedPreferences.putPhotoUrl(photoUrl ?:"")
+            sharedPreferences.putIsNearVisible(isNearbyVisible ?: false)
+            sharedPreferences.putDistanceRange(distanceRange ?: 0.0)
+
+        }catch (ex:Exception){
+            print(ex)
+        }
+    }
+
+    suspend fun getProfile(): Response<SaveProfileDto> {
+
+        try {
+            val result = httpClient.get<SaveProfileDto>(BASE_URL + profileDetail) {
+                contentType(ContentType.Application.Json)
+                header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
+            }
+
+            sharedPreferences.putFullName(result.name ?:"")
+            sharedPreferences.putPhotoUrl(result.photoUrl ?:"")
+            sharedPreferences.putIsNearVisible(result.isNearbyVisible ?: false)
+            sharedPreferences.putDistanceRange(result.distanceRange ?: 0.0)
+
+            return Response.success(result)
+        }catch (ex:Exception){
+            print(ex)
+            return Response.error(ex.message)
+        }
+    }
+
+    suspend fun updateProfilePhoto(
+        updateProfileResponse: MutableLiveData<Response<String>>,
+        photoUrl: String? = null
+    ) {
+
+        try {
+            val id = httpClient.put<Int?>(BASE_URL + updateProfilePhoto) {
+                contentType(ContentType.Application.Json)
+                header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
+                body = UpdateProfilePhotoDto(photoUrl)
+            }
+
+            if(id != null){
+                sharedPreferences.putPhotoUrl(photoUrl ?:"")
+                updateProfileResponse.value = Response.success(photoUrl)
+            }
+        }catch (ex:Exception){
+            updateProfileResponse.value = Response.error(ex.message)
+            print(ex)
+        }
+    }
+
+
 }

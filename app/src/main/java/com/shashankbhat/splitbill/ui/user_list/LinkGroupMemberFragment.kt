@@ -30,7 +30,7 @@ class LinkGroupMemberFragment(
 ) :
     BottomSheetDialogFragment() {
 
-    @ExperimentalComposeUiApi
+    @OptIn(ExperimentalComposeUiApi::class)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

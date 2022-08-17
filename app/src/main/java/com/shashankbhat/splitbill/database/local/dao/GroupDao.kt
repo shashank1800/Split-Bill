@@ -14,7 +14,7 @@ interface GroupDao {
     suspend fun insert(group: Groups?)
 
     @Query("SELECT * FROM groups ORDER BY date_created DESC")
-    suspend fun getAllGroups(): List<GroupListDto>
+    suspend fun getAllGroups(): List<Groups>
 
     @Query("Update groups SET id = :remoteId WHERE id = :localId")
     suspend fun update(localId: Int, remoteId: Int)

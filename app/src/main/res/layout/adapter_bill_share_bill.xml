@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.shashankbhat.splitbill.database.local.dto.bill_shares.BillSharesModel" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/cv_profile_photo"
+            layout="@layout/adapter_user_profile_photo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:name="@{model.user.name}"
+            app:photoUrl="@{model.user.photoUrl}" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/TextStyleContentMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{model.user.name}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/cardView3"
+            app:layout_constraintStart_toEndOf="@+id/cv_profile_photo"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/primaryColor"
+            app:cardCornerRadius="10dp"
+            app:contentPadding="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                style="@style/TextStyleContentMediumBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@{String.valueOf(model.share)}"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:visibility="@{model.spent > 0 ? View.VISIBLE : View.GONE, default=gone}"
+            app:cardBackgroundColor="@color/secondaryColor"
+            app:cardCornerRadius="10dp"
+            app:contentPadding="2dp"
+            app:layout_constraintEnd_toStartOf="@+id/cardView2"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                style="@style/TextStyleContentMediumBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@{String.valueOf(model.spent)}"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

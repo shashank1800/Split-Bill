@@ -6,6 +6,7 @@ import com.shashankbhat.splitbill.database.remote.entity.LoginDto
 import com.shashankbhat.splitbill.database.remote.entity.TokenDto
 import com.shashankbhat.splitbill.BuildConfig.BASE_URL
 import com.shashankbhat.splitbill.ui.ApiConstants.authentication
+import com.shashankbhat.splitbill.ui.ApiConstants.ping
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.putToken
 import com.shashankbhat.splitbill.util.extension.putUniqueId
@@ -20,20 +21,28 @@ class LoginRepositoryRemote @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ){
     suspend fun authentication(androidId: String?, loginState: MutableLiveData<Response<TokenDto>>) {
-        val response = httpClient.post<TokenDto>(BASE_URL + authentication) {
-            contentType(ContentType.Application.Json)
-            body = LoginDto(androidId, androidId)
-        }
-        sharedPreferences.putToken(response.token)
-        sharedPreferences.putUniqueId(response.uniqueId)
-        sharedPreferences.putUsername(response.username)
-
-        loginState.value = Response.success(response)
 
         try {
+            val response = httpClient.post<TokenDto>(BASE_URL + authentication) {
+                contentType(ContentType.Application.Json)
+                body = LoginDto(androidId, androidId)
+            }
+            response.token?.let { sharedPreferences.putToken(it) }
+            response.uniqueId?.let { sharedPreferences.putUniqueId(it) }
+            response.username?.let { sharedPreferences.putUsername(it) }
 
+            loginState.value = Response.success(response)
         }catch (ex:Exception){
+            print(ex)
+        }
+    }
 
+    suspend fun ping(): Boolean {
+        return try {
+            val response = httpClient.get<Boolean>(BASE_URL + ping)
+            response
+        }catch (ex:Exception){
+            false
         }
     }
 }

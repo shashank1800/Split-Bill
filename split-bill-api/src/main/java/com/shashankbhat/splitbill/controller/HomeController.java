@@ -8,10 +8,14 @@ import com.shashankbhat.splitbill.config.UserService;
 import com.shashankbhat.splitbill.entity.LoggedUsersEntity;
 import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,9 +48,12 @@ public class HomeController {
             );
         } catch (BadCredentialsException e) {
             loggedUsersRepository.save(new LoggedUsersEntity(null, jwtRequest.getUsername(), jwtRequest.getPassword()));
-        }catch (Exception exception){
+            System.out.println("Bad Cred exception " + e.getMessage() + " loca" + e.getLocalizedMessage());
+        } catch (Exception exception){
+
+            System.out.println("Else exception " + exception.getMessage() + " loca" + exception.getLocalizedMessage());
             loggedUsersRepository.save(new LoggedUsersEntity(null, jwtRequest.getUsername(), jwtRequest.getPassword()));
-            Exception exception1 = exception;
+//            Exception exception1 = exception;
         }
 
 
@@ -58,5 +65,10 @@ public class HomeController {
         LoggedUsersEntity loggedUser =  loggedUsersRepository.findOneByUsername(userDetails.getUsername());
 
         return  new JwtResponse(token, userDetails.getUsername(), loggedUser.getId());
+    }
+
+    @GetMapping(value = "/ping")
+    public ResponseEntity<?> ping() {
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }

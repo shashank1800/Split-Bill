@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        
+        <variable
+            name="model"
+            type="com.shashankbhat.splitbill.model.NearUserModel" />
+
+        <variable
+            name="sharedPref"
+            type="android.content.SharedPreferences" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/main_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        bindSelectedCardView="@{model.isSelected()}"
+        style="@style/Common.CardViewStyle">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/cv_profile_photo"
+                android:visibility="@{!model.isSelected() ? View.VISIBLE : View.GONE}"
+                layout="@layout/adapter_user_profile_photo"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:name="@{model.name}"
+                app:photoUrl="@{model.photoUrl}" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_profile_checked"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#2196F3"
+                android:visibility="@{model.isSelected() ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/ic_baseline_check" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="right"
+                app:constraint_referenced_ids="cv_profile_photo, cv_profile_checked" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/TextStyleHeadMediumBold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{model.name}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_km_distance"
+                app:layout_constraintStart_toEndOf="@id/barrier"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_km_distance"
+                style="@style/TextStyleContentMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                bindNearUserDistance="@{model}"
+                bindSharedPreference="@{sharedPref}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

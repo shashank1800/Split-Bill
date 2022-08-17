@@ -25,7 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 class AddGroupMemberFragment(private val viewModel: UserListViewModel, private val group: GroupListDto) :
     BottomSheetDialogFragment() {
 
-    @ExperimentalComposeUiApi
+    @OptIn(ExperimentalComposeUiApi::class)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -98,7 +98,7 @@ class AddGroupMemberFragment(private val viewModel: UserListViewModel, private v
                     if (name.isNullOrEmpty()) {
                         isEmpty = true
                     } else {
-                        viewModel.addPeople(User(name, group.group.id ?: -1))
+                        viewModel.addPeople(User(name, group.group?.id ?: -1))
                         dialog?.cancel()
                     }
                 },

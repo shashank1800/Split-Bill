@@ -33,3 +33,4 @@ local.properties
 /split-bill-api/bin/
 /split-bill-api/build/
 /split-bill-api/.idea/
+/.idea/deploymentTargetDropDown.xml

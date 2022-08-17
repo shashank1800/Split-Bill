@@ -1,6 +1,6 @@
 package com.shashankbhat.splitbill.database.local.repository
 
-import androidx.compose.runtime.MutableState
+import androidx.lifecycle.MutableLiveData
 import com.shashankbhat.splitbill.database.local.dao.UserDao
 import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.util.Response
@@ -18,7 +18,7 @@ class UserRepository @Inject constructor(private var userDao: UserDao) {
 
     suspend fun getAllUsersByGroupId(
         groupId: Int,
-        userListState: MutableState<Response<List<User>>>? = null
+        userListState: MutableLiveData<Response<List<User>>>? = null
     ): List<User>?{
 
         if(userListState == null)

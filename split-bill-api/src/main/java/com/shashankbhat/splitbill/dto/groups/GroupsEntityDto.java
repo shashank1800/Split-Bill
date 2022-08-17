@@ -1,5 +1,6 @@
 package com.shashankbhat.splitbill.dto.groups;
 
+import com.shashankbhat.splitbill.dto.user.UserDto;
 import com.shashankbhat.splitbill.entity.GroupsEntity;
 import com.shashankbhat.splitbill.entity.UsersEntity;
 import lombok.AllArgsConstructor;
@@ -13,5 +14,5 @@ import java.util.List;
 @NoArgsConstructor
 public class GroupsEntityDto {
     public GroupsEntity group;
-    private List<UsersEntity> userList;
+    private List<UserDto> userList;
 }

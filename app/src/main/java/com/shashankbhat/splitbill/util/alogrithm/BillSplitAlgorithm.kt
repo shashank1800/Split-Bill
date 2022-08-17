@@ -103,6 +103,10 @@ class BillSplitAlgorithm(private val bills: List<BillModel>) {
     }
 
     fun splitBill() {
+
+        if(bills.isEmpty())
+            return
+
         var totalAmount = 0F
 
         bills.forEach { bill ->
@@ -113,7 +117,7 @@ class BillSplitAlgorithm(private val bills: List<BillModel>) {
         var index = 0
 
         bills.forEachIndexed { i, it ->
-            if(it.billShares?.size ?:0 > maxUser) {
+            if((it.billShares?.size ?: 0) > maxUser) {
                 maxUser = it.billShares?.size ?: 0
                 index = i
             }

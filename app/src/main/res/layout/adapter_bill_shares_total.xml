@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="model"
+            type="com.shashankbhat.splitbill.util.alogrithm.BillSpentAndShare" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Common.CardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/cv_profile_photo"
+                layout="@layout/adapter_user_profile_photo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintEnd_toStartOf="@+id/tv_name"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:name="@{model.person.name}"
+                app:photoUrl="@{model.person.photoUrl}" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/TextStyleContentMediumBold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@{model.person.name}"
+                app:layout_constraintBottom_toBottomOf="@+id/cv_profile_photo"
+                app:layout_constraintEnd_toStartOf="@+id/cardView4"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/cv_profile_photo"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/cardView4"
+                style="@style/TextStyleContentMediumBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@{String.valueOf(model.balanceAmount)}"
+                android:textColor="@{model.shareAmount > model.spentAmount ? @color/red : @color/green}"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/spent"
+                style="@style/TextStyleContentMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/spent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_profile_photo" />
+
+            <TextView
+                android:id="@+id/tv_spent"
+                style="@style/TextStyleContentMediumBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{String.valueOf(model.spentAmount)}"
+                app:layout_constraintStart_toEndOf="@+id/spent"
+                app:layout_constraintTop_toTopOf="@+id/spent" />
+
+            <TextView
+                style="@style/TextStyleContentMedium"
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/share"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spent" />
+
+            <TextView
+                android:id="@+id/tv_share"
+                style="@style/TextStyleContentMediumBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{String.valueOf(model.shareAmount)}"
+                app:layout_constraintStart_toEndOf="@+id/share"
+                app:layout_constraintTop_toTopOf="@+id/share" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -1,7 +1,7 @@
 package com.shashankbhat.splitbill.viewmodels
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
@@ -24,9 +24,10 @@ class UserListViewModel @Inject constructor(
     private val userRepo: UserRepository,
 ) : ViewModel() {
 
-    var userListState: MutableState<Response<List<User>>> = mutableStateOf(Response.isNothing())
+    var userListState: MutableLiveData<Response<List<User>>> = MutableLiveData(Response.nothing())
     var groupId = 0
-    var billList: MutableState<Response<List<BillModel>>> = mutableStateOf(Response.isNothing())
+    var billList: MutableLiveData<Response<List<BillModel>>> = MutableLiveData(Response.nothing())
+    var isBillListEmpty = ObservableBoolean(false)
 
     fun getAllUsersByGroupId(groupId: Int = 0) {
         if (groupId != 0)
@@ -40,7 +41,7 @@ class UserListViewModel @Inject constructor(
     fun addPeople(user: User) {
         GlobalScope.launch {
             userRepoRemote.insert(user) { type ->
-                when (type.isLocal()) {
+                when {
                     type.isLocal() -> viewModelScope.launch {
                         userRepo.getAllUsersByGroupId(user.groupId, userListState)
                     }
@@ -58,7 +59,7 @@ class UserListViewModel @Inject constructor(
             GlobalScope.launch {
                 userRepoRemote.deleteUser(user){ type ->
 
-                    when (type.isLocal()) {
+                    when {
                         type.isLocal() -> viewModelScope.launch {
                             userRepo.getAllUsersByGroupId(user.groupId, userListState)
                         }
@@ -74,6 +75,9 @@ class UserListViewModel @Inject constructor(
 
         viewModelScope.launch {
             billRepositoryRemote.getAllBill(this@UserListViewModel.groupId, billList)
+            withContext(Dispatchers.Main){
+                billList.value?.data?.isEmpty()?.let { isBillListEmpty.set(it) }
+            }
         }
 
     }
@@ -81,7 +85,7 @@ class UserListViewModel @Inject constructor(
     fun linkPeople(user: User?, uniqueId: String?) {
         GlobalScope.launch {
             userRepoRemote.linkUser(user?.id, uniqueId) { type ->
-                when (type.isLocal()) {
+                when {
                     type.isLocal() -> viewModelScope.launch {
                         userRepo.getAllUsersByGroupId(user?.groupId ?: -1, userListState)
                     }

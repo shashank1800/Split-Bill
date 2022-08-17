@@ -18,8 +18,8 @@ import dagger.hilt.components.SingletonComponent
 object RepoModule {
 
     @Provides
-    fun providesGroupRepo(groupDao: GroupDao): GroupRepository {
-        return GroupRepository(groupDao)
+    fun providesGroupRepo(groupDao: GroupDao, userDao: UserDao): GroupRepository {
+        return GroupRepository(groupDao, userDao)
     }
 
     @Provides

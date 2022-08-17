@@ -24,11 +24,16 @@ class SplashScreenViewModel @Inject constructor(
     private var androidId : String?  =
         Settings.System.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
 
-    var loginState : MutableLiveData<Response<TokenDto>> = MutableLiveData(Response.isNothing())
+    var loginState : MutableLiveData<Response<TokenDto>> = MutableLiveData(Response.nothing())
 
     fun login() {
         viewModelScope.launch {
             loginRepositoryRemote.authentication(androidId, loginState)
         }
     }
+
+    suspend fun ping(): Boolean {
+        return loginRepositoryRemote.ping()
+    }
+
 }

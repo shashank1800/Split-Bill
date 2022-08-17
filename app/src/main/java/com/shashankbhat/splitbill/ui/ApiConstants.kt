@@ -19,5 +19,16 @@ object ApiConstants {
     const val getAllBill = "bill/getBills"
     const val deleteBill = "bill/deleteBills"
 
+    const val saveProfile = "user_profile/saveProfile"
+    const val locationPreference = "user_profile/locationPreference"
+    const val updateName = "user_profile/updateName"
+    const val profileDetail = "user_profile/profileDetail"
+    const val updateProfilePhoto = "user_profile/updateProfilePhoto"
+
+    const val updateLocationRange = "location_detail/updateLocationRange"
+    const val getNearUsers = "location_detail/getNearUsers"
+
+    const val ping = "ping"
+
     const val authentication = "authenticate"
 }

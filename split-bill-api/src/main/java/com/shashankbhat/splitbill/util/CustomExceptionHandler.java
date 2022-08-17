@@ -1,5 +1,6 @@
 package com.shashankbhat.splitbill.util;
 
+import com.shashankbhat.splitbill.exception.KnownException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,15 @@ public class CustomExceptionHandler {
             if(!errors.isEmpty()){
                 errorResponse.setError(errors.get(0));
             }
+        }else if(ex instanceof KnownException){
+            KnownException knownException = (KnownException) ex;
+            errorResponse.setError(knownException.getErrorMessage());
+            errorResponse.setStatus(HttpStatus.BAD_REQUEST);
+            errorResponse.setCode(HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }else {
+            // Log
         }
-
 
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

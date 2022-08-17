@@ -5,6 +5,23 @@ data class Response<out T>(
     val data: T? = null,
     val message: String? = null
 ) {
+
+    fun isSuccess(): Boolean {
+        return status == Status.Success
+    }
+
+    fun isLoading(): Boolean {
+        return status == Status.Loading
+    }
+
+    fun isError(): Boolean {
+        return status == Status.Error
+    }
+
+    fun isUnauthorized(): Boolean {
+        return status == Status.Unauthorized
+    }
+
     companion object {
         fun <T> success(data: T?): Response<T> {
             return Response(Status.Success, data, null)
@@ -18,12 +35,12 @@ data class Response<out T>(
             return Response(Status.Loading, data, null)
         }
 
-        fun <T> isNothing(): Response<T> {
+        fun <T> nothing(): Response<T> {
             return Response(Status.Nothing, null, null)
         }
 
         fun <T> unauthorized(message: String?, data: T? = null): Response<T> {
-            return Response(Status.Unauthorized, null, null)
+            return Response(Status.Unauthorized, data, null)
         }
     }
 }

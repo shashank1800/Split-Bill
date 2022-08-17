@@ -18,19 +18,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         navController = Navigation.findNavController(this, R.id.fragment_container)
+        navController.setGraph(R.navigation.navigations)
 
         val callback: OnBackPressedCallback =
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     when (navController.currentDestination?.id) {
-                        R.id.nav_group_list -> finish()
-                        else -> navController.popBackStack()
+                        R.id.nav_home_screen -> finish()
+                        else -> navController.navigateUp()
                     }
 
                 }
@@ -44,10 +44,9 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             hideKeyboard()
             when (destination.id) {
-                R.id.nav_group_list -> {
-                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                R.id.nav_home_screen -> supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                R.id.nav_splash_screen -> supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
-                }
                 else -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                     supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back)
