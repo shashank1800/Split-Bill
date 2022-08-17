@@ -15,6 +15,6 @@ jobs:
           heroku_app_name: ${{ secrets.HEROKU_SPLIT_BILL_NAME }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           appdir: "split-bill-api"
-          branch: main
+          branch: master
         env:
           HEROKU_AUTH: ${{ secrets.HEROKU_AUTH }}
