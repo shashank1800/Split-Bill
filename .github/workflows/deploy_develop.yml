@@ -28,7 +28,7 @@ jobs:
         run: heroku git:remote --app ${{ secrets.HEROKU_SPLIT_BILL_DEVELOP_NAME }}
 
       - name: Push code
-        run: git subtree push --prefix split-bill-api heroku HEAD:master
+        run: git subtree push --prefix split-bill-api master
 
         env:
           HEROKU_AUTH: ${{ secrets.HEROKU_AUTH }}
