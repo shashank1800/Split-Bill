@@ -28,7 +28,7 @@ object ApiConstants {
     const val updateLocationRange = "location_detail/updateLocationRange"
     const val getNearUsers = "location_detail/getNearUsers"
 
-    const val ping = "test/ping"
+    const val ping = "ping"
 
     const val authentication = "authenticate"
 }
