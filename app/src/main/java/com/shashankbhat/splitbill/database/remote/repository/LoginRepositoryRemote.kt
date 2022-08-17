@@ -33,7 +33,7 @@ class LoginRepositoryRemote @Inject constructor(
 
             loginState.value = Response.success(response)
         }catch (ex:Exception){
-
+            print(ex)
         }
     }
 
