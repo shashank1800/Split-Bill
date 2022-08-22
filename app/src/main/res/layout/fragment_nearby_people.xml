@@ -15,7 +15,7 @@
         android:id="@+id/srl_group_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        setRefreshing="@{isRefreshing}">
+        setRefreshing="@{false}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -37,7 +37,7 @@
 
             <Button
                 android:id="@+id/btn_create_group"
-                style="@style/Common.NormalButton"
+                style="@style/Common.OutlinedMaterialButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Create Group"

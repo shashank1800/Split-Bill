@@ -56,6 +56,13 @@ class UserListFragment : TitleFragment() {
         viewModel.getAllUsersByGroupId(groupListDto.group?.id ?: -1)
         viewModel.getAllBill(groupListDto.group?.id ?: -1)
 
+        uiFabClickListener()
+        uiRecyclerViewInit()
+
+        networkUserListResponse()
+    }
+
+    private fun uiFabClickListener(){
         binding.fab.setOnClickListener {
 
             val addMember = AddGroupMemberFragment(viewModel, groupListDto)
@@ -67,7 +74,9 @@ class UserListFragment : TitleFragment() {
             }
 
         }
+    }
 
+    private fun uiRecyclerViewInit(){
         adapter = RecyclerGenericAdapter.Builder<AdapterGroupUserBinding, User>(R.layout.adapter_group_user, BR.model)
             .setClickCallbacks(arrayListOf<CallBackModel<AdapterGroupUserBinding, User>>().apply {
                 add(CallBackModel(R.id.iv_link){ model, _, _ ->
@@ -90,7 +99,9 @@ class UserListFragment : TitleFragment() {
 
         binding.rvNearbyUsers.layoutManager = LinearLayoutManager(requireContext())
         binding.rvNearbyUsers.adapter = adapter
+    }
 
+    private fun networkUserListResponse(){
         viewModel.userListState.observe(viewLifecycleOwner) {
             if(it.isSuccess()){
                 if(adapter.getItemList().size == it.data?.size){
@@ -107,8 +118,6 @@ class UserListFragment : TitleFragment() {
                     adapter.replaceList(ArrayList(it.data ?: emptyList()))
             }
         }
-
-
     }
 
     companion object {

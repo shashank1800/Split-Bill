@@ -43,34 +43,52 @@ class ShowBillSharesBalanceFragment : TitleFragment() {
         groupListDto = requireArguments().getSerializable("model") as GroupListDto
         binding.isBillListEmpty = viewModel.isBillListEmpty
 
-        initBalanceRecyclerView()
-        initTotalRecyclerView()
+        uiBalanceRecyclerViewInit()
+        uiTotalRecyclerViewInit()
+        networkBillListResponse()
 
-        if((viewModel.billListBalance.value?.data?.size ?: 0) > 0) {
-            adapter.replaceList(ArrayList(viewModel.billSplitAlgorithm.getBalances() ?: emptyList()))
-            adapterTotal.replaceList(ArrayList(viewModel.billSplitAlgorithm.getSharesAndBalance() ?: emptyList()))
+        if ((viewModel.billListBalance.value?.data?.size ?: 0) > 0) {
+            adapter.replaceList(
+                ArrayList(
+                    viewModel.billSplitAlgorithm.getBalances() ?: emptyList()
+                )
+            )
+            adapterTotal.replaceList(ArrayList(viewModel.billSplitAlgorithm.getSharesAndBalance()))
         }
+    }
 
+    private fun networkBillListResponse() {
         viewModel.billListBalance.observe(viewLifecycleOwner) {
-            if(it.isSuccess() && (it.data?.size ?: 0) > 0) {
+            if (it.isSuccess() && (it.data?.size ?: 0) > 0) {
                 viewModel.billSplitAlgorithm = BillSplitAlgorithm(it.data ?: emptyList())
-                adapter.replaceList(ArrayList(viewModel.billSplitAlgorithm.getBalances() ?: emptyList()))
-                adapterTotal.replaceList(ArrayList(viewModel.billSplitAlgorithm.getSharesAndBalance() ?: emptyList()))
+                adapter.replaceList(
+                    ArrayList(
+                        viewModel.billSplitAlgorithm.getBalances() ?: emptyList()
+                    )
+                )
+                adapterTotal.replaceList(ArrayList(viewModel.billSplitAlgorithm.getSharesAndBalance()))
             }
         }
     }
 
-    private fun initBalanceRecyclerView(){
-        adapter = RecyclerGenericAdapter.Builder<AdapterBillShareBalancesBinding, BillShareBalance>(R.layout.adapter_bill_share_balances, BR.model)
+    private fun uiBalanceRecyclerViewInit() {
+        adapter = RecyclerGenericAdapter.Builder<AdapterBillShareBalancesBinding, BillShareBalance>(
+            R.layout.adapter_bill_share_balances,
+            BR.model
+        )
             .build()
         (binding.rvList.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         binding.rvList.layoutManager = LinearLayoutManager(requireContext())
         binding.rvList.adapter = adapter
     }
 
-    private fun initTotalRecyclerView(){
-        adapterTotal = RecyclerGenericAdapter.Builder<AdapterBillSharesTotalBinding, BillSpentAndShare>(R.layout.adapter_bill_shares_total, BR.model)
-            .build()
+    private fun uiTotalRecyclerViewInit() {
+        adapterTotal =
+            RecyclerGenericAdapter.Builder<AdapterBillSharesTotalBinding, BillSpentAndShare>(
+                R.layout.adapter_bill_shares_total,
+                BR.model
+            )
+                .build()
         (binding.rvListTotal.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         binding.rvListTotal.layoutManager = LinearLayoutManager(requireContext())
         binding.rvListTotal.adapter = adapterTotal

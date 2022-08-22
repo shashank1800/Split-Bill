@@ -48,23 +48,15 @@ class NearbyPeopleFragment : TitleFragment(), SwipeRefreshLayout.OnRefreshListen
         super.onViewCreated(view, savedInstanceState)
         binding.isRefreshing = viewModel.isRefreshing
         binding.srlGroupList.setOnRefreshListener(this)
-
         getNearUserList()
 
-        adapter = RecyclerGenericAdapter.Builder<AdapterNearbyUserBinding, NearUserModel>(R.layout.adapter_nearby_user, BR.model)
-            .setClickCallbacks(arrayListOf<CallBackModel<AdapterNearbyUserBinding, NearUserModel>>().apply {
-                add(CallBackModel(R.id.main_card_view){ model, _, _ ->
-                    if(model.isSelected.get()) deSelectUser(model)
-                    else selectUser(model)
-                })
-            })
-            .setMoreDataBinds(DataBinds().apply {
-                add(MoreDataBindings(BR.sharedPref, viewModel.sharedPreferences))
-            }).build()
-        (binding.rvNearbyUsers.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-        binding.rvNearbyUsers.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvNearbyUsers.adapter = adapter
+        uiRecyclerViewInit()
+        uiBtnCreateGroupClickListener()
+        networkNearUserResponse()
+        networkAddGroupResponse()
+    }
 
+    private fun networkNearUserResponse() {
         viewModel.nearUserList.observe(viewLifecycleOwner) {
             when {
                 it.isSuccess() -> {
@@ -80,7 +72,7 @@ class NearbyPeopleFragment : TitleFragment(), SwipeRefreshLayout.OnRefreshListen
 
                 it.isError() -> {
                     hideLoading()
-                    if(it.message != null)
+                    if (it.message != null)
                         binding.tvInstruction.text = it.message
                 }
 
@@ -90,25 +82,54 @@ class NearbyPeopleFragment : TitleFragment(), SwipeRefreshLayout.OnRefreshListen
                 }
             }
         }
+    }
 
+    private fun networkAddGroupResponse() {
+        viewModel.addGroupResponse.observe(viewLifecycleOwner) {
+            if (it.isSuccess()) {
+                viewModel.getAllGroups()
+                binding.showSnackBar("Group created successfully")
+                viewModel.vpBillShares?.setCurrentItem(0, true)
+
+                for (nearUserModel in adapter.getItemList()) {
+                    nearUserModel.isSelected.set(false)
+                }
+                createGroupButtonVisibility()
+            }
+        }
+
+    }
+
+    private fun uiRecyclerViewInit() {
+        adapter = RecyclerGenericAdapter.Builder<AdapterNearbyUserBinding, NearUserModel>(
+            R.layout.adapter_nearby_user,
+            BR.model
+        )
+            .setClickCallbacks(arrayListOf<CallBackModel<AdapterNearbyUserBinding, NearUserModel>>().apply {
+                add(CallBackModel(R.id.main_card_view) { model, _, _ ->
+                    if (model.isSelected.get()) deSelectUser(model)
+                    else selectUser(model)
+                })
+            })
+            .setMoreDataBinds(DataBinds().apply {
+                add(MoreDataBindings(BR.sharedPref, viewModel.sharedPreferences))
+            }).build()
+        (binding.rvNearbyUsers.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        binding.rvNearbyUsers.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvNearbyUsers.adapter = adapter
+    }
+
+    @OptIn(ExperimentalComposeUiApi::class)
+    private fun uiBtnCreateGroupClickListener() {
         binding.btnCreateGroup.setOnClickListener {
             val addGroupDialog = AddGroupFragment {
                 viewModel.addGroupWithPeople(it)
             }
             addGroupDialog.show(parentFragmentManager, addGroupDialog.tag)
         }
-
-        viewModel.addGroupResponse.observe(viewLifecycleOwner) {
-            if(it.isSuccess()){
-                viewModel.getAllGroups()
-                binding.showSnackBar("Group created successfully")
-                viewModel.vpBillShares?.setCurrentItem(0, true)
-            }
-        }
-
     }
 
-    private fun getNearUserList(){
+    private fun getNearUserList() {
         KotlinPermissions.with(requireActivity())
             .permissions(Manifest.permission.ACCESS_FINE_LOCATION)
             .onAccepted {
@@ -123,39 +144,45 @@ class NearbyPeopleFragment : TitleFragment(), SwipeRefreshLayout.OnRefreshListen
             }.ask()
     }
 
-    private fun requestUserToAllowPermission(){
-        binding.showSnackBar("Permit app to use location to see nearby people", "Allow", actionListener =  {
-            getNearUserList()
-        }, duration = Snackbar.LENGTH_INDEFINITE)
+    private fun requestUserToAllowPermission() {
+        binding.showSnackBar(
+            "Permit app to use location to see nearby people",
+            "Allow",
+            actionListener = {
+                getNearUserList()
+            },
+            duration = Snackbar.LENGTH_INDEFINITE
+        )
     }
 
-    private fun selectUser(model : NearUserModel){
+    private fun selectUser(model: NearUserModel) {
         model.isSelected.set(true)
         createGroupButtonVisibility()
     }
-    private fun deSelectUser(model : NearUserModel){
+
+    private fun deSelectUser(model: NearUserModel) {
         model.isSelected.set(false)
         createGroupButtonVisibility()
     }
 
-    private fun createGroupButtonVisibility(){
+    private fun createGroupButtonVisibility() {
         var atLeastOneSelected = false
-        for(model in adapter.getItemList()) {
-            if(model.isSelected.get()) {
+        for (model in adapter.getItemList()) {
+            if (model.isSelected.get()) {
                 atLeastOneSelected = true
                 break
             }
         }
 
-        if(atLeastOneSelected)
+        if (atLeastOneSelected)
             binding.btnCreateGroup.visibility = View.VISIBLE
         else
             binding.btnCreateGroup.visibility = View.GONE
     }
 
-    private fun findNearPeople(){
+    private fun findNearPeople() {
         viewModel.nearUserList.value = Response.loading()
-        myLocation.getLocation(requireContext()){ location ->
+        myLocation.getLocation(requireContext()) { location ->
             viewModel.getNearUser(location)
             myLocation.stopLocationUpdate()
         }

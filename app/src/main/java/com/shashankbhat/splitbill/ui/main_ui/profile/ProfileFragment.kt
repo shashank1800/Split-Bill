@@ -33,11 +33,21 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.viewModel = viewModel
-        viewModel.isEditEnabled.set(true)
 
-        binding.btnNearbyRange.setOnClickListener {
+        /** Ui when profile data is not available **/
+        uiProfileImageClickListener()
+        uiNameTextDoOnTextChanged()
+        uiNearbyRangeButtonClickListener()
+        uiSaveButtonClickListener()
+
+        /** Ui when profile data is available **/
+        uiProfileImageClickListenerWithData()
+        networkUpdatePhotoResponse()
+    }
+
+    private fun uiNearbyRangeButtonClickListener(){
+        binding.layoutEmptyData.btnNearbyRange.setOnClickListener {
             val dialog = SingleItemSelectionBottomSheet(viewModel.distanceList.getBottomSheetList(),
                 object : SingleItemSelectionBottomSheet.EventListeners<DistanceRangeModel> {
                     override fun onClick(position: Int, item: BottomSheetItem<DistanceRangeModel>) {
@@ -46,38 +56,52 @@ class ProfileFragment : Fragment() {
                 }, viewModel.distanceRange)
             dialog.show(parentFragmentManager, dialog.tag)
         }
+    }
 
-        binding.btnEdit.setOnClickListener {
-            viewModel.isEditEnabled.set(true)
-        }
-
-        binding.btnCancel.setOnClickListener {
-            viewModel.isEditEnabled.set(false)
-        }
-
-        binding.btnSave.setOnClickListener {
-
+    private fun uiSaveButtonClickListener(){
+        binding.layoutEmptyData.btnSave.setOnClickListener {
             if(isFieldsValid()){
-                viewModel.isEditEnabled.set(false)
                 viewModel.saveProfile()
             }
-
         }
+    }
 
-        binding.ivProfilePhoto.setOnClickListener {
+    private fun uiProfileImageClickListener(){
+        binding.layoutEmptyData.ivProfilePhoto.setOnClickListener {
             val dialog = ProfileSelectBottomSheetFragment(viewModel.iconList){
                 viewModel.profilePhoto.set(it)
             }
             dialog.show(parentFragmentManager, dialog.tag)
         }
+    }
 
-        viewModel.getProfile()
-
-        binding.tvName.doOnTextChanged { text, _, _, _ ->
+    private fun uiNameTextDoOnTextChanged(){
+        binding.layoutEmptyData.tvName.doOnTextChanged { text, _, _, _ ->
             if(!text.isNullOrEmpty())
-                binding.cvProfilePhoto.setCardBackgroundColor(text.toString().getColorV2())
+                binding.layoutEmptyData.cvProfilePhoto.setCardBackgroundColor(text.toString().getColorV2())
             else
-                binding.cvProfilePhoto.setCardBackgroundColor(Color.WHITE)
+                binding.layoutEmptyData.cvProfilePhoto.setCardBackgroundColor(Color.WHITE)
+        }
+    }
+
+
+    private fun uiProfileImageClickListenerWithData(){
+        binding.layoutWithData.ivProfilePhoto.setOnClickListener {
+            val dialog = ProfileSelectBottomSheetFragment(viewModel.iconList){
+                viewModel.updateProfilePhoto(it)
+            }
+            dialog.show(parentFragmentManager, dialog.tag)
+        }
+    }
+
+
+    private fun networkUpdatePhotoResponse(){
+        viewModel.updateProfilePhotoResponse.observe(viewLifecycleOwner){
+            when{
+                it.isError() -> {
+                    binding.showSnackBar("Please check your internet", snackBarType = SnackBarType.INSTRUCTION)
+                }
+            }
         }
     }
 

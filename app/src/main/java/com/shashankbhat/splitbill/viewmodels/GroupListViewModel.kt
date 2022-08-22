@@ -117,7 +117,7 @@ class GroupListViewModel @Inject constructor(
 
     // Profile
     var isNearbyEnabled = ObservableBoolean(sharedPreferences.getIsNearVisible())
-    var isEditEnabled = ObservableBoolean(false)
+    var hasProfileData = ObservableBoolean(sharedPreferences.getFullName().isNotEmpty())
     var distanceRange = ObservableField(DistanceRangeModel("${sharedPreferences.getDistanceRange().toInt()} KM", sharedPreferences.getDistanceRange()))
     var fullName = ObservableField(sharedPreferences.getFullName())
     var profilePhoto = ObservableField<ProfileIconModel>().also { profile ->
@@ -156,7 +156,12 @@ class GroupListViewModel @Inject constructor(
     fun saveProfile() {
 
         viewModelScope.launch {
-            userRepoRemote.saveProfile(fullName.get(), profilePhoto.get()?.url, isNearbyEnabled.get(), distanceRange.get()?.distance)
+            val response = userRepoRemote.saveProfile(fullName.get(), profilePhoto.get()?.url, isNearbyEnabled.get(), distanceRange.get()?.distance)
+            withContext(Dispatchers.IO){
+                when{
+                    response.isSuccess() -> hasProfileData.set(true)
+                }
+            }
         }
     }
 
@@ -166,25 +171,33 @@ class GroupListViewModel @Inject constructor(
             val response = userRepoRemote.getProfile()
 
             withContext(Dispatchers.Main) {
-                fullName.set(sharedPreferences.getFullName())
-                sharedPreferences.getProfileIcons().forEachIndexed { index, it ->
-                    if(it == sharedPreferences.getPhotoUrl())
-                        profilePhoto.set(ProfileIconModel(index, it))
+                when{
+                    response.isSuccess() -> {
+                        hasProfileData.set(true)
+                        fullName.set(sharedPreferences.getFullName())
+                        sharedPreferences.getProfileIcons().forEachIndexed { index, it ->
+                            if(it == sharedPreferences.getPhotoUrl())
+                                profilePhoto.set(ProfileIconModel(index, it))
+                        }
+                        isNearbyEnabled.set(response.data?.isNearbyVisible ?: sharedPreferences.getIsNearVisible())
+                        distanceRange.set(DistanceRangeModel("${sharedPreferences.getDistanceRange().toInt()} KM", sharedPreferences.getDistanceRange()))
+                    }
                 }
-                isNearbyEnabled.set(response.data?.isNearbyVisible ?: sharedPreferences.getIsNearVisible())
-                distanceRange.set(DistanceRangeModel("${sharedPreferences.getDistanceRange().toInt()} KM", sharedPreferences.getDistanceRange()))
+
             }
         }
     }
 
-    var updateProfileResponse: MutableLiveData<Response<String>> = MutableLiveData(Response.nothing())
+    var updateProfilePhotoResponse: MutableLiveData<Response<String>> = MutableLiveData(Response.nothing())
 
     fun updateProfilePhoto(profileIconModel: ProfileIconModel) {
         viewModelScope.launch {
-            userRepoRemote.updateProfilePhoto(updateProfileResponse, profileIconModel.url)
+            val response = userRepoRemote.updateProfilePhoto(profileIconModel.url)
             withContext(Dispatchers.Main) {
-                if(updateProfileResponse.value?.isSuccess() == true)
+                if(response.isSuccess()){
+                    updateProfilePhotoResponse.value = response
                     profilePhoto.set(profileIconModel)
+                }
             }
         }
     }

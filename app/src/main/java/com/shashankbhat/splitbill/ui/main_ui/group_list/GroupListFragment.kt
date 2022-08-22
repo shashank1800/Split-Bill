@@ -49,9 +49,16 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         binding.isGroupListEmpty = viewModel.isGroupListEmpty
         binding.isRefreshing = viewModel.isRefreshing
         navController = findNavController()
-
         binding.srlGroupList.setOnRefreshListener(this)
 
+        uiFabClickListener()
+        uiRecyclerViewInit()
+
+        networkUnauthorizedResponse()
+        networkGroupListResponse()
+    }
+
+    private fun networkUnauthorizedResponse() {
         viewModel.unauthorized.observe(viewLifecycleOwner) {
             if (it == true) {
                 viewModel.unauthorized.value = false
@@ -59,16 +66,19 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             }
 
         }
+    }
 
+    @OptIn(ExperimentalComposeUiApi::class)
+    private fun uiFabClickListener() {
         binding.fab.setOnClickListener {
-
             val addGroupDialog = AddGroupFragment {
                 viewModel.addGroup(Groups(it))
             }
             addGroupDialog.show(parentFragmentManager, addGroupDialog.tag)
-
         }
+    }
 
+    private fun uiRecyclerViewInit() {
         adapter = RecyclerGenericAdapter.Builder<AdapterGroupBinding, GroupRecyclerListDto>(
             R.layout.adapter_group,
             BR.model
@@ -76,11 +86,14 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             .setClickCallbacks(arrayListOf<CallBackModel<AdapterGroupBinding, GroupRecyclerListDto>>().apply {
                 add(CallBackModel(R.id.iv_user_icon) { model, position, binding ->
                     if ((model.group?.id ?: -1) > 0) {
-                        navController.navigate(HomeScreenViewPagerDirections.actionNavGroupListToNavUserList(
-                            model.group?.let {
-                                GroupListDto(
-                                    it, model.userList ?: emptyList())
-                            }))
+                        navController.navigate(
+                            HomeScreenViewPagerDirections.actionNavGroupListToNavUserList(
+                                model.group?.let {
+                                    GroupListDto(
+                                        it, model.userList ?: emptyList()
+                                    )
+                                })
+                        )
                     }
                 })
                 add(CallBackModel(R.id.cv_root) { model, _, _ ->
@@ -91,7 +104,9 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         (binding.rvNearbyUsers.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         binding.rvNearbyUsers.layoutManager = LinearLayoutManager(requireContext())
         binding.rvNearbyUsers.adapter = adapter
+    }
 
+    private fun networkGroupListResponse() {
         viewModel.groupsListState.observe(viewLifecycleOwner) {
             if (it.isSuccess()) {
                 viewModel.isGroupListEmpty.set(it.data?.size == 0)
@@ -110,7 +125,8 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                         } else if (newList[index].group != oldList[index].group) {
 
                             // Replace complete group
-                            adapter.replaceItemAt(index,
+                            adapter.replaceItemAt(
+                                index,
                                 GroupRecyclerListDto(
                                     newList[index].group,
                                     newList[index].userList,
@@ -124,8 +140,6 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
             }
         }
-
-
     }
 
     private fun navigateToBillSharesScreen(model: GroupRecyclerListDto) {
@@ -140,7 +154,11 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 model.group!!,
                 model.userList ?: emptyList()
             )
-            navController.navigate(HomeScreenViewPagerDirections.actionNavGroupListToNavBillSharesViewPager(groupListDto))
+            navController.navigate(
+                HomeScreenViewPagerDirections.actionNavGroupListToNavBillSharesViewPager(
+                    groupListDto
+                )
+            )
         }
     }
 

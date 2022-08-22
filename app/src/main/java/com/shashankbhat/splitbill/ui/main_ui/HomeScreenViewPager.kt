@@ -10,9 +10,7 @@ import com.shashankbhat.splitbill.databinding.FragmentHomeScreenViewPagerBinding
 import com.shashankbhat.splitbill.ui.main_ui.group_list.GroupListFragment
 import com.shashankbhat.splitbill.ui.main_ui.nearby_people.NearbyPeopleFragment
 import com.shashankbhat.splitbill.ui.main_ui.profile.ProfileFragment
-import com.shashankbhat.splitbill.ui.main_ui.profile.ProfileWithDataFragment
 import com.shashankbhat.splitbill.util.ViewPagerAdapter
-import com.shashankbhat.splitbill.util.extension.getFullName
 import com.shashankbhat.splitbill.util.extension.getUniqueId
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
 
@@ -48,38 +46,40 @@ class HomeScreenViewPager : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.vpBillShares = binding.vpBillShares
 
+        uiViewPagerInit()
+        uiViewPagerScrollListener()
+        uiBottomNavigationClickListener()
+    }
+
+    private fun uiViewPagerInit(){
         val groupsFragment = GroupListFragment.getInstance()
         val peopleFragment = NearbyPeopleFragment.getInstance()
         val profileFragment = ProfileFragment.getInstance()
-        val profileWithDataFragment = ProfileWithDataFragment.getInstance()
 
         val adapterFragments = arrayListOf<Fragment>()
         adapterFragments.add(groupsFragment)
         adapterFragments.add(peopleFragment)
-
-        if(viewModel.sharedPreferences.getFullName().isEmpty())
-            adapterFragments.add(profileFragment)
-        else
-            adapterFragments.add(profileWithDataFragment)
-
+        adapterFragments.add(profileFragment)
 
         val adapter = ViewPagerAdapter(requireActivity(), adapterFragments)
         binding.vpBillShares.adapter = adapter
+    }
 
-        binding.vpBillShares.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+    private fun uiViewPagerScrollListener(){
+        binding.vpBillShares.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                when(position){
-                    0 ->binding.bottomNavigation.selectedItemId = R.id.menu_groups
-                    2 -> {
-                        binding.bottomNavigation.selectedItemId = R.id.menu_profile
-                        viewModel.getProfile()
-                    }
-                    else ->  binding.bottomNavigation.selectedItemId = R.id.menu_people
+                when (position) {
+                    0 -> binding.bottomNavigation.selectedItemId = R.id.menu_groups
+                    1 -> binding.bottomNavigation.selectedItemId = R.id.menu_people
+                    2 -> binding.bottomNavigation.selectedItemId = R.id.menu_profile
                 }
             }
         })
+    }
 
+    private fun uiBottomNavigationClickListener(){
         binding.bottomNavigation.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.menu_groups -> binding.vpBillShares.setCurrentItem(0, true)
@@ -91,14 +91,11 @@ class HomeScreenViewPager : Fragment() {
             }
             return@setOnItemSelectedListener true
         }
-
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.getAllGroups()
     }
-
-
 
 }
