@@ -10,7 +10,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import com.shashankbhat.splitbill.databinding.FragmentProfileBinding
 import com.shashankbhat.splitbill.enums.SnackBarType
-import com.shashankbhat.splitbill.model.profile.DistanceRangeModel
+import com.shashankbhat.splitbill.database.local.model.profile.DistanceRangeModel
 import com.shashankbhat.splitbill.util.bottom_sheet.BottomSheetItem
 import com.shashankbhat.splitbill.util.bottom_sheet.SingleItemSelectionBottomSheet
 import com.shashankbhat.splitbill.util.extension.getBottomSheetList

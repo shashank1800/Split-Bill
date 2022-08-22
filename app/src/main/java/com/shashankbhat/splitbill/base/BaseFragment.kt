@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import com.shashankbhat.splitbill.util.LoadingDialogFragment
 import com.shashankbhat.splitbill.util.extension.findActivity
 
-open class TitleFragment :Fragment() {
+open class BaseFragment :Fragment() {
 
     private var previousTitle = ""
     private lateinit var loadingFragment : LoadingDialogFragment

@@ -18,15 +18,14 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.core.text.isDigitsOnly
-import com.shashankbhat.splitbill.model.bill_shares.BillShareModel
+import com.shashankbhat.splitbill.database.local.model.bill_shares.BillShareModel
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.database.local.entity.Bill
-import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
-import com.shashankbhat.splitbill.ui.theme.Typography
 import com.shashankbhat.splitbill.util.component.BottomWarningText
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.shashankbhat.splitbill.ui.bill_shares.shares.BillShareUser
+import com.shashankbhat.splitbill.util.SplitBillTheme
 
 class AddBillSharesBottomSheetFragment(
     private val groupListDto: GroupListDto,
@@ -91,8 +90,7 @@ class AddBillSharesBottomSheetFragment(
                 modifier = Modifier.constrainAs(tvBillHead) {
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
-                },
-                style = Typography.h6
+                }
             )
 
             OutlinedTextField(

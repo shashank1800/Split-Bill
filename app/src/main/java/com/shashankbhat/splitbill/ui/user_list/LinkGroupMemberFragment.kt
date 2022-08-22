@@ -17,12 +17,10 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.database.local.entity.User
-import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
-import com.shashankbhat.splitbill.ui.theme.Typography
 import com.shashankbhat.splitbill.viewmodels.UserListViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.shashankbhat.splitbill.util.SplitBillTheme
 
 class LinkGroupMemberFragment(
     private val viewModel: UserListViewModel? = null,
@@ -71,8 +69,7 @@ class LinkGroupMemberFragment(
                 modifier = Modifier.constrainAs(tvCreateGroup) {
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
-                },
-                style = Typography.h6
+                }
             )
 
             OutlinedTextField(

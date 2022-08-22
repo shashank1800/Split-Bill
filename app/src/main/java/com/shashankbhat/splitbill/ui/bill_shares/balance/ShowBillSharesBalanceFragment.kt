@@ -11,14 +11,14 @@ import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
 import com.shashankbhat.splitbill.BR
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.util.alogrithm.BillSplitAlgorithm
-import com.shashankbhat.splitbill.base.TitleFragment
+import com.shashankbhat.splitbill.base.BaseFragment
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.databinding.*
 import com.shashankbhat.splitbill.util.alogrithm.BillShareBalance
 import com.shashankbhat.splitbill.util.alogrithm.BillSpentAndShare
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
-class ShowBillSharesBalanceFragment : TitleFragment() {
+class ShowBillSharesBalanceFragment : BaseFragment() {
 
     private lateinit var binding: FragmentBillSharesBalancesBinding
     private lateinit var groupListDto: GroupListDto
@@ -37,10 +37,16 @@ class ShowBillSharesBalanceFragment : TitleFragment() {
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        groupListDto = requireArguments().getSerializable("model") as GroupListDto
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        groupListDto = requireArguments().getSerializable("model") as GroupListDto
+
         binding.isBillListEmpty = viewModel.isBillListEmpty
 
         uiBalanceRecyclerViewInit()

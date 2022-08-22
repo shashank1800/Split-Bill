@@ -2,7 +2,6 @@ package com.shashankbhat.splitbill.ui.bindings
 
 import android.content.SharedPreferences
 import android.graphics.Color
-import android.text.format.DateUtils.*
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
@@ -12,9 +11,8 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
 import com.shashankbhat.splitbill.R
-import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.databinding.AdapterGroupUsersProfileBinding
-import com.shashankbhat.splitbill.model.NearUserModel
+import com.shashankbhat.splitbill.database.local.model.NearUserModel
 import com.shashankbhat.splitbill.util.LatLong
 import com.shashankbhat.splitbill.BR
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
@@ -22,7 +20,6 @@ import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillSharesModel
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupRecyclerListDto
 import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.databinding.AdapterBillShareBillBinding
-import com.shashankbhat.splitbill.util.MyRecyclerViewAnimator
 import com.shashankbhat.splitbill.util.RecyclerItemOverlap
 import com.shashankbhat.splitbill.util.extension.*
 import com.shashankbhat.splitbill.util.getTimeAgo

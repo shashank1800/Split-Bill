@@ -12,10 +12,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.shashankbhat.splitbill.model.bill_shares.BillShareModel
+import com.shashankbhat.splitbill.database.local.model.bill_shares.BillShareModel
 import com.shashankbhat.splitbill.database.local.entity.User
-import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
-import com.shashankbhat.splitbill.ui.theme.Typography
+import com.shashankbhat.splitbill.util.SplitBillTheme
 
 @ExperimentalMaterialApi
 @Composable
@@ -57,7 +56,6 @@ fun BillShareUser(
                     bottom.linkTo(parent.bottom)
                     width = Dimension.fillToConstraints
                 },
-            style = Typography.body1
         )
 
         OutlinedTextField(

@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.model
+package com.shashankbhat.splitbill.database.local.model
 
 import com.shashankbhat.splitbill.util.bottom_sheet.BottomSheetHelper
 import com.shashankbhat.splitbill.util.bottom_sheet.BottomSheetItem

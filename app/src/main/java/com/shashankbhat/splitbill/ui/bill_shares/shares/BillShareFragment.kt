@@ -11,7 +11,7 @@ import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
 import com.shahankbhat.recyclergenericadapter.util.CallBackModel
 import com.shashankbhat.splitbill.BR
 import com.shashankbhat.splitbill.R
-import com.shashankbhat.splitbill.base.TitleFragment
+import com.shashankbhat.splitbill.base.BaseFragment
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.databinding.AdapterBillShareBinding
@@ -21,7 +21,7 @@ import com.shashankbhat.splitbill.ui.bill_shares.add_bill.AddBillSharesBottomShe
 import com.shashankbhat.splitbill.util.extension.showSnackBar
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
-class BillShareFragment : TitleFragment() {
+class BillShareFragment : BaseFragment() {
 
     private val viewModel: BillShareViewModel by activityViewModels()
     private lateinit var groupListDto: GroupListDto
@@ -37,10 +37,15 @@ class BillShareFragment : TitleFragment() {
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        groupListDto = requireArguments().getSerializable("model") as GroupListDto
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        groupListDto = requireArguments().getSerializable("model") as GroupListDto
+
 
         setTitle(groupListDto.group?.name ?: "")
         binding.isBillListEmpty = viewModel.isBillListEmpty

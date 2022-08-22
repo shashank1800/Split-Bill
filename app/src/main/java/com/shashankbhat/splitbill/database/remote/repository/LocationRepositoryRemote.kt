@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.shashankbhat.splitbill.BuildConfig.BASE_URL
 import com.shashankbhat.splitbill.database.remote.entity.LocationDto
 import com.shashankbhat.splitbill.database.remote.entity.NearUsersList
-import com.shashankbhat.splitbill.model.NearUserModel
+import com.shashankbhat.splitbill.database.local.model.NearUserModel
 import com.shashankbhat.splitbill.ui.ApiConstants
 import com.shashankbhat.splitbill.ui.ApiConstants.getNearUsers
 import com.shashankbhat.splitbill.util.KnownException
@@ -13,7 +13,6 @@ import com.shashankbhat.splitbill.util.LatLong
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.getToken
 import io.ktor.client.*
-import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import javax.inject.Inject

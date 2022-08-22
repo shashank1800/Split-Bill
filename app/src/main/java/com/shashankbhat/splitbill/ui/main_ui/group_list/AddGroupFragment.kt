@@ -15,11 +15,8 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.shashankbhat.splitbill.database.local.entity.Groups
-import com.shashankbhat.splitbill.ui.theme.SplitBillTheme
-import com.shashankbhat.splitbill.ui.theme.Typography
-import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.shashankbhat.splitbill.util.SplitBillTheme
 
 @ExperimentalComposeUiApi
 class AddGroupFragment(private val addGroup: (String) ->Unit) : BottomSheetDialogFragment() {
@@ -64,8 +61,7 @@ class AddGroupFragment(private val addGroup: (String) ->Unit) : BottomSheetDialo
                 modifier = Modifier.constrainAs(tvCreateGroup) {
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
-                },
-                style = Typography.h6
+                }
             )
 
             OutlinedTextField(

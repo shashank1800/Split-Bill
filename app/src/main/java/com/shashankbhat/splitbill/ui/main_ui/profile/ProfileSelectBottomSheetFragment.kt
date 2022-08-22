@@ -10,8 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.databinding.AdapterProfileIconBinding
 import com.shashankbhat.splitbill.databinding.BottomSheetSingleItemSelectionBinding
-import com.shashankbhat.splitbill.model.ProfileIconModel
-import com.shashankbhat.splitbill.util.bottom_sheet.BottomSheetItem
+import com.shashankbhat.splitbill.database.local.model.ProfileIconModel
 
 class ProfileSelectBottomSheetFragment(
     val items: ArrayList<ProfileIconModel>,

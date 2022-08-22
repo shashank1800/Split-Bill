@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.model.bill_shares
+package com.shashankbhat.splitbill.database.local.model.bill_shares
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

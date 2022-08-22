@@ -13,9 +13,9 @@ import com.shashankbhat.splitbill.database.local.repository.GroupRepository
 import com.shashankbhat.splitbill.database.remote.repository.GroupRepositoryRemote
 import com.shashankbhat.splitbill.database.remote.repository.LocationRepositoryRemote
 import com.shashankbhat.splitbill.database.remote.repository.UserRepositoryRemote
-import com.shashankbhat.splitbill.model.NearUserModel
-import com.shashankbhat.splitbill.model.ProfileIconModel
-import com.shashankbhat.splitbill.model.profile.DistanceRangeModel
+import com.shashankbhat.splitbill.database.local.model.NearUserModel
+import com.shashankbhat.splitbill.database.local.model.ProfileIconModel
+import com.shashankbhat.splitbill.database.local.model.profile.DistanceRangeModel
 import com.shashankbhat.splitbill.util.LatLong
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.*

@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.model
+package com.shashankbhat.splitbill.database.local.model
 
 import androidx.databinding.ObservableBoolean
 

@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
-import com.shashankbhat.splitbill.model.bill_shares.BillShareModel
+import com.shashankbhat.splitbill.database.local.model.bill_shares.BillShareModel
 import com.shashankbhat.splitbill.database.remote.repository.BillRepositoryRemote
 import com.shashankbhat.splitbill.database.local.entity.Bill
 import com.shashankbhat.splitbill.util.Response

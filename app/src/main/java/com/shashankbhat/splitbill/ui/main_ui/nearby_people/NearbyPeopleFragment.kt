@@ -18,17 +18,17 @@ import com.shahankbhat.recyclergenericadapter.util.DataBinds
 import com.shahankbhat.recyclergenericadapter.util.MoreDataBindings
 import com.shashankbhat.splitbill.BR
 import com.shashankbhat.splitbill.R
-import com.shashankbhat.splitbill.base.TitleFragment
+import com.shashankbhat.splitbill.base.BaseFragment
 import com.shashankbhat.splitbill.databinding.AdapterNearbyUserBinding
 import com.shashankbhat.splitbill.databinding.FragmentNearbyPeopleBinding
-import com.shashankbhat.splitbill.model.NearUserModel
+import com.shashankbhat.splitbill.database.local.model.NearUserModel
 import com.shashankbhat.splitbill.ui.main_ui.group_list.AddGroupFragment
 import com.shashankbhat.splitbill.util.LocationListener
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.showSnackBar
 import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
 
-class NearbyPeopleFragment : TitleFragment(), SwipeRefreshLayout.OnRefreshListener {
+class NearbyPeopleFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: FragmentNearbyPeopleBinding
     private val myLocation = LocationListener()
     private val viewModel: GroupListViewModel by activityViewModels()
