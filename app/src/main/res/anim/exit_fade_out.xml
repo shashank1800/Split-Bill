@@ -3,8 +3,8 @@
     android:duration="@integer/screen_animation_duration">
 
     <alpha
-        android:fromAlpha="0"
-        android:toAlpha="1" >
+        android:fromAlpha="1"
+        android:toAlpha="0">
     </alpha>
 
 </set>

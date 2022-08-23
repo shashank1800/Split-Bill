@@ -22,7 +22,7 @@ import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.databinding.AdapterBillShareBillBinding
 import com.shashankbhat.splitbill.util.RecyclerItemOverlap
 import com.shashankbhat.splitbill.util.extension.*
-import com.shashankbhat.splitbill.util.getTimeAgo
+import com.shashankbhat.splitbill.util.extension.getTimeAgo
 
 object MainScreenBinding {
 

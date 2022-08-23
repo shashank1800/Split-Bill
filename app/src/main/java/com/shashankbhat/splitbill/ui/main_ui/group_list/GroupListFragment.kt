@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
@@ -42,7 +41,6 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         return binding.root
     }
 
-    @OptIn(ExperimentalComposeUiApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -68,10 +66,10 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         }
     }
 
-    @OptIn(ExperimentalComposeUiApi::class)
     private fun uiFabClickListener() {
         binding.fab.setOnClickListener {
-            val addGroupDialog = AddGroupFragment {
+            // Error handle
+            val addGroupDialog = AddGroupDialogFragment.newInstance {
                 viewModel.addGroup(Groups(it))
             }
             addGroupDialog.show(parentFragmentManager, addGroupDialog.tag)

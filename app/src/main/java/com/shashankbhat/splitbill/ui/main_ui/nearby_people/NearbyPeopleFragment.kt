@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -22,7 +21,7 @@ import com.shashankbhat.splitbill.base.BaseFragment
 import com.shashankbhat.splitbill.databinding.AdapterNearbyUserBinding
 import com.shashankbhat.splitbill.databinding.FragmentNearbyPeopleBinding
 import com.shashankbhat.splitbill.database.local.model.NearUserModel
-import com.shashankbhat.splitbill.ui.main_ui.group_list.AddGroupFragment
+import com.shashankbhat.splitbill.ui.main_ui.group_list.AddGroupDialogFragment
 import com.shashankbhat.splitbill.util.LocationListener
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.showSnackBar
@@ -43,7 +42,6 @@ class NearbyPeopleFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListene
         return binding.root
     }
 
-    @OptIn(ExperimentalComposeUiApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.isRefreshing = viewModel.isRefreshing
@@ -119,10 +117,9 @@ class NearbyPeopleFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListene
         binding.rvNearbyUsers.adapter = adapter
     }
 
-    @OptIn(ExperimentalComposeUiApi::class)
     private fun uiBtnCreateGroupClickListener() {
         binding.btnCreateGroup.setOnClickListener {
-            val addGroupDialog = AddGroupFragment {
+            val addGroupDialog = AddGroupDialogFragment.newInstance {
                 viewModel.addGroupWithPeople(it)
             }
             addGroupDialog.show(parentFragmentManager, addGroupDialog.tag)

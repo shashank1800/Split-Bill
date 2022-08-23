@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.util
+package com.shashankbhat.splitbill.util.extension
 
 import android.content.Context
 import android.text.format.DateUtils

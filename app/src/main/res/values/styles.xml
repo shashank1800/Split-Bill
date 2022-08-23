@@ -3,6 +3,10 @@
 
     <style name="CustomBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
+
+        <item name="android:windowEnterAnimation">@anim/enter_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/exit_fade_out</item>
+
     </style>
 
     <style name="CustomBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
@@ -73,6 +77,44 @@
         <item name="strokeWidth">1dp</item>
         <item name="android:minHeight">55dp</item>
 
+    </style>
+
+    <style name="Common.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">@color/primaryColor</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxCornerRadiusBottomEnd">4dp</item>
+        <item name="boxCornerRadiusBottomStart">4dp</item>
+        <item name="boxCornerRadiusTopEnd">4dp</item>
+        <item name="boxCornerRadiusTopStart">4dp</item>
+        <item name="errorEnabled">true</item>
+        <item name="hintEnabled">true</item>
+        <item name="hintTextColor">@color/primaryColor</item>
+        <item name="boxStrokeColor">@color/primaryColor</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="endIconMode">custom</item>
+        <item name="startIconTint">@color/primaryColor</item>
+        <item name="errorIconDrawable">@null</item>
+    </style>
+
+
+    <style name="Common.TextInputLayoutEditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">@color/primaryColor</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="errorEnabled">true</item>
+        <item name="hintEnabled">true</item>
+        <item name="hintTextColor">@color/primaryColor</item>
+        <item name="boxStrokeColor">@color/primaryColor</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="endIconMode">none</item>
+        <item name="errorIconDrawable">@null</item>
     </style>
 
 

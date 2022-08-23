@@ -47,12 +47,12 @@ public class HomeController {
                     )
             );
         } catch (BadCredentialsException e) {
-            loggedUsersRepository.save(new LoggedUsersEntity(null, jwtRequest.getUsername(), jwtRequest.getPassword()));
+            loggedUsersRepository.save(new LoggedUsersEntity(null, jwtRequest.getUsername(), jwtRequest.getPassword(), System.currentTimeMillis()));
             System.out.println("Bad Cred exception " + e.getMessage() + " loca" + e.getLocalizedMessage());
         } catch (Exception exception){
 
             System.out.println("Else exception " + exception.getMessage() + " loca" + exception.getLocalizedMessage());
-            loggedUsersRepository.save(new LoggedUsersEntity(null, jwtRequest.getUsername(), jwtRequest.getPassword()));
+            loggedUsersRepository.save(new LoggedUsersEntity(null, jwtRequest.getUsername(), jwtRequest.getPassword(), System.currentTimeMillis()));
 //            Exception exception1 = exception;
         }
 

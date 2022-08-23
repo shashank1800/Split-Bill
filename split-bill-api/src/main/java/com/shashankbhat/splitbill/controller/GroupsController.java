@@ -53,7 +53,7 @@ class GroupsController {
             UserProfileEntity user = userProfileService.getProfile(uniqueId);
             usersRepository.save(new UsersEntity(null, groupsEntity.getId(), user.getName(), System.currentTimeMillis(), uniqueId));
         }
-        List<UserDto> usersList = getAllUsers(groupsEntity);
+        List<UserDto> usersList = userProfileService.getAllUsers(groupsEntity);
 
         return new ResponseEntity<>(new GroupsEntityDto(groupsEntity, usersList), HttpStatus.OK);
     }
@@ -66,28 +66,14 @@ class GroupsController {
         List<GroupsEntity> result = groupsRepository.findAllGroupsWithUniqueId(uniqueId);
         List<GroupsEntityDto> response = new ArrayList<>();
         result.forEach(groupsEntity -> {
-            List<UserDto> usersList = getAllUsers(groupsEntity);
+            List<UserDto> usersList = userProfileService.getAllUsers(groupsEntity);
             response.add(new GroupsEntityDto(groupsEntity, usersList));
         });
 
         return new ResponseEntity<>(new GroupsAllDataDto(response), HttpStatus.OK);
     }
 
-    public List<UserDto> getAllUsers(GroupsEntity groupsEntity){
-        List<UserDto> usersList = new ArrayList<>();
-        List<UsersEntity> users = usersRepository.findByGroupId(groupsEntity.getId(), Sort.by(Sort.Direction.ASC, "name"));
 
-        users.forEach(usersEntity -> {
-            String profileUrl = null;
-            if(usersEntity.getUniqueId() != null){
-                profileUrl = userProfileService.getProfile(usersEntity.getUniqueId()).getPhotoUrl();
-            }
-
-            usersList.add(new UserDto(usersEntity.getId(), usersEntity.getGroupId(), usersEntity.getName(), profileUrl, usersEntity.getDateCreated(), usersEntity.getUniqueId()));
-        });
-
-        return usersList;
-    }
 }
 
 
