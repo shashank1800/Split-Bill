@@ -1,10 +1,10 @@
 package com.shashankbhat.splitbill.database.local.model.bill_shares
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import androidx.databinding.ObservableField
+import com.shashankbhat.splitbill.database.local.entity.User
 
 data class BillShareModel(
-    var userId: Int,
-    var spent : MutableState<String> = mutableStateOf("0"),
-    var share: MutableState<String> = mutableStateOf("0")
+    var user: User,
+    var spent : ObservableField<String> = ObservableField("0"),
+    var share: ObservableField<String> = ObservableField("0")
 )

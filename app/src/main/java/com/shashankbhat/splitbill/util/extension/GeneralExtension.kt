@@ -5,9 +5,6 @@ import android.content.ContextWrapper
 import android.content.SharedPreferences
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layout
 import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.snackbar.Snackbar
@@ -81,16 +78,6 @@ fun SharedPreferences.getUsername(): String {
     return this.getString("username", "") ?: ""
 }
 
-fun String.getColor(): Color{
-
-    var sum = 0
-
-    this.forEach { character ->
-        sum += character.code
-    }
-
-    return Color(android.graphics.Color.parseColor(colors[sum % colors.size]))
-}
 
 fun String.getColorV2(): Int {
 

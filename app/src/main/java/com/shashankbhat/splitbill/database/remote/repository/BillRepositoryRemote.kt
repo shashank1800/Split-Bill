@@ -165,9 +165,9 @@ class BillRepositoryRemote @Inject constructor(
                     BillShare(
                         id = sharedPreferences.getLocalId(),
                         billId = billIdLocal,
-                        userId = it.userId,
-                        share = it.share.value.toFloat(),
-                        spent = it.spent.value.toFloat(),
+                        userId = it.user.id,
+                        share = it.share.get()?.toFloat(),
+                        spent = it.spent.get()?.toFloat(),
                         dateCreated = System.currentTimeMillis()
                     )
                 )

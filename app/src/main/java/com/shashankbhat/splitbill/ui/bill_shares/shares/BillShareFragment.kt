@@ -14,10 +14,11 @@ import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.base.BaseFragment
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
+import com.shashankbhat.splitbill.database.local.entity.Bill
 import com.shashankbhat.splitbill.databinding.AdapterBillShareBinding
 import com.shashankbhat.splitbill.databinding.FragmentBillShareBinding
 import com.shashankbhat.splitbill.enums.SnackBarType
-import com.shashankbhat.splitbill.ui.bill_shares.add_bill.AddBillSharesBottomSheetFragment
+import com.shashankbhat.splitbill.ui.bill_shares.add_bill.AddBillSharesDialogFragment
 import com.shashankbhat.splitbill.util.extension.showSnackBar
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
@@ -86,10 +87,26 @@ class BillShareFragment : BaseFragment() {
     }
 
     private fun showAddBillBottomSheet(){
-        val addBillDialog = AddBillSharesBottomSheetFragment(
-            groupListDto = groupListDto,
-            viewModel = viewModel
-        )
+        val addBillDialog = AddBillSharesDialogFragment.newInstance(
+            groupListDto = groupListDto
+        ) { name, total, billShareInputList ->
+            var sumSpent = 0F
+            var sumShare = 0F
+
+            billShareInputList.forEach {
+                sumSpent += it.spent.get()?.toFloat() ?: 0F
+                sumShare += it.share.get()?.toFloat() ?: 0F
+            }
+
+            viewModel.addBill(
+                Bill(
+                    groupListDto.group?.id ?: -1,
+                    name,
+                    total.toFloat()
+                ),
+                billShareInputList
+            )
+        }
         addBillDialog.show(parentFragmentManager, addBillDialog.tag)
     }
 

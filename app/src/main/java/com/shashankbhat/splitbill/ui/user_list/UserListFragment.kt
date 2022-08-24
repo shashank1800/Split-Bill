@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -46,7 +45,6 @@ class UserListFragment : BaseFragment() {
         return binding.root
     }
 
-    @OptIn(ExperimentalComposeUiApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -64,8 +62,9 @@ class UserListFragment : BaseFragment() {
 
     private fun uiFabClickListener(){
         binding.fab.setOnClickListener {
-
-            val addMember = AddGroupMemberFragment(viewModel, groupListDto)
+            val addMember = AddGroupMembersFragment.newInstance {
+                viewModel.addPeople(User(it, groupListDto.group?.id ?: -1))
+            }
             context?.findActivity()?.supportFragmentManager?.let {
                 addMember.show(
                     it,
@@ -80,8 +79,10 @@ class UserListFragment : BaseFragment() {
         adapter = RecyclerGenericAdapter.Builder<AdapterGroupUserBinding, User>(R.layout.adapter_group_user, BR.model)
             .setClickCallbacks(arrayListOf<CallBackModel<AdapterGroupUserBinding, User>>().apply {
                 add(CallBackModel(R.id.iv_link){ model, _, _ ->
-                    val dialog = LinkGroupMemberFragment(viewModel, model)
-                    requireContext().findActivity()?.supportFragmentManager?.let {
+                    val dialog = LinkGroupMemberDialogFragment.newInstance {
+                        viewModel.linkPeople(model, it)
+                    }
+                    context?.findActivity()?.supportFragmentManager?.let {
                         dialog.show(
                             it,
                             dialog.tag

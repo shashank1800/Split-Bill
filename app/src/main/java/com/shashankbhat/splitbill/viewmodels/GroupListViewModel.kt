@@ -2,7 +2,6 @@ package com.shashankbhat.splitbill.viewmodels
 
 import android.content.SharedPreferences
 import android.os.CountDownTimer
-import androidx.compose.runtime.*
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.*
@@ -40,7 +39,7 @@ class GroupListViewModel @Inject constructor(
     var isGroupListEmpty = ObservableBoolean(false)
     var isRefreshing = ObservableBoolean(false)
     var unauthorized = MutableLiveData(false)
-    var isTakingMoreTime = mutableStateOf(false)
+    var isTakingMoreTime = MutableLiveData(false)
     var vpBillShares: ViewPager2? = null
 
     fun getAllGroups() {

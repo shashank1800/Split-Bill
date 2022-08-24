@@ -19,7 +19,7 @@
             style="@style/TextStyleHeadMediumBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create Group"
+            android:text="@string/add_member"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,18 +39,18 @@
             style="@style/Common.NormalButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create"
+            android:text="@string/add"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_group_name"
             style="@style/Common.TextInputLayoutEditText"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_marginTop="8dp"
-            android:hint="@string/name"
+            android:hint="@string/enter_name"
             app:counterMaxLength="50"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
