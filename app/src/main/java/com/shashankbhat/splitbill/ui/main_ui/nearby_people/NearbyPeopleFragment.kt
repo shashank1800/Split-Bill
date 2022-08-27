@@ -25,12 +25,12 @@ import com.shashankbhat.splitbill.ui.main_ui.group_list.AddGroupDialogFragment
 import com.shashankbhat.splitbill.util.LocationListener
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.showSnackBar
-import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
+import com.shashankbhat.splitbill.viewmodels.MainScreenViewModel
 
 class NearbyPeopleFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: FragmentNearbyPeopleBinding
     private val myLocation = LocationListener()
-    private val viewModel: GroupListViewModel by activityViewModels()
+    private val viewModel: MainScreenViewModel by activityViewModels()
 
     lateinit var adapter: RecyclerGenericAdapter<AdapterNearbyUserBinding, NearUserModel>
 

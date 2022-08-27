@@ -3,7 +3,7 @@ buildscript {
     ext {
         hilt_version = '2.41'
         gradle_version = '1.6.10'
-        navigation_version = '2.4.0-alpha02'
+        navigation_version = '2.5.1'
     }
     repositories {
         google()

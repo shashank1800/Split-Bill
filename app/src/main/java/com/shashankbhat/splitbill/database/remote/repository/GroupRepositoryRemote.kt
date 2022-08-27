@@ -9,6 +9,7 @@ import com.shashankbhat.splitbill.database.local.entity.Groups
 import com.shashankbhat.splitbill.ui.ApiConstants.AUTHORIZATION
 import com.shashankbhat.splitbill.BuildConfig.BASE_URL
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupRecyclerListDto
+import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.database.local.repository.UserRepository
 import com.shashankbhat.splitbill.database.remote.entity.GroupSaveDto
 import com.shashankbhat.splitbill.ui.ApiConstants.allGroups
@@ -63,11 +64,11 @@ class GroupRepositoryRemote @Inject constructor(
             }
             response.data?.forEach { it ->
                 it.group?.let { group ->
-                    groupRepository.insert(group)
+                    groupRepository.insert(Groups(group.name, group.id, group.dateCreated ?: System.currentTimeMillis(), group.uniqueId))
                 }
 
                 it.userList?.forEach { user ->
-                    userRepository.insert(user)
+                    userRepository.insert(User(user.name, user.groupId, user.id, user.photoUrl, user.dateCreated, user.uniqueId))
                 }
             }
 

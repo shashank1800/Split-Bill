@@ -18,6 +18,7 @@ import com.shashankbhat.splitbill.BR
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillSharesModel
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupRecyclerListDto
+import com.shashankbhat.splitbill.database.local.dto.users.UserDto
 import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.databinding.AdapterBillShareBillBinding
 import com.shashankbhat.splitbill.util.RecyclerItemOverlap
@@ -52,7 +53,7 @@ object MainScreenBinding {
     @JvmStatic
     @BindingAdapter(value = ["bindUsersList"], requireAll = true)
     fun bindUsersList(recyclerView: RecyclerView, groupListDto: GroupRecyclerListDto) {
-        val adapter = RecyclerGenericAdapter.Builder<AdapterGroupUsersProfileBinding, User>(R.layout.adapter_group_users_profile, BR.model)
+        val adapter = RecyclerGenericAdapter.Builder<AdapterGroupUsersProfileBinding, UserDto>(R.layout.adapter_group_users_profile, BR.model)
             .build()
         if (groupListDto.userList != null && groupListDto.userList.isNotEmpty()) {
             recyclerView.addItemDecoration(RecyclerItemOverlap(left = -15))

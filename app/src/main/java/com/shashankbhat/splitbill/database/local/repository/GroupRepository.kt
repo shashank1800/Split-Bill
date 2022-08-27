@@ -5,6 +5,8 @@ import com.shashankbhat.splitbill.database.local.entity.Groups
 import com.shashankbhat.splitbill.database.local.dao.GroupDao
 import com.shashankbhat.splitbill.database.local.dao.UserDao
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupRecyclerListDto
+import com.shashankbhat.splitbill.database.local.dto.group_list.GroupsDto
+import com.shashankbhat.splitbill.database.local.dto.users.UserDto
 import com.shashankbhat.splitbill.util.Response
 
 class GroupRepository(private val groupDao: GroupDao, private val userDao: UserDao) {
@@ -22,7 +24,26 @@ class GroupRepository(private val groupDao: GroupDao, private val userDao: UserD
 
         val groupRecyclerArray = ArrayList<GroupRecyclerListDto>()
         groups.forEach {
-            groupRecyclerArray.add(GroupRecyclerListDto(it, userDao.getAllUserByGroupId(it.id ?:  0), null))
+            val users = userDao.getAllUserByGroupId(it.id ?: 0)?.map { user ->
+                UserDto(
+                    user.name,
+                    user.groupId,
+                    user.id,
+                    user.photoUrl,
+                    user.dateCreated,
+                    user.uniqueId
+                )
+            }?.toList()
+            groupRecyclerArray.add(
+                GroupRecyclerListDto(
+                    GroupsDto(
+                        it.name,
+                        it.id,
+                        it.dateCreated,
+                        it.uniqueId
+                    ), users, null
+                )
+            )
         }
         groupsListState.value = Response.success(groupRecyclerArray)
     }

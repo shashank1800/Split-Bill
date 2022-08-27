@@ -26,7 +26,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class GroupListViewModel @Inject constructor(
+class MainScreenViewModel @Inject constructor(
     private val groupRepoRemote: GroupRepositoryRemote,
     private val groupRepository: GroupRepository,
     val sharedPreferences: SharedPreferences,

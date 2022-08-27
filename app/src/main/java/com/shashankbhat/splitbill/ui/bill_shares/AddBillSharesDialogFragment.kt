@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.ui.bill_shares.add_bill
+package com.shashankbhat.splitbill.ui.bill_shares
 
 import android.os.Bundle
 import android.view.LayoutInflater

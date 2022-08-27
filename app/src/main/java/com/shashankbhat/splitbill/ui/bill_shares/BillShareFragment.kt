@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.ui.bill_shares.shares
+package com.shashankbhat.splitbill.ui.bill_shares
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,7 +18,6 @@ import com.shashankbhat.splitbill.database.local.entity.Bill
 import com.shashankbhat.splitbill.databinding.AdapterBillShareBinding
 import com.shashankbhat.splitbill.databinding.FragmentBillShareBinding
 import com.shashankbhat.splitbill.enums.SnackBarType
-import com.shashankbhat.splitbill.ui.bill_shares.add_bill.AddBillSharesDialogFragment
 import com.shashankbhat.splitbill.util.extension.showSnackBar
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 

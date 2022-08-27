@@ -22,8 +22,8 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            buildConfigField "String", "BASE_URL", "\"https://split-bill-develop.herokuapp.com/\""
-            buildConfigField "String", "BASE_URL", "\"http://192.168.1.5:8080/\""
+            buildConfigField "String", "BASE_URL", "\"https://split-bill-develop.herokuapp.com/\""
+//            buildConfigField "String", "BASE_URL", "\"http://192.168.1.5:8080/\""
         }
         release {
             minifyEnabled false

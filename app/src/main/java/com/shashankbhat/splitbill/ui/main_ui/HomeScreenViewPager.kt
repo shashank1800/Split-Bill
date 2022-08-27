@@ -12,12 +12,12 @@ import com.shashankbhat.splitbill.ui.main_ui.nearby_people.NearbyPeopleFragment
 import com.shashankbhat.splitbill.ui.main_ui.profile.ProfileFragment
 import com.shashankbhat.splitbill.util.ViewPagerAdapter
 import com.shashankbhat.splitbill.util.extension.getUniqueId
-import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
+import com.shashankbhat.splitbill.viewmodels.MainScreenViewModel
 
 class HomeScreenViewPager : Fragment() {
 
     private lateinit var binding: FragmentHomeScreenViewPagerBinding
-    private val viewModel: GroupListViewModel by activityViewModels()
+    private val viewModel: MainScreenViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

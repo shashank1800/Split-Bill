@@ -23,13 +23,13 @@ import com.shashankbhat.splitbill.databinding.FragmentGroupListBinding
 import com.shashankbhat.splitbill.enums.SnackBarType
 import com.shashankbhat.splitbill.ui.main_ui.HomeScreenViewPagerDirections
 import com.shashankbhat.splitbill.util.extension.showSnackBar
-import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
+import com.shashankbhat.splitbill.viewmodels.MainScreenViewModel
 
 class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: FragmentGroupListBinding
     private lateinit var navController: NavController
-    private val viewModel: GroupListViewModel by activityViewModels()
+    private val viewModel: MainScreenViewModel by activityViewModels()
 
     lateinit var adapter: RecyclerGenericAdapter<AdapterGroupBinding, GroupRecyclerListDto>
 
@@ -90,7 +90,7 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                                     GroupListDto(
                                         it, model.userList ?: emptyList()
                                     )
-                                })
+                                }!!)
                         )
                     }
                 })

@@ -12,8 +12,6 @@ import com.shashankbhat.splitbill.base.BaseFragment
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.databinding.FragmentBillShareViewPagerBinding
 import com.shashankbhat.splitbill.enums.SnackBarType
-import com.shashankbhat.splitbill.ui.bill_shares.balance.ShowBillSharesBalanceFragment
-import com.shashankbhat.splitbill.ui.bill_shares.shares.BillShareFragment
 import com.shashankbhat.splitbill.util.ViewPagerAdapter
 import com.shashankbhat.splitbill.util.extension.showSnackBar
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel

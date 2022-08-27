@@ -16,12 +16,12 @@ import com.shashankbhat.splitbill.util.bottom_sheet.SingleItemSelectionBottomShe
 import com.shashankbhat.splitbill.util.extension.getBottomSheetList
 import com.shashankbhat.splitbill.util.extension.getColorV2
 import com.shashankbhat.splitbill.util.extension.showSnackBar
-import com.shashankbhat.splitbill.viewmodels.GroupListViewModel
+import com.shashankbhat.splitbill.viewmodels.MainScreenViewModel
 
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
-    private val viewModel: GroupListViewModel by activityViewModels()
+    private val viewModel: MainScreenViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

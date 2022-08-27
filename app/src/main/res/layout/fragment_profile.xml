@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.shashankbhat.splitbill.viewmodels.GroupListViewModel" />
+            type="com.shashankbhat.splitbill.viewmodels.MainScreenViewModel" />
 
         <import type="android.view.View"/>
     </data>

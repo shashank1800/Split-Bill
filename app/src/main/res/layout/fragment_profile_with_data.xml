@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.shashankbhat.splitbill.viewmodels.GroupListViewModel" />
+            type="com.shashankbhat.splitbill.viewmodels.MainScreenViewModel" />
 
         <import type="android.view.View"/>
     </data>
@@ -95,6 +95,7 @@
                 android:layout_marginEnd="16dp"
                 android:checked="@={viewModel.isNearbyEnabled()}"
                 android:text="Visible to nearby people"
+                android:clickable="false"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"

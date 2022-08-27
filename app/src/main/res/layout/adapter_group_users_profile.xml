@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.shashankbhat.splitbill.database.local.entity.User" />
+            type="com.shashankbhat.splitbill.database.local.dto.users.UserDto" />
 
         <import type="android.view.View" />
 
