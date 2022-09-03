@@ -15,7 +15,7 @@
         android:id="@+id/srl_group_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        setRefreshing="@{false}">
+        setRefreshing="@{isRefreshing}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

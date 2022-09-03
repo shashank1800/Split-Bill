@@ -1,6 +1,5 @@
 package com.shashankbhat.splitbill.database.local.dto.group_list
 
-import com.shashankbhat.splitbill.database.local.dto.group_list.GroupsDto
 import com.shashankbhat.splitbill.database.local.dto.users.UserDto
 import java.io.Serializable
 

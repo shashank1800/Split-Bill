@@ -24,4 +24,5 @@
     <string name="link_member">Link Member</string>
     <string name="enter_id">Enter #ID</string>
     <string name="link">Link</string>
+    <string name="delete">Delete</string>
 </resources>

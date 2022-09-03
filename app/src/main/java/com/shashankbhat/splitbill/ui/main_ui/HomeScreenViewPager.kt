@@ -12,6 +12,7 @@ import com.shashankbhat.splitbill.ui.main_ui.nearby_people.NearbyPeopleFragment
 import com.shashankbhat.splitbill.ui.main_ui.profile.ProfileFragment
 import com.shashankbhat.splitbill.util.ViewPagerAdapter
 import com.shashankbhat.splitbill.util.extension.getUniqueId
+import com.shashankbhat.splitbill.util.extension.observeNetworkStatus
 import com.shashankbhat.splitbill.viewmodels.MainScreenViewModel
 
 class HomeScreenViewPager : Fragment() {
@@ -45,6 +46,7 @@ class HomeScreenViewPager : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.vpBillShares = binding.vpBillShares
+        binding.observeNetworkStatus = observeNetworkStatus()
 
         uiViewPagerInit()
         uiViewPagerScrollListener()

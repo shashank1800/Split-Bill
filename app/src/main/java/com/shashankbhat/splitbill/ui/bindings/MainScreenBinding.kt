@@ -53,20 +53,15 @@ object MainScreenBinding {
     @JvmStatic
     @BindingAdapter(value = ["bindUsersList"], requireAll = true)
     fun bindUsersList(recyclerView: RecyclerView, groupListDto: GroupRecyclerListDto) {
-        val adapter = RecyclerGenericAdapter.Builder<AdapterGroupUsersProfileBinding, UserDto>(R.layout.adapter_group_users_profile, BR.model)
-            .build()
-        if (groupListDto.userList != null && groupListDto.userList.isNotEmpty()) {
-            recyclerView.addItemDecoration(RecyclerItemOverlap(left = -15))
-            (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-            recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, RecyclerView.HORIZONTAL, false)
-            recyclerView.adapter = adapter
-            adapter.replaceList(ArrayList(groupListDto.userList.take(3)))
-            groupListDto.adapter = adapter
-        }else {
-            recyclerView.adapter = adapter
-            adapter.replaceList(ArrayList())
-        }
-
+        val adapter = if(groupListDto.adapter != null) groupListDto.adapter else
+            RecyclerGenericAdapter.Builder<AdapterGroupUsersProfileBinding, UserDto>(R.layout.adapter_group_users_profile, BR.model)
+                .build()
+        recyclerView.addItemDecoration(RecyclerItemOverlap(left = -15))
+        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, RecyclerView.HORIZONTAL, false)
+        recyclerView.adapter = adapter
+        adapter?.replaceList(ArrayList(groupListDto.userList?.take(3) ?: emptyList()))
+        groupListDto.adapter = adapter
     }
 
     @JvmStatic

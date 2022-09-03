@@ -59,23 +59,23 @@ class NearbyPeopleFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListene
             when {
                 it.isSuccess() -> {
                     adapter.replaceList(it.data ?: arrayListOf())
-                    hideLoading()
+//                    hideLoading()
                     binding.tvInstruction.text = ""
                 }
 
                 it.isLoading() -> {
-                    showLoading()
+//                    showLoading()
                     binding.tvInstruction.text = ""
                 }
 
                 it.isError() -> {
-                    hideLoading()
+//                    hideLoading()
                     if (it.message != null)
                         binding.tvInstruction.text = it.message
                 }
 
                 else -> {
-                    hideLoading()
+//                    hideLoading()
                     binding.tvInstruction.text = ""
                 }
             }

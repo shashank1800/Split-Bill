@@ -4,6 +4,14 @@
 
     <data>
 
+        <import type="androidx.databinding.ObservableField" />
+        <import type="com.shashankbhat.splitbill.util.NetworkStatus" />
+        <variable
+            name="observeNetworkStatus"
+            type="ObservableField&lt;NetworkStatus&gt;" />
+
+        <import type="android.view.View" />
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -15,6 +23,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                bindNetworkStatus="@{observeNetworkStatus}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:padding="4dp"
+                android:background="#C8294E"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/network_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Network Unavailable"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vp_bill_shares"
                 android:layout_width="0dp"
@@ -22,7 +53,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/bottomBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/network_status" />
 
             <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/bottomBar"

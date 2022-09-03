@@ -53,7 +53,7 @@ class GroupsController {
             UserProfileEntity user = userProfileService.getProfile(uniqueId);
             usersRepository.save(new UsersEntity(null, groupsEntity.getId(), user.getName(), System.currentTimeMillis(), uniqueId));
         }
-        List<UserDto> usersList = userProfileService.getAllUsers(groupsEntity);
+        List<UserDto> usersList = userProfileService.getAllUsers(groupsEntity.getId());
 
         return new ResponseEntity<>(new GroupsEntityDto(groupsEntity, usersList), HttpStatus.OK);
     }
@@ -66,7 +66,7 @@ class GroupsController {
         List<GroupsEntity> result = groupsRepository.findAllGroupsWithUniqueId(uniqueId);
         List<GroupsEntityDto> response = new ArrayList<>();
         result.forEach(groupsEntity -> {
-            List<UserDto> usersList = userProfileService.getAllUsers(groupsEntity);
+            List<UserDto> usersList = userProfileService.getAllUsers(groupsEntity.getId());
             response.add(new GroupsEntityDto(groupsEntity, usersList));
         });
 

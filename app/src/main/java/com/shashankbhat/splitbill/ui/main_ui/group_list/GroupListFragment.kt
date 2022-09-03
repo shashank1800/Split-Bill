@@ -82,7 +82,7 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             BR.model
         )
             .setClickCallbacks(arrayListOf<CallBackModel<AdapterGroupBinding, GroupRecyclerListDto>>().apply {
-                add(CallBackModel(R.id.iv_user_icon) { model, position, binding ->
+                add(CallBackModel(R.id.iv_user_icon) { model, _, _ ->
                     if ((model.group?.id ?: -1) > 0) {
                         navController.navigate(
                             HomeScreenViewPagerDirections.actionNavGroupListToNavUserList(
@@ -113,14 +113,7 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     val newList = it.data
                     val listSize = it.data.size
                     for (index in 0 until listSize) {
-                        if (newList[index].group == oldList[index].group
-                            && newList[index].userList != oldList[index].userList
-                        ) {
-                            // Replace only user list
-                            newList[index].userList?.let { uList ->
-                                oldList[index].adapter?.replaceList(ArrayList(uList.take(3)))
-                            }
-                        } else if (newList[index].group != oldList[index].group) {
+                        if (newList[index].group != oldList[index].group) {
 
                             // Replace complete group
                             adapter.replaceItemAt(
@@ -132,6 +125,10 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                                 )
                             )
                         }
+
+                        newList[index].userList?.let { uList ->
+                            oldList[index].adapter?.replaceList(ArrayList(uList.take(3)))
+                        }
                     }
                 } else
                     adapter.replaceList(ArrayList(it.data ?: emptyList()))
@@ -141,7 +138,7 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun navigateToBillSharesScreen(model: GroupRecyclerListDto) {
-        if (model.userList != null && model.userList.isEmpty()) {
+        if (model.adapter?.getItemList() != null && model.adapter?.getItemList()?.isEmpty() == true) {
             binding.showSnackBar(
                 "Please add atleast one user to group",
                 "Okay",
@@ -149,8 +146,8 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             )
         } else {
             val groupListDto = GroupListDto(
-                model.group!!,
-                model.userList ?: emptyList()
+                model.group,
+                model.adapter?.getItemList() ?: emptyList()
             )
             navController.navigate(
                 HomeScreenViewPagerDirections.actionNavGroupListToNavBillSharesViewPager(

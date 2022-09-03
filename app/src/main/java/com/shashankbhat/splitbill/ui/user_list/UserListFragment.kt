@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
 import com.shahankbhat.recyclergenericadapter.util.CallBackModel
 import com.shahankbhat.recyclergenericadapter.util.DataBinds
@@ -90,7 +91,13 @@ class UserListFragment : BaseFragment() {
                     }
                 })
                 add(CallBackModel(R.id.iv_delete){ model, _, _ ->
-                    viewModel.deleteUser(model)
+                    val deleteDialog = MaterialAlertDialogBuilder(requireContext())
+                        .setTitle("Delete")
+                        .setMessage("Are you sure you want to delete ${model.name}")
+                        .setPositiveButton("Delete") { _, _ ->
+                            viewModel.deleteUser(model)
+                        }.setNegativeButton("Cancel", null)
+                    deleteDialog.show()
                 })
             })
             .setMoreDataBinds(DataBinds().apply {

@@ -7,6 +7,7 @@ import com.shashankbhat.splitbill.entity.GroupsEntity;
 import com.shashankbhat.splitbill.entity.LocationDetailEntity;
 import com.shashankbhat.splitbill.entity.UserProfileEntity;
 import com.shashankbhat.splitbill.entity.UsersEntity;
+import com.shashankbhat.splitbill.repository.GroupsRepository;
 import com.shashankbhat.splitbill.repository.LocationDetailRepository;
 import com.shashankbhat.splitbill.repository.UserProfileRepository;
 import com.shashankbhat.splitbill.repository.UsersRepository;
@@ -28,6 +29,9 @@ public class UserProfileServiceImpl implements IUserProfileService {
 
     @Autowired
     private UsersRepository usersRepository;
+
+    @Autowired
+    private GroupsRepository groupsRepository;
 
     @Autowired
     private LocationDetailRepository locationDetailRepository;
@@ -109,9 +113,10 @@ public class UserProfileServiceImpl implements IUserProfileService {
     }
 
     @Override
-    public List<UserDto> getAllUsers(GroupsEntity groupsEntity){
+    public List<UserDto> getAllUsers(Integer groupId){
+        GroupsEntity groupsEntity = groupsRepository.getById(groupId);
         List<UserDto> usersList = new ArrayList<>();
-        List<UsersEntity> users = usersRepository.findByGroupId(groupsEntity.getId(), Sort.by(Sort.Direction.ASC, "name"));
+        List<UsersEntity> users = usersRepository.findByGroupId(groupsEntity.getId());
 
         users.forEach(usersEntity -> {
             String profileUrl = null;

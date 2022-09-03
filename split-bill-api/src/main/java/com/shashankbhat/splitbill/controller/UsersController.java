@@ -49,7 +49,7 @@ public class UsersController {
     public ResponseEntity<UsersAllDataDto> getAllUser(@RequestParam Integer groupId){
         try{
             GroupsEntity groupsEntity = groupsRepository.getById(groupId);
-            List<UserDto> userDtoList = userProfileService.getAllUsers(groupsEntity);
+            List<UserDto> userDtoList = userProfileService.getAllUsers(groupsEntity.getId());
             return new ResponseEntity<>(new UsersAllDataDto(userDtoList), HttpStatus.OK);
         } catch (Exception ex){
             return ResponseEntity.internalServerError().build();

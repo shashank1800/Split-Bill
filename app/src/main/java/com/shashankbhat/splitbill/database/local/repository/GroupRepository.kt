@@ -23,7 +23,7 @@ class GroupRepository(private val groupDao: GroupDao, private val userDao: UserD
         val groups = groupDao.getAllGroups()
 
         val groupRecyclerArray = ArrayList<GroupRecyclerListDto>()
-        groups.forEach {
+        groups.forEachIndexed { index, it ->
             val users = userDao.getAllUserByGroupId(it.id ?: 0)?.map { user ->
                 UserDto(
                     user.name,
@@ -34,6 +34,9 @@ class GroupRepository(private val groupDao: GroupDao, private val userDao: UserD
                     user.uniqueId
                 )
             }?.toList()
+
+            val adapter = if((groupsListState.value?.data?.size ?: 0) >= groups.size) groupsListState.value?.data?.get(index)?.adapter else null
+
             groupRecyclerArray.add(
                 GroupRecyclerListDto(
                     GroupsDto(
@@ -41,7 +44,9 @@ class GroupRepository(private val groupDao: GroupDao, private val userDao: UserD
                         it.id,
                         it.dateCreated,
                         it.uniqueId
-                    ), users, null
+                    ),
+                    users,
+                    adapter
                 )
             )
         }

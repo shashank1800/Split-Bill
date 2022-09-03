@@ -120,7 +120,7 @@ class MainScreenViewModel @Inject constructor(
     var distanceRange = ObservableField(DistanceRangeModel("${sharedPreferences.getDistanceRange().toInt()} KM", sharedPreferences.getDistanceRange()))
     var fullName = ObservableField(sharedPreferences.getFullName())
     var profilePhoto = ObservableField<ProfileIconModel>().also { profile ->
-        sharedPreferences.getProfileIcons().forEachIndexed { index, it ->
+        getProfileIcons().forEachIndexed { index, it ->
             if(it == sharedPreferences.getPhotoUrl())
                 profile.set(ProfileIconModel(index, it))
         }
@@ -134,7 +134,7 @@ class MainScreenViewModel @Inject constructor(
     }
 
     var iconList = arrayListOf<ProfileIconModel>().also { list ->
-        sharedPreferences.getProfileIcons().forEachIndexed { index, it ->
+        getProfileIcons().forEachIndexed { index, it ->
             list.add(ProfileIconModel(index, it))
         }
     }
@@ -174,7 +174,7 @@ class MainScreenViewModel @Inject constructor(
                     response.isSuccess() -> {
                         hasProfileData.set(true)
                         fullName.set(sharedPreferences.getFullName())
-                        sharedPreferences.getProfileIcons().forEachIndexed { index, it ->
+                        getProfileIcons().forEachIndexed { index, it ->
                             if(it == sharedPreferences.getPhotoUrl())
                                 profilePhoto.set(ProfileIconModel(index, it))
                         }

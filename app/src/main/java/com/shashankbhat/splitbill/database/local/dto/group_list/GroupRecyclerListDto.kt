@@ -6,6 +6,6 @@ import com.shashankbhat.splitbill.databinding.AdapterGroupUsersProfileBinding
 
 data class GroupRecyclerListDto(
     val group: GroupsDto?,
-    val userList: List<UserDto>?,
+    var userList: List<UserDto>?,
     var adapter: RecyclerGenericAdapter<AdapterGroupUsersProfileBinding, UserDto>? = null
 )

@@ -24,5 +24,5 @@ public interface IUserProfileService {
 
     void updateProfilePhoto(Integer uniqueId, String name);
 
-    List<UserDto> getAllUsers(GroupsEntity groupsEntity);
+    List<UserDto> getAllUsers(Integer groupId);
 }

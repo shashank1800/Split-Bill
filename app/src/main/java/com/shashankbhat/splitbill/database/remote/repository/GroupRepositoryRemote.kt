@@ -57,7 +57,7 @@ class GroupRepositoryRemote @Inject constructor(
 
         try {
             groupRepository.getAllGroups(groupsListState)
-            groupsListState.value = Response.loading(groupsListState.value?.data)
+            groupsListState.value = Response.success(groupsListState.value?.data)
             val token = sharedPreferences.getToken()
             val response = httpClient.get<GroupsAllDataDto>(BASE_URL + allGroups) {
                 header(AUTHORIZATION, token)
@@ -73,8 +73,9 @@ class GroupRepositoryRemote @Inject constructor(
             }
 
             val groupRecyclerArray = ArrayList<GroupRecyclerListDto>()
-            response.data?.forEach {
-                groupRecyclerArray.add(GroupRecyclerListDto(it.group, it.userList, null))
+            response.data?.forEachIndexed { index, it ->
+                val adapter = groupsListState.value?.data?.get(index)?.adapter
+                groupRecyclerArray.add(GroupRecyclerListDto(it.group, it.userList, adapter))
             }
             groupsListState.value = Response.success(groupRecyclerArray)
         } catch (ce: ClientRequestException) {

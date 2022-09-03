@@ -144,11 +144,11 @@ class BillRepositoryRemote @Inject constructor(
                 )
             }
 
-            billShares.sortBy { billSharesModel -> billSharesModel.user?.name?.uppercase() }
+            billShares.sortBy { billSharesModel -> billSharesModel.user?.dateCreated }
 
             billModel.billShares = billShares
         }
-        billList.value = Response.loading(bills)
+        billList.value = Response.success(bills)
     }
 
 
@@ -217,17 +217,17 @@ class BillRepositoryRemote @Inject constructor(
         try {
             deleteBillOffline(billModel)
             databaseCallback(DatabaseOperation.LOCAL)
+
+            val response = httpClient.put<BillModel>(BASE_URL + deleteBill) {
+                contentType(ContentType.Application.Json)
+                header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
+                body = billModel
+            }
+
+            Log.i("response", "$response")
         } catch (ex: Exception) {
 
         }
-
-        val response = httpClient.put<BillModel>(BASE_URL + deleteBill) {
-            contentType(ContentType.Application.Json)
-            header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
-            body = billModel
-        }
-
-        Log.i("response", "$response")
     }
 
     private suspend fun deleteBillOffline(billModel: BillModel) {

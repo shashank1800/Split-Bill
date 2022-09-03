@@ -54,9 +54,10 @@ class ShowBillSharesBalanceFragment : BaseFragment() {
         networkBillListResponse()
 
         if ((viewModel.billListBalance.value?.data?.size ?: 0) > 0) {
+            val balances = viewModel.billSplitAlgorithm.getBalances() ?: emptyList()
             adapter.replaceList(
                 ArrayList(
-                    viewModel.billSplitAlgorithm.getBalances() ?: emptyList()
+                    balances
                 )
             )
             adapterTotal.replaceList(ArrayList(viewModel.billSplitAlgorithm.getSharesAndBalance()))
