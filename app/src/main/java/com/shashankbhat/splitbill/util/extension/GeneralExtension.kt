@@ -1,19 +1,25 @@
 package com.shashankbhat.splitbill.util.extension
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.SharedPreferences
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layout
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.databinding.ObservableField
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.shashankbhat.splitbill.R
+import com.shashankbhat.splitbill.application.SplitBillApplication
 import com.shashankbhat.splitbill.enums.SnackBarType
 import com.shashankbhat.splitbill.util.LatLong
+import com.shashankbhat.splitbill.util.NetworkStatus
 
 fun Context.findActivity(): AppCompatActivity? = when (this) {
     is AppCompatActivity -> this
@@ -45,21 +51,21 @@ fun SharedPreferences.getLocalId(): Int {
     return this.getInt("local_id", -1)
 }
 
-fun SharedPreferences.releaseOne(): Int {
-
-    val key = "local_id"
-    val keyCount = "keyCount"
-
-    val editor = this.edit()
-    val count = getInt(keyCount, 0) - 1
-    editor.putInt(keyCount,  count)
-
-    if(count == 0)
-        editor.putInt(key, 0)
-    editor.apply()
-
-    return this.getInt("local_id", -1)
-}
+//fun SharedPreferences.releaseOne(): Int {
+//
+//    val key = "local_id"
+//    val keyCount = "keyCount"
+//
+//    val editor = this.edit()
+//    val count = getInt(keyCount, 0) - 1
+//    editor.putInt(keyCount,  count)
+//
+//    if(count == 0)
+//        editor.putInt(key, 0)
+//    editor.apply()
+//
+//    return this.getInt("local_id", -1)
+//}
 
 fun SharedPreferences.putUniqueId(uniqueId : Int){
     val editor = this.edit()
@@ -81,16 +87,6 @@ fun SharedPreferences.getUsername(): String {
     return this.getString("username", "") ?: ""
 }
 
-fun String.getColor(): Color{
-
-    var sum = 0
-
-    this.forEach { character ->
-        sum += character.code
-    }
-
-    return Color(android.graphics.Color.parseColor(colors[sum % colors.size]))
-}
 
 fun String.getColorV2(): Int {
 
@@ -174,7 +170,7 @@ fun SharedPreferences.putIsNearVisible(value : Boolean){
 fun SharedPreferences.getIsNearVisible(): Boolean = this.getBoolean("is_near_visible", false)
 
 
-fun SharedPreferences.getProfileIcons(): List<String> = listOf(
+fun getProfileIcons(): List<String> = listOf(
     "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/5c50a231ad7531502a2473e57e667260-removebg-preview.png?alt=media",
     "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/7d28da3215341c59795732fade92fb73-removebg-preview.png?alt=media",
     "https://firebasestorage.googleapis.com/v0/b/split-bill-1800.appspot.com/o/663d97041b80b124fe1c69e4f0cc6991-removebg-preview.png?alt=media",
@@ -201,4 +197,32 @@ fun <T : ViewDataBinding> T.showSnackBar(message: String, action: String? = null
         snackBar.setAction(action, actionListener)
     }
     snackBar.show()
+}
+
+fun Fragment.observeNetworkStatus(): ObservableField<NetworkStatus>? {
+    return (requireActivity().application as? SplitBillApplication)?.observeNetworkStatus
+}
+
+fun CardView.animateCardBackgroundColor(color : Int){
+    animateBackgroundColor(cardBackgroundColor.defaultColor, color){
+        setCardBackgroundColor(it.animatedValue as Int)
+    }
+}
+
+fun <T: View> T.animateBackgroundColor(fromColor:Int, toColor: Int, setBackgroundColor: (ValueAnimator) -> Unit){
+    val valueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), fromColor, toColor)
+    valueAnimator.duration = 500
+    valueAnimator.addUpdateListener { animation ->
+        setBackgroundColor(animation)
+    }
+    valueAnimator.start()
+}
+
+fun ImageView.setImageByUrl(url: String?){
+    Glide.with(context)
+        .load(url)
+        .centerCrop()
+        .circleCrop()
+        .placeholder(R.drawable.ic_outline_account_circle)
+        .into(this)
 }

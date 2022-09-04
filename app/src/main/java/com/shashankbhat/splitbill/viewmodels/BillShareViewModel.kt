@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
-import com.shashankbhat.splitbill.model.bill_shares.BillShareModel
+import com.shashankbhat.splitbill.database.local.model.bill_shares.BillShareModel
 import com.shashankbhat.splitbill.database.remote.repository.BillRepositoryRemote
 import com.shashankbhat.splitbill.database.local.entity.Bill
 import com.shashankbhat.splitbill.util.Response
@@ -32,17 +32,6 @@ class BillShareViewModel @Inject constructor(
 
         viewModelScope.launch {
             billRepositoryRemote.getAllBill(this@BillShareViewModel.groupId, billList)
-            withContext(Dispatchers.IO) {
-                billList.value?.let {
-                    when {
-                        it.isSuccess() || (it.isLoading() || (it.data?.size ?: 0) > 0) -> {
-                            isBillListEmpty.set((billList.value?.data?.size ?: 0) == 0)
-                            billListBalance.postValue(Response.success(billList.value?.data))
-                            billSplitAlgorithm = BillSplitAlgorithm(billList.value?.data ?: emptyList())
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -57,6 +46,21 @@ class BillShareViewModel @Inject constructor(
 
                     type.isRemote() -> viewModelScope.launch {
                         billRepositoryRemote.getAllBill(this@BillShareViewModel.groupId, billList)
+                    }
+                }
+            }
+        }
+    }
+
+    fun deleteBill(billModel: BillModel) {
+        GlobalScope.launch {
+            billRepositoryRemote.deleteBill(billModel) { type ->
+                when {
+                    type.isLocal() -> viewModelScope.launch {
+                        billRepositoryRemote.getAllBillOffline(
+                            this@BillShareViewModel.groupId,
+                            billList
+                        )
                     }
                 }
             }

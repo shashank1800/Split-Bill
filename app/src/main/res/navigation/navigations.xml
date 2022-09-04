@@ -13,10 +13,10 @@
         <action
             android:id="@+id/action_nav_group_list_to_nav_user_list"
             app:destination="@id/nav_user_list"
-            app:enterAnim="@anim/enter_fade_in"
+            app:enterAnim="@anim/enter_dialog_in"
+            app:exitAnim="@anim/exit_fade_out"
             app:popEnterAnim="@anim/enter_fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popExitAnim="@android:anim/fade_out">
+            app:popExitAnim="@anim/exit_dialog_out">
             <argument
                 android:name="model"
                 app:argType="com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto"
@@ -26,10 +26,10 @@
         <action
             android:id="@+id/action_nav_group_list_to_nav_bill_shares_view_pager"
             app:destination="@id/nav_bill_shares_view_pager"
-            app:enterAnim="@anim/enter_fade_in"
+            app:enterAnim="@anim/enter_dialog_in"
+            app:exitAnim="@anim/exit_fade_out"
             app:popEnterAnim="@anim/enter_fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popExitAnim="@android:anim/fade_out">
+            app:popExitAnim="@anim/exit_dialog_out">
             <argument
                 android:name="model"
                 app:argType="com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto"
@@ -39,10 +39,10 @@
         <action
             android:id="@+id/action_nav_home_screen_to_nav_splash_screen"
             app:destination="@id/nav_splash_screen"
-            app:enterAnim="@anim/enter_fade_in"
+            app:enterAnim="@anim/enter_dialog_in"
+            app:exitAnim="@anim/exit_fade_out"
             app:popEnterAnim="@anim/enter_fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popExitAnim="@android:anim/fade_out"/>
+            app:popExitAnim="@anim/exit_dialog_out"/>
 
     </fragment>
 
@@ -55,7 +55,7 @@
 
     <fragment
         android:id="@+id/nav_bill_shares"
-        android:name="com.shashankbhat.splitbill.ui.bill_shares.shares.BillShareFragment"
+        android:name="com.shashankbhat.splitbill.ui.bill_shares.BillShareFragment"
         android:label="Bill Shares"
         tools:layout="@layout/fragment_bill_share"/>
 
@@ -67,10 +67,10 @@
         <action
             android:id="@+id/action_nav_splash_screen_to_nav_home_screen"
             app:destination="@id/nav_home_screen"
-            app:enterAnim="@anim/enter_fade_in"
+            app:enterAnim="@anim/enter_dialog_in"
+            app:exitAnim="@anim/exit_fade_out"
             app:popEnterAnim="@anim/enter_fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popExitAnim="@android:anim/fade_out"
+            app:popExitAnim="@anim/exit_dialog_out"
             app:popUpToInclusive="true" />
     </fragment>
 

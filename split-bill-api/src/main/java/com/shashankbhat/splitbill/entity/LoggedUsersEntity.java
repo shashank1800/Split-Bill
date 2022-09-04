@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "logged_users", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
+@Table(name = "logged_users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,4 +17,5 @@ public class LoggedUsersEntity {
     Integer id;
     String username;
     String password;
+    Long dateCreated;
 }

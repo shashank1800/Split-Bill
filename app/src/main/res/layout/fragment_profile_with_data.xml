@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.shashankbhat.splitbill.viewmodels.GroupListViewModel" />
+            type="com.shashankbhat.splitbill.viewmodels.MainScreenViewModel" />
 
         <import type="android.view.View"/>
     </data>
@@ -38,6 +38,7 @@
                     android:layout_height="110dp"
                     app:cardCornerRadius="90dp"
                     app:cardElevation="0dp"
+                    setProfileColorToCard="@{viewModel.fullName}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +46,7 @@
 
                     <ImageView
                         android:id="@+id/iv_profile_photo"
-                        bindImageViewByUrl="@{viewModel.profilePhoto.url}"
+                        bindImageViewByUrlAnimate="@{viewModel.profilePhoto.url}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/border_circle_shape" />
@@ -75,7 +76,6 @@
 
             <TextView
                 android:id="@+id/textView"
-                android:visibility="@{!viewModel.isEditEnabled()? View.VISIBLE : View.GONE, default=gone}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -86,35 +86,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv_profile_photo" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_name"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:visibility="@{viewModel.isEditEnabled()? View.VISIBLE : View.GONE, default=gone}"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:hint="Name"
-                app:counterMaxLength="20"
-                app:errorEnabled="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cv_profile_photo">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tv_name"
-                    android:text="@={viewModel.fullName}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="til_name, textView" />
 
             <CheckBox
                 android:id="@+id/checkBox"
@@ -125,12 +96,12 @@
                 android:layout_marginEnd="16dp"
                 android:checked="@={viewModel.isNearbyEnabled()}"
                 android:text="Visible to nearby people"
+                android:clickable="false"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:enabled="@{viewModel.isEditEnabled()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier2" />
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -142,7 +113,7 @@
                 android:text="Distance range to see nearby people"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:visibility="@{viewModel.isNearbyEnabled()? View.VISIBLE : View.GONE, default=gone}"
+                android:visibility="@{viewModel.isNearbyEnabled()? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toStartOf="@+id/btn_nearby_range"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/checkBox" />
@@ -153,42 +124,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:enabled="@{viewModel.isEditEnabled()}"
                 android:text="@{viewModel.distanceRange.value}"
-                android:visibility="@{viewModel.isNearbyEnabled()? View.VISIBLE : View.GONE, default=gone}"
+                android:visibility="@{viewModel.isNearbyEnabled()? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/textView2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textView2" />
 
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="textView2, checkBox" />
-
-            <Button
-                android:id="@+id/btn_save"
-                style="@style/Common.NormalButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="@string/save"
-                android:visibility="@{viewModel.isEditEnabled()? View.VISIBLE : View.GONE, default=gone}"
-                app:layout_constraintBottom_toBottomOf="@+id/btn_cancel"
-                app:layout_constraintEnd_toStartOf="@+id/btn_cancel"
-                app:layout_constraintTop_toTopOf="@+id/btn_cancel" />
-
-            <Button
-                android:id="@+id/btn_cancel"
-                style="@style/Common.OutlinedMaterialButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/cancel"
-                android:visibility="@{viewModel.isEditEnabled()? View.VISIBLE : View.GONE, default=gone}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,12 +2,11 @@ package com.shashankbhat.splitbill.database.remote.repository
 
 import android.content.SharedPreferences
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.MutableLiveData
 import com.shashankbhat.splitbill.BuildConfig.BASE_URL
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillSharesModel
-import com.shashankbhat.splitbill.model.bill_shares.BillShareModel
+import com.shashankbhat.splitbill.database.local.model.bill_shares.BillShareModel
 import com.shashankbhat.splitbill.database.local.repository.BillRepository
 import com.shashankbhat.splitbill.database.local.repository.BillShareRepository
 import com.shashankbhat.splitbill.database.local.repository.UserRepository
@@ -25,7 +24,6 @@ import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.getLocalId
 import com.shashankbhat.splitbill.util.extension.getToken
 import com.shashankbhat.splitbill.util.extension.getUniqueId
-import com.shashankbhat.splitbill.util.extension.releaseOne
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -145,11 +143,11 @@ class BillRepositoryRemote @Inject constructor(
                 )
             }
 
-            billShares.sortBy { billSharesModel -> billSharesModel.user?.name?.uppercase() }
+            billShares.sortBy { billSharesModel -> billSharesModel.user?.dateCreated }
 
             billModel.billShares = billShares
         }
-        billList.value = Response.loading(bills)
+        billList.value = Response.success(bills)
     }
 
 
@@ -166,9 +164,9 @@ class BillRepositoryRemote @Inject constructor(
                     BillShare(
                         id = sharedPreferences.getLocalId(),
                         billId = billIdLocal,
-                        userId = it.userId,
-                        share = it.share.value.toFloat(),
-                        spent = it.spent.value.toFloat(),
+                        userId = it.user.id,
+                        share = it.share.get()?.toFloat(),
+                        spent = it.spent.get()?.toFloat(),
                         dateCreated = System.currentTimeMillis()
                     )
                 )
@@ -193,7 +191,7 @@ class BillRepositoryRemote @Inject constructor(
 
 
             billRepository.update(billIdLocal, response.bill?.id ?: 0)
-            sharedPreferences.releaseOne()
+//            sharedPreferences.releaseOne()
 
             if(response.billShares?.size == billShares.size){
                 billShares.forEachIndexed { index, it ->
@@ -201,7 +199,7 @@ class BillRepositoryRemote @Inject constructor(
                     val billShareIdLocal = it.id ?: 0
                     val billShareIdRemote = response.billShares?.get(index)?.id
                     billShareRepository.update(billShareIdLocal, response.bill?.id ?: 0, billShareIdRemote ?: 0)
-                    sharedPreferences.releaseOne()
+//                    sharedPreferences.releaseOne()
                 }
             }
 
@@ -218,17 +216,17 @@ class BillRepositoryRemote @Inject constructor(
         try {
             deleteBillOffline(billModel)
             databaseCallback(DatabaseOperation.LOCAL)
+
+            val response = httpClient.put<BillModel>(BASE_URL + deleteBill) {
+                contentType(ContentType.Application.Json)
+                header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
+                body = billModel
+            }
+
+            Log.i("response", "$response")
         } catch (ex: Exception) {
 
         }
-
-        val response = httpClient.put<BillModel>(BASE_URL + deleteBill) {
-            contentType(ContentType.Application.Json)
-            header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
-            body = billModel
-        }
-
-        Log.i("response", "$response")
     }
 
     private suspend fun deleteBillOffline(billModel: BillModel) {

@@ -1,8 +1,12 @@
 package com.shashankbhat.splitbill.service;
 
+import com.shashankbhat.splitbill.dto.user.UserDto;
 import com.shashankbhat.splitbill.dto.user_profile.SetLocationPreferenceDto;
 import com.shashankbhat.splitbill.dto.user_profile.UserProfileDataDto;
+import com.shashankbhat.splitbill.entity.GroupsEntity;
 import com.shashankbhat.splitbill.entity.UserProfileEntity;
+
+import java.util.List;
 
 public interface IUserProfileService {
 
@@ -19,4 +23,6 @@ public interface IUserProfileService {
     UserProfileDataDto profileData(Integer uniqueId);
 
     void updateProfilePhoto(Integer uniqueId, String name);
+
+    List<UserDto> getAllUsers(Integer groupId);
 }

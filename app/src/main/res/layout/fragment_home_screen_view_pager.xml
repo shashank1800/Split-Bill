@@ -4,6 +4,14 @@
 
     <data>
 
+        <import type="androidx.databinding.ObservableField" />
+        <import type="com.shashankbhat.splitbill.util.NetworkStatus" />
+        <variable
+            name="observeNetworkStatus"
+            type="ObservableField&lt;NetworkStatus&gt;" />
+
+        <import type="android.view.View" />
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -15,6 +23,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <include
+                android:id="@+id/layout_network_status"
+                layout="@layout/layout_internet_connection_status"
+                app:bindNetworkStatus="@{observeNetworkStatus}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vp_bill_shares"
                 android:layout_width="0dp"
@@ -22,7 +41,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/bottomBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/layout_network_status" />
 
             <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/bottomBar"

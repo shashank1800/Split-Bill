@@ -1,7 +1,6 @@
 package com.shashankbhat.splitbill.controller;
 
 import com.shashankbhat.splitbill.dto.user_profile.*;
-import com.shashankbhat.splitbill.entity.UserProfileEntity;
 import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.service.IUserProfileService;
 import com.shashankbhat.splitbill.util.HelperMethods;

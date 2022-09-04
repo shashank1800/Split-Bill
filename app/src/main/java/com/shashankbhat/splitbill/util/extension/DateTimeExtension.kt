@@ -1,4 +1,4 @@
-package com.shashankbhat.splitbill.util
+package com.shashankbhat.splitbill.util.extension
 
 import android.content.Context
 import android.text.format.DateUtils
@@ -8,7 +8,7 @@ private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
 private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
 
 fun Context.getTimeAgo(time: Long): String {
-    val now = System.currentTimeMillis()
+    val now = System.currentTimeMillis() + 1000
     if (time > now || time <= 0) {
         return ""
     }

@@ -7,6 +7,7 @@ import com.shashankbhat.splitbill.dto.bill.BillShareEntityDto;
 import com.shashankbhat.splitbill.dto.user.UserDto;
 import com.shashankbhat.splitbill.entity.BillEntity;
 import com.shashankbhat.splitbill.entity.BillShareEntity;
+import com.shashankbhat.splitbill.entity.GroupsEntity;
 import com.shashankbhat.splitbill.entity.UsersEntity;
 import com.shashankbhat.splitbill.repository.BillRepository;
 import com.shashankbhat.splitbill.repository.BillShareRepository;
@@ -72,7 +73,7 @@ public class BillController {
         BillAllDto billAllDto = new BillAllDto();
 
         List<BillEntity> allBillEntity = billRepository.findAllByGroupId(groupId, Sort.by(Sort.Direction.DESC, "dateCreated"));
-        List<UsersEntity> users = usersRepository.findByGroupId(groupId, Sort.by(Sort.Direction.ASC, "name"));
+        List<UserDto> users = userProfileService.getAllUsers(groupId);
 
         Map<Integer, UserDto> usersEntityMap = new HashMap<>();
         users.forEach(usersEntity -> {
@@ -114,7 +115,7 @@ public class BillController {
             }
 
             billSharesEntity = billSharesEntity.stream()
-                    .sorted(Comparator.comparing(billShareEntityDto -> billShareEntityDto.getUser().getName().toUpperCase(Locale.ROOT)))
+                    .sorted(Comparator.comparing(billShareEntityDto -> billShareEntityDto.getUser().getDateCreated()))
                     .collect(Collectors.toList());
 
             bill.setBillShares(billSharesEntity);

@@ -9,6 +9,7 @@ import com.shashankbhat.splitbill.database.local.entity.Groups
 import com.shashankbhat.splitbill.ui.ApiConstants.AUTHORIZATION
 import com.shashankbhat.splitbill.BuildConfig.BASE_URL
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupRecyclerListDto
+import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.database.local.repository.UserRepository
 import com.shashankbhat.splitbill.database.remote.entity.GroupSaveDto
 import com.shashankbhat.splitbill.ui.ApiConstants.allGroups
@@ -18,7 +19,7 @@ import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.getLocalId
 import com.shashankbhat.splitbill.util.extension.getToken
 import com.shashankbhat.splitbill.util.extension.getUniqueId
-import com.shashankbhat.splitbill.util.extension.releaseOne
+//import com.shashankbhat.splitbill.util.extension.releaseOne
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.request.*
@@ -31,9 +32,10 @@ class GroupRepositoryRemote @Inject constructor(
     private val userRepository: UserRepository,
     private val sharedPreferences: SharedPreferences
 ) {
-    suspend fun insert(group: Groups, addLocalCallback: (type: DatabaseOperation) -> Unit) {
+    suspend fun insert(group: Groups, hasId: Boolean? = false, addLocalCallback: (type: DatabaseOperation) -> Unit) {
         try {
-            group.id = sharedPreferences.getLocalId()
+            if(hasId == false)
+                group.id = sharedPreferences.getLocalId()
             group.uniqueId = sharedPreferences.getUniqueId()
             groupRepository.insert(group)
             addLocalCallback(DatabaseOperation.LOCAL)
@@ -47,7 +49,7 @@ class GroupRepositoryRemote @Inject constructor(
             val localId = group.id ?: 0
             remoteGroup.group?.id?.let { groupRepository.update(localId, it) }
             addLocalCallback(DatabaseOperation.REMOTE)
-            sharedPreferences.releaseOne()
+//            sharedPreferences.releaseOne()
         } catch (ex: Exception) {
         }
     }
@@ -56,24 +58,25 @@ class GroupRepositoryRemote @Inject constructor(
 
         try {
             groupRepository.getAllGroups(groupsListState)
-            groupsListState.value = Response.loading(groupsListState.value?.data)
+            groupsListState.value = Response.success(groupsListState.value?.data)
             val token = sharedPreferences.getToken()
             val response = httpClient.get<GroupsAllDataDto>(BASE_URL + allGroups) {
                 header(AUTHORIZATION, token)
             }
             response.data?.forEach { it ->
                 it.group?.let { group ->
-                    groupRepository.insert(group)
+                    groupRepository.insert(Groups(group.name, group.id, group.dateCreated ?: System.currentTimeMillis(), group.uniqueId))
                 }
 
                 it.userList?.forEach { user ->
-                    userRepository.insert(user)
+                    userRepository.insert(User(user.name, user.groupId, user.id, user.photoUrl, user.dateCreated, user.uniqueId))
                 }
             }
 
             val groupRecyclerArray = ArrayList<GroupRecyclerListDto>()
-            response.data?.forEach {
-                groupRecyclerArray.add(GroupRecyclerListDto(it.group, it.userList, null))
+            response.data?.forEachIndexed { index, it ->
+                val adapter = groupsListState.value?.data?.get(index)?.adapter
+                groupRecyclerArray.add(GroupRecyclerListDto(it.group, it.userList, adapter))
             }
             groupsListState.value = Response.success(groupRecyclerArray)
         } catch (ce: ClientRequestException) {
@@ -98,6 +101,17 @@ class GroupRepositoryRemote @Inject constructor(
             remoteId.group?.id
         } catch (ex: Exception) {
             null
+        }
+    }
+
+    suspend fun saveAllUnsavedGroups(){
+        return try {
+            val groups = groupRepository.getAllUnsavedGroups()
+            for(group in groups) {
+                insert(group, true){}
+            }
+        } catch (ex: Exception) {
+
         }
     }
 }

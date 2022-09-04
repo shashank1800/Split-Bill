@@ -1,15 +1,24 @@
 package com.shashankbhat.splitbill.service.impl;
 
+import com.shashankbhat.splitbill.dto.user.UserDto;
 import com.shashankbhat.splitbill.dto.user_profile.SetLocationPreferenceDto;
 import com.shashankbhat.splitbill.dto.user_profile.UserProfileDataDto;
+import com.shashankbhat.splitbill.entity.GroupsEntity;
 import com.shashankbhat.splitbill.entity.LocationDetailEntity;
 import com.shashankbhat.splitbill.entity.UserProfileEntity;
+import com.shashankbhat.splitbill.entity.UsersEntity;
+import com.shashankbhat.splitbill.repository.GroupsRepository;
 import com.shashankbhat.splitbill.repository.LocationDetailRepository;
 import com.shashankbhat.splitbill.repository.UserProfileRepository;
+import com.shashankbhat.splitbill.repository.UsersRepository;
 import com.shashankbhat.splitbill.service.IUserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserProfileServiceImpl implements IUserProfileService {
@@ -17,6 +26,12 @@ public class UserProfileServiceImpl implements IUserProfileService {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
+
+    @Autowired
+    private UsersRepository usersRepository;
+
+    @Autowired
+    private GroupsRepository groupsRepository;
 
     @Autowired
     private LocationDetailRepository locationDetailRepository;
@@ -97,5 +112,21 @@ public class UserProfileServiceImpl implements IUserProfileService {
         userProfileRepository.updateProfilePhoto(uniqueId, name);
     }
 
+    @Override
+    public List<UserDto> getAllUsers(Integer groupId){
+        GroupsEntity groupsEntity = groupsRepository.getById(groupId);
+        List<UserDto> usersList = new ArrayList<>();
+        List<UsersEntity> users = usersRepository.findByGroupId(groupsEntity.getId());
+
+        users.forEach(usersEntity -> {
+            String profileUrl = null;
+            if(usersEntity.getUniqueId() != null){
+                profileUrl = getProfile(usersEntity.getUniqueId()).getPhotoUrl();
+            }
+            usersList.add(new UserDto(usersEntity.getId(), usersEntity.getGroupId(), usersEntity.getName(), profileUrl, usersEntity.getDateCreated(), usersEntity.getUniqueId()));
+        });
+
+        return usersList;
+    }
 
 }

@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,12 +46,12 @@ public class HomeController {
                     )
             );
         } catch (BadCredentialsException e) {
-            loggedUsersRepository.save(new LoggedUsersEntity(null, jwtRequest.getUsername(), jwtRequest.getPassword()));
+            loggedUsersRepository.save(new LoggedUsersEntity(null, jwtRequest.getUsername(), jwtRequest.getPassword(), System.currentTimeMillis()));
             System.out.println("Bad Cred exception " + e.getMessage() + " loca" + e.getLocalizedMessage());
         } catch (Exception exception){
 
             System.out.println("Else exception " + exception.getMessage() + " loca" + exception.getLocalizedMessage());
-            loggedUsersRepository.save(new LoggedUsersEntity(null, jwtRequest.getUsername(), jwtRequest.getPassword()));
+            loggedUsersRepository.save(new LoggedUsersEntity(null, jwtRequest.getUsername(), jwtRequest.getPassword(), System.currentTimeMillis()));
 //            Exception exception1 = exception;
         }
 

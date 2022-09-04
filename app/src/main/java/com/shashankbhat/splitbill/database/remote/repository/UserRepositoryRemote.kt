@@ -1,7 +1,6 @@
 package com.shashankbhat.splitbill.database.remote.repository
 
 import android.content.SharedPreferences
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.MutableLiveData
 import com.shashankbhat.splitbill.database.local.dto.users.UsersLinkDto
 import com.shashankbhat.splitbill.database.local.repository.UserRepository
@@ -48,7 +47,7 @@ class UserRepositoryRemote @Inject constructor(
             val localId = user?.id ?: 0
             userRepository.update(localId, response.id ?: 0)
             databaseOperation(DatabaseOperation.REMOTE)
-            sharedPreferences.releaseOne()
+//            sharedPreferences.releaseOne()
         }catch (ex:Exception){
 
         }
@@ -96,10 +95,7 @@ class UserRepositoryRemote @Inject constructor(
                 header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
                 body = user ?: {}
             }
-
-
         }catch (ex:Exception){
-
         }
     }
 
@@ -107,19 +103,15 @@ class UserRepositoryRemote @Inject constructor(
 
         try {
 
-
             val response = httpClient.put<UsersLinkDto>(BASE_URL + linkUser) {
                 contentType(ContentType.Application.Json)
                 header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
                 body = UsersLinkDto(id, uniqueId?.toInt())
             }
-
-        }catch (ex:Exception){
-
-        }
+        }catch (ex:Exception){}
     }
 
-    suspend fun saveProfile(name: String? = null, photoUrl: String? = null, isNearbyVisible: Boolean? = null, distanceRange: Double? = null) {
+    suspend fun saveProfile(name: String? = null, photoUrl: String? = null, isNearbyVisible: Boolean? = null, distanceRange: Double? = null): Response<String> {
 
         try {
             httpClient.post<Int>(BASE_URL + saveProfile) {
@@ -132,9 +124,10 @@ class UserRepositoryRemote @Inject constructor(
             sharedPreferences.putPhotoUrl(photoUrl ?:"")
             sharedPreferences.putIsNearVisible(isNearbyVisible ?: false)
             sharedPreferences.putDistanceRange(distanceRange ?: 0.0)
-
+            return Response.success("SUCCESS")
         }catch (ex:Exception){
             print(ex)
+            return Response.error(ex.message)
         }
     }
 
@@ -159,9 +152,8 @@ class UserRepositoryRemote @Inject constructor(
     }
 
     suspend fun updateProfilePhoto(
-        updateProfileResponse: MutableLiveData<Response<String>>,
         photoUrl: String? = null
-    ) {
+    ): Response<String> {
 
         try {
             val id = httpClient.put<Int?>(BASE_URL + updateProfilePhoto) {
@@ -172,13 +164,13 @@ class UserRepositoryRemote @Inject constructor(
 
             if(id != null){
                 sharedPreferences.putPhotoUrl(photoUrl ?:"")
-                updateProfileResponse.value = Response.success(photoUrl)
+                return Response.success(photoUrl)
             }
         }catch (ex:Exception){
-            updateProfileResponse.value = Response.error(ex.message)
             print(ex)
+            return Response.error(ex.message)
         }
+        return Response.nothing()
     }
-
 
 }

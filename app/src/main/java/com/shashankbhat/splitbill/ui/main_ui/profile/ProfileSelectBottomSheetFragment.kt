@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.shashankbhat.splitbill.R
+import com.shashankbhat.splitbill.base.BaseBottomSheetDialogFragment
 import com.shashankbhat.splitbill.databinding.AdapterProfileIconBinding
 import com.shashankbhat.splitbill.databinding.BottomSheetSingleItemSelectionBinding
-import com.shashankbhat.splitbill.model.ProfileIconModel
-import com.shashankbhat.splitbill.util.bottom_sheet.BottomSheetItem
+import com.shashankbhat.splitbill.database.local.model.ProfileIconModel
 
 class ProfileSelectBottomSheetFragment(
     val items: ArrayList<ProfileIconModel>,
     val onImageSelect : (ProfileIconModel) -> Unit
-) : BottomSheetDialogFragment() {
+) : BaseBottomSheetDialogFragment() {
     private lateinit var binding: BottomSheetSingleItemSelectionBinding
 
     override fun onCreateView(
@@ -25,10 +25,6 @@ class ProfileSelectBottomSheetFragment(
     ): View {
         binding = BottomSheetSingleItemSelectionBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun getTheme(): Int {
-        return R.style.CustomBottomSheetDialog
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

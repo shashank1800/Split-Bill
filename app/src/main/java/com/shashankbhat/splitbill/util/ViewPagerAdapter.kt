@@ -4,9 +4,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class ViewPagerAdapter(fa: FragmentActivity, private val fragments:ArrayList<Fragment>): FragmentStateAdapter(fa) {
+class ViewPagerAdapter(
+    fragmentActivity: FragmentActivity,
+    fragments: List<Fragment>
+) : FragmentStateAdapter(fragmentActivity) {
 
-    override fun getItemCount(): Int = fragments.size
+    var fragmentList: List<Fragment> = fragments
 
-    override fun createFragment(position: Int): Fragment = fragments[position]
+    override fun getItemCount(): Int = fragmentList.size
+
+    override fun createFragment(position: Int): Fragment = fragmentList[position]
+
+    fun replaceFragmentsList(frgmts: List<Fragment>) {
+        this.fragmentList = frgmts
+    }
 }

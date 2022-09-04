@@ -5,6 +5,8 @@ import com.shashankbhat.splitbill.database.local.entity.Groups
 import com.shashankbhat.splitbill.database.local.dao.GroupDao
 import com.shashankbhat.splitbill.database.local.dao.UserDao
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupRecyclerListDto
+import com.shashankbhat.splitbill.database.local.dto.group_list.GroupsDto
+import com.shashankbhat.splitbill.database.local.dto.users.UserDto
 import com.shashankbhat.splitbill.util.Response
 
 class GroupRepository(private val groupDao: GroupDao, private val userDao: UserDao) {
@@ -21,10 +23,38 @@ class GroupRepository(private val groupDao: GroupDao, private val userDao: UserD
         val groups = groupDao.getAllGroups()
 
         val groupRecyclerArray = ArrayList<GroupRecyclerListDto>()
-        groups.forEach {
-            groupRecyclerArray.add(GroupRecyclerListDto(it, userDao.getAllUserByGroupId(it.id ?:  0), null))
+        groups.forEachIndexed { index, it ->
+            val users = userDao.getAllUserByGroupId(it.id ?: 0)?.map { user ->
+                UserDto(
+                    user.name,
+                    user.groupId,
+                    user.id,
+                    user.photoUrl,
+                    user.dateCreated,
+                    user.uniqueId
+                )
+            }?.toList()
+
+            val adapter = if((groupsListState.value?.data?.size ?: 0) >= groups.size) groupsListState.value?.data?.get(index)?.adapter else null
+
+            groupRecyclerArray.add(
+                GroupRecyclerListDto(
+                    GroupsDto(
+                        it.name,
+                        it.id,
+                        it.dateCreated,
+                        it.uniqueId
+                    ),
+                    users,
+                    adapter
+                )
+            )
         }
         groupsListState.value = Response.success(groupRecyclerArray)
+    }
+
+    suspend fun getAllUnsavedGroups(): List<Groups> {
+        return groupDao.getAllUnsavedGroups()
     }
 
 }

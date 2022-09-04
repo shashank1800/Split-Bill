@@ -9,6 +9,10 @@
             name="model"
             type="com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel" />
 
+        <variable
+            name="sharedPref"
+            type="android.content.SharedPreferences" />
+
         <import type="android.view.View" />
     </data>
 
@@ -29,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="@{model.name}"
-                app:layout_constraintEnd_toStartOf="@+id/iv_more_option"
+                app:layout_constraintEnd_toStartOf="@+id/iv_delete_option"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,19 +42,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="iv_more_option, tv_group_name" />
+                app:constraint_referenced_ids="iv_delete_option, tv_group_name" />
 
             <ImageView
-                android:id="@+id/iv_more_option"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:rotation="-90"
+                android:id="@+id/iv_delete_option"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:padding="5dp"
-                android:contentDescription="@string/more"
-                android:src="@drawable/ic_round_hdr_strong"
+                android:contentDescription="@string/delete"
+                android:src="@drawable/ic_outline_delete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="#FF3EC590" />
+                android:visibility="@{model.uniqueId == sharedPref.getInt(`uniqueId`, 0) ? View.VISIBLE : View.GONE, default=gone}"
+                app:tint="@color/red" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_user_list"

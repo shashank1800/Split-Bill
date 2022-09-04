@@ -2,7 +2,6 @@ package com.shashankbhat.splitbill.ui.bindings
 
 import android.content.SharedPreferences
 import android.graphics.Color
-import android.text.format.DateUtils.*
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
@@ -12,20 +11,19 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
 import com.shashankbhat.splitbill.R
-import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.databinding.AdapterGroupUsersProfileBinding
-import com.shashankbhat.splitbill.model.NearUserModel
+import com.shashankbhat.splitbill.database.local.model.NearUserModel
 import com.shashankbhat.splitbill.util.LatLong
 import com.shashankbhat.splitbill.BR
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillSharesModel
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupRecyclerListDto
+import com.shashankbhat.splitbill.database.local.dto.users.UserDto
 import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.databinding.AdapterBillShareBillBinding
-import com.shashankbhat.splitbill.util.MyRecyclerViewAnimator
 import com.shashankbhat.splitbill.util.RecyclerItemOverlap
 import com.shashankbhat.splitbill.util.extension.*
-import com.shashankbhat.splitbill.util.getTimeAgo
+import com.shashankbhat.splitbill.util.extension.getTimeAgo
 
 object MainScreenBinding {
 
@@ -55,20 +53,15 @@ object MainScreenBinding {
     @JvmStatic
     @BindingAdapter(value = ["bindUsersList"], requireAll = true)
     fun bindUsersList(recyclerView: RecyclerView, groupListDto: GroupRecyclerListDto) {
-        val adapter = RecyclerGenericAdapter.Builder<AdapterGroupUsersProfileBinding, User>(R.layout.adapter_group_users_profile, BR.model)
-            .build()
-        if (groupListDto.userList != null && groupListDto.userList.isNotEmpty()) {
-            recyclerView.addItemDecoration(RecyclerItemOverlap(left = -15))
-            (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-            recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, RecyclerView.HORIZONTAL, false)
-            recyclerView.adapter = adapter
-            adapter.replaceList(ArrayList(groupListDto.userList.take(3)))
-            groupListDto.adapter = adapter
-        }else {
-            recyclerView.adapter = adapter
-            adapter.replaceList(ArrayList())
-        }
-
+        val adapter = if(groupListDto.adapter != null) groupListDto.adapter else
+            RecyclerGenericAdapter.Builder<AdapterGroupUsersProfileBinding, UserDto>(R.layout.adapter_group_users_profile, BR.model)
+                .build()
+        recyclerView.addItemDecoration(RecyclerItemOverlap(left = -15))
+        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, RecyclerView.HORIZONTAL, false)
+        recyclerView.adapter = adapter
+        adapter?.replaceList(ArrayList(groupListDto.userList?.take(3) ?: emptyList()))
+        groupListDto.adapter = adapter
     }
 
     @JvmStatic

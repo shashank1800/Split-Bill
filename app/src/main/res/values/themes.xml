@@ -19,9 +19,4 @@
         <item name="android:textColor">@color/primaryColor</item>
     </style>
 
-    <style name="Theme.SplitBill.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
 </resources>

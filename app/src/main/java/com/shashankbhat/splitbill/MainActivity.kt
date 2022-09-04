@@ -9,7 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.shashankbhat.splitbill.application.SplitBillApplication
 import com.shashankbhat.splitbill.databinding.ActivityMainBinding
+import com.shashankbhat.splitbill.util.NetworkCheck
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
