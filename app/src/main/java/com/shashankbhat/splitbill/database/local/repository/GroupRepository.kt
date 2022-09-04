@@ -53,4 +53,8 @@ class GroupRepository(private val groupDao: GroupDao, private val userDao: UserD
         groupsListState.value = Response.success(groupRecyclerArray)
     }
 
+    suspend fun getAllUnsavedGroups(): List<Groups> {
+        return groupDao.getAllUnsavedGroups()
+    }
+
 }

@@ -1,5 +1,8 @@
 package com.shashankbhat.splitbill.ui.main_ui.group_list
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +25,7 @@ import com.shashankbhat.splitbill.databinding.AdapterGroupBinding
 import com.shashankbhat.splitbill.databinding.FragmentGroupListBinding
 import com.shashankbhat.splitbill.enums.SnackBarType
 import com.shashankbhat.splitbill.ui.main_ui.HomeScreenViewPagerDirections
+import com.shashankbhat.splitbill.util.extension.regLocalBroadcastManager
 import com.shashankbhat.splitbill.util.extension.showSnackBar
 import com.shashankbhat.splitbill.viewmodels.MainScreenViewModel
 
@@ -39,6 +43,13 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     ): View {
         binding = FragmentGroupListBinding.inflate(LayoutInflater.from(requireContext()))
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireContext().regLocalBroadcastManager(mMessageReceiver)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -154,6 +165,12 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     groupListDto
                 )
             )
+        }
+    }
+
+    private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent) {
+            viewModel.getAllGroups()
         }
     }
 

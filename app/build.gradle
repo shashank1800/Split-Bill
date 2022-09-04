@@ -22,8 +22,8 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", "\"https://split-bill-develop.herokuapp.com/\""
-//            buildConfigField "String", "BASE_URL", "\"http://192.168.1.5:8080/\""
+//            buildConfigField "String", "BASE_URL", "\"https://split-bill-develop.herokuapp.com/\""
+            buildConfigField "String", "BASE_URL", "\"http://192.168.1.5:8080/\""
         }
         release {
             minifyEnabled false
@@ -58,6 +58,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
     // Jetpack Navigation component
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -67,9 +70,11 @@ dependencies {
 
     //Dagger
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    implementation 'com.google.android.gms:play-services-location:20.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation("androidx.hilt:hilt-work:1.0.0")
+    // When using Kotlin.
+    kapt("androidx.hilt:hilt-compiler:1.0.0")
+
 
     //Room
     implementation 'androidx.room:room-common:2.4.3'

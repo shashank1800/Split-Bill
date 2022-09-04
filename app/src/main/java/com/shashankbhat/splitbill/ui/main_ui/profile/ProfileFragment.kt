@@ -2,17 +2,18 @@ package com.shashankbhat.splitbill.ui.main_ui.profile
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.shashankbhat.splitbill.database.local.model.profile.DistanceRangeModel
 import com.shashankbhat.splitbill.databinding.FragmentProfileBinding
 import com.shashankbhat.splitbill.enums.SnackBarType
-import com.shashankbhat.splitbill.database.local.model.profile.DistanceRangeModel
 import com.shashankbhat.splitbill.util.bottom_sheet.BottomSheetItem
 import com.shashankbhat.splitbill.util.bottom_sheet.SingleItemSelectionBottomSheet
+import com.shashankbhat.splitbill.util.extension.animateCardBackgroundColor
 import com.shashankbhat.splitbill.util.extension.getBottomSheetList
 import com.shashankbhat.splitbill.util.extension.getColorV2
 import com.shashankbhat.splitbill.util.extension.showSnackBar
@@ -78,9 +79,9 @@ class ProfileFragment : Fragment() {
     private fun uiNameTextDoOnTextChanged(){
         binding.layoutEmptyData.tvName.doOnTextChanged { text, _, _, _ ->
             if(!text.isNullOrEmpty())
-                binding.layoutEmptyData.cvProfilePhoto.setCardBackgroundColor(text.toString().getColorV2())
+                binding.layoutEmptyData.cvProfilePhoto.animateCardBackgroundColor(text.toString().getColorV2())
             else
-                binding.layoutEmptyData.cvProfilePhoto.setCardBackgroundColor(Color.WHITE)
+                binding.layoutEmptyData.cvProfilePhoto.animateCardBackgroundColor(Color.WHITE)
         }
     }
 

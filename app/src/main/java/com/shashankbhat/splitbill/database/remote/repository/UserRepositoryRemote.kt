@@ -47,7 +47,7 @@ class UserRepositoryRemote @Inject constructor(
             val localId = user?.id ?: 0
             userRepository.update(localId, response.id ?: 0)
             databaseOperation(DatabaseOperation.REMOTE)
-            sharedPreferences.releaseOne()
+//            sharedPreferences.releaseOne()
         }catch (ex:Exception){
 
         }

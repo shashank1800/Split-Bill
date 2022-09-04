@@ -79,6 +79,21 @@
 
     </style>
 
+    <style name="Common.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+
+        <item name="android:padding">4dp</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="textAllCaps">false</item>
+
+        <item name="android:textColor">@color/primaryColor</item>
+        <item name="rippleColor">@color/primaryColor</item>
+        <item name="android:minHeight">55dp</item>
+
+    </style>
+
     <style name="Common.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:textColorHint">@color/primaryColor</item>
         <item name="boxBackgroundColor">@android:color/transparent</item>

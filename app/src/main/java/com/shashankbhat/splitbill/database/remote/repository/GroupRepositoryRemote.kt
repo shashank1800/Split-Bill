@@ -19,7 +19,7 @@ import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.getLocalId
 import com.shashankbhat.splitbill.util.extension.getToken
 import com.shashankbhat.splitbill.util.extension.getUniqueId
-import com.shashankbhat.splitbill.util.extension.releaseOne
+//import com.shashankbhat.splitbill.util.extension.releaseOne
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.request.*
@@ -32,9 +32,10 @@ class GroupRepositoryRemote @Inject constructor(
     private val userRepository: UserRepository,
     private val sharedPreferences: SharedPreferences
 ) {
-    suspend fun insert(group: Groups, addLocalCallback: (type: DatabaseOperation) -> Unit) {
+    suspend fun insert(group: Groups, hasId: Boolean? = false, addLocalCallback: (type: DatabaseOperation) -> Unit) {
         try {
-            group.id = sharedPreferences.getLocalId()
+            if(hasId == false)
+                group.id = sharedPreferences.getLocalId()
             group.uniqueId = sharedPreferences.getUniqueId()
             groupRepository.insert(group)
             addLocalCallback(DatabaseOperation.LOCAL)
@@ -48,7 +49,7 @@ class GroupRepositoryRemote @Inject constructor(
             val localId = group.id ?: 0
             remoteGroup.group?.id?.let { groupRepository.update(localId, it) }
             addLocalCallback(DatabaseOperation.REMOTE)
-            sharedPreferences.releaseOne()
+//            sharedPreferences.releaseOne()
         } catch (ex: Exception) {
         }
     }
@@ -100,6 +101,17 @@ class GroupRepositoryRemote @Inject constructor(
             remoteId.group?.id
         } catch (ex: Exception) {
             null
+        }
+    }
+
+    suspend fun saveAllUnsavedGroups(){
+        return try {
+            val groups = groupRepository.getAllUnsavedGroups()
+            for(group in groups) {
+                insert(group, true){}
+            }
+        } catch (ex: Exception) {
+
         }
     }
 }

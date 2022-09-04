@@ -38,6 +38,7 @@
                     android:layout_height="110dp"
                     app:cardCornerRadius="90dp"
                     app:cardElevation="0dp"
+                    setProfileColorToCard="@{viewModel.fullName}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +46,7 @@
 
                     <ImageView
                         android:id="@+id/iv_profile_photo"
-                        bindImageViewByUrl="@{viewModel.profilePhoto.url}"
+                        bindImageViewByUrlAnimate="@{viewModel.profilePhoto.url}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/border_circle_shape" />

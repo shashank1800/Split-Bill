@@ -17,9 +17,7 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
 import io.ktor.http.*
 import io.ktor.utils.io.*
-import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.jsonObject
 
 @Module
 @InstallIn(SingletonComponent::class)

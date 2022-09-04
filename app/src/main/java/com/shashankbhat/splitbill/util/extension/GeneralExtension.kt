@@ -1,15 +1,19 @@
 package com.shashankbhat.splitbill.util.extension
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.SharedPreferences
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.application.SplitBillApplication
@@ -47,21 +51,21 @@ fun SharedPreferences.getLocalId(): Int {
     return this.getInt("local_id", -1)
 }
 
-fun SharedPreferences.releaseOne(): Int {
-
-    val key = "local_id"
-    val keyCount = "keyCount"
-
-    val editor = this.edit()
-    val count = getInt(keyCount, 0) - 1
-    editor.putInt(keyCount,  count)
-
-    if(count == 0)
-        editor.putInt(key, 0)
-    editor.apply()
-
-    return this.getInt("local_id", -1)
-}
+//fun SharedPreferences.releaseOne(): Int {
+//
+//    val key = "local_id"
+//    val keyCount = "keyCount"
+//
+//    val editor = this.edit()
+//    val count = getInt(keyCount, 0) - 1
+//    editor.putInt(keyCount,  count)
+//
+//    if(count == 0)
+//        editor.putInt(key, 0)
+//    editor.apply()
+//
+//    return this.getInt("local_id", -1)
+//}
 
 fun SharedPreferences.putUniqueId(uniqueId : Int){
     val editor = this.edit()
@@ -197,4 +201,28 @@ fun <T : ViewDataBinding> T.showSnackBar(message: String, action: String? = null
 
 fun Fragment.observeNetworkStatus(): ObservableField<NetworkStatus>? {
     return (requireActivity().application as? SplitBillApplication)?.observeNetworkStatus
+}
+
+fun CardView.animateCardBackgroundColor(color : Int){
+    animateBackgroundColor(cardBackgroundColor.defaultColor, color){
+        setCardBackgroundColor(it.animatedValue as Int)
+    }
+}
+
+fun <T: View> T.animateBackgroundColor(fromColor:Int, toColor: Int, setBackgroundColor: (ValueAnimator) -> Unit){
+    val valueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), fromColor, toColor)
+    valueAnimator.duration = 500
+    valueAnimator.addUpdateListener { animation ->
+        setBackgroundColor(animation)
+    }
+    valueAnimator.start()
+}
+
+fun ImageView.setImageByUrl(url: String?){
+    Glide.with(context)
+        .load(url)
+        .centerCrop()
+        .circleCrop()
+        .placeholder(R.drawable.ic_outline_account_circle)
+        .into(this)
 }

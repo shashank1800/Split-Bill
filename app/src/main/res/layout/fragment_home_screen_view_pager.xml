@@ -23,28 +23,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <include
+                android:id="@+id/layout_network_status"
+                layout="@layout/layout_internet_connection_status"
+                app:bindNetworkStatus="@{observeNetworkStatus}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                bindNetworkStatus="@{observeNetworkStatus}"
+                android:layout_margin="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:padding="4dp"
-                android:background="#C8294E"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/network_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Network Unavailable"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vp_bill_shares"
@@ -53,7 +41,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/bottomBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/network_status" />
+                app:layout_constraintTop_toBottomOf="@+id/layout_network_status" />
 
             <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/bottomBar"

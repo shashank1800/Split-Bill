@@ -18,4 +18,7 @@ interface GroupDao {
     @Query("Update groups SET id = :remoteId WHERE id = :localId")
     suspend fun update(localId: Int, remoteId: Int)
 
+    @Query("SELECT * FROM groups WHERE id < 1 ORDER BY date_created DESC")
+    suspend fun getAllUnsavedGroups(): List<Groups>
+
 }

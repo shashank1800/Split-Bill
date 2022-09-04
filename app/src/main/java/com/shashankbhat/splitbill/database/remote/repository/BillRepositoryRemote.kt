@@ -24,7 +24,6 @@ import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.getLocalId
 import com.shashankbhat.splitbill.util.extension.getToken
 import com.shashankbhat.splitbill.util.extension.getUniqueId
-import com.shashankbhat.splitbill.util.extension.releaseOne
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -192,7 +191,7 @@ class BillRepositoryRemote @Inject constructor(
 
 
             billRepository.update(billIdLocal, response.bill?.id ?: 0)
-            sharedPreferences.releaseOne()
+//            sharedPreferences.releaseOne()
 
             if(response.billShares?.size == billShares.size){
                 billShares.forEachIndexed { index, it ->
@@ -200,7 +199,7 @@ class BillRepositoryRemote @Inject constructor(
                     val billShareIdLocal = it.id ?: 0
                     val billShareIdRemote = response.billShares?.get(index)?.id
                     billShareRepository.update(billShareIdLocal, response.bill?.id ?: 0, billShareIdRemote ?: 0)
-                    sharedPreferences.releaseOne()
+//                    sharedPreferences.releaseOne()
                 }
             }
 
