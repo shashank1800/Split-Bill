@@ -116,26 +116,17 @@
                 app:constraint_referenced_ids="textView2, checkBox" />
 
             <Button
-                android:id="@+id/btn_cancel"
-                style="@style/Common.OutlinedMaterialButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="@string/cancel"
-                app:layout_constraintBottom_toBottomOf="@+id/btn_save"
-                app:layout_constraintEnd_toStartOf="@+id/btn_save"
-                app:layout_constraintTop_toTopOf="@+id/btn_save" />
-
-            <Button
                 android:id="@+id/btn_save"
                 style="@style/Common.NormalButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/save"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier1"  />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/barrier1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

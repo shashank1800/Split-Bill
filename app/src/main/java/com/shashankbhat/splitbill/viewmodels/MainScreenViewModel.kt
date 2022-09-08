@@ -140,7 +140,7 @@ class MainScreenViewModel @Inject constructor(
     }
 
     var nearUserList = MutableLiveData<Response<ArrayList<NearUserModel>>>(Response.nothing())
-
+    var isNearbyPeopleEmpty = ObservableBoolean(true)
     fun getNearUser(location: LatLong) {
 
         sharedPreferences.setLocation(location)

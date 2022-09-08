@@ -8,6 +8,10 @@
             name="isRefreshing"
             type="androidx.databinding.ObservableBoolean" />
 
+        <variable
+            name="isNearbyPeopleEmpty"
+            type="androidx.databinding.ObservableBoolean" />
+
         <import type="android.view.View" />
     </data>
 
@@ -48,19 +52,42 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
 
-            <TextView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/tv_instruction"
+                android:visibility="@{isRefreshing || !isNearbyPeopleEmpty ? View.GONE: View.VISIBLE }"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:fontFamily="@font/cabin_sketch"
-                android:textSize="34sp"
-                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" >
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animation_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lottie_autoPlay="true"
+                    app:lottie_clipToCompositionBounds="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/people_on_phone" />
+
+                <TextView
+                    android:id="@+id/tv_instr"
+                    style="@style/TextStyleContentMediumBold"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="32dp"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
