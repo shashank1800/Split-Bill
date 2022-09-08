@@ -14,8 +14,8 @@ android {
         applicationId "com.shashankbhat.splitbill"
         minSdk 23
         targetSdk 33
-        versionCode 9
-        versionName "1.8"
+        versionCode 10
+        versionName "1.9"
     }
 
     buildTypes {
@@ -23,10 +23,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "BASE_URL", "\"https://split-bill-develop.herokuapp.com/\""
-//            buildConfigField "String", "BASE_URL", "\"http://192.168.1.5:8080/\""
+//            buildConfigField "String", "BASE_URL", "\"http://192.168.1.7:8080/\""
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "BASE_URL", "\"https://split-bill-online.herokuapp.com/\""
         }
@@ -97,4 +97,5 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
     implementation 'io.github.shashank1800:com-shahankbhat-recyclergenericadapter:1.5'
+    implementation 'com.airbnb.android:lottie:5.2.0'
 }

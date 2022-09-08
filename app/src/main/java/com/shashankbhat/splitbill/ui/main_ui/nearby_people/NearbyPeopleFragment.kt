@@ -45,6 +45,7 @@ class NearbyPeopleFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.isRefreshing = viewModel.isRefreshing
+        binding.isNearbyPeopleEmpty = viewModel.isNearbyPeopleEmpty
         binding.srlGroupList.setOnRefreshListener(this)
         getNearUserList()
 
@@ -59,26 +60,23 @@ class NearbyPeopleFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListene
             when {
                 it.isSuccess() -> {
                     adapter.replaceList(it.data ?: arrayListOf())
-//                    hideLoading()
-                    binding.tvInstruction.text = ""
-                }
-
-                it.isLoading() -> {
-//                    showLoading()
-                    binding.tvInstruction.text = ""
                 }
 
                 it.isError() -> {
-//                    hideLoading()
                     if (it.message != null)
-                        binding.tvInstruction.text = it.message
+                        binding.tvInstr.text = it.message
+                    adapter.replaceList(arrayListOf())
                 }
 
                 else -> {
-//                    hideLoading()
-                    binding.tvInstruction.text = ""
+                    binding.tvInstr.text = ""
                 }
             }
+
+            if((it.data?.size ?:0) == 0)
+                viewModel.isNearbyPeopleEmpty.set(true)
+            else
+                viewModel.isNearbyPeopleEmpty.set(false)
         }
     }
 
@@ -136,7 +134,7 @@ class NearbyPeopleFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListene
                 requestUserToAllowPermission()
                 viewModel.isRefreshing.set(false)
             }.onForeverDenied {
-                binding.tvInstruction.text = "Permit app to use location to see nearby people"
+                binding.tvInstr.text = "Permit app to use location to see nearby people"
                 viewModel.isRefreshing.set(false)
             }.ask()
     }

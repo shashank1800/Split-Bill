@@ -1,5 +1,8 @@
 package com.shashankbhat.splitbill.ui.splash_screen
 
+import android.animation.Animator
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
@@ -14,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.viewmodels.SplashScreenViewModel
 import com.shashankbhat.splitbill.database.remote.entity.TokenDto
 import com.shashankbhat.splitbill.databinding.FragmentSplashScreenBinding
@@ -80,6 +84,11 @@ class SplashScreenFragment : Fragment() {
                 navController = null
             }
         }
+
+        val animSlide : Animator = AnimatorInflater
+            .loadAnimator(requireContext(), R.anim.app_logo_animation)
+        animSlide.setTarget(binding.ivLogo)
+        animSlide.start()
     }
 
     private fun onInternetAvailable(){
