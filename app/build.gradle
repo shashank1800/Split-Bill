@@ -12,15 +12,16 @@ android {
 
     defaultConfig {
         applicationId "com.shashankbhat.splitbill"
-        minSdk 23
+        minSdk 16
         targetSdk 33
         versionCode 10
         versionName "1.9"
+        multiDexEnabled true
     }
 
     buildTypes {
         debug {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "BASE_URL", "\"https://split-bill-develop.herokuapp.com/\""
 //            buildConfigField "String", "BASE_URL", "\"http://192.168.1.7:8080/\""

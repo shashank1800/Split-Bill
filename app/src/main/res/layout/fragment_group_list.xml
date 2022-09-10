@@ -188,6 +188,7 @@
                     android:fontFamily="@font/cabin_sketch"
                     android:text="TAP HERE TO  \n  ADD GROUP"
                     android:textSize="34sp"
+                    android:textColor="@color/centre_instruction_text_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -200,7 +201,8 @@
                     android:src="@drawable/ic_right_drawn_arrow"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView3"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView3"
+                    app:tint="@color/centre_instruction_text_color"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

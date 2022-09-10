@@ -45,7 +45,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_name"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Common.TextInputLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -60,6 +60,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tv_name"
+                    style="@style/Common.TextInputLayoutEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@={viewModel.fullName}" />
@@ -98,7 +99,7 @@
 
             <Button
                 android:id="@+id/btn_nearby_range"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Common.OutlinedMaterialButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"

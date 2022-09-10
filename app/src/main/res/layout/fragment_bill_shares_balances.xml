@@ -97,6 +97,7 @@
                     android:fontFamily="@font/cabin_sketch"
                     android:text="Empty"
                     android:textSize="34sp"
+                    android:textColor="@color/centre_instruction_text_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
