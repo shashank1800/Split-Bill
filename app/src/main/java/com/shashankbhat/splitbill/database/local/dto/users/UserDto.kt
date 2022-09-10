@@ -1,8 +1,8 @@
 package com.shashankbhat.splitbill.database.local.dto.users
 
-import kotlinx.serialization.Serializable
+import java.io.Serializable
 
-@Serializable
+@kotlinx.serialization.Serializable
 data class UserDto(
     var name: String,
     var groupId: Int,
@@ -10,4 +10,4 @@ data class UserDto(
     var photoUrl: String? = null,
     var dateCreated: Long? = System.currentTimeMillis(),
     var uniqueId: Int? = null
-)
+) : Serializable

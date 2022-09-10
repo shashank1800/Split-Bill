@@ -67,7 +67,7 @@ class SingleItemSelectionBottomSheet<T : BottomSheetHelper<T>>(
             val pressedStates = ColorStateList.valueOf(ContextCompat.getColor(itemBinding.root.context, R.color.primaryColor))
 
             val contentDrawable = GradientDrawable()
-            contentDrawable.setColor(Color.WHITE)
+            contentDrawable.setColor(ContextCompat.getColor(requireContext(), R.color.bottom_sheet_background_color))
             contentDrawable.cornerRadius = 16f
 
             val rippleDrawable = RippleDrawable(pressedStates, contentDrawable, null)

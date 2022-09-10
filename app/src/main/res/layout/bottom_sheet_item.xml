@@ -8,9 +8,11 @@
     android:paddingLeft="@dimen/list_item_spacing"
     android:paddingTop="@dimen/list_item_spacing_half"
     android:paddingRight="@dimen/list_item_spacing"
-    android:paddingBottom="@dimen/list_item_spacing_half">
+    android:paddingBottom="@dimen/list_item_spacing_half"
+    android:background="@color/bottom_sheet_background_color">
 
     <TextView
+        style="@style/TextStyleContentMediumBold"
         android:id="@+id/itemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

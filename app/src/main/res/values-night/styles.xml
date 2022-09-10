@@ -48,7 +48,7 @@
     </style>
 
     <style name="Common.NormalButton" parent="Widget.MaterialComponents.Button">
-        <item name="android:backgroundTint" tools:ignore="NewApi">@color/primaryColor</item>
+        <item name="android:backgroundTint" tools:ignore="NewApi">#fff</item>
         <item name="android:paddingLeft">@dimen/common_normal_button_left_right_padding</item>
         <item name="android:paddingRight">@dimen/common_normal_button_left_right_padding</item>
         <item name="android:paddingTop">@dimen/common_normal_button_top_bottom_padding</item>

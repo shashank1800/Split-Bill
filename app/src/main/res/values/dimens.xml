@@ -4,4 +4,30 @@
     <dimen name="list_item_spacing_half">8dp</dimen>
 
     <integer name="screen_animation_duration" >250</integer>
+
+    <dimen name="bottom_sheet_dialog_top_corner_radius">16dp</dimen>
+    <dimen name="bottom_sheet_dialog_bottom_corner_radius">0dp</dimen>
+
+    <dimen name="bottom_sheet_item_text_size">16sp</dimen>
+    <dimen name="bottom_sheet_item_selected_text_size">16sp</dimen>
+
+    <dimen name="common_card_view_margin">4dp</dimen>
+    <dimen name="common_card_view_content_padding">6dp</dimen>
+    <dimen name="common_card_view_elevation">0dp</dimen>
+    <dimen name="common_card_view_card_corner_radius">5dp</dimen>
+    <dimen name="common_card_view_card_stroke_width">1dp</dimen>
+
+    <dimen name="common_normal_button_left_right_padding">8dp</dimen>
+    <dimen name="common_normal_button_top_bottom_padding">4dp</dimen>
+    <dimen name="common_normal_button_margin">4dp</dimen>
+    <dimen name="common_button_min_height">55dp</dimen>
+    <dimen name="common_outlined_button_margin">4dp</dimen>
+    <dimen name="common_outlined_button_padding">4dp</dimen>
+    <dimen name="common_outlined_stroke_width">1dp</dimen>
+
+    <dimen name="common_text_button_padding">4dp</dimen>
+    <dimen name="common_text_button_margin">4dp</dimen>
+
+    <dimen name="text_style_padding">2dp</dimen>
+
 </resources>
