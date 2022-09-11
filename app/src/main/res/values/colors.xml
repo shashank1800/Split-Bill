@@ -19,7 +19,7 @@
 
     <!--    Card View Style-->
     <color name="common_card_view_background_color">#FFFFFF</color>
-    <color name="common_card_view_stroke_color">#AEAEAE</color>
+    <color name="common_card_view_stroke_color">#BCBCBC</color>
 
     <!--    Text View Styles-->
     <color name="text_style_head_medium_bold_text_color">#252525</color>

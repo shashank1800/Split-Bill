@@ -54,6 +54,7 @@ class AddBillSharesDialogFragment(
 
         binding.tieTotalAmount.doOnTextChanged { _, _, _, _ ->
             if(!binding.tieTotalAmount.text.isNullOrEmpty()){
+                var sumShare = 0F
                 billShareInputList.forEach { billShareModel ->
                     val equallySharedFloat =
                         String.format("%.1f", (binding.tieTotalAmount.text.toString().toFloat() / billShareInputList.size))
@@ -63,7 +64,27 @@ class AddBillSharesDialogFragment(
                     if (equallySharedFloat.toFloat() == equallySharedInt.toFloat()) // removes unwanted zeros at the end
                         result = equallySharedInt
                     billShareModel.share.set(result)
+                    sumShare += result.toFloat()
                 }
+                if (billShareInputList.size > 0){
+                    val equallySharedFloat = String.format(
+                        "%.1f", (billShareInputList[0].share.get()?.toFloat() ?: 0F)
+                                + (binding.tieTotalAmount.text.toString().toFloat() - sumShare)
+                    )
+
+                    val equallySharedInt =
+                        String.format(
+                            "%.0f", (billShareInputList[0].share.get()?.toFloat() ?: 0F)
+                                    + (binding.tieTotalAmount.text.toString().toFloat() - sumShare)
+                        )
+                    var result = equallySharedFloat
+                    if (equallySharedFloat.toFloat() == equallySharedInt.toFloat()) // removes unwanted zeros at the end
+                        result = equallySharedInt
+                    billShareInputList[0].share.set(
+                        result
+                    )
+                }
+
             }
         }
 

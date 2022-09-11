@@ -14,8 +14,8 @@ android {
         applicationId "com.shashankbhat.splitbill"
         minSdk 16
         targetSdk 33
-        versionCode 10
-        versionName "1.9"
+        versionCode 11
+        versionName "2.0"
         multiDexEnabled true
     }
 
@@ -23,8 +23,8 @@ android {
         debug {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", "\"https://split-bill-develop.herokuapp.com/\""
-//            buildConfigField "String", "BASE_URL", "\"http://192.168.1.7:8080/\""
+//            buildConfigField "String", "BASE_URL", "\"https://split-bill-develop.herokuapp.com/\""
+            buildConfigField "String", "BASE_URL", "\"http://192.168.1.7:8080/\""
         }
         release {
             minifyEnabled true
