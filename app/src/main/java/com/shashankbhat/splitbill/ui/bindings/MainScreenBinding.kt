@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,7 +47,7 @@ object MainScreenBinding {
         if (isSelected) {
             cardView.setCardBackgroundColor(Color.parseColor("#DDF0FF"))
         } else {
-            cardView.setCardBackgroundColor(Color.WHITE)
+            cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.common_card_view_background_color))
         }
     }
 

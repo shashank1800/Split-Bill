@@ -14,6 +14,7 @@ import com.shahankbhat.recyclergenericadapter.util.CallBackModel
 import com.shahankbhat.recyclergenericadapter.util.DataBinds
 import com.shahankbhat.recyclergenericadapter.util.MoreDataBindings
 import com.shashankbhat.splitbill.BR
+import com.shashankbhat.splitbill.MainActivity
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.base.BaseFragment
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto

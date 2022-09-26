@@ -14,13 +14,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="2dp">
 
         <include
             android:id="@+id/cv_profile_photo"
             layout="@layout/adapter_user_profile_photo"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,9 +30,11 @@
 
         <TextView
             android:id="@+id/tv_name"
-            style="@style/TextStyleContentMedium"
+            style="@style/TextStyleContentMediumBold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             android:text="@{model.user.name}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/cardView3"
@@ -42,7 +45,7 @@
             android:id="@+id/cardView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="#FFD6D6"
+            app:cardBackgroundColor="@color/bill_share_background_color"
             app:strokeWidth="1dp"
             app:strokeColor="@color/common_card_view_stroke_color"
             app:cardCornerRadius="10dp"
@@ -57,7 +60,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:text="@{String.format(`%.0f`, model.share)}"
-                android:textColor="#B11E11"
+                android:textColor="@color/bill_share_text_color"
                 android:textSize="16sp" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -66,8 +69,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:visibility="@{model.spent > 0 ? View.VISIBLE : View.GONE, default=gone}"
-            app:cardBackgroundColor="#BFFFCD"
+            android:visibility="@{model.spent > 0 ? View.VISIBLE : View.GONE, default=visible}"
+            app:cardBackgroundColor="@color/bill_spent_background_color"
             app:strokeWidth="1dp"
             app:strokeColor="@color/common_card_view_stroke_color"
             app:cardCornerRadius="10dp"
@@ -83,7 +86,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:text="@{String.format(`%.0f`, model.spent)}"
-                android:textColor="#109E12"
+                android:textColor="@color/bill_spent_text_color"
                 android:textSize="16sp" />
         </com.google.android.material.card.MaterialCardView>
 

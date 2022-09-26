@@ -32,18 +32,18 @@ class HomeScreenViewPager : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        setHasOptionsMenu(true)
+//        setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.main_menu, menu)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.menu_unique_id).title = "# " + viewModel.sharedPreferences.getUniqueId()
-    }
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        super.onCreateOptionsMenu(menu, inflater)
+//        inflater.inflate(R.menu.main_menu, menu)
+//    }
+//
+//    override fun onPrepareOptionsMenu(menu: Menu) {
+//        super.onPrepareOptionsMenu(menu)
+//        menu.findItem(R.id.menu_unique_id).title = "# " + viewModel.sharedPreferences.getUniqueId()
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,17 +71,19 @@ class HomeScreenViewPager : Fragment() {
     }
 
     private fun uiViewPagerScrollListener(){
-        binding.vpBillShares.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                when (position) {
-                    0 -> binding.bottomNavigation.selectedItemId = R.id.menu_groups
-                    1 -> binding.bottomNavigation.selectedItemId = R.id.menu_people
-                    2 -> binding.bottomNavigation.selectedItemId = R.id.menu_profile
-                }
-            }
-        })
+//        binding.vpBillShares.registerOnPageChangeCallback(object :
+//            ViewPager2.OnPageChangeCallback() {
+//            override fun onPageSelected(position: Int) {
+//                super.onPageSelected(position)
+//                when (position) {
+//                    0 -> binding.bottomNavigation.selectedItemId = R.id.menu_groups
+//                    1 -> binding.bottomNavigation.selectedItemId = R.id.menu_people
+//                    2 -> binding.bottomNavigation.selectedItemId = R.id.menu_profile
+//                }
+//            }
+//        })
+
+        binding.vpBillShares.isUserInputEnabled = false
     }
 
     private fun uiBottomNavigationClickListener(){

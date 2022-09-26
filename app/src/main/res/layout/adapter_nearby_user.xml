@@ -40,7 +40,7 @@
                 app:name="@{model.name}"
                 app:photoUrl="@{model.photoUrl}" />
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_profile_checked"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
@@ -57,7 +57,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="8dp"
                     android:src="@drawable/ic_baseline_check" />
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier"

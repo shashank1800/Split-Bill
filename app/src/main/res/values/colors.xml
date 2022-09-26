@@ -14,7 +14,7 @@
     <color name="background">#FAF6FD</color>
 
     <color name="bottom_sheet_item_text_color">#7E7E7E</color>
-    <color name="bottom_sheet_background_color">#373737</color>
+    <color name="bottom_sheet_background_color">#F8F8F8</color>
     <color name="bottom_sheet_item_selected_text_color">@color/primaryColor</color>
 
     <!--    Card View Style-->
@@ -33,5 +33,15 @@
     <color name="common_outlined_button_color">#432545</color>
 
     <color name="centre_instruction_text_color">@color/primaryColor</color>
+    <color name="app_title_text_color">@color/primaryColor</color>
+
+    <color name="bill_total_text_color">#4B374C</color>
+    <color name="bill_total_background_color">#F4F0FF</color>
+
+    <color name="bill_spent_text_color">#38976E</color>
+    <color name="bill_spent_background_color">#EAFFF4</color>
+
+    <color name="bill_share_text_color">#CA3A5A</color>
+    <color name="bill_share_background_color">#FFE2EA</color>
 
 </resources>

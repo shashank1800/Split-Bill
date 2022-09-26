@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="green">#FF3EC590</color>
+    <color name="red">#E8004A</color>
 
     <color name="primaryColor">#231D2B</color>
     <color name="secondaryColor">#1EDD93</color>
@@ -7,14 +11,14 @@
 
     <color name="snack_bar_instruction">#191E2B</color>
 
-    <color name="background">#3C3C3C</color>
+    <color name="background">#212121</color>
 
     <color name="bottom_sheet_item_text_color">#C3C3C3</color>
     <color name="bottom_sheet_background_color">#2C2C2C</color>
     <color name="bottom_sheet_item_selected_text_color">#C29DC8</color>
 
 <!--    Card View Style-->
-    <color name="common_card_view_background_color">#252525</color>
+    <color name="common_card_view_background_color">#263238</color>
     <color name="common_card_view_stroke_color">#AEAEAE</color>
 
 <!--    Text View Styles-->
@@ -29,5 +33,15 @@
     <color name="common_outlined_button_color">#E4E4E4</color>
 
     <color name="centre_instruction_text_color">#fff</color>
+    <color name="app_title_text_color">@color/white</color>
+
+    <color name="bill_total_text_color">#DDCFFF</color>
+    <color name="bill_total_background_color">#352436</color>
+
+    <color name="bill_spent_text_color">#7CFBBA</color>
+    <color name="bill_spent_background_color">#385546</color>
+
+    <color name="bill_share_text_color">#FFBED0</color>
+    <color name="bill_share_background_color">#453236</color>
 
 </resources>

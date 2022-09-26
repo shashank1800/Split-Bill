@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="AppBar">
+        <attr name="title_text" format="string" />
+        <attr name="back_enabled" format="boolean" />
+    </declare-styleable>
+</resources>

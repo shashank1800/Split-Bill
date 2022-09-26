@@ -36,7 +36,7 @@
 
     <!-- Card View Style -->
     <style name="Common.CardViewStyle" parent="Widget.MaterialComponents.CardView">
-        <item name="android:layout_margin" >@dimen/common_card_view_margin</item>
+        <item name="android:layout_margin">@dimen/common_card_view_margin</item>
         <item name="contentPadding">@dimen/common_card_view_content_padding</item>
 
         <item name="cardBackgroundColor">@color/common_card_view_background_color</item>
@@ -54,8 +54,12 @@
         <item name="android:paddingTop">@dimen/common_normal_button_top_bottom_padding</item>
         <item name="android:paddingBottom">@dimen/common_normal_button_top_bottom_padding</item>
 
-        <item name="android:layout_marginStart" tools:ignore="NewApi">@dimen/common_normal_button_margin</item>
-        <item name="android:layout_marginEnd" tools:ignore="NewApi">@dimen/common_normal_button_margin</item>
+        <item name="android:layout_marginStart" tools:ignore="NewApi">
+            @dimen/common_normal_button_margin
+        </item>
+        <item name="android:layout_marginEnd" tools:ignore="NewApi">
+            @dimen/common_normal_button_margin
+        </item>
         <item name="android:layout_marginTop">@dimen/common_normal_button_margin</item>
         <item name="android:layout_marginBottom">@dimen/common_normal_button_margin</item>
         <item name="android:textAllCaps">false</item>
@@ -66,8 +70,12 @@
     <style name="Common.OutlinedMaterialButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
 
         <item name="android:padding">@dimen/common_outlined_button_padding</item>
-        <item name="android:layout_marginStart" tools:ignore="NewApi">@dimen/common_outlined_button_margin</item>
-        <item name="android:layout_marginEnd" tools:ignore="NewApi">@dimen/common_outlined_button_margin</item>
+        <item name="android:layout_marginStart" tools:ignore="NewApi">
+            @dimen/common_outlined_button_margin
+        </item>
+        <item name="android:layout_marginEnd" tools:ignore="NewApi">
+            @dimen/common_outlined_button_margin
+        </item>
         <item name="android:layout_marginTop">@dimen/common_outlined_button_margin</item>
         <item name="android:layout_marginBottom">@dimen/common_outlined_button_margin</item>
         <item name="textAllCaps">false</item>
@@ -83,8 +91,12 @@
     <style name="Common.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
 
         <item name="android:padding">@dimen/common_text_button_padding</item>
-        <item name="android:layout_marginStart" tools:ignore="NewApi">@dimen/common_text_button_margin</item>
-        <item name="android:layout_marginEnd" tools:ignore="NewApi">@dimen/common_text_button_margin</item>
+        <item name="android:layout_marginStart" tools:ignore="NewApi">
+            @dimen/common_text_button_margin
+        </item>
+        <item name="android:layout_marginEnd" tools:ignore="NewApi">
+            @dimen/common_text_button_margin
+        </item>
         <item name="android:layout_marginTop">@dimen/common_text_button_margin</item>
         <item name="android:layout_marginBottom">@dimen/common_text_button_margin</item>
         <item name="textAllCaps">false</item>
@@ -178,7 +190,7 @@
     <!--    Content-->
     <!--    -->
 
-    <style name="TextStyleHeadMediumBold" >
+    <style name="TextStyleHeadMediumBold">
         <item name="android:textColor">@color/text_style_head_medium_bold_text_color</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:padding">@dimen/text_style_padding</item>
@@ -187,7 +199,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextStyleContentMediumBold" >
+    <style name="TextStyleContentMediumBold">
         <item name="android:textColor">@color/text_style_content_medium_bold_text_color</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:padding">@dimen/text_style_padding</item>
@@ -210,6 +222,10 @@
         <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>
     </style>
 
+    <style name="Widget.Theme.SplitBill.AppBar" parent="">
+<!--        <item name="android:background">@color/gray_400</item>-->
+<!--        <item name="exampleColor">@color/light_blue_400</item>-->
+    </style>
 
 
 </resources>

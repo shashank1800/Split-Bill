@@ -40,8 +40,6 @@ class BillShareViewPager : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         binding.isBillListEmpty = viewModel.isBillListEmpty
 
         val billSharesFragment = BillShareFragment.getInstance(requireArguments())
@@ -51,17 +49,19 @@ class BillShareViewPager : BaseFragment() {
 
         binding.vpBillShares.adapter = ViewPagerAdapter(requireActivity(), adapterFragments)
 
-        binding.vpBillShares.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                when(position){
-                    0 -> binding.bottomNavigation.selectedItemId = R.id.menu_bill_shares
-                    else -> {
-                        binding.bottomNavigation.selectedItemId = R.id.menu_balances
-                    }
-                }
-            }
-        })
+//        binding.vpBillShares.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+//            override fun onPageSelected(position: Int) {
+//                super.onPageSelected(position)
+//                when(position){
+//                    0 -> binding.bottomNavigation.selectedItemId = R.id.menu_bill_shares
+//                    else -> {
+//                        binding.bottomNavigation.selectedItemId = R.id.menu_balances
+//                    }
+//                }
+//            }
+//        })
+
+        binding.vpBillShares.isUserInputEnabled = false
 
         binding.bottomNavigation.setOnItemSelectedListener {
             when(it.itemId){

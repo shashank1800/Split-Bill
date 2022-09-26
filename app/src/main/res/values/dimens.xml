@@ -30,4 +30,6 @@
 
     <dimen name="text_style_padding">2dp</dimen>
 
+    <dimen name="app_bar_height">55dp</dimen>
+
 </resources>
