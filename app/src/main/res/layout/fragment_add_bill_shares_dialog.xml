@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <data>
 
@@ -10,8 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
-        tools:context=".ui.user_list.AddGroupDialogFragment">
+        android:padding="8dp" >
 
 
         <TextView
@@ -44,6 +42,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <include
+            android:id="@+id/layout_instruction"
+            layout="@layout/layout_instruction_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_create" />
+
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_group_name"
             style="@style/Common.TextInputLayoutEditText"
@@ -57,7 +66,7 @@
             app:layout_constraintEnd_toStartOf="@+id/til_total_amount"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_create">
+            app:layout_constraintTop_toBottomOf="@+id/layout_instruction">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tie_name"
@@ -79,7 +88,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/til_group_name"
-            app:layout_constraintTop_toBottomOf="@+id/btn_create">
+            app:layout_constraintTop_toBottomOf="@+id/layout_instruction">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tie_total_amount"

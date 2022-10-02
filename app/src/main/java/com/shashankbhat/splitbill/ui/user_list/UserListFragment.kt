@@ -1,9 +1,7 @@
 package com.shashankbhat.splitbill.ui.user_list
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -14,7 +12,6 @@ import com.shahankbhat.recyclergenericadapter.util.CallBackModel
 import com.shahankbhat.recyclergenericadapter.util.DataBinds
 import com.shahankbhat.recyclergenericadapter.util.MoreDataBindings
 import com.shashankbhat.splitbill.BR
-import com.shashankbhat.splitbill.MainActivity
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.base.BaseFragment
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
@@ -26,8 +23,8 @@ import com.shashankbhat.splitbill.viewmodels.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class UserListFragment : BaseFragment() {
-    private lateinit var binding: FragmentUserListBinding
+class UserListFragment : BaseFragment<FragmentUserListBinding>() {
+
     private lateinit var navController: NavController
     private lateinit var groupListDto: GroupListDto
     private val viewModel: UserListViewModel by viewModels()
@@ -39,13 +36,7 @@ class UserListFragment : BaseFragment() {
         setTitle("Group Members")
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentUserListBinding.inflate(LayoutInflater.from(requireContext()))
-        return binding.root
-    }
+    override fun getViewBinding() = FragmentUserListBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

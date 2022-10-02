@@ -67,6 +67,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox
+                style="@style/TextStyleContentMediumBold"
                 android:id="@+id/checkBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -75,23 +76,19 @@
                 android:layout_marginEnd="16dp"
                 android:checked="@={viewModel.isNearbyEnabled()}"
                 android:text="Visible to nearby people"
-                android:textSize="18sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/til_name" />
 
             <TextView
                 android:id="@+id/textView2"
-                style="@style/TextStyleHeadMediumBold"
+                style="@style/TextStyleContentMediumBold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="Distance range to see nearby people"
-                android:textSize="18sp"
-                android:textStyle="bold"
                 android:visibility="@{viewModel.isNearbyEnabled()? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toStartOf="@+id/btn_nearby_range"
                 app:layout_constraintStart_toStartOf="parent"

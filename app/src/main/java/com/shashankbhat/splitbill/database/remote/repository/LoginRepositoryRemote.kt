@@ -31,7 +31,7 @@ class LoginRepositoryRemote @Inject constructor(
             response.uniqueId?.let { sharedPreferences.putUniqueId(it) }
             response.username?.let { sharedPreferences.putUsername(it) }
 
-            loginState.value = Response.success(response)
+            loginState.postValue(Response.success(response))
         }catch (ex:Exception){
             print(ex)
         }

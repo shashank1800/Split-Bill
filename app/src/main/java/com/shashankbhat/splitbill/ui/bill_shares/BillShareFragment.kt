@@ -1,9 +1,7 @@
 package com.shashankbhat.splitbill.ui.bill_shares
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -24,21 +22,13 @@ import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.alogrithm.BillSplitAlgorithm
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
-class BillShareFragment : BaseFragment() {
+class BillShareFragment : BaseFragment<FragmentBillShareBinding>() {
 
     private val viewModel: BillShareViewModel by activityViewModels()
     private lateinit var groupListDto: GroupListDto
-    private lateinit var binding: FragmentBillShareBinding
     lateinit var adapter: RecyclerGenericAdapter<AdapterBillShareBinding, BillModel>
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentBillShareBinding.inflate(LayoutInflater.from(requireContext()))
-        return binding.root
-    }
+    override fun getViewBinding() = FragmentBillShareBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

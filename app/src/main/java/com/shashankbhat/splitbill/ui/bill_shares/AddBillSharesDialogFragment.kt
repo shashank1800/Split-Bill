@@ -1,9 +1,7 @@
 package com.shashankbhat.splitbill.ui.bill_shares
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
@@ -14,26 +12,22 @@ import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.database.local.model.bill_shares.BillShareModel
 import com.shashankbhat.splitbill.databinding.AdapterAddBillSharesBinding
 import com.shashankbhat.splitbill.databinding.FragmentAddBillSharesDialogBinding
+import com.shashankbhat.splitbill.enums.SnackBarType
+import com.shashankbhat.splitbill.util.extension.showSnackBar
 
 class AddBillSharesDialogFragment(
     private val groupListDto: GroupListDto,
     val onCreate: (String, String, List<BillShareModel>) -> Unit,
-) : BaseBottomSheetDialogFragment() {
-    private lateinit var binding: FragmentAddBillSharesDialogBinding
+) : BaseBottomSheetDialogFragment<FragmentAddBillSharesDialogBinding>() {
+
     private lateinit var adapter : RecyclerGenericAdapter<AdapterAddBillSharesBinding, BillShareModel>
+
+    override fun getViewBinding() = FragmentAddBillSharesDialogBinding.inflate(layoutInflater)
 
     private val billShareInputList = arrayListOf<BillShareModel>().apply {
         groupListDto.userList?.forEach {
             add(BillShareModel(it))
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentAddBillSharesDialogBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,7 +38,25 @@ class AddBillSharesDialogFragment(
                 binding.tilGroupName.isErrorEnabled = true
                 return@setOnClickListener
             }
-            onCreate(binding.tieName.text.toString(), binding.tieTotalAmount.text.toString(), billShareInputList)
+
+            var sumShare = 0F
+            var sumSpent = 0F
+            billShareInputList.forEach { billShareModel ->
+                sumShare += billShareModel.share.get()?.toFloat() ?: 0f
+                sumSpent += billShareModel.spent.get()?.toFloat() ?: 0f
+            }
+
+            if (binding.tieTotalAmount.text.toString()
+                    .toFloat() != sumShare || sumShare != sumSpent
+            ) {
+                binding.layoutInstruction.instructionView.visibility = View.VISIBLE
+                return@setOnClickListener
+            }
+
+            onCreate(
+                binding.tieName.text.toString(), binding.tieTotalAmount.text.toString(),
+                billShareInputList
+            )
             dismiss()
         }
 

@@ -2,9 +2,7 @@ package com.shashankbhat.splitbill.ui.main_ui.nearby_people
 
 import android.Manifest
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -27,20 +25,14 @@ import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.showSnackBar
 import com.shashankbhat.splitbill.viewmodels.MainScreenViewModel
 
-class NearbyPeopleFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
-    private lateinit var binding: FragmentNearbyPeopleBinding
+class NearbyPeopleFragment : BaseFragment<FragmentNearbyPeopleBinding>(), SwipeRefreshLayout.OnRefreshListener {
+
     private val myLocation = LocationListener()
     private val viewModel: MainScreenViewModel by activityViewModels()
 
     lateinit var adapter: RecyclerGenericAdapter<AdapterNearbyUserBinding, NearUserModel>
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentNearbyPeopleBinding.inflate(LayoutInflater.from(requireContext()))
-        return binding.root
-    }
+    override fun getViewBinding() = FragmentNearbyPeopleBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -2,7 +2,6 @@ package com.shashankbhat.splitbill.ui.splash_screen
 
 import android.animation.Animator
 import android.animation.AnimatorInflater
-import android.animation.AnimatorSet
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
@@ -18,6 +17,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.shashankbhat.splitbill.R
+import com.shashankbhat.splitbill.base.BaseFragment
 import com.shashankbhat.splitbill.viewmodels.SplashScreenViewModel
 import com.shashankbhat.splitbill.database.remote.entity.TokenDto
 import com.shashankbhat.splitbill.databinding.FragmentSplashScreenBinding
@@ -32,21 +32,20 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SplashScreenFragment : Fragment() {
+class SplashScreenFragment : BaseFragment<FragmentSplashScreenBinding>() {
 
     private val viewModel: SplashScreenViewModel by viewModels()
-    private lateinit var binding: FragmentSplashScreenBinding
+
     private var navController: NavController? = null
     private var waitTime = 1000L
     private lateinit var connectivityManager: ConnectivityManager
     private lateinit var networkCallback : ConnectivityManager.NetworkCallback
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentSplashScreenBinding.inflate(inflater)
-        return binding.root
+    override fun getViewBinding() = FragmentSplashScreenBinding.inflate(layoutInflater)
+
+    override fun onStart() {
+        super.onStart()
+        hideToolbar()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -98,7 +97,7 @@ class SplashScreenFragment : Fragment() {
                 delay(waitTime)
             }
             if (isLoggedIn())
-                viewModel.loginState.value = Response.success(TokenDto())
+                viewModel.loginState.postValue(Response.success(TokenDto()))
             else
                 viewModel.login()
         }
@@ -140,6 +139,11 @@ class SplashScreenFragment : Fragment() {
     private fun isLoggedIn(): Boolean {
         val token = viewModel.sharedPreferences.getToken()
         return token.isNotEmpty() && token.trim().compareTo("Bearer") != 0
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        showToolbar()
     }
 
 

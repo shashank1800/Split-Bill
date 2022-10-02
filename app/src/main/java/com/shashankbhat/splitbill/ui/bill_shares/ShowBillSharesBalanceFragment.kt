@@ -1,9 +1,7 @@
 package com.shashankbhat.splitbill.ui.bill_shares
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -18,9 +16,8 @@ import com.shashankbhat.splitbill.util.alogrithm.BillShareBalance
 import com.shashankbhat.splitbill.util.alogrithm.BillSpentAndShare
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
-class ShowBillSharesBalanceFragment : BaseFragment() {
+class ShowBillSharesBalanceFragment : BaseFragment<FragmentBillSharesBalancesBinding>() {
 
-    private lateinit var binding: FragmentBillSharesBalancesBinding
     private lateinit var groupListDto: GroupListDto
 
     private lateinit var adapter: RecyclerGenericAdapter<AdapterBillShareBalancesBinding, BillShareBalance>
@@ -28,14 +25,7 @@ class ShowBillSharesBalanceFragment : BaseFragment() {
 
     private val viewModel: BillShareViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentBillSharesBalancesBinding.inflate(LayoutInflater.from(requireContext()))
-        return binding.root
-    }
+    override fun getViewBinding() = FragmentBillSharesBalancesBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +64,10 @@ class ShowBillSharesBalanceFragment : BaseFragment() {
                     )
                 )
                 adapterTotal.replaceList(ArrayList(viewModel.billSplitAlgorithm.getSharesAndBalance()))
+
+
+                binding.rvList.visibility = if(viewModel.billSplitAlgorithm.getBalances()?.isEmpty() == true) View.GONE else View.VISIBLE
+                binding.tvBalances.visibility = if(viewModel.billSplitAlgorithm.getBalances()?.isEmpty() == true) View.GONE else View.VISIBLE
             }
         }
     }

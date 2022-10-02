@@ -1,7 +1,6 @@
 package com.shashankbhat.splitbill.util.bottom_sheet
 
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.os.Bundle
@@ -13,35 +12,22 @@ import androidx.core.widget.TextViewCompat
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.shashankbhat.splitbill.R
+import com.shashankbhat.splitbill.base.BaseBottomSheetDialogFragment
 import com.shashankbhat.splitbill.databinding.BottomSheetItemBinding
 import com.shashankbhat.splitbill.databinding.BottomSheetSingleItemSelectionBinding
-
 
 class SingleItemSelectionBottomSheet<T : BottomSheetHelper<T>>(
     val items: ArrayList<BottomSheetItem<T>>,
     val eventListeners: EventListeners<T>,
     val selectedItem: ObservableField<T>? = null,
-) : BottomSheetDialogFragment() {
-
-    private lateinit var binding: BottomSheetSingleItemSelectionBinding
+) : BaseBottomSheetDialogFragment<BottomSheetSingleItemSelectionBinding>() {
 
     interface EventListeners<T> {
         fun onClick(position: Int, item: BottomSheetItem<T>)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = BottomSheetSingleItemSelectionBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun getTheme(): Int {
-        return R.style.CustomBottomSheetDialog
-    }
+    override fun getViewBinding() = BottomSheetSingleItemSelectionBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.list.layoutManager = LinearLayoutManager(requireContext())

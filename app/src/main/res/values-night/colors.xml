@@ -6,7 +6,7 @@
     <color name="red">#E8004A</color>
 
     <color name="primaryColor">#231D2B</color>
-    <color name="secondaryColor">#1EDD93</color>
+    <color name="secondaryColor">#4A9A7B</color>
     <color name="colorPrimaryVariant">@color/primaryColor</color>
 
     <color name="snack_bar_instruction">#191E2B</color>
@@ -20,11 +20,12 @@
 <!--    Card View Style-->
     <color name="common_card_view_background_color">#263238</color>
     <color name="common_card_view_stroke_color">#AEAEAE</color>
+    <color name="common_card_selected_background_color">#051F27</color>
 
 <!--    Text View Styles-->
     <color name="text_style_head_medium_bold_text_color">#F3F3F3</color>
-    <color name="text_style_content_medium_bold_text_color">#C3C3C3</color>
-    <color name="text_style_content_medium_text_color">#C3C3C3</color>
+    <color name="text_style_content_medium_bold_text_color">#F4F4F4</color>
+    <color name="text_style_content_medium_text_color">#F4F4F4</color>
 
     <color name="common_text_input_layout_border_color">#fff</color>
 
@@ -44,4 +45,5 @@
     <color name="bill_share_text_color">#FFBED0</color>
     <color name="bill_share_background_color">#453236</color>
 
+    <color name="cursor_color">@color/white</color>
 </resources>

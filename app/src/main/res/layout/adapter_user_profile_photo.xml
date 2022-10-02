@@ -55,7 +55,8 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textSize="18sp"
-                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textColor="#4A4A4A"
                     android:text="@{name.substring(0, 1).toUpperCase()}" />
 
             </androidx.cardview.widget.CardView>

@@ -1,7 +1,6 @@
 package com.shashankbhat.splitbill.ui.bindings
 
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -20,7 +19,6 @@ import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillModel
 import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillSharesModel
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupRecyclerListDto
 import com.shashankbhat.splitbill.database.local.dto.users.UserDto
-import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.databinding.AdapterBillShareBillBinding
 import com.shashankbhat.splitbill.util.RecyclerItemOverlap
 import com.shashankbhat.splitbill.util.extension.*
@@ -45,7 +43,7 @@ object MainScreenBinding {
     fun bindSelectedCardView(cardView: CardView, isSelected: Boolean) {
 
         if (isSelected) {
-            cardView.setCardBackgroundColor(Color.parseColor("#DDF0FF"))
+            cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.common_card_selected_background_color))
         } else {
             cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.common_card_view_background_color))
         }

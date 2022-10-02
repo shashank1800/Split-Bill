@@ -19,6 +19,7 @@
         <item name="cornerSizeTopLeft">@dimen/bottom_sheet_dialog_top_corner_radius</item>
         <item name="cornerSizeBottomRight">@dimen/bottom_sheet_dialog_bottom_corner_radius</item>
         <item name="cornerSizeBottomLeft">@dimen/bottom_sheet_dialog_bottom_corner_radius</item>
+        <item name="cardBackgroundColor">@color/background</item>
     </style>
 
     <style name="BottomSheetItemTextNormal" parent="@android:style/Widget.TextView">
@@ -162,6 +163,8 @@
         <item name="android:textSize">14sp</item>
         <item name="endIconMode">none</item>
         <item name="errorIconDrawable">@null</item>
+        <item name="android:textColor">@color/cursor_color</item>
+        <item name="android:textCursorDrawable">@xml/cursor_color</item>
     </style>
 
     <style name="Common.TextInputLayoutEditTextDense" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
@@ -180,6 +183,8 @@
         <item name="android:textSize">14sp</item>
         <item name="endIconMode">none</item>
         <item name="errorIconDrawable">@null</item>
+        <item name="android:textColor">@color/cursor_color</item>
+        <item name="android:textCursorDrawable">@xml/cursor_color</item>
     </style>
 
 

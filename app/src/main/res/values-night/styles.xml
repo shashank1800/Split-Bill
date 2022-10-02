@@ -11,6 +11,7 @@
 
     <style name="CustomBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
         <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceBottomSheetDialog</item>
+        <item name="backgroundTint">@color/bottom_sheet_background_color</item>
     </style>
 
     <style name="CustomShapeAppearanceBottomSheetDialog" parent="">
@@ -162,6 +163,8 @@
         <item name="android:textSize">14sp</item>
         <item name="endIconMode">none</item>
         <item name="errorIconDrawable">@null</item>
+        <item name="android:textColor">@color/cursor_color</item>
+        <item name="android:textCursorDrawable">@xml/cursor_color</item>
     </style>
 
     <style name="Common.TextInputLayoutEditTextDense" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
@@ -180,6 +183,8 @@
         <item name="android:textSize">14sp</item>
         <item name="endIconMode">none</item>
         <item name="errorIconDrawable">@null</item>
+        <item name="android:textColor">@color/cursor_color</item>
+        <item name="android:textCursorDrawable">@xml/cursor_color</item>
     </style>
 
 
