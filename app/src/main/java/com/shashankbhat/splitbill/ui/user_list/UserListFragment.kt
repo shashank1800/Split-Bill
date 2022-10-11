@@ -94,6 +94,7 @@ class UserListFragment : BaseFragment<FragmentUserListBinding>() {
             })
             .setMoreDataBinds(DataBinds().apply {
                 add(MoreDataBindings(BR.isBillListEmpty, viewModel.isBillListEmpty))
+                add(MoreDataBindings(BR.sharedPref, viewModel.sharedPreferences))
             })
             .build()
 

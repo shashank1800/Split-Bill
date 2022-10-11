@@ -8,6 +8,11 @@
             name="model"
             type="com.shashankbhat.splitbill.util.alogrithm.BillSpentAndShare" />
 
+        <variable
+            name="sharedPref"
+            type="android.content.SharedPreferences" />
+
+
         <import type="android.view.View" />
     </data>
 
@@ -22,7 +27,7 @@
 
             <include
                 android:id="@+id/cv_profile_photo"
-                layout="@layout/adapter_user_profile_photo"
+                layout="@layout/layout_user_profile_photo"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 app:layout_constraintEnd_toStartOf="@+id/tv_name"
@@ -30,7 +35,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:name="@{model.person.name}"
-                app:photoUrl="@{model.person.photoUrl}" />
+                app:photoUrl="@{model.person.photoUrl}"
+                app:isMe="@{sharedPref.getInt(`uniqueId`, 0) == model.person.uniqueId}"/>
 
             <TextView
                 android:id="@+id/tv_name"

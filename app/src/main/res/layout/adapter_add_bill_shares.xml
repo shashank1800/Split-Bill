@@ -18,7 +18,7 @@
 
         <include
             android:id="@+id/cv_profile_photo"
-            layout="@layout/adapter_user_profile_photo"
+            layout="@layout/layout_user_profile_photo"
             android:layout_width="45dp"
             android:layout_height="45dp"
             app:layout_constraintBottom_toBottomOf="parent"

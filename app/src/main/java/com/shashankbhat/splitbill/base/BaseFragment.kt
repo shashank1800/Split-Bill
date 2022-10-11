@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.shashankbhat.splitbill.MainActivity
+import com.shashankbhat.splitbill.ui.common.AppBar
 import com.shashankbhat.splitbill.util.LoadingDialogFragment
 import com.shashankbhat.splitbill.util.extension.findActivity
 
@@ -16,6 +17,7 @@ abstract class BaseFragment<ViewBind : ViewBinding> :Fragment() {
     private lateinit var loadingFragment : LoadingDialogFragment
 
     private var _binding: ViewBind? = null
+    private lateinit var appBar: AppBar
 
     val binding: ViewBind
         get() = _binding!!
@@ -38,6 +40,8 @@ abstract class BaseFragment<ViewBind : ViewBinding> :Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         previousTitle = (context?.findActivity() as MainActivity).title.get() ?: ""
+
+        appBar = (context?.findActivity() as MainActivity).binding.appBar
     }
 
     fun setTitle(title: String){
@@ -61,10 +65,18 @@ abstract class BaseFragment<ViewBind : ViewBinding> :Fragment() {
     }
 
     fun hideToolbar() {
-        (context?.findActivity() as MainActivity).binding.appBar.visibility = View.GONE
+        appBar.visibility = View.GONE
     }
 
     fun showToolbar() {
-        (context?.findActivity() as MainActivity).binding.appBar.visibility = View.VISIBLE
+        appBar.visibility = View.VISIBLE
+    }
+
+    fun addMenuItem(menuItem : View){
+        appBar.addMenuItem(menuItem)
+    }
+
+    fun clearMenu(){
+        appBar.clearMenu()
     }
 }

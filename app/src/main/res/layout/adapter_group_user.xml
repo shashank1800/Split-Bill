@@ -15,6 +15,11 @@
             name="isBillListEmpty"
             type="androidx.databinding.ObservableBoolean" />
 
+        <variable
+            name="sharedPref"
+            type="android.content.SharedPreferences" />
+
+
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -31,14 +36,15 @@
 
             <include
                 android:id="@+id/cv_profile_photo"
-                layout="@layout/adapter_user_profile_photo"
+                layout="@layout/layout_user_profile_photo"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:name="@{model.name}"
-                app:photoUrl="@{model.photoUrl}" />
+                app:photoUrl="@{model.photoUrl}"
+                app:isMe="@{sharedPref.getInt(`uniqueId`, 0) == model.uniqueId}"/>
 
             <TextView
                 android:id="@+id/tv_name"

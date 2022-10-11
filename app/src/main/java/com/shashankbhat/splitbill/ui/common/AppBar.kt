@@ -18,6 +18,9 @@ class AppBar : LinearLayout {
     lateinit var appBarText: AppCompatTextView
     lateinit var backButton: AppCompatImageView
     private var parentConstraint: ConstraintLayout? = null
+    private lateinit var menu: LinearLayout
+
+    var margin = 24
 
     constructor(context: Context) : super(context) {
         init(context, null, 0)
@@ -46,10 +49,12 @@ class AppBar : LinearLayout {
         parentConstraint = ConstraintLayout(context)
         appBarText = AppCompatTextView(context)
         backButton = AppCompatImageView(context)
+        menu = LinearLayout(context)
 
         addConstraintLayout()
         addNavigationBackUi()
         addTitleText()
+        addMenuLayout()
     }
 
     private fun addConstraintLayout() {
@@ -58,6 +63,8 @@ class AppBar : LinearLayout {
         parentConstraint?.id = ViewCompat.generateViewId()
         parentConstraint?.layoutParams =
             LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+
+        parentConstraint?.setPadding(10, 15, 10, 15)
     }
 
     private fun addTitleText() {
@@ -82,7 +89,7 @@ class AppBar : LinearLayout {
             ConstraintSet.START,
             backButton.id,
             ConstraintSet.END,
-            50
+            margin
         )
         constrainSet.connect(
             appBarText.id,
@@ -95,6 +102,12 @@ class AppBar : LinearLayout {
             ConstraintSet.BOTTOM,
             parentConstraint?.id ?: -1,
             ConstraintSet.BOTTOM
+        )
+        constrainSet.connect(
+            appBarText.id,
+            ConstraintSet.END,
+            menu.id,
+            ConstraintSet.START
         )
 
         constrainSet.applyTo(parentConstraint)
@@ -113,7 +126,6 @@ class AppBar : LinearLayout {
             ContextCompat.getColor(context, R.color.app_title_text_color)
         )
         backButton.setImageDrawable(drawableTint)
-        backButton.setPadding(10, 15, 10, 15)
 //        navigationCard.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
 
         val constrainSet = ConstraintSet()
@@ -124,7 +136,7 @@ class AppBar : LinearLayout {
             ConstraintSet.START,
             parentConstraint?.id ?: -1,
             ConstraintSet.START,
-            50
+            margin
         )
         constrainSet.connect(
             backButton.id,
@@ -143,6 +155,38 @@ class AppBar : LinearLayout {
 
     }
 
+    private fun addMenuLayout(){
+        parentConstraint?.addView(menu)
+
+        menu.id = ViewCompat.generateViewId()
+        menu.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
+
+        val constrainSet = ConstraintSet()
+        constrainSet.clone(parentConstraint)
+
+        constrainSet.connect(
+            menu.id,
+            ConstraintSet.TOP,
+            appBarText.id,
+            ConstraintSet.TOP
+        )
+        constrainSet.connect(
+            menu.id,
+            ConstraintSet.BOTTOM,
+            appBarText.id,
+            ConstraintSet.BOTTOM
+        )
+        constrainSet.connect(
+            menu.id,
+            ConstraintSet.END,
+            parentConstraint?.id ?: -1,
+            ConstraintSet.END,
+            margin
+        )
+
+        constrainSet.applyTo(parentConstraint)
+    }
+
     fun back(): AppCompatImageView {
         return backButton
     }
@@ -155,6 +199,15 @@ class AppBar : LinearLayout {
 
     fun setTitle(title: String){
         appBarText.text = title
+    }
+
+
+    fun addMenuItem(menuItem : View){
+        menu.addView(menuItem)
+    }
+
+    fun clearMenu() {
+        menu.removeAllViews()
     }
 
 

@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
+import com.shahankbhat.recyclergenericadapter.util.DataBinds
+import com.shahankbhat.recyclergenericadapter.util.MoreDataBindings
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.databinding.AdapterGroupUsersProfileBinding
 import com.shashankbhat.splitbill.database.local.model.NearUserModel
@@ -20,6 +22,7 @@ import com.shashankbhat.splitbill.database.local.dto.bill_shares.BillSharesModel
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupRecyclerListDto
 import com.shashankbhat.splitbill.database.local.dto.users.UserDto
 import com.shashankbhat.splitbill.databinding.AdapterBillShareBillBinding
+import com.shashankbhat.splitbill.di.AppModule.providesSharedPreference
 import com.shashankbhat.splitbill.util.RecyclerItemOverlap
 import com.shashankbhat.splitbill.util.extension.*
 import com.shashankbhat.splitbill.util.extension.getTimeAgo
@@ -52,8 +55,12 @@ object MainScreenBinding {
     @JvmStatic
     @BindingAdapter(value = ["bindUsersList"], requireAll = true)
     fun bindUsersList(recyclerView: RecyclerView, groupListDto: GroupRecyclerListDto) {
+        val sharedPref = providesSharedPreference(recyclerView.context.applicationContext)
         val adapter = if(groupListDto.adapter != null) groupListDto.adapter else
             RecyclerGenericAdapter.Builder<AdapterGroupUsersProfileBinding, UserDto>(R.layout.adapter_group_users_profile, BR.model)
+                .setMoreDataBinds(DataBinds(arrayListOf<MoreDataBindings?>().apply {
+                    add(MoreDataBindings(BR.sharedPref, sharedPref))
+                }))
                 .build()
         recyclerView.addItemDecoration(RecyclerItemOverlap(left = -15))
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
@@ -78,8 +85,12 @@ object MainScreenBinding {
     @JvmStatic
     @BindingAdapter(value = ["bindBillShareBillList"], requireAll = true)
     fun bindBillShareBillList(recyclerView: RecyclerView, billModel: BillModel) {
+        val sharedPref = providesSharedPreference(recyclerView.context.applicationContext)
         billModel.billShares?.let {
             val adapter = RecyclerGenericAdapter.Builder<AdapterBillShareBillBinding, BillSharesModel>(R.layout.adapter_bill_share_bill, BR.model)
+                .setMoreDataBinds(DataBinds(arrayListOf<MoreDataBindings?>().apply {
+                    add(MoreDataBindings(BR.sharedPref, sharedPref))
+                }))
                 .build()
             (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
             recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)

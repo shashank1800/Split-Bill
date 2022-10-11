@@ -6,6 +6,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
+import com.shahankbhat.recyclergenericadapter.util.DataBinds
+import com.shahankbhat.recyclergenericadapter.util.MoreDataBindings
 import com.shashankbhat.splitbill.BR
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.util.alogrithm.BillSplitAlgorithm
@@ -35,15 +37,14 @@ class ShowBillSharesBalanceFragment : BaseFragment<FragmentBillSharesBalancesBin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
         binding.isBillListEmpty = viewModel.isBillListEmpty
+        binding.isBalanceTransactionEmpty = viewModel.isBalanceTransactionEmpty
 
         uiBalanceRecyclerViewInit()
         uiTotalRecyclerViewInit()
         networkBillListResponse()
 
-        if ((viewModel.billListBalance.value?.data?.size ?: 0) > 0) {
+        if ((viewModel.billList.value?.data?.size ?: 0) > 0) {
             val balances = viewModel.billSplitAlgorithm.getBalances() ?: emptyList()
             adapter.replaceList(
                 ArrayList(
@@ -57,7 +58,7 @@ class ShowBillSharesBalanceFragment : BaseFragment<FragmentBillSharesBalancesBin
     private fun networkBillListResponse() {
         viewModel.billListBalance.observe(viewLifecycleOwner) {
             if (it.isSuccess() && (it.data?.size ?: 0) > 0) {
-                viewModel.billSplitAlgorithm = BillSplitAlgorithm(it.data ?: emptyList())
+
                 adapter.replaceList(
                     ArrayList(
                         viewModel.billSplitAlgorithm.getBalances() ?: emptyList()
@@ -66,8 +67,6 @@ class ShowBillSharesBalanceFragment : BaseFragment<FragmentBillSharesBalancesBin
                 adapterTotal.replaceList(ArrayList(viewModel.billSplitAlgorithm.getSharesAndBalance()))
 
 
-                binding.rvList.visibility = if(viewModel.billSplitAlgorithm.getBalances()?.isEmpty() == true) View.GONE else View.VISIBLE
-                binding.tvBalances.visibility = if(viewModel.billSplitAlgorithm.getBalances()?.isEmpty() == true) View.GONE else View.VISIBLE
             }
         }
     }
@@ -76,7 +75,9 @@ class ShowBillSharesBalanceFragment : BaseFragment<FragmentBillSharesBalancesBin
         adapter = RecyclerGenericAdapter.Builder<AdapterBillShareBalancesBinding, BillShareBalance>(
             R.layout.adapter_bill_share_balances,
             BR.model
-        )
+        ).setMoreDataBinds(DataBinds(arrayListOf<MoreDataBindings?>().apply {
+            add(MoreDataBindings(BR.sharedPref, viewModel.sharedPreferences))
+        }))
             .build()
         (binding.rvList.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         binding.rvList.layoutManager = LinearLayoutManager(requireContext())
@@ -88,7 +89,9 @@ class ShowBillSharesBalanceFragment : BaseFragment<FragmentBillSharesBalancesBin
             RecyclerGenericAdapter.Builder<AdapterBillSharesTotalBinding, BillSpentAndShare>(
                 R.layout.adapter_bill_shares_total,
                 BR.model
-            )
+            ).setMoreDataBinds(DataBinds(arrayListOf<MoreDataBindings?>().apply {
+                add(MoreDataBindings(BR.sharedPref, viewModel.sharedPreferences))
+            }))
                 .build()
         (binding.rvListTotal.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         binding.rvListTotal.layoutManager = LinearLayoutManager(requireContext())

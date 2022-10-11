@@ -85,6 +85,9 @@ class BillShareFragment : BaseFragment<FragmentBillShareBinding>() {
                 viewModel.isBillListEmpty.set((it?.data?.size ?: 0) == 0)
                 viewModel.billListBalance.postValue(Response.success(it?.data))
                 viewModel.billSplitAlgorithm = BillSplitAlgorithm(it?.data ?: emptyList())
+                viewModel.isBalanceTransactionEmpty.set(
+                    (viewModel.billSplitAlgorithm.getBalances()?.size ?: 0) > 0
+                )
             }
         }
     }

@@ -47,6 +47,4 @@
 
     <color name="cursor_color">@color/primaryColor</color>
 
-    <color name="test">#E7FFD5</color>
-
 </resources>

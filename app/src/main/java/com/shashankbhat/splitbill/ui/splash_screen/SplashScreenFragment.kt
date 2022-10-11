@@ -7,10 +7,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -105,7 +102,7 @@ class SplashScreenFragment : BaseFragment<FragmentSplashScreenBinding>() {
 
     private fun onInternetUnavailable(){
         if (isLoggedIn())
-            viewModel.loginState.value = Response.success(TokenDto())
+            viewModel.loginState.postValue(Response.success(TokenDto()))
         else
             binding.showSnackBar(
                 "Please enable internet", "Okay",
