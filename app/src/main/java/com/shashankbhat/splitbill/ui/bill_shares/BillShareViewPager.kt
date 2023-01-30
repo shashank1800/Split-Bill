@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.base.BaseFragment
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
@@ -15,16 +16,17 @@ import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
 class BillShareViewPager : BaseFragment<FragmentBillShareViewPagerBinding>() {
 
-    private lateinit var groupListDto: GroupListDto
+    private var groupListDto: GroupListDto? = null
 
     private val viewModel: BillShareViewModel by activityViewModels()
     private val adapterFragments = arrayListOf<Fragment>()
+    private val args: BillShareViewPagerArgs by navArgs()
 
     override fun getViewBinding() = FragmentBillShareViewPagerBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        groupListDto = requireArguments().getSerializable("model") as GroupListDto
+        groupListDto = args.model
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,8 +39,8 @@ class BillShareViewPager : BaseFragment<FragmentBillShareViewPagerBinding>() {
     }
 
     private fun uiViewPageInit() {
-        val billSharesFragment = BillShareFragment.getInstance(requireArguments())
-        val balanceFragment = ShowBillSharesBalanceFragment.getInstance(requireArguments())
+        val billSharesFragment = BillShareFragment.getInstance(args)
+        val balanceFragment = ShowBillSharesBalanceFragment.getInstance(args)
         adapterFragments.add(billSharesFragment)
         adapterFragments.add(balanceFragment)
 

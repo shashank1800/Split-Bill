@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
@@ -26,8 +27,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class UserListFragment : BaseFragment<FragmentUserListBinding>() {
 
     private lateinit var navController: NavController
-    private lateinit var groupListDto: GroupListDto
+    private var groupListDto: GroupListDto? = null
     private val viewModel: UserListViewModel by viewModels()
+    private val args: UserListFragmentArgs by navArgs()
 
     lateinit var adapter: RecyclerGenericAdapter<AdapterGroupUserBinding, User>
 
@@ -43,9 +45,9 @@ class UserListFragment : BaseFragment<FragmentUserListBinding>() {
 
         navController = findNavController()
 
-        groupListDto = requireArguments().getSerializable("model") as GroupListDto
-        viewModel.getAllUsersByGroupId(groupListDto.group?.id ?: -1)
-        viewModel.getAllBill(groupListDto.group?.id ?: -1)
+        groupListDto = args.model
+        viewModel.getAllUsersByGroupId(groupListDto?.group?.id ?: -1)
+        viewModel.getAllBill(groupListDto?.group?.id ?: -1)
 
         uiFabClickListener()
         uiRecyclerViewInit()
@@ -56,7 +58,7 @@ class UserListFragment : BaseFragment<FragmentUserListBinding>() {
     private fun uiFabClickListener(){
         binding.fab.setOnClickListener {
             val addMember = AddGroupMembersFragment.newInstance {
-                viewModel.addPeople(User(it, groupListDto.group?.id ?: -1))
+                viewModel.addPeople(User(it, groupListDto?.group?.id ?: -1))
             }
             context?.findActivity()?.supportFragmentManager?.let {
                 addMember.show(

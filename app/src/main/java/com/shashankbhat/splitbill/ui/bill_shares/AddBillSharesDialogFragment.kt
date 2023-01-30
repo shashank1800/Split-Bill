@@ -16,7 +16,7 @@ import com.shashankbhat.splitbill.enums.SnackBarType
 import com.shashankbhat.splitbill.util.extension.showSnackBar
 
 class AddBillSharesDialogFragment(
-    private val groupListDto: GroupListDto,
+    private val groupListDto: GroupListDto?,
     val onCreate: (String, String, List<BillShareModel>) -> Unit,
 ) : BaseBottomSheetDialogFragment<FragmentAddBillSharesDialogBinding>() {
 
@@ -25,7 +25,7 @@ class AddBillSharesDialogFragment(
     override fun getViewBinding() = FragmentAddBillSharesDialogBinding.inflate(layoutInflater)
 
     private val billShareInputList = arrayListOf<BillShareModel>().apply {
-        groupListDto.userList?.forEach {
+        groupListDto?.userList?.forEach {
             add(BillShareModel(it))
         }
     }
@@ -113,7 +113,7 @@ class AddBillSharesDialogFragment(
 
         @JvmStatic
         fun newInstance(
-            groupListDto: GroupListDto,
+            groupListDto: GroupListDto?,
             onCreate: (String, String, List<BillShareModel>) -> Unit
         ) = AddBillSharesDialogFragment(groupListDto, onCreate)
     }

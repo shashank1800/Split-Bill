@@ -51,7 +51,13 @@
         android:id="@+id/nav_user_list"
         android:name="com.shashankbhat.splitbill.ui.user_list.UserListFragment"
         android:label="User List"
-        tools:layout="@layout/fragment_user_list"/>
+        tools:layout="@layout/fragment_user_list">
+        <argument
+            android:name="model"
+            app:argType="com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto"
+            android:defaultValue="@null"
+            app:nullable="true"/>
+    </fragment>
 
     <fragment
         android:id="@+id/nav_bill_shares"
@@ -78,6 +84,12 @@
         android:id="@+id/nav_bill_shares_view_pager"
         android:name="com.shashankbhat.splitbill.ui.bill_shares.BillShareViewPager"
         android:label="Bill shares"
-        tools:layout="@layout/fragment_bill_share_view_pager"/>
+        tools:layout="@layout/fragment_bill_share_view_pager">
+        <argument
+            android:name="model"
+            app:argType="com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto"
+            android:defaultValue="@null"
+            app:nullable="true"/>
+    </fragment>
 
 </navigation>
