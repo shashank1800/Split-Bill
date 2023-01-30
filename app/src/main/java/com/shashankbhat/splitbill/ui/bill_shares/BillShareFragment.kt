@@ -22,26 +22,26 @@ import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.alogrithm.BillSplitAlgorithm
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
-class BillShareFragment : BaseFragment<FragmentBillShareBinding>() {
+class BillShareFragment(private val args : BillShareViewPagerArgs) : BaseFragment<FragmentBillShareBinding>() {
 
     private val viewModel: BillShareViewModel by activityViewModels()
-    private lateinit var groupListDto: GroupListDto
+    private var groupListDto: GroupListDto? = null
     lateinit var adapter: RecyclerGenericAdapter<AdapterBillShareBinding, BillModel>
 
     override fun getViewBinding() = FragmentBillShareBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        groupListDto = requireArguments().getSerializable("model") as GroupListDto
+        groupListDto = args.model
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setTitle(groupListDto.group?.name ?: "")
+        setTitle(groupListDto?.group?.name ?: "")
         binding.isBillListEmpty = viewModel.isBillListEmpty
 
-        viewModel.getAllBill(groupListDto.group?.id ?: -1)
+        viewModel.getAllBill(groupListDto?.group?.id ?: -1)
 
         binding.fab.setOnClickListener {
             showAddBillBottomSheet()
@@ -106,7 +106,7 @@ class BillShareFragment : BaseFragment<FragmentBillShareBinding>() {
 
             viewModel.addBill(
                 Bill(
-                    groupListDto.group?.id ?: -1,
+                    groupListDto?.group?.id ?: -1,
                     name,
                     total.toFloat()
                 ),
@@ -117,10 +117,8 @@ class BillShareFragment : BaseFragment<FragmentBillShareBinding>() {
     }
 
     companion object {
-        fun getInstance(bundle: Bundle): BillShareFragment {
-            val fragment = BillShareFragment()
-            fragment.arguments = bundle
-            return fragment
+        fun getInstance(args: BillShareViewPagerArgs): BillShareFragment {
+            return BillShareFragment(args)
         }
     }
 

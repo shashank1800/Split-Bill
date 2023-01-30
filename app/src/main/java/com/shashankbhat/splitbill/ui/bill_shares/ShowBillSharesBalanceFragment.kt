@@ -10,7 +10,6 @@ import com.shahankbhat.recyclergenericadapter.util.DataBinds
 import com.shahankbhat.recyclergenericadapter.util.MoreDataBindings
 import com.shashankbhat.splitbill.BR
 import com.shashankbhat.splitbill.R
-import com.shashankbhat.splitbill.util.alogrithm.BillSplitAlgorithm
 import com.shashankbhat.splitbill.base.BaseFragment
 import com.shashankbhat.splitbill.database.local.dto.group_list.GroupListDto
 import com.shashankbhat.splitbill.databinding.*
@@ -18,9 +17,9 @@ import com.shashankbhat.splitbill.util.alogrithm.BillShareBalance
 import com.shashankbhat.splitbill.util.alogrithm.BillSpentAndShare
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
-class ShowBillSharesBalanceFragment : BaseFragment<FragmentBillSharesBalancesBinding>() {
+class ShowBillSharesBalanceFragment(private val args : BillShareViewPagerArgs) : BaseFragment<FragmentBillSharesBalancesBinding>() {
 
-    private lateinit var groupListDto: GroupListDto
+    private var groupListDto: GroupListDto? = null
 
     private lateinit var adapter: RecyclerGenericAdapter<AdapterBillShareBalancesBinding, BillShareBalance>
     private lateinit var adapterTotal: RecyclerGenericAdapter<AdapterBillSharesTotalBinding, BillSpentAndShare>
@@ -32,7 +31,7 @@ class ShowBillSharesBalanceFragment : BaseFragment<FragmentBillSharesBalancesBin
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        groupListDto = requireArguments().getSerializable("model") as GroupListDto
+        groupListDto = args.model
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -99,10 +98,8 @@ class ShowBillSharesBalanceFragment : BaseFragment<FragmentBillSharesBalancesBin
     }
 
     companion object {
-        fun getInstance(bundle: Bundle): ShowBillSharesBalanceFragment {
-            val fragment = ShowBillSharesBalanceFragment()
-            fragment.arguments = bundle
-            return fragment
+        fun getInstance(args: BillShareViewPagerArgs): ShowBillSharesBalanceFragment {
+            return ShowBillSharesBalanceFragment(args)
         }
     }
 
