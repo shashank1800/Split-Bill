@@ -11,12 +11,12 @@ import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.repository.UserProfileRepository;
 import com.shashankbhat.splitbill.repository.UsersRepository;
 import com.shashankbhat.splitbill.service.IUserProfileService;
+import com.shashankbhat.splitbill.util.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -40,8 +40,10 @@ public class UsersController {
 
 
     @PostMapping(value = "/saveUser")
-    public ResponseEntity<UsersEntity> saveUser(@RequestBody @Valid UsersSaveDto user){
-        UsersEntity result = usersRepository.save(new UsersEntity(null, user.getGroupId(), user.getName(), System.currentTimeMillis(), null));
+    public ResponseEntity<UsersEntity> saveUser(@RequestBody UsersSaveDto user){
+        Valid<UsersEntity> userValid = UsersEntity.create(null, user.getGroupId(), user.getName(),
+                System.currentTimeMillis(), null);
+        UsersEntity result = usersRepository.save(userValid.getValue());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -57,13 +59,13 @@ public class UsersController {
     }
 
     @PutMapping(value = "/deleteUser")
-    public ResponseEntity<UsersSaveDto> deleteUser(@RequestBody @Valid UsersSaveDto user){
+    public ResponseEntity<UsersSaveDto> deleteUser(@RequestBody UsersSaveDto user){
         usersRepository.deleteById(user.getId());
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PutMapping(value = "/linkUser")
-    public ResponseEntity<String> linkUser(@RequestBody @Valid UsersLinkDto usersLinkDto){
+    public ResponseEntity<String> linkUser(@RequestBody UsersLinkDto usersLinkDto){
         usersRepository.linkUser(usersLinkDto.getUniqueId(), usersLinkDto.getId());
         return new ResponseEntity<>("Success", HttpStatus.OK);
     }

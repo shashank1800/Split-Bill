@@ -87,11 +87,16 @@ public class UserProfileServiceImpl implements IUserProfileService {
         return userProfileRepository.findOneByUniqueId(uniqueId);
     }
 
+    @Override
+    public List<UserProfileEntity> getProfiles(List<Integer> uniqueId) {
+        return userProfileRepository.findAllByUniqueIdIn(uniqueId);
+    }
+
 
     @Override
     public UserProfileDataDto profileData(Integer uniqueId) {
 
-        UserProfileEntity userProfileEntity =  userProfileRepository.findOneByUniqueId(uniqueId);
+        UserProfileEntity userProfileEntity =  getProfile(uniqueId);
         LocationDetailEntity locationDetailEntity = locationDetailRepository.findOneByUniqueId(uniqueId);
 
         if(userProfileEntity == null || locationDetailEntity == null)

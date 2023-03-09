@@ -1,16 +1,14 @@
 package com.shashankbhat.splitbill.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import com.shashankbhat.splitbill.util.Valid;
+import lombok.*;
 
+import javax.persistence.*;
+import java.util.Objects;
 @Entity
 @Table(name = "groups_tbl")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class GroupsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,4 +17,14 @@ public class GroupsEntity {
     String name;
     Long dateCreated;
     Integer uniqueId;
+
+    public static Valid<GroupsEntity> create(Integer id, String name, Long dateCreated, Integer uniqueId) {
+        if (Objects.isNull(uniqueId))
+            return Valid.fail("Unique Id cannot be null");
+
+        if (Objects.isNull(name) || name.isEmpty())
+            return Valid.fail("Group name cannot be empty");
+
+        return Valid.success(new GroupsEntity(id, name, dateCreated, uniqueId));
+    }
 }

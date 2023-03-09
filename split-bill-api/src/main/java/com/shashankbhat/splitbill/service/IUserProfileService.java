@@ -20,6 +20,8 @@ public interface IUserProfileService {
 
     UserProfileEntity getProfile(Integer uniqueId);
 
+    List<UserProfileEntity> getProfiles(List<Integer> uniqueId);
+
     UserProfileDataDto profileData(Integer uniqueId);
 
     void updateProfilePhoto(Integer uniqueId, String name);

@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserProfileRepository extends JpaRepository<UserProfileEntity, Integer> {
 
@@ -27,4 +29,5 @@ public interface UserProfileRepository extends JpaRepository<UserProfileEntity, 
     void updateProfilePhoto(Integer uniqueId, String photoUrl);
 
     UserProfileEntity findOneByUniqueId(Integer uniqueId);
+    List<UserProfileEntity> findAllByUniqueIdIn(List<Integer> uniqueId);
 }
