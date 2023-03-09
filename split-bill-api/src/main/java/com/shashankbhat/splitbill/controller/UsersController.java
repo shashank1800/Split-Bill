@@ -1,73 +1,67 @@
 package com.shashankbhat.splitbill.controller;
 
-import com.shashankbhat.splitbill.dto.user.UserDto;
 import com.shashankbhat.splitbill.dto.user.UsersAllDataDto;
 import com.shashankbhat.splitbill.dto.user.UsersLinkDto;
 import com.shashankbhat.splitbill.dto.user.UsersSaveDto;
-import com.shashankbhat.splitbill.entity.GroupsEntity;
 import com.shashankbhat.splitbill.entity.UsersEntity;
-import com.shashankbhat.splitbill.repository.GroupsRepository;
-import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
-import com.shashankbhat.splitbill.repository.UserProfileRepository;
-import com.shashankbhat.splitbill.repository.UsersRepository;
-import com.shashankbhat.splitbill.service.IUserProfileService;
-import com.shashankbhat.splitbill.util.Valid;
+import com.shashankbhat.splitbill.exception.KnownException;
+import com.shashankbhat.splitbill.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 public class UsersController {
 
     @Autowired
-    private UsersRepository usersRepository;
-
-    @Autowired
-    private LoggedUsersRepository loggedUsersRepository;
-
-    @Autowired
-    private UserProfileRepository userProfileRepository;
-
-    @Autowired
-    private GroupsRepository groupsRepository;
-
-    @Autowired
-    private IUserProfileService userProfileService;
+    private IUserService userService;
 
 
     @PostMapping(value = "/saveUser")
-    public ResponseEntity<UsersEntity> saveUser(@RequestBody UsersSaveDto user){
-        Valid<UsersEntity> userValid = UsersEntity.create(null, user.getGroupId(), user.getName(),
-                System.currentTimeMillis(), null);
-        UsersEntity result = usersRepository.save(userValid.getValue());
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseEntity<?> saveUser(@RequestBody UsersSaveDto user) {
+
+        try {
+            UsersEntity usersEntity = userService.saveUser(user);
+            return new ResponseEntity<>(usersEntity, HttpStatus.OK);
+        } catch (KnownException kn) {
+            return ResponseEntity.badRequest().body(kn.getErrorMessage());
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().build();
+        }
+
     }
 
     @GetMapping(value = "/getAllUser")
-    public ResponseEntity<UsersAllDataDto> getAllUser(@RequestParam Integer groupId){
-        try{
-            GroupsEntity groupsEntity = groupsRepository.getById(groupId);
-            List<UserDto> userDtoList = userProfileService.getAllUsers(groupsEntity.getId());
-            return new ResponseEntity<>(new UsersAllDataDto(userDtoList), HttpStatus.OK);
-        } catch (Exception ex){
+    public ResponseEntity<?> getAllUser(@RequestParam Integer groupId) {
+        try {
+            UsersAllDataDto response = userService.getAllUser(groupId);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @PutMapping(value = "/deleteUser")
-    public ResponseEntity<UsersSaveDto> deleteUser(@RequestBody UsersSaveDto user){
-        usersRepository.deleteById(user.getId());
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<UsersSaveDto> deleteUser(@RequestBody UsersSaveDto user) {
+        try {
+            userService.deleteUser(user);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PutMapping(value = "/linkUser")
-    public ResponseEntity<String> linkUser(@RequestBody UsersLinkDto usersLinkDto){
-        usersRepository.linkUser(usersLinkDto.getUniqueId(), usersLinkDto.getId());
-        return new ResponseEntity<>("Success", HttpStatus.OK);
+    public ResponseEntity<String> linkUser(@RequestBody UsersLinkDto usersLinkDto) {
+        try {
+            String response = userService.linkUser(usersLinkDto);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().build();
+        }
+
     }
 
 }

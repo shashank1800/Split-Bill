@@ -5,6 +5,8 @@ import com.shashankbhat.splitbill.exception.KnownException;
 import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.service.IBillService;
 import com.shashankbhat.splitbill.util.HelperMethods;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/bill")
+@Api("Bills")
 public class BillController {
 
     @Autowired
@@ -20,12 +23,13 @@ public class BillController {
     @Autowired
     private IBillService billService;
 
+    @ApiOperation(value = "To save bills", response = BillSaveDetailDto.class)
     @PostMapping(value = "/saveBill")
     public ResponseEntity<?> saveBill(@RequestBody BillSaveDto transaction) {
 
-        Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
-
         try{
+            Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
+
             BillSaveDetailDto result = billService.saveBill(transaction, uniqueId);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (KnownException kn){
@@ -50,9 +54,10 @@ public class BillController {
 
     @PutMapping(value = "/deleteBills")
     public ResponseEntity<?> deleteBills(@RequestBody BillDto billDto) {
-        Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
 
         try {
+            Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
+
             BillDto result = billService.deleteBills(billDto, uniqueId);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (KnownException kn) {

@@ -27,10 +27,9 @@ class GroupsController {
 
     @PostMapping(value = "/saveGroup")
     public ResponseEntity<?> saveGroup(@RequestBody @Valid GroupsSaveDto group) {
-
-        Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
-
         try {
+            Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
+
             GroupsEntityDto result = groupService.saveGroup(uniqueId, group);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (KnownException kn) {

@@ -27,7 +27,7 @@ public class LocationDetailServiceImpl implements ILocationDetailService {
 
     @Transactional
     @Override
-    public NearUserListDto getNearUsers(Integer uniqueId, Double latitude, Double longitude) throws Exception {
+    public NearUserListDto getNearUsers(Integer uniqueId, Double latitude, Double longitude) throws KnownException {
 
         if(userProfileRepository.checkIsNearbyEnabled(uniqueId) == null)
             throw new KnownException(ErrorMessage.PLEASE_ENABLE_NEAR_VISIBILITY);
@@ -42,10 +42,6 @@ public class LocationDetailServiceImpl implements ILocationDetailService {
         if(nearUsers.isEmpty())
             throw new KnownException("Oops!! Looks like there aren't any nearby users in your location.");
 
-        NearUserListDto nearUserListDto = new NearUserListDto(nearUsers);
-
-        return nearUserListDto;
-
-
+        return new NearUserListDto(nearUsers);
     }
 }

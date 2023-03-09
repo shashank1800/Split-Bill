@@ -1,6 +1,7 @@
 package com.shashankbhat.splitbill.controller;
 
 import com.shashankbhat.splitbill.dto.user_profile.*;
+import com.shashankbhat.splitbill.exception.KnownException;
 import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.service.IUserProfileService;
 import com.shashankbhat.splitbill.util.HelperMethods;
@@ -23,22 +24,25 @@ public class UserProfileController {
 
 
     @PostMapping(value = "/saveProfile")
-    public ResponseEntity<?> saveProfile(@RequestBody @Valid UserProfileSaveDto userProfileSaveDto) {
+    public ResponseEntity<?> saveProfile(@RequestBody UserProfileSaveDto userProfileSaveDto) {
 
         try{
             Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
 
             userProfileService.saveProfile(uniqueId, userProfileSaveDto.getName(),
-                    userProfileSaveDto.getPhotoUrl(), userProfileSaveDto.getIsNearbyVisible(), userProfileSaveDto.getDistanceRange());
+                    userProfileSaveDto.getPhotoUrl(), userProfileSaveDto.getIsNearbyVisible(),
+                    userProfileSaveDto.getDistanceRange());
 
             return new ResponseEntity<>(uniqueId, HttpStatus.OK);
-        } catch (Exception ex){
+        } catch (KnownException kn) {
+            return ResponseEntity.badRequest().body(kn.getErrorMessage());
+        }catch (Exception ex){
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @PutMapping(value = "/locationPreference")
-    public ResponseEntity<?> setLocationPreference(@RequestBody @Valid SetLocationPreferenceDto locationPreferenceDto) {
+    public ResponseEntity<?> setLocationPreference(@RequestBody SetLocationPreferenceDto locationPreferenceDto) {
 
         try{
             Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
