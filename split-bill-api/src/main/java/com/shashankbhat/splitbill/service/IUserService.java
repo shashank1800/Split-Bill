@@ -1,10 +1,10 @@
 package com.shashankbhat.splitbill.service;
 
+import com.shashankbhat.entity.UsersEntity;
+import com.shashankbhat.exception.KnownException;
 import com.shashankbhat.splitbill.dto.user.UsersAllDataDto;
 import com.shashankbhat.splitbill.dto.user.UsersLinkDto;
 import com.shashankbhat.splitbill.dto.user.UsersSaveDto;
-import com.shashankbhat.splitbill.entity.UsersEntity;
-import com.shashankbhat.splitbill.exception.KnownException;
 
 public interface IUserService {
     UsersEntity saveUser(UsersSaveDto user) throws KnownException;

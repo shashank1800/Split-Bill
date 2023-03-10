@@ -1,8 +1,7 @@
 package com.shashankbhat.splitbill.dto.groups;
 
+import com.shashankbhat.entity.GroupsEntity;
 import com.shashankbhat.splitbill.dto.user.UserDto;
-import com.shashankbhat.splitbill.entity.GroupsEntity;
-import com.shashankbhat.splitbill.entity.UsersEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

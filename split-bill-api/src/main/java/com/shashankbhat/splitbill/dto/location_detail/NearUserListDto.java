@@ -1,5 +1,6 @@
 package com.shashankbhat.splitbill.dto.location_detail;
 
+import com.shashankbhat.dto.location_detail.GetNearUserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

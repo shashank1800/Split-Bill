@@ -1,11 +1,11 @@
 package com.shashankbhat.splitbill.service.impl;
 
-import com.shashankbhat.splitbill.dto.location_detail.GetNearUserDto;
+import com.shashankbhat.dto.location_detail.GetNearUserDto;
+import com.shashankbhat.exception.ErrorMessage;
+import com.shashankbhat.exception.KnownException;
+import com.shashankbhat.repository.LocationDetailRepository;
+import com.shashankbhat.repository.UserProfileRepository;
 import com.shashankbhat.splitbill.dto.location_detail.NearUserListDto;
-import com.shashankbhat.splitbill.exception.ErrorMessage;
-import com.shashankbhat.splitbill.exception.KnownException;
-import com.shashankbhat.splitbill.repository.LocationDetailRepository;
-import com.shashankbhat.splitbill.repository.UserProfileRepository;
 import com.shashankbhat.splitbill.service.ILocationDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

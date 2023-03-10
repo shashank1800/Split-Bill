@@ -1,11 +1,10 @@
 package com.shashankbhat.splitbill.dto.user_profile;
 
+//import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
 
 @Data
 public class UpdateLocationRangeDto {
-    @NotNull
+//    @NotNull
     private Double distanceRange;
 }

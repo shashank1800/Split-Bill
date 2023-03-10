@@ -1,18 +1,17 @@
 package com.shashankbhat.splitbill.controller;
 
+import com.shashankbhat.exception.KnownException;
+import com.shashankbhat.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.dto.groups.GroupsAllDataDto;
 import com.shashankbhat.splitbill.dto.groups.GroupsEntityDto;
 import com.shashankbhat.splitbill.dto.groups.GroupsSaveDto;
-import com.shashankbhat.splitbill.exception.KnownException;
-import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.service.IGroupService;
-import com.shashankbhat.splitbill.util.HelperMethods;
+import com.shashankbhat.util.HelperMethods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,7 +25,7 @@ class GroupsController {
     private IGroupService groupService;
 
     @PostMapping(value = "/saveGroup")
-    public ResponseEntity<?> saveGroup(@RequestBody @Valid GroupsSaveDto group) {
+    public ResponseEntity<?> saveGroup(@RequestBody /*@Valid*/ GroupsSaveDto group) {
         try {
             Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
 

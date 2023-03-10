@@ -1,18 +1,18 @@
 package com.shashankbhat.splitbill.service.impl;
 
+import com.shashankbhat.entity.GroupsEntity;
+import com.shashankbhat.entity.UserProfileEntity;
+import com.shashankbhat.entity.UsersEntity;
+import com.shashankbhat.exception.KnownException;
+import com.shashankbhat.repository.GroupsRepository;
+import com.shashankbhat.repository.LoggedUsersRepository;
+import com.shashankbhat.repository.UsersRepository;
 import com.shashankbhat.splitbill.dto.groups.GroupsEntityDto;
 import com.shashankbhat.splitbill.dto.groups.GroupsSaveDto;
 import com.shashankbhat.splitbill.dto.user.UserDto;
-import com.shashankbhat.splitbill.entity.GroupsEntity;
-import com.shashankbhat.splitbill.entity.UserProfileEntity;
-import com.shashankbhat.splitbill.entity.UsersEntity;
-import com.shashankbhat.splitbill.exception.KnownException;
-import com.shashankbhat.splitbill.repository.GroupsRepository;
-import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
-import com.shashankbhat.splitbill.repository.UsersRepository;
 import com.shashankbhat.splitbill.service.IGroupService;
 import com.shashankbhat.splitbill.service.IUserProfileService;
-import com.shashankbhat.splitbill.util.Valid;
+import com.shashankbhat.util.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,10 +1,10 @@
 package com.shashankbhat.splitbill.service;
 
+import com.shashankbhat.entity.UserProfileEntity;
+import com.shashankbhat.exception.KnownException;
 import com.shashankbhat.splitbill.dto.user.UserDto;
 import com.shashankbhat.splitbill.dto.user_profile.SetLocationPreferenceDto;
 import com.shashankbhat.splitbill.dto.user_profile.UserProfileDataDto;
-import com.shashankbhat.splitbill.entity.UserProfileEntity;
-import com.shashankbhat.splitbill.exception.KnownException;
 
 import java.util.List;
 

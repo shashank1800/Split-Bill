@@ -4,7 +4,7 @@ import com.shashankbhat.splitbill.dto.bill.BillAllDto;
 import com.shashankbhat.splitbill.dto.bill.BillDto;
 import com.shashankbhat.splitbill.dto.bill.BillSaveDetailDto;
 import com.shashankbhat.splitbill.dto.bill.BillSaveDto;
-import com.shashankbhat.splitbill.exception.KnownException;
+import com.shashankbhat.exception.KnownException;
 
 public interface IBillService {
     BillSaveDetailDto saveBill(BillSaveDto transaction, Integer uniqueId) throws Exception;

@@ -2,7 +2,7 @@ package com.shashankbhat.splitbill.controller;
 
 import com.shashankbhat.splitbill.config.JwtRequest;
 import com.shashankbhat.splitbill.config.JwtResponse;
-import com.shashankbhat.splitbill.exception.KnownException;
+import com.shashankbhat.exception.KnownException;
 import com.shashankbhat.splitbill.service.IHomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

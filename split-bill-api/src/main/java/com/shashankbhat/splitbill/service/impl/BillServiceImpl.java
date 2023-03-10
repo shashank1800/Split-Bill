@@ -1,20 +1,18 @@
 package com.shashankbhat.splitbill.service.impl;
 
+import com.shashankbhat.entity.BillEntity;
+import com.shashankbhat.entity.BillShareEntity;
+import com.shashankbhat.entity.UserProfileEntity;
+import com.shashankbhat.exception.KnownException;
+import com.shashankbhat.repository.BillRepository;
+import com.shashankbhat.repository.BillShareRepository;
 import com.shashankbhat.splitbill.dto.bill.*;
 import com.shashankbhat.splitbill.dto.user.UserDto;
-import com.shashankbhat.splitbill.entity.BillEntity;
-import com.shashankbhat.splitbill.entity.BillShareEntity;
-import com.shashankbhat.splitbill.entity.UserProfileEntity;
-import com.shashankbhat.splitbill.exception.KnownException;
-import com.shashankbhat.splitbill.repository.BillRepository;
-import com.shashankbhat.splitbill.repository.BillShareRepository;
 import com.shashankbhat.splitbill.service.IBillService;
 import com.shashankbhat.splitbill.service.IUserProfileService;
-import com.shashankbhat.splitbill.util.Valid;
+import com.shashankbhat.util.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

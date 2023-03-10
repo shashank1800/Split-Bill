@@ -1,7 +1,7 @@
 package com.shashankbhat.splitbill.dto.bill;
 
-import com.shashankbhat.splitbill.entity.BillEntity;
-import com.shashankbhat.splitbill.entity.BillShareEntity;
+import com.shashankbhat.entity.BillEntity;
+import com.shashankbhat.entity.BillShareEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

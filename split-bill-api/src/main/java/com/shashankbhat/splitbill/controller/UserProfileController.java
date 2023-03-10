@@ -1,16 +1,15 @@
 package com.shashankbhat.splitbill.controller;
 
+import com.shashankbhat.exception.KnownException;
+import com.shashankbhat.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.dto.user_profile.*;
-import com.shashankbhat.splitbill.exception.KnownException;
-import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.service.IUserProfileService;
-import com.shashankbhat.splitbill.util.HelperMethods;
+import com.shashankbhat.util.HelperMethods;
+//import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/user_profile")
@@ -56,7 +55,7 @@ public class UserProfileController {
 
 
     @PutMapping(value = "/updateName")
-    public ResponseEntity<?> updateName(@RequestBody @Valid UpdateNameDto updateNameDto) {
+    public ResponseEntity<?> updateName(@RequestBody /*@Valid*/ UpdateNameDto updateNameDto) {
 
         try{
             Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);
@@ -84,7 +83,7 @@ public class UserProfileController {
 
 
     @PutMapping(value = "/updateProfilePhoto")
-    public ResponseEntity<?> updateProfilePhoto(@RequestBody @Valid UpdateProfilePhotoDto updateProfilePhotoDto) {
+    public ResponseEntity<?> updateProfilePhoto(@RequestBody /*@Valid*/ UpdateProfilePhotoDto updateProfilePhotoDto) {
 
         try{
             Integer uniqueId = HelperMethods.getUniqueId(loggedUsersRepository);

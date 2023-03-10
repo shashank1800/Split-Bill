@@ -1,10 +1,10 @@
 package com.shashankbhat.splitbill.controller;
 
+import com.shashankbhat.entity.UsersEntity;
 import com.shashankbhat.splitbill.dto.user.UsersAllDataDto;
 import com.shashankbhat.splitbill.dto.user.UsersLinkDto;
 import com.shashankbhat.splitbill.dto.user.UsersSaveDto;
-import com.shashankbhat.splitbill.entity.UsersEntity;
-import com.shashankbhat.splitbill.exception.KnownException;
+import com.shashankbhat.exception.KnownException;
 import com.shashankbhat.splitbill.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

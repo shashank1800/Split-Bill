@@ -1,10 +1,13 @@
 package com.shashankbhat.splitbill.controller;
 
-import com.shashankbhat.splitbill.dto.bill.*;
-import com.shashankbhat.splitbill.exception.KnownException;
-import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
+import com.shashankbhat.exception.KnownException;
+import com.shashankbhat.repository.LoggedUsersRepository;
+import com.shashankbhat.splitbill.dto.bill.BillAllDto;
+import com.shashankbhat.splitbill.dto.bill.BillDto;
+import com.shashankbhat.splitbill.dto.bill.BillSaveDetailDto;
+import com.shashankbhat.splitbill.dto.bill.BillSaveDto;
 import com.shashankbhat.splitbill.service.IBillService;
-import com.shashankbhat.splitbill.util.HelperMethods;
+import com.shashankbhat.util.HelperMethods;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

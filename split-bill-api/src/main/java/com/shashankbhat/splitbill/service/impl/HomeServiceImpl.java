@@ -1,15 +1,15 @@
 package com.shashankbhat.splitbill.service.impl;
 
 
+import com.shashankbhat.entity.LoggedUsersEntity;
+import com.shashankbhat.exception.KnownException;
+import com.shashankbhat.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.config.JWTUtility;
 import com.shashankbhat.splitbill.config.JwtRequest;
 import com.shashankbhat.splitbill.config.JwtResponse;
 import com.shashankbhat.splitbill.config.UserService;
-import com.shashankbhat.splitbill.entity.LoggedUsersEntity;
-import com.shashankbhat.splitbill.exception.KnownException;
-import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
 import com.shashankbhat.splitbill.service.IHomeService;
-import com.shashankbhat.splitbill.util.Valid;
+import com.shashankbhat.util.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

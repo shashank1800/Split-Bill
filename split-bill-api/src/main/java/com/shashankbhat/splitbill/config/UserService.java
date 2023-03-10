@@ -1,7 +1,7 @@
 package com.shashankbhat.splitbill.config;
 
-import com.shashankbhat.splitbill.entity.LoggedUsersEntity;
-import com.shashankbhat.splitbill.repository.LoggedUsersRepository;
+import com.shashankbhat.entity.LoggedUsersEntity;
+import com.shashankbhat.repository.LoggedUsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
