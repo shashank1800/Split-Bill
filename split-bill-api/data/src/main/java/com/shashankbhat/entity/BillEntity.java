@@ -1,6 +1,6 @@
 package com.shashankbhat.entity;
 
-import com.shashankbhat.util.Valid;
+import com.common.util.Valid;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,7 +8,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "bill")
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class BillEntity {
     @Id
@@ -19,15 +20,6 @@ public class BillEntity {
     Float totalAmount;
     Long dateCreated;
     Integer uniqueId;
-
-//    protected BillEntity(Integer id, Integer groupId, String name, Float totalAmount, Long dateCreated, Integer uniqueId) {
-//        this.id = id;
-//        this.groupId = groupId;
-//        this.name = name;
-//        this.totalAmount = totalAmount;
-//        this.dateCreated = dateCreated;
-//        this.uniqueId = uniqueId;
-//    }
 
     public static Valid<BillEntity> create(Integer id, Integer groupId, String name, Float totalAmount,
                                            Long dateCreated, Integer uniqueId) {

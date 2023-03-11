@@ -1,8 +1,11 @@
 package com.shashankbhat.entity;
 
-import com.shashankbhat.exception.ErrorMessage;
-import com.shashankbhat.util.Valid;
+import com.common.exception.ErrorMessage;
+import com.common.util.Valid;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,6 +14,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "location_detail")
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class LocationDetailEntity {
     @Id
@@ -19,16 +24,6 @@ public class LocationDetailEntity {
     private Double latitude;
     private Double longitude;
     private Long dateCreated;
-
-
-    protected LocationDetailEntity(Integer uniqueId, Double distanceRange, Double latitude, Double longitude,
-                           Long dateCreated) {
-        this.uniqueId = uniqueId;
-        this.distanceRange = distanceRange;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.dateCreated = dateCreated;
-    }
 
     public static Valid<LocationDetailEntity> create(Integer uniqueId, Double distanceRange, Double latitude,
                                                      Double longitude, Long dateCreated) {

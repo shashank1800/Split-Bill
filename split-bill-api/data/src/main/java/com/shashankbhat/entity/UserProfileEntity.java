@@ -1,11 +1,12 @@
 package com.shashankbhat.entity;
 
 
-import com.shashankbhat.exception.ErrorMessage;
-import com.shashankbhat.util.Valid;
+import com.common.exception.ErrorMessage;
+import com.common.util.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,7 +15,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "user_profile")
-@AllArgsConstructor(access = AccessLevel.MODULE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class UserProfileEntity {
     @Id
@@ -23,14 +25,6 @@ public class UserProfileEntity {
     private String photoUrl;
     private Boolean isNearbyVisible;
     private Long dateCreated;
-
-//    public UserProfileEntity(Integer uniqueId, String name, String photoUrl, Boolean isNearbyVisible, Long dateCreated) {
-//        this.uniqueId = uniqueId;
-//        this.name = name;
-//        this.photoUrl = photoUrl;
-//        this.isNearbyVisible = isNearbyVisible;
-//        this.dateCreated = dateCreated;
-//    }
 
     public static Valid<UserProfileEntity> create(Integer uniqueId, String name, String photoUrl,
                                                   Boolean isNearbyVisible, Long dateCreated) {

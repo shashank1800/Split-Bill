@@ -1,15 +1,17 @@
 package com.shashankbhat.entity;
 
-import com.shashankbhat.util.Valid;
+import com.common.util.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 @Entity
 @Table(name = "groups_tbl")
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class GroupsEntity {
     @Id

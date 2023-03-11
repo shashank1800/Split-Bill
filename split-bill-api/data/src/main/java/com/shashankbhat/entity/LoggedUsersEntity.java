@@ -1,13 +1,18 @@
 package com.shashankbhat.entity;
 
-import com.shashankbhat.util.Valid;
+import com.common.util.Valid;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "logged_users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class LoggedUsersEntity {
     @Id
@@ -16,29 +21,6 @@ public class LoggedUsersEntity {
     String username;
     String password;
     Long dateCreated;
-
-    private LoggedUsersEntity(Integer id, String username, String password, Long dateCreated) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.dateCreated = dateCreated;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Long getDateCreated() {
-        return dateCreated;
-    }
 
     public static Valid<LoggedUsersEntity> create(Integer id, String username, String password, Long dateCreated) {
         if (Objects.isNull(username))

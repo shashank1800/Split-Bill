@@ -1,10 +1,7 @@
 package com.shashankbhat.entity;
 
-import com.shashankbhat.util.Valid;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import com.common.util.Valid;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -12,6 +9,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "bill_share")
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class BillShareEntity {
     @Id
@@ -24,17 +22,6 @@ public class BillShareEntity {
     Float share;
     Long dateCreated;
     Integer uniqueId;
-
-//    protected BillShareEntity(Integer id, Integer billId, Integer userId, Float spent, Float share, Long dateCreated,
-//                           Integer uniqueId) {
-//        this.id = id;
-//        this.billId = billId;
-//        this.userId = userId;
-//        this.spent = spent;
-//        this.share = share;
-//        this.dateCreated = dateCreated;
-//        this.uniqueId = uniqueId;
-//    }
 
     public static Valid<BillShareEntity> create(Integer id, Integer billId, Integer userId, Float spent, Float share,
                                                 Long dateCreated, Integer uniqueId) {
