@@ -15,6 +15,7 @@ public class UsersEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
+    @Setter
     Integer groupId;
     String name;
     Long dateCreated;

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -54,12 +55,17 @@ public class BillServiceImpl implements IBillService {
             billShares.add(billShare.getValue());
         }
 
-        // TODO : Move the below add in transaction
-        BillEntity billEntity = billRepository.save(billResult.getValue());
-        billShares.forEach(billShareEntity -> billShareEntity.setBillId(billEntity.getId()));
-        List<BillShareEntity> billShareModel = billShareRepository.saveAll(billShares);
+        return saveBillAndShares(billResult.getValue(), billShares);
+    }
 
-        return new BillSaveDetailDto(billEntity, billShareModel);
+
+    @Transactional
+    private BillSaveDetailDto saveBillAndShares(BillEntity bill, List<BillShareEntity> billShares) {
+        BillEntity billEntity = billRepository.save(bill);
+        billShares.forEach(billShareEntity -> billShareEntity.setBillId(billEntity.getId()));
+        List<BillShareEntity> billShareList = billShareRepository.saveAll(billShares);
+
+        return new BillSaveDetailDto(billEntity, billShareList);
     }
 
 

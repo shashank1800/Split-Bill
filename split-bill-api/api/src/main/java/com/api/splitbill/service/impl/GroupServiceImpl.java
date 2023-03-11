@@ -16,6 +16,7 @@ import com.common.util.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,13 +70,18 @@ public class GroupServiceImpl implements IGroupService {
             usersList.add(groupCreator.getValue());
         }
 
-        // TODO: Move this to transaction
-        GroupsEntity groupsEntity = groupsRepository.save(groupsEntityResult.getValue());
+        GroupsEntity groupsEntity = addGroupAndUsers(groupsEntityResult.getValue(), usersList);
+        return new GroupsEntityDto(groupsEntity, userProfileService.getAllUsers(groupsEntity.getId()));
+    }
+
+    @Transactional
+    private GroupsEntity addGroupAndUsers(GroupsEntity groupsEntity, List<UsersEntity> usersList) {
+        GroupsEntity groupsEntityResponse = groupsRepository.save(groupsEntity);
 
         usersList.forEach(user -> user.setGroupId(groupsEntity.getId()));
         usersRepository.saveAll(usersList);
 
-        return new GroupsEntityDto(groupsEntity, userProfileService.getAllUsers(groupsEntity.getId()));
+        return groupsEntityResponse;
     }
 
     @Override

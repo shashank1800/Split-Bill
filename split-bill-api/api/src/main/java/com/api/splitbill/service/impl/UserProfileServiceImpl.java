@@ -16,8 +16,8 @@ import com.api.splitbill.dto.user_profile.UserProfileDataDto;
 import com.common.util.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,16 +52,20 @@ public class UserProfileServiceImpl implements IUserProfileService {
         if (locationDetailValid.isFailed())
             throw new KnownException(locationDetailValid.getMessage());
 
-        // TODO: Move this to transaction
-        userProfileRepository.save(userProfileEntityValid.getValue());
-        locationDetailRepository.save(locationDetailValid.getValue());
+        saveProfileData(userProfileEntityValid.getValue(), locationDetailValid.getValue());
     }
+
+    @Transactional
+    private void saveProfileData(UserProfileEntity userProfileEntityValid, LocationDetailEntity locationDetailValid) {
+        userProfileRepository.save(userProfileEntityValid);
+        locationDetailRepository.save(locationDetailValid);
+    }
+
 
     @Transactional
     @Override
     public void locationPreference(Integer uniqueId, SetLocationPreferenceDto locationPreferenceDto) {
 
-        // TODO : Move to transaction
         userProfileRepository.locationPreference(locationPreferenceDto.getIsNearbyVisible(), uniqueId);
         locationDetailRepository.setLatLong(uniqueId, locationPreferenceDto.getLatitude(), locationPreferenceDto.getLongitude());
     }
