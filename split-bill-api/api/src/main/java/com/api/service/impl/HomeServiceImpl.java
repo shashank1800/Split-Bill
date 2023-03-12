@@ -54,7 +54,7 @@ public class HomeServiceImpl implements IHomeService {
         } catch (Exception exception){
 //            loggedUsersRepository.save(loggedUsersEntityValid.getValue());
 //            System.out.println("Else exception " + exception.getMessage() + " loca" + exception.getLocalizedMessage());
-//            Exception exception1 = exception;
+            Exception exception1 = exception;
         }
 
         final UserDetails userDetails = userService.loadUserByUsername(jwtRequest.getUsername());

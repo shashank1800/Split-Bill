@@ -196,5 +196,17 @@ class MainScreenViewModel @Inject constructor(
         }
     }
 
+    var updateProfileNameResponse: MutableLiveData<Response<String>> = MutableLiveData(Response.nothing())
+    fun updateProfileName(name: String) {
+        viewModelScope.launch {
+            val response = userRepoRemote.updateProfileName(name)
+            withContext(Dispatchers.Main) {
+                if(response.isSuccess()){
+                    updateProfileNameResponse.value = response
+                    fullName.set(name)
+                }
+            }
+        }
+    }
 
 }

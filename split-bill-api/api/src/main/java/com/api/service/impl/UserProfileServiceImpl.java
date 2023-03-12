@@ -1,6 +1,7 @@
 package com.api.service.impl;
 
 import com.api.service.IUserProfileService;
+import com.common.exception.ErrorMessage;
 import com.data.entity.GroupsEntity;
 import com.data.entity.LocationDetailEntity;
 import com.data.entity.UserProfileEntity;
@@ -17,7 +18,7 @@ import com.common.util.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,9 +71,11 @@ public class UserProfileServiceImpl implements IUserProfileService {
         locationDetailRepository.setLatLong(uniqueId, locationPreferenceDto.getLatitude(), locationPreferenceDto.getLongitude());
     }
 
-    @Transactional
     @Override
-    public void updateName(Integer uniqueId, String name) {
+    @Transactional
+    public void updateName(Integer uniqueId, String name) throws KnownException {
+        if (name == null || name.isEmpty())
+            throw new KnownException(ErrorMessage.USER_NAME_CANNOT_BE_EMPTY);
         userProfileRepository.updateName(uniqueId, name);
     }
 

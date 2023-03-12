@@ -21,6 +21,11 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 
         LoggedUsersEntity loggedUser =  loggedUsersRepository.findOneByUsername(userName);
+        if (loggedUser == null) {
+            loggedUser = loggedUsersRepository.save(LoggedUsersEntity.create(null, userName, userName,
+                    System.currentTimeMillis()).getValue());
+        }
+
         return new User(loggedUser.getUsername(),loggedUser.getPassword(), new ArrayList<>());
     }
 

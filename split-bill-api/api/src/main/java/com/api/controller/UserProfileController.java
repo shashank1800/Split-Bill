@@ -5,6 +5,7 @@ import com.api.service.IUserProfileService;
 import com.common.exception.KnownException;
 import com.data.repository.LoggedUsersRepository;
 import com.data.util.HelperMethods;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,6 @@ public class UserProfileController {
 
     @Autowired
     private IUserProfileService userProfileService;
-
 
     @PostMapping(value = "/saveProfile")
     public ResponseEntity<?> saveProfile(@RequestBody UserProfileSaveDto userProfileSaveDto) {
@@ -62,6 +62,7 @@ public class UserProfileController {
 
             return new ResponseEntity<>(uniqueId, HttpStatus.OK);
         } catch (Exception ex){
+            Logger.getLogger("aa").error("Error : While updating name ", ex);
             return ResponseEntity.internalServerError().build();
         }
     }

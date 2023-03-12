@@ -15,7 +15,7 @@ public interface IUserProfileService {
 
     void locationPreference(Integer uniqueId, SetLocationPreferenceDto locationPreferenceDto);
 
-    void updateName(Integer uniqueId, String name);
+    void updateName(Integer uniqueId, String name) throws KnownException;
 
     void updateLocationRange(Integer uniqueId, Double distanceRange);
 
