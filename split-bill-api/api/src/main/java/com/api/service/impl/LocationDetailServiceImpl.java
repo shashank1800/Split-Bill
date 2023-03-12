@@ -1,10 +1,10 @@
 package com.api.service.impl;
 
-import com.shashankbhat.dto.location_detail.GetNearUserDto;
+import com.data.dto.location_detail.GetNearUserDto;
 import com.common.exception.ErrorMessage;
 import com.common.exception.KnownException;
-import com.shashankbhat.repository.LocationDetailRepository;
-import com.shashankbhat.repository.UserProfileRepository;
+import com.data.repository.LocationDetailRepository;
+import com.data.repository.UserProfileRepository;
 import com.api.dto.location_detail.NearUserListDto;
 import com.api.service.ILocationDetailService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,15 +1,15 @@
 package com.api.service.impl;
 
 import com.api.service.IUserProfileService;
-import com.shashankbhat.entity.GroupsEntity;
-import com.shashankbhat.entity.LocationDetailEntity;
-import com.shashankbhat.entity.UserProfileEntity;
-import com.shashankbhat.entity.UsersEntity;
+import com.data.entity.GroupsEntity;
+import com.data.entity.LocationDetailEntity;
+import com.data.entity.UserProfileEntity;
+import com.data.entity.UsersEntity;
 import com.common.exception.KnownException;
-import com.shashankbhat.repository.GroupsRepository;
-import com.shashankbhat.repository.LocationDetailRepository;
-import com.shashankbhat.repository.UserProfileRepository;
-import com.shashankbhat.repository.UsersRepository;
+import com.data.repository.GroupsRepository;
+import com.data.repository.LocationDetailRepository;
+import com.data.repository.UserProfileRepository;
+import com.data.repository.UsersRepository;
 import com.api.dto.user.UserDto;
 import com.api.dto.user_profile.SetLocationPreferenceDto;
 import com.api.dto.user_profile.UserProfileDataDto;

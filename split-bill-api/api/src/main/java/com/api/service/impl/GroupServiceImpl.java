@@ -1,13 +1,13 @@
 package com.api.service.impl;
 
 import com.api.service.IUserProfileService;
-import com.shashankbhat.entity.GroupsEntity;
-import com.shashankbhat.entity.UserProfileEntity;
-import com.shashankbhat.entity.UsersEntity;
+import com.data.entity.GroupsEntity;
+import com.data.entity.UserProfileEntity;
+import com.data.entity.UsersEntity;
 import com.common.exception.KnownException;
-import com.shashankbhat.repository.GroupsRepository;
-import com.shashankbhat.repository.LoggedUsersRepository;
-import com.shashankbhat.repository.UsersRepository;
+import com.data.repository.GroupsRepository;
+import com.data.repository.LoggedUsersRepository;
+import com.data.repository.UsersRepository;
 import com.api.dto.groups.GroupsEntityDto;
 import com.api.dto.groups.GroupsSaveDto;
 import com.api.dto.user.UserDto;

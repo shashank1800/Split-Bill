@@ -1,6 +1,6 @@
 package com.api.service;
 
-import com.shashankbhat.entity.UsersEntity;
+import com.data.entity.UsersEntity;
 import com.common.exception.KnownException;
 import com.api.dto.user.UsersAllDataDto;
 import com.api.dto.user.UsersLinkDto;

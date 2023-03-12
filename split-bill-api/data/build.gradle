@@ -11,8 +11,9 @@ jar {
     enabled = true
 }
 
-group 'com.shashankbhat'
-version '0.0.1-SNAPSHOT'
+group = 'com.shashankbhat'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
@@ -28,21 +29,8 @@ dependencies {
     implementation project(':common')
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'io.springfox:springfox-boot-starter:3.0.0'
-    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
-    implementation 'com.google.guava:guava:31.1-jre'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'io.jsonwebtoken:jjwt:0.9.1'
-    runtimeOnly 'org.postgresql:postgresql'
 
 }
-//
-//test {
-//    useJUnitPlatform()
-//}

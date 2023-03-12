@@ -1,7 +1,7 @@
 package com.api.controller;
 
-import com.api.config.JwtRequest;
-import com.api.config.JwtResponse;
+import com.api.config.jwt.JwtRequest;
+import com.api.config.jwt.JwtResponse;
 import com.api.service.IHomeService;
 import com.common.exception.KnownException;
 import org.springframework.beans.factory.annotation.Autowired;

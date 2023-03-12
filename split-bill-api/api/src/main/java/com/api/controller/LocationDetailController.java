@@ -2,12 +2,12 @@ package com.api.controller;
 
 import com.api.service.IUserProfileService;
 import com.common.exception.KnownException;
-import com.shashankbhat.repository.LoggedUsersRepository;
+import com.data.repository.LoggedUsersRepository;
 import com.api.dto.location_detail.LocationDetailDto;
 import com.api.dto.location_detail.NearUserListDto;
 import com.api.dto.user_profile.UpdateLocationRangeDto;
 import com.api.service.ILocationDetailService;
-import com.shashankbhat.util.HelperMethods;
+import com.data.util.HelperMethods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

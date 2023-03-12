@@ -1,5 +1,7 @@
 package com.api.config;
 
+import com.api.config.jwt.JwtFilter;
+import com.api.config.jwt.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

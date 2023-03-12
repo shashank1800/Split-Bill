@@ -1,12 +1,12 @@
 package com.api.controller;
 
 import com.common.exception.KnownException;
-import com.shashankbhat.repository.LoggedUsersRepository;
+import com.data.repository.LoggedUsersRepository;
 import com.api.dto.groups.GroupsAllDataDto;
 import com.api.dto.groups.GroupsEntityDto;
 import com.api.dto.groups.GroupsSaveDto;
 import com.api.service.IGroupService;
-import com.shashankbhat.util.HelperMethods;
+import com.data.util.HelperMethods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,13 +1,13 @@
 package com.api.service.impl;
 
 
-import com.api.config.JWTUtility;
-import com.shashankbhat.entity.LoggedUsersEntity;
+import com.api.config.jwt.JWTUtility;
+import com.data.entity.LoggedUsersEntity;
 import com.common.exception.KnownException;
-import com.shashankbhat.repository.LoggedUsersRepository;
-import com.api.config.JwtRequest;
-import com.api.config.JwtResponse;
-import com.api.config.UserService;
+import com.data.repository.LoggedUsersRepository;
+import com.api.config.jwt.JwtRequest;
+import com.api.config.jwt.JwtResponse;
+import com.api.config.jwt.UserService;
 import com.api.service.IHomeService;
 import com.common.util.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

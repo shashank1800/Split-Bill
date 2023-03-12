@@ -1,6 +1,6 @@
 package com.api.service;
 
-import com.shashankbhat.entity.UserProfileEntity;
+import com.data.entity.UserProfileEntity;
 import com.common.exception.KnownException;
 import com.api.dto.user.UserDto;
 import com.api.dto.user_profile.SetLocationPreferenceDto;

@@ -1,6 +1,6 @@
 package com.api.dto.groups;
 
-import com.shashankbhat.entity.GroupsEntity;
+import com.data.entity.GroupsEntity;
 import com.api.dto.user.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.api.dto.bill;
 
-import com.shashankbhat.entity.BillEntity;
-import com.shashankbhat.entity.BillShareEntity;
+import com.data.entity.BillEntity;
+import com.data.entity.BillShareEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

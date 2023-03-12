@@ -1,8 +1,8 @@
 package com.api.service;
 
 import com.common.exception.KnownException;
-import com.api.config.JwtRequest;
-import com.api.config.JwtResponse;
+import com.api.config.jwt.JwtRequest;
+import com.api.config.jwt.JwtResponse;
 
 public interface IHomeService {
 
