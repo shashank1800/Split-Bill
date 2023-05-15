@@ -1,30 +1,30 @@
 
-const BASE_URL = 'http://192.168.1.6:8080/';
+export const BASE_URL = 'http://192.168.1.10:8080/';
 
-const AUTHORIZATION = "Authorization";
-const contentType = 'Content-Type';
+export const AUTHORIZATION = "Authorization";
+export const contentType = 'Content-Type';
 
-const saveGroup = "group/saveGroup";
-const allGroups = "group/allGroups";
+export const saveGroup = "group/saveGroup";
+export const allGroups = "group/allGroups";
 
-const saveUser = "users/saveUser";
-const getAllUser = "users/getAllUser";
-const deleteUser = "users/deleteUser";
-const linkUser = "users/linkUser";
+export const saveUser = "users/saveUser";
+export const getAllUser = "users/getAllUser";
+export const deleteUser = "users/deleteUser";
+export const linkUser = "users/linkUser";
 
-const saveBill = "bill/saveBill";
-const getAllBill = "bill/getBills";
-const deleteBill = "bill/deleteBills";
+export const saveBill = "bill/saveBill";
+export const getAllBill = "bill/getBills";
+export const deleteBill = "bill/deleteBills";
 
-const saveProfile = "user_profile/saveProfile";
-const locationPreference = "user_profile/locationPreference";
-const updateName = "user_profile/updateName";
-const profileDetail = "user_profile/profileDetail";
-const updateProfilePhoto = "user_profile/updateProfilePhoto";
+export const saveProfile = "user_profile/saveProfile";
+export const locationPreference = "user_profile/locationPreference";
+export const updateName = "user_profile/updateName";
+export const profileDetail = "user_profile/profileDetail";
+export const updateProfilePhoto = "user_profile/updateProfilePhoto";
 
-const updateLocationRange = "location_detail/updateLocationRange";
-const getNearUsers = "location_detail/getNearUsers";
+export const updateLocationRange = "location_detail/updateLocationRange";
+export const getNearUsers = "location_detail/getNearUsers";
 
-const ping = "ping";
+export const ping = "ping";
 
-const authentication = "authenticate";
+export const authentication = "authenticate";

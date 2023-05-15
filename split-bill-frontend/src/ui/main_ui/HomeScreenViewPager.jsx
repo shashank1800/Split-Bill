@@ -1,21 +1,43 @@
 import React, { useEffect, useState } from 'react';
+import GroupsEntity from '../../data/GroupEntity';
+import * as groupRepository from './GroupRepository';
 import axios from 'axios';
+import * as APIConstants from '../utils/APIConstants';
 
 
 function HomeScreenViewPager() {
-    const [isMobile, setIsMobile] = useState(false);
+    
+    const [users, setUsers] = useState([]);
+    const [groupName, setGroupName] = useState('');
+    const [showAddDialog, setShowAddDialog] = useState(false);
+    const token = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmNkZWZnaCIsImV4cCI6MTY4NDE2ODQ1NywiaWF0IjoxNjg0MTUwNDU3fQ.fHRKJdzBKt6iy8R1GoIE4xbap68WOWFScuJ4SdBW5smBBgQV6BXkZCmrEwsNJKMbmLJ3KlCMMPneJewuVdHDtg';
+
+    let group = null;
 
     useEffect(() => {
-        const width = window.innerWidth;
-        setIsMobile(width < 768);
-    }, [window.innerWidth]);
+        
+        if (!showAddDialog) {
+            ; (async () =>{
+                const response = await groupRepository.getAllGroups();
+                setUsers(response.data);
+            })();
+        }
+    }, [showAddDialog]);
 
-    const [users, setUsers] = useState([]);
-    const [showAddDialog, setShowAddDialog] = useState(false);
+    const handleChange = (event) => {
+        setGroupName(event.target.value);
+      };
 
-    const addUser = () => {
-        setUsers([...users, "New User"]);
-        setShowAddDialog(false);
+    const addUser = (event) => {
+        event.preventDefault();
+
+        group = GroupsEntity.create(null, groupName, null, 49);
+        
+        ; (async () =>{
+            await groupRepository.insert(group.value);
+            setShowAddDialog(false);
+        })();
+        
     };
 
     const showAddUserDialog = function() {
@@ -29,12 +51,12 @@ function HomeScreenViewPager() {
                 <div>
 
                     <ul>
-                        {users.map((user, index) => (
-                            <li key={index}>{user}</li>
+                        {users.map((group, index) => (
+                            <li key={index}>{group.group.name}</li>
                         ))}
                     </ul>
                     <div>
-                        <button onClick={showAddUserDialog}>Add User</button>
+                        <button onClick={showAddUserDialog}>Add Group</button>
                     </div>
                 </div>
 
@@ -42,13 +64,14 @@ function HomeScreenViewPager() {
                     showAddDialog &&
                     <div>
                         <form onSubmit={addUser}>
-                            <input name="name" placeholder="Group Name" />
-                            <button type="submit">Create User</button>
+                            <input name="name" placeholder="Group Name"
+                                 value={groupName} onChange={handleChange}  />
+                            <button type="submit" >Add</button>
                         </form>
                     </div>
                 }
 
-                <FloatingButton />
+                {/* <FloatingButton /> */}
                 <BottomBar />
 
             </div>

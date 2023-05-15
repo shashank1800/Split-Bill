@@ -39,6 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable()
+                .cors().and()
                 .authorizeRequests()
                 .antMatchers("/authenticate", "/ping", "/swagger-ui.html", "/swagger-ui/**",
                         "/v3/api-docs/**", "/swagger-resources/**", "/v2/api-docs").permitAll()
