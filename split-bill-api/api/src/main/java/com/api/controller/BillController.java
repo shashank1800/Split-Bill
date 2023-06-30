@@ -26,7 +26,7 @@ public class BillController {
     @Autowired
     private IBillService billService;
 
-    @ApiOperation(value = "To save bills", response = BillSaveDetailDto.class)
+    @ApiOperation(value = "Add new bill and shares to group", response = BillSaveDetailDto.class)
     @PostMapping(value = "/saveBill")
     public ResponseEntity<?> saveBill(@RequestBody BillSaveDto transaction) {
 
@@ -42,6 +42,7 @@ public class BillController {
         }
     }
 
+    @ApiOperation(value = "Get all added bills and shares by groupId")
     @GetMapping(value = "/getBills")
     public ResponseEntity<?> getAllBills(@RequestParam Integer groupId) {
 
@@ -55,6 +56,7 @@ public class BillController {
         }
     }
 
+    @ApiOperation(value = "Delete bill and billShares")
     @PutMapping(value = "/deleteBills")
     public ResponseEntity<?> deleteBills(@RequestBody BillDto billDto) {
 

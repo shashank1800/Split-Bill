@@ -75,7 +75,7 @@ public class GroupServiceImpl implements IGroupService {
     }
 
     @Transactional
-    private GroupsEntity addGroupAndUsers(GroupsEntity groupsEntity, List<UsersEntity> usersList) {
+    public GroupsEntity addGroupAndUsers(GroupsEntity groupsEntity, List<UsersEntity> usersList) {
         GroupsEntity groupsEntityResponse = groupsRepository.save(groupsEntity);
 
         usersList.forEach(user -> user.setGroupId(groupsEntity.getId()));

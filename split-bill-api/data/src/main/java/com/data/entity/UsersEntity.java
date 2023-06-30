@@ -8,8 +8,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class UsersEntity {
     @Id
