@@ -35,3 +35,6 @@ local.properties
 /split-bill-api/.idea/
 /.idea/deploymentTargetDropDown.xml
 /split-bill-frontend/node_modules/
+/split-bill-api/data/build/
+/split-bill-api/api/build/
+/split-bill-api/common/build/
