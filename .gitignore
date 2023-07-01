@@ -17,3 +17,4 @@ local.properties
 /split-bill-api/data/build/
 /split-bill-api/api/build/
 /split-bill-api/common/build/
+/split-bill-frontend/node_modules
