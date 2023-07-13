@@ -4,11 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.viewpager2.widget.ViewPager2
 import com.shashankbhat.splitbill.R
+import com.shashankbhat.splitbill.base.BaseFragment
 import com.shashankbhat.splitbill.databinding.FragmentHomeScreenViewPagerBinding
+import com.shashankbhat.splitbill.databinding.LayoutMenuItemBinding
 import com.shashankbhat.splitbill.ui.main_ui.group_list.GroupListFragment
 import com.shashankbhat.splitbill.ui.main_ui.nearby_people.NearbyPeopleFragment
 import com.shashankbhat.splitbill.ui.main_ui.profile.ProfileFragment
@@ -17,32 +19,18 @@ import com.shashankbhat.splitbill.util.extension.getUniqueId
 import com.shashankbhat.splitbill.util.extension.observeNetworkStatus
 import com.shashankbhat.splitbill.viewmodels.MainScreenViewModel
 
-class HomeScreenViewPager : Fragment() {
+class HomeScreenViewPager : BaseFragment<FragmentHomeScreenViewPagerBinding>() {
 
-    private lateinit var binding: FragmentHomeScreenViewPagerBinding
     private val viewModel: MainScreenViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentHomeScreenViewPagerBinding.inflate(LayoutInflater.from(requireContext()))
-        return binding.root
-    }
+    override fun getViewBinding() = FragmentHomeScreenViewPagerBinding.inflate(layoutInflater)
 
     override fun onStart() {
         super.onStart()
-        setHasOptionsMenu(true)
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.main_menu, menu)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.menu_unique_id).title = "# " + viewModel.sharedPreferences.getUniqueId()
+        val menuItem = LayoutMenuItemBinding.inflate(LayoutInflater.from(requireContext()))
+        menuItem.tvTitle.text = "# ${viewModel.sharedPreferences.getUniqueId()}"
+        addMenuItem(menuItem.root)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,6 +42,7 @@ class HomeScreenViewPager : Fragment() {
         uiViewPagerScrollListener()
         uiBottomNavigationClickListener()
         uiNetworkSettingClickListener()
+        uiOnBackPressed()
     }
 
     private fun uiViewPagerInit(){
@@ -71,17 +60,7 @@ class HomeScreenViewPager : Fragment() {
     }
 
     private fun uiViewPagerScrollListener(){
-        binding.vpBillShares.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                when (position) {
-                    0 -> binding.bottomNavigation.selectedItemId = R.id.menu_groups
-                    1 -> binding.bottomNavigation.selectedItemId = R.id.menu_people
-                    2 -> binding.bottomNavigation.selectedItemId = R.id.menu_profile
-                }
-            }
-        })
+        binding.vpBillShares.isUserInputEnabled = false
     }
 
     private fun uiBottomNavigationClickListener(){
@@ -107,6 +86,26 @@ class HomeScreenViewPager : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.getAllGroups()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        clearMenu()
+    }
+
+    private fun uiOnBackPressed(){
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val index = binding.vpBillShares.currentItem
+
+                if(index == 0)
+                    requireActivity().finish()
+                else {
+                    binding.vpBillShares.setCurrentItem(0, true)
+                    binding.bottomNavigation.selectedItemId = R.id.menu_groups
+                }
+            }
+        })
     }
 
 }

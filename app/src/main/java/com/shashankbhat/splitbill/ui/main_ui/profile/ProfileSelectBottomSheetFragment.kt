@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.shashankbhat.splitbill.R
 import com.shashankbhat.splitbill.base.BaseBottomSheetDialogFragment
 import com.shashankbhat.splitbill.databinding.AdapterProfileIconBinding
 import com.shashankbhat.splitbill.databinding.BottomSheetSingleItemSelectionBinding
@@ -16,16 +14,9 @@ import com.shashankbhat.splitbill.database.local.model.ProfileIconModel
 class ProfileSelectBottomSheetFragment(
     val items: ArrayList<ProfileIconModel>,
     val onImageSelect : (ProfileIconModel) -> Unit
-) : BaseBottomSheetDialogFragment() {
-    private lateinit var binding: BottomSheetSingleItemSelectionBinding
+) : BaseBottomSheetDialogFragment<BottomSheetSingleItemSelectionBinding>() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = BottomSheetSingleItemSelectionBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    override fun getViewBinding() = BottomSheetSingleItemSelectionBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.list.layoutManager = GridLayoutManager(requireContext(), 4)

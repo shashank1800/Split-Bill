@@ -1,9 +1,7 @@
 package com.shashankbhat.splitbill.ui.bill_shares
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -24,34 +22,26 @@ import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.alogrithm.BillSplitAlgorithm
 import com.shashankbhat.splitbill.viewmodels.BillShareViewModel
 
-class BillShareFragment : BaseFragment() {
+class BillShareFragment(private val args : BillShareViewPagerArgs) : BaseFragment<FragmentBillShareBinding>() {
 
     private val viewModel: BillShareViewModel by activityViewModels()
-    private lateinit var groupListDto: GroupListDto
-    private lateinit var binding: FragmentBillShareBinding
+    private var groupListDto: GroupListDto? = null
     lateinit var adapter: RecyclerGenericAdapter<AdapterBillShareBinding, BillModel>
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentBillShareBinding.inflate(LayoutInflater.from(requireContext()))
-        return binding.root
-    }
+    override fun getViewBinding() = FragmentBillShareBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        groupListDto = requireArguments().getSerializable("model") as GroupListDto
+        groupListDto = args.model
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setTitle(groupListDto.group?.name ?: "")
+        setTitle(groupListDto?.group?.name ?: "")
         binding.isBillListEmpty = viewModel.isBillListEmpty
 
-        viewModel.getAllBill(groupListDto.group?.id ?: -1)
+        viewModel.getAllBill(groupListDto?.group?.id ?: -1)
 
         binding.fab.setOnClickListener {
             showAddBillBottomSheet()
@@ -95,6 +85,9 @@ class BillShareFragment : BaseFragment() {
                 viewModel.isBillListEmpty.set((it?.data?.size ?: 0) == 0)
                 viewModel.billListBalance.postValue(Response.success(it?.data))
                 viewModel.billSplitAlgorithm = BillSplitAlgorithm(it?.data ?: emptyList())
+                viewModel.isBalanceTransactionEmpty.set(
+                    (viewModel.billSplitAlgorithm.getBalances()?.size ?: 0) > 0
+                )
             }
         }
     }
@@ -113,7 +106,7 @@ class BillShareFragment : BaseFragment() {
 
             viewModel.addBill(
                 Bill(
-                    groupListDto.group?.id ?: -1,
+                    groupListDto?.group?.id ?: -1,
                     name,
                     total.toFloat()
                 ),
@@ -124,10 +117,8 @@ class BillShareFragment : BaseFragment() {
     }
 
     companion object {
-        fun getInstance(bundle: Bundle): BillShareFragment {
-            val fragment = BillShareFragment()
-            fragment.arguments = bundle
-            return fragment
+        fun getInstance(args: BillShareViewPagerArgs): BillShareFragment {
+            return BillShareFragment(args)
         }
     }
 

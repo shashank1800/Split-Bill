@@ -8,6 +8,11 @@
             name="model"
             type="com.shashankbhat.splitbill.database.local.dto.users.UserDto" />
 
+        <variable
+            name="sharedPref"
+            type="android.content.SharedPreferences" />
+
+
         <import type="android.view.View" />
 
     </data>
@@ -17,7 +22,7 @@
         android:layout_height="wrap_content">
 
         <include
-            layout="@layout/adapter_user_profile_photo"
+            layout="@layout/layout_user_profile_photo"
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -25,7 +30,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:name="@{model.name}"
-            app:photoUrl="@{model.photoUrl}" />
+            app:photoUrl="@{model.photoUrl}"
+            app:isMe="@{sharedPref.getInt(`uniqueId`, 0) == model.uniqueId}"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

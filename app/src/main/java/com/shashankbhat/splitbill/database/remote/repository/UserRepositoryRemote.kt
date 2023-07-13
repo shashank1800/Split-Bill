@@ -8,6 +8,7 @@ import com.shashankbhat.splitbill.database.remote.entity.UsersAllDataDto
 import com.shashankbhat.splitbill.database.local.entity.User
 import com.shashankbhat.splitbill.ui.ApiConstants
 import com.shashankbhat.splitbill.BuildConfig.BASE_URL
+import com.shashankbhat.splitbill.database.local.dto.profile.UpdateProfileNameDto
 import com.shashankbhat.splitbill.database.local.dto.profile.UpdateProfilePhotoDto
 import com.shashankbhat.splitbill.database.remote.entity.SaveProfileDto
 import com.shashankbhat.splitbill.ui.ApiConstants.getAllUser
@@ -16,6 +17,7 @@ import com.shashankbhat.splitbill.ui.ApiConstants.deleteUser
 import com.shashankbhat.splitbill.ui.ApiConstants.linkUser
 import com.shashankbhat.splitbill.ui.ApiConstants.profileDetail
 import com.shashankbhat.splitbill.ui.ApiConstants.saveProfile
+import com.shashankbhat.splitbill.ui.ApiConstants.updateName
 import com.shashankbhat.splitbill.ui.ApiConstants.updateProfilePhoto
 import com.shashankbhat.splitbill.util.DatabaseOperation
 import com.shashankbhat.splitbill.util.Response
@@ -167,6 +169,28 @@ class UserRepositoryRemote @Inject constructor(
                 return Response.success(photoUrl)
             }
         }catch (ex:Exception){
+            print(ex)
+            return Response.error(ex.message)
+        }
+        return Response.nothing()
+    }
+
+    suspend fun updateProfileName(
+        photoUrl: String? = null
+    ): Response<String> {
+
+        try {
+            val id = httpClient.put<Int?>(BASE_URL + updateName) {
+                contentType(ContentType.Application.Json)
+                header(ApiConstants.AUTHORIZATION, sharedPreferences.getToken())
+                body = UpdateProfileNameDto(photoUrl)
+            }
+
+            if (id != null) {
+                sharedPreferences.putFullName(photoUrl ?: "")
+                return Response.success(photoUrl)
+            }
+        } catch (ex: Exception) {
             print(ex)
             return Response.error(ex.message)
         }

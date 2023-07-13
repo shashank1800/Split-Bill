@@ -24,6 +24,8 @@ class BillShareViewModel @Inject constructor(
     var groupId = 0
     var billList: MutableLiveData<Response<List<BillModel>>> = MutableLiveData(Response.nothing())
     var isBillListEmpty = ObservableBoolean(false)
+    var isBalanceTransactionEmpty = ObservableBoolean(false)
+
     var billListBalance: MutableLiveData<Response<List<BillModel>>> = MutableLiveData(Response.nothing())
 
     fun getAllBill(groupId: Int = 0) {

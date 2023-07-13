@@ -1,12 +1,11 @@
 package com.shashankbhat.splitbill.ui.user_list
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.shahankbhat.recyclergenericadapter.RecyclerGenericAdapter
@@ -25,11 +24,12 @@ import com.shashankbhat.splitbill.viewmodels.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class UserListFragment : BaseFragment() {
-    private lateinit var binding: FragmentUserListBinding
+class UserListFragment : BaseFragment<FragmentUserListBinding>() {
+
     private lateinit var navController: NavController
-    private lateinit var groupListDto: GroupListDto
+    private var groupListDto: GroupListDto? = null
     private val viewModel: UserListViewModel by viewModels()
+    private val args: UserListFragmentArgs by navArgs()
 
     lateinit var adapter: RecyclerGenericAdapter<AdapterGroupUserBinding, User>
 
@@ -38,22 +38,16 @@ class UserListFragment : BaseFragment() {
         setTitle("Group Members")
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentUserListBinding.inflate(LayoutInflater.from(requireContext()))
-        return binding.root
-    }
+    override fun getViewBinding() = FragmentUserListBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         navController = findNavController()
 
-        groupListDto = requireArguments().getSerializable("model") as GroupListDto
-        viewModel.getAllUsersByGroupId(groupListDto.group?.id ?: -1)
-        viewModel.getAllBill(groupListDto.group?.id ?: -1)
+        groupListDto = args.model
+        viewModel.getAllUsersByGroupId(groupListDto?.group?.id ?: -1)
+        viewModel.getAllBill(groupListDto?.group?.id ?: -1)
 
         uiFabClickListener()
         uiRecyclerViewInit()
@@ -64,7 +58,7 @@ class UserListFragment : BaseFragment() {
     private fun uiFabClickListener(){
         binding.fab.setOnClickListener {
             val addMember = AddGroupMembersFragment.newInstance {
-                viewModel.addPeople(User(it, groupListDto.group?.id ?: -1))
+                viewModel.addPeople(User(it, groupListDto?.group?.id ?: -1))
             }
             context?.findActivity()?.supportFragmentManager?.let {
                 addMember.show(
@@ -102,6 +96,7 @@ class UserListFragment : BaseFragment() {
             })
             .setMoreDataBinds(DataBinds().apply {
                 add(MoreDataBindings(BR.isBillListEmpty, viewModel.isBillListEmpty))
+                add(MoreDataBindings(BR.sharedPref, viewModel.sharedPreferences))
             })
             .build()
 

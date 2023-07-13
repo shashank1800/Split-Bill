@@ -24,7 +24,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/tv_group_name"
@@ -79,11 +80,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/rv_user_list"
                 app:layout_constraintVertical_bias="1.0" />
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:cardBackgroundColor="@color/colorPrimaryVariant"
+                app:cardBackgroundColor="@color/bill_total_background_color"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/common_card_view_stroke_color"
                 app:cardCornerRadius="10dp"
                 app:contentPadding="2dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -95,10 +98,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:text="@{String.valueOf(model.totalAmount)}"
+                    android:text="@{`Total ` + String.format(`%.0f`, model.totalAmount)}"
                     android:textSize="16sp"
-                    android:textColor="@color/white" />
-            </androidx.cardview.widget.CardView>
+                    android:textColor="@color/bill_total_text_color" />
+            </com.google.android.material.card.MaterialCardView>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

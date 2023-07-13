@@ -45,6 +45,17 @@ class ProfileFragment : Fragment() {
         /** Ui when profile data is available **/
         uiProfileImageClickListenerWithData()
         networkUpdatePhotoResponse()
+        uiProfileNameUpdateClickListener()
+    }
+
+    private fun uiProfileNameUpdateClickListener() {
+        binding.layoutWithData.tvProfileName.setOnClickListener {
+
+            val dialog = UpdateProfileNameDialogFragment(viewModel.fullName.get()){
+                viewModel.updateProfileName(it)
+            }
+            dialog.show(parentFragmentManager, dialog.tag)
+        }
     }
 
     private fun uiNearbyRangeButtonClickListener(){

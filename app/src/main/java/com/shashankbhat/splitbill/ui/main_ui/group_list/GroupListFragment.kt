@@ -158,7 +158,7 @@ class GroupListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         } else {
             val groupListDto = GroupListDto(
                 model.group,
-                model.adapter?.getItemList() ?: emptyList()
+                model.userList
             )
             navController.navigate(
                 HomeScreenViewPagerDirections.actionNavGroupListToNavBillSharesViewPager(

@@ -19,10 +19,7 @@ import com.shashankbhat.splitbill.util.LatLong
 import com.shashankbhat.splitbill.util.Response
 import com.shashankbhat.splitbill.util.extension.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -104,8 +101,6 @@ class MainScreenViewModel @Inject constructor(
                         ?.forEach {
                             it.isSelected.set(false)
                         }
-                    groupRepository.getAllGroups(groupsListState)
-
                 }
 
                 addGroupResponse.value = Response.success(id)
@@ -201,5 +196,17 @@ class MainScreenViewModel @Inject constructor(
         }
     }
 
+    var updateProfileNameResponse: MutableLiveData<Response<String>> = MutableLiveData(Response.nothing())
+    fun updateProfileName(name: String) {
+        viewModelScope.launch {
+            val response = userRepoRemote.updateProfileName(name)
+            withContext(Dispatchers.Main) {
+                if(response.isSuccess()){
+                    updateProfileNameResponse.value = response
+                    fullName.set(name)
+                }
+            }
+        }
+    }
 
 }

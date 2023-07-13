@@ -9,6 +9,10 @@
             name="isBillListEmpty"
             type="androidx.databinding.ObservableBoolean" />
 
+        <variable
+            name="isBalanceTransactionEmpty"
+            type="androidx.databinding.ObservableBoolean" />
+
         <import type="android.view.View" />
 
     </data>
@@ -28,7 +32,7 @@
                 android:visibility="@{!isBillListEmpty ? View.VISIBLE : View.GONE}">
 
                 <TextView
-                    android:id="@+id/textView10"
+                    android:id="@+id/tv_balances"
                     style="@style/TextStyleHeadMediumBold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -36,6 +40,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:text="@string/balances"
+                    android:visibility="@{isBalanceTransactionEmpty ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -46,10 +51,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
+                    android:visibility="@{isBalanceTransactionEmpty ? View.VISIBLE : View.GONE}"
                     tools:listitem="@layout/adapter_bill_share_balances"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView10" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_balances" />
 
                 <TextView
                     android:id="@+id/textView11"

@@ -100,25 +100,27 @@ fun String.getColorV2(): Int {
 }
 
 val colors = listOf(
-    "#2ab7ca",
-    "#005b96",
-    "#fed766",
-    "#f6abb6",
-    "#03396c",
-    "#b3cde0",
-    "#051e3e",
-    "#251e3e",
-    "#451e3e",
-    "#651e3e",
-    "#851e3e",
-    "#009688",
-    "#35a79c",
-    "#854442",
-    "#7f8e9e",
-    "#343d46",
-    "#4f5b66",
-    "#a16ae8",
-    "#04d4f0"
+    "#B8F7FF",
+    "#FFEDB8",
+    "#FFD6DC",
+    "#D5EAFF",
+    "#CBFFE2",
+    "#C4BEDC",
+    "#DAC7D6",
+    "#FFC7E0",
+    "#DCCBD0",
+    "#DBFFFC",
+    "#CEDFDD",
+    "#BFE6FF",
+    "#DDBDBC",
+    "#C7D2DD",
+    "#AEB1B5",
+    "#B3B3B3",
+    "#E9D8FF",
+    "#BEF7FF",
+    "#F4FFD5",
+    "#E7FFD5",
+    "#CAD5E3"
 )
 
 
@@ -184,19 +186,21 @@ fun getProfileIcons(): List<String> = listOf(
 fun <T : ViewDataBinding> T.showSnackBar(message: String, action: String? = null, duration: Int = Snackbar.LENGTH_SHORT,
                                          actionListener: View.OnClickListener? = View.OnClickListener { }, snackBarType: SnackBarType = SnackBarType.SUCCESS) {
 
-    var color = android.graphics.Color.parseColor("#FF3EC590")
-    if(snackBarType == SnackBarType.ERROR)
-        color = android.graphics.Color.parseColor("#ef5350")
-    if(snackBarType == SnackBarType.INSTRUCTION)
-        color = ContextCompat.getColor(this.root.context, R.color.snack_bar_instruction)
+    tryAndIgnore {
+        var color = android.graphics.Color.parseColor("#FF3EC590")
+        if(snackBarType == SnackBarType.ERROR)
+            color = android.graphics.Color.parseColor("#ef5350")
+        if(snackBarType == SnackBarType.INSTRUCTION)
+            color = ContextCompat.getColor(this.root.context, R.color.snack_bar_instruction)
 
-    val snackBar = Snackbar.make(this.root, message, duration)
-        .setBackgroundTint(color)
-        .setTextColor(android.graphics.Color.WHITE)
-    if (action != null && actionListener!=null) {
-        snackBar.setAction(action, actionListener)
+        val snackBar = Snackbar.make(this.root, message, duration)
+            .setBackgroundTint(color)
+            .setTextColor(android.graphics.Color.WHITE)
+        if (action != null && actionListener!=null) {
+            snackBar.setAction(action, actionListener)
+        }
+        snackBar.show()
     }
-    snackBar.show()
 }
 
 fun Fragment.observeNetworkStatus(): ObservableField<NetworkStatus>? {
@@ -225,4 +229,11 @@ fun ImageView.setImageByUrl(url: String?){
         .circleCrop()
         .placeholder(R.drawable.ic_outline_account_circle)
         .into(this)
+}
+
+
+inline fun tryAndIgnore(block: () -> Unit) {
+    try {
+        block()
+    }catch (ex: Exception){}
 }

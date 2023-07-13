@@ -1,1 +1,5 @@
 rootProject.name = 'split-bill'
+include 'data'
+include 'common'
+include 'api'
+

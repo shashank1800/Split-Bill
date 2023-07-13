@@ -1,5 +1,6 @@
 package com.shashankbhat.splitbill.viewmodels
 
+import android.content.SharedPreferences
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,6 +23,7 @@ class UserListViewModel @Inject constructor(
     private val userRepoRemote: UserRepositoryRemote,
     private val billRepositoryRemote: BillRepositoryRemote,
     private val userRepo: UserRepository,
+    val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     var userListState: MutableLiveData<Response<List<User>>> = MutableLiveData(Response.nothing())
