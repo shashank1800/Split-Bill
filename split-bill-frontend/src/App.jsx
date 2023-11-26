@@ -8,16 +8,16 @@ import NoMatch from './ui/common/NoMatch';
 
 function App() {
   return (
-    <>
+    <div className='app'>
       <AppToolBar />
 
       <Routes>
-        <Route path='/home' element={<HomeScreenViewPager />} />
-        <Route path='/' element={<SplashScreenFragment />} />
+        <Route path='/' element={<HomeScreenViewPager />} />
+        {/* <Route path='/' element={<SplashScreenFragment />} /> */}
         <Route path='*' element={<NoMatch />} />
       </Routes>
 
-    </>
+    </div>
   );
 }
 
